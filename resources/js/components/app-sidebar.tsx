@@ -19,27 +19,27 @@ const footerNavItems: NavItem[] = [
 
     {
         title: 'Clientes',
-        url: 'https://github.com/laravel/react-starter-kit',
+        url: 'admin/clientes',
         icon: UserPen,
     },
     {
         title: 'Ubicaciones',
-        url: 'https://github.com/laravel/react-starter-kit',
+        url: 'admin/ubicaciones',
         icon: MapPinCheck,
     },
     {
         title: 'Proveedores',
-        url: 'https://github.com/laravel/react-starter-kit',
+        url: 'admin/proveedores',
         icon: Store,
     },
     {
         title: 'Productos',
-        url: 'https://github.com/laravel/react-starter-kit',
+        url: 'admin/productos',
         icon: CarFront,
     },
     {
         title: 'Categorias',
-        url: 'https://laravel.com/docs/starter-kits',
+        url: 'admin/categorias',
         icon: Shapes,
     },
 ];
