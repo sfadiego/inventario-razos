@@ -1,16 +1,16 @@
 import { useCallback, useEffect, useState } from 'react';
 
 export type Appearance = 'light' | 'dark' | 'system';
+const defaultAppearance: Appearance = 'system';
 
 const prefersDark = () => window.matchMedia('(prefers-color-scheme: dark)').matches;
-
 const applyTheme = (appearance: Appearance) => {
     const isDark = appearance === 'dark' || (appearance === 'system' && prefersDark());
 
-    document.documentElement.classList.toggle('dark', isDark);
+    document.documentElement.classList.toggle(defaultAppearance, isDark);
 };
 
-const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+const mediaQuery = window.matchMedia(`(prefers-color-scheme: ${defaultAppearance})`);
 
 const handleSystemThemeChange = () => {
     const currentAppearance = localStorage.getItem('appearance') as Appearance;
