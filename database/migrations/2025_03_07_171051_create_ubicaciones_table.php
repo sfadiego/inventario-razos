@@ -11,7 +11,7 @@ return new class extends Migration
         if (!Schema::hasTable('ubicaciones')) {
             Schema::create('ubicaciones', function (Blueprint $table) {
                 $table->id();
-                $table->string('nombre');
+                $table->string('nombre')->unique();
                 $table->timestamps();
             });
         } 
