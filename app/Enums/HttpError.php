@@ -1,6 +1,8 @@
 <?php
 
-enum HttpErrors: int
+namespace App\Enums;
+
+enum HttpError: int
 {
     case BadRequest = 400;
     case Unauthorized = 401;

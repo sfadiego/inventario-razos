@@ -1,5 +1,6 @@
 <?php
 
+use App\Enums\HttpError;
 use App\Http\Middleware\HandleInertiaRequests;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
@@ -26,6 +27,6 @@ return Application::configure(basePath: dirname(__DIR__))
             return Response::json([
                 'success' => false,
                 'data' => $e->errors(),
-            ],  HttpErrors::BadRequest->value);
+            ],  HttpError::BadRequest->value);
         });
     })->create();
