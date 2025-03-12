@@ -12,7 +12,7 @@ return new class extends Migration
         if (!Schema::hasTable('categorias')) {
             Schema::create('categorias', function (Blueprint $table) {
                 $table->id();
-                $table->string('nombre');
+                $table->string('nombre')->unique();
                 $table->boolean('activa')->default(true);
                 $table->timestamps();
             });
