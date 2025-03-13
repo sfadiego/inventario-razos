@@ -1,5 +1,6 @@
 import { PlaceholderPattern } from '@/components/ui/placeholder-pattern';
 import { DashboardWidget } from '@/components/widgets/dashboard-widget';
+import { WidgetProps } from '@/interfaces/WidgetProps';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
 import { Head } from '@inertiajs/react';
@@ -11,22 +12,8 @@ const breadcrumbs: BreadcrumbItem[] = [
     },
 ];
 
-const widgets = [
-    {
-        title: 'Venta del dia',
-        value: '$123'
-    },
-    {
-        title: 'Producto mas Vendido',
-        value: 'Producto 1'
-    },
-    {
-        title: 'Producto menos Vendido',
-        value: 'Producto 2'
-    },
-];
 
-export default function Dashboard() {
+export default function Dashboard({ widgets }: { widgets: WidgetProps[] }) {
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Dashboard" />

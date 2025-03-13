@@ -1,12 +1,8 @@
 import React from 'react'
+import { WidgetProps } from '@/interfaces/WidgetProps'
 
-interface DashboardWidget {
-    title: string,
-    subtitle?: string,
-    value: string | number | Array<string | number>,
-}
 
-export const DashboardWidget = ({ title, value }: DashboardWidget) => {
+export const DashboardWidget = ({ title, value }: WidgetProps) => {
     return <>
         <div className="p-4 rounded-xl border justify-center items-center">
             <h1 className="text-2xl font-bold text-center">{title}</h1>
