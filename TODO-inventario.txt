@@ -1,0 +1,105 @@
+TODO LIST:
+
+Tipos de widgets
+- ventas del dia
+- producto mas vendido
+- producto menos vendido
+- (reviasr que se puede agregar)
+
+
+--- ANALISIS:
+Usuario Administrador
+* REPORTES:
+    - Ver reportes de ventas (busqueda de fechas)
+    - Reportes de Compra
+        Compra proveedores
+    - Reporte de Inventario
+        Totales de productos
+
+//Definir con cliente
+* CATEGORIAS:
+    Moto partes
+        SUB-CATEGORIAS
+        - Cascos
+        - LLantas
+        - Accesorios
+        etc...
+    LUCES
+        SUB-CATEGORIAS
+        - Faros
+        - Focos
+        etc...
+
+* CONTROL DE PROVEEDORES
+    Alta de Proveedores (Alta, Baja, Modificacion)
+        Compras a proveedor
+        Inventario por proveedor
+        observacion
+
+* CATALOGO DE UBICACIONES
+    Alta de ubicaicon (Alta, Baja, Modificacion)
+        - charola 1
+        - anaquel 1
+
+* CONTROL DE CLIENTES
+    alta de clientes (alta, baja y modificacion)
+        alta: nombre , direccion, telefono, correo, observacion
+
+//Definir que elementos se necesitan
+* ALTA de PRODUCTOS
+    - Proveedor
+    - Categoria
+    - Carga imagen de articulo
+    - Generar un codigo de producto
+    - exportar catalogo de productos a excell
+    - Cantidad en Stock
+        - cantidad minima
+        - generar notificaciones cuando se este terminando el producto
+    - Precio compra / Precio Venta  ## revisar si aqui
+    - Fecha de registro producto
+    - Descripcion de producto
+        - compatibilidad: d si un producto es compatible con mi moto
+    -Localizacion de produco: (catalogo de localizaciones )
+        - anaquel 1
+        - charola 1
+
+* BUSQUEDA DE PRODUCTOS
+
+* COMPRA DE PRODUCTOS
+    - producto comprado
+    - cantidad
+    - Precio de compra
+    - Precio de venta
+    - Calcular total de venta de los elementos
+    - Tipo de compra (contado)
+
+- Usuario Ventas
+* Realizar ventas
+    - Listado de producto
+        - categoria
+        - precio de venta
+        - stock
+    - al seleccionar producto
+        ingresar: cantidad a vender (no mayor a producto en stock)
+        solo lectura: precio/unitario
+    - carrito de venta
+        - listado de productos agregados
+        - calculo de los productos
+        - borrar producto de carrito
+        - manejo de credito??? ()
+    -Descontar del stock
+    - Cotizaciones/Cancelar ventas/Guardar venta
+    - Generar ticket o reporte -- pendiente
+    - 
+
+* Widgets
+ - Ventas del dia
+ - Productos mas vendidos en el mes
+ - Productos por terminarse, stock
+
+NOTAS:
+maquina lectora de codigo de barras
+REGLAS:
+REPORTES:
+ -  busqueda por rango de fechas
+ -  Exportar reportes

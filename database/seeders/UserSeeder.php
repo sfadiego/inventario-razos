@@ -11,14 +11,14 @@ class UserSeeder extends Seeder
     {
         User::create([
             'name' => 'Diego Silva',
-            'email' => 'admin@administrador.com',
+            'email' => 'admin@repamotos.com',
             'password' => Hash::make('password'),
             'activo' => true,
         ]);
 
          User::create([
             'name' => 'Hugo Vargas',
-            'email' => 'empleado@empleado.com',
+            'email' => 'empleado@repamotos.com',
             'password' => Hash::make('password'),
             'activo' => true,
         ]);

@@ -23,10 +23,12 @@ return Application::configure(basePath: dirname(__DIR__))
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
-        $exceptions->render(function (ValidationException $e) {
-            return Response::json([
-                'success' => false,
-                'data' => $e->errors(),
-            ],  HttpError::BadRequest->value);
-        });
+        if (request()->is('api/*')) {
+            $exceptions->render(function (ValidationException $e) {
+                return Response::json([
+                    'success' => false,
+                    'data' => $e->errors(),
+                ],  HttpError::BadRequest->value);
+            });
+        }
     })->create();
