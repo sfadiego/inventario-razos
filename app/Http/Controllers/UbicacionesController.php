@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\UbicacionesStoreRequest;
+use App\Http\Requests\UbicacionesUpdateRequest;
 use App\Models\Ubicacion;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -26,9 +27,9 @@ class UbicacionesController extends Controller
       return Response::success($ubicacion);
     }
 
-    public function update(UbicacionesStoreRequest $params, Ubicacion $ubicacion): JsonResponse
+    public function update(UbicacionesUpdateRequest $params, Ubicacion $ubicacion): JsonResponse
     {
-       $ubicacion->update($params->validate());
+       $ubicacion->update($params->validated());
        return   Response::success($ubicacion);
     }
 

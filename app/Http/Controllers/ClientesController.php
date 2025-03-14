@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ClientesStoreRequest;
+use App\Http\Requests\ClientesUpdateRequest;
 use App\Models\Cliente;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -26,9 +27,9 @@ class ClientesController extends Controller
         return Response::success($cliente);
     }
 
-    public function update(ClientesStoreRequest $params, Cliente $cliente): JsonResponse
+    public function update(ClientesUpdateRequest $params, Cliente $cliente): JsonResponse
     {
-        $cliente->update($params->validate());
+        $cliente->update($params->validated());
         return Response::success($cliente);
     }
 
