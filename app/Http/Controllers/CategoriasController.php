@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\CategoriasStoreRequest;
-use App\Http\Requests\CategoriasUpdateRequest;
+use App\Http\Requests\Categorias\CategoriasStoreRequest;
+use App\Http\Requests\Categorias\CategoriasUpdateRequest;
 use App\Models\Categoria;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;

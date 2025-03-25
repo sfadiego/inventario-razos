@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\UbicacionesStoreRequest;
-use App\Http\Requests\UbicacionesUpdateRequest;
+use App\Http\Requests\Ubicaciones\UbicacionesStoreRequest;
+use App\Http\Requests\Ubicaciones\UbicacionesUpdateRequest;
 use App\Models\Ubicacion;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
