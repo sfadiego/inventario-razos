@@ -1,17 +1,17 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Categorias;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class CategoriasStoreRequest extends FormRequest
+class CategoriasUpdateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      */
     public function authorize(): bool
     {
-        return true;
+        return false;
     }
 
     /**
@@ -22,7 +22,7 @@ class CategoriasStoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'nombre' => ['required', 'string', 'unique:categorias,nombre', 'max:255'],
+            'nombre' => ['required', 'string', 'max:255', 'unique:categorias,nombre,' . $this->route('categoria')],
             'activa' => ['boolean'],
         ];
     }

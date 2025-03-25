@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\CategoriasStoreRequest;
+use App\Http\Requests\Categorias\CategoriasStoreRequest;
+use App\Http\Requests\Categorias\CategoriasUpdateRequest;
 use App\Models\Categoria;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -23,6 +24,12 @@ class CategoriasController extends Controller
     public function store(CategoriasStoreRequest $params): JsonResponse
     {
         $categoria = Categoria::create($params->all());
+        return Response::success($categoria);
+    }
+
+    public function update(CategoriasUpdateRequest $params, Categoria $categoria): JsonResponse
+    {
+        $categoria->update($params->validated());
         return Response::success($categoria);
     }
 
