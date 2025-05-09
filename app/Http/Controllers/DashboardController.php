@@ -23,7 +23,7 @@ class DashboardController extends Controller
                 'value' => 1000, // TODO: obtener de la base de datos
             ]
         ];
-        return Inertia::render('dashboard', [
+        return Inertia::render('template', [
             'widgets' => $widgets
         ]);
     }
