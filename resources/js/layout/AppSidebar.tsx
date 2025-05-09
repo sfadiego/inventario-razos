@@ -2,7 +2,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { Link, useLocation } from "react-router";
 
 // Assume these icons are imported from an icon library
-import { AltArrowDown, ArrowDown, Calendar, Chart, Document, Home, Layers, Login, Notebook2, Reorder, User } from '@solar-icons/react'
+import { AltArrowDown, Calendar, Chart, Document, Home, Layers, Login, Notebook2, Reorder, User } from '@solar-icons/react'
 import { useSidebar } from "../context/SidebarContext";
 import SidebarWidget from "./SidebarWidget";
 
