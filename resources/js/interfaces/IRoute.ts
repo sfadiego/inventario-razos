@@ -3,7 +3,7 @@ import React, { ReactElement } from 'react';
 
 interface IRoute {
     name: string;
-    path: string;
+    path?: string;
     element: ReactElement;
     icon?: React.ReactNode;
     layout?: string;

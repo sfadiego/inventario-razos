@@ -13,7 +13,7 @@ const ClientesPage = lazy(() => import('@/pages/Clientes/ClientesPage'));
 export enum AdminRoutes {
     Dashboard = '/',
     Proovedores = '/admin/proveedores',
-    Productos = '/admin/products',
+    Productos = '/admin/productos',
     Reportes = '/admin/reportes',
     Catalogos = '/admin/catalogos',
     Ubicaciones = '/admin/ubicaciones',

@@ -8,6 +8,4 @@ export enum AuthRoutes {
     Login = '/login',
 }
 
-export const authRoutes: IRoute[] = [
-    { path: AuthRoutes.Login, name: 'Login', icon: <LogInIcon />, element: <LoginPage /> }
-];
+export const authRoutes: IRoute[] = [{ path: AuthRoutes.Login, name: 'Login', icon: <LogInIcon />, element: <LoginPage />, layout: 'blank' }];

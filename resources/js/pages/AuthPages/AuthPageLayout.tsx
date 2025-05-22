@@ -26,7 +26,6 @@ export default function AuthLayout({
                 />
               </Link>
               <p className="text-center text-gray-400 dark:text-white/60">
-               LALALAL
               </p>
             </div>
           </div>

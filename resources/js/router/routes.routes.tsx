@@ -6,21 +6,19 @@ import { adminRoutes } from './modules/admin.routes';
 import { authRoutes } from './modules/auth.routes';
 import { errorRoutes } from './modules/error.routes';
 
-const routes: IRoute[] = [...authRoutes, ...adminRoutes, ...errorRoutes];
-const finalRoutes = routes.map((route: IRoute) => {
+const routes: IRoute[] = [...authRoutes, ...adminRoutes, ...errorRoutes].map((route: IRoute) => {
     return {
         ...route,
         element: route.private && route.element ? <PrivateRoute route={route} element={route.element} /> : route.element,
     };
 });
 
-// const blankLayoutRoutes = finalRoutes.filter((item) => item.layout == 'blank');
-// console.log(blankLayoutRoutes, finalRoutes);
-// console.log(routes, finalRoutes);
+const blankRoutes = routes.filter((item) => item.layout == 'blank');
 export const router = createBrowserRouter([
+    ...blankRoutes,
     {
         path: '/',
         element: <AppLayout />,
-        children: finalRoutes,
+        children: routes,
     },
 ]);

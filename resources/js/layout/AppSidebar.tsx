@@ -1,61 +1,19 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { Link, useLocation } from 'react-router';
 
-import { BadgeDollarSign, BookOpenText, Cog, EllipsisVertical, FolderSearch, ListChecks, UserSearch } from 'lucide-react';
+import { EllipsisVertical } from 'lucide-react';
 // Assume these icons are imported from an icon library
-import { AltArrowDown, Home } from '@solar-icons/react';
+import IRoute from '@/interfaces/IRoute';
+import { adminSidebarRoutes, mainSidebarRoutes } from '@/router/modules/sidebar.routes';
+import { AltArrowDown } from '@solar-icons/react';
 import { useSidebar } from '../context/SidebarContext';
 
-type NavItem = {
-    name: string;
-    icon: React.ReactNode;
-    path?: string;
+interface NavItem extends Omit<IRoute, 'element'> {
     subItems?: { name: string; path: string; pro?: boolean; new?: boolean }[];
-};
+}
 
-const navItems: NavItem[] = [
-    {
-        icon: <Home />,
-        name: 'Dashboard',
-        path: '/',
-    },
-];
-
-const othersItems: NavItem[] = [
-   {
-        icon: <Cog />,
-        name: 'Productos',
-        path: '/admin/proveedores',
-    },
-    {
-        icon: <BookOpenText />,
-        name: 'Reportes',
-        subItems: [
-            { name: 'ventas', path: '/line-chart', pro: false },
-            { name: 'compras', path: '/bar-chart', pro: false },
-        ],
-    },
-    {
-        icon: <ListChecks />,
-        name: 'Catalogos',
-        path: '/admin/catalogos',
-    },
-    {
-        icon: <FolderSearch />,
-        name: 'Ubicaciones',
-        path: '/admin/ubicaciones',
-    },
-    {
-        icon: <BadgeDollarSign />,
-        name: 'Proveedores',
-        path: '/admin/proveedores',
-    },
-    {
-        icon: <UserSearch />,
-        name: 'Clientes',
-        path: '/admin/proveedores',
-    },
-];
+const navItems: NavItem[] = mainSidebarRoutes;
+const othersItems: NavItem[] = adminSidebarRoutes;
 
 const AppSidebar: React.FC = () => {
     const { isExpanded, isMobileOpen, isHovered, setIsHovered } = useSidebar();
@@ -238,11 +196,7 @@ const AppSidebar: React.FC = () => {
                                     !isExpanded && !isHovered ? 'lg:justify-center' : 'justify-start'
                                 }`}
                             >
-                                {isExpanded || isHovered || isMobileOpen ? (
-                                    'Menu'
-                                ) : (
-                                    <EllipsisVertical className="size-6" />
-                                )}
+                                {isExpanded || isHovered || isMobileOpen ? 'Menu' : <EllipsisVertical className="size-6" />}
                             </h2>
                             {renderMenuItems(navItems, 'main')}
                         </div>
