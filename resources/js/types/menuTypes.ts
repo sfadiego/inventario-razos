@@ -1,0 +1,1 @@
+export type menuTypes = 'main' | 'others';

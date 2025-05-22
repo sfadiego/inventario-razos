@@ -103,3 +103,16 @@ REGLAS:
 REPORTES:
  -  busqueda por rango de fechas
  -  Exportar reportes
+
+
+
+
+ --------------
+ SIDEBAR
+    
+    Admin/
+        clientes
+        ubicaciones
+        proveedores
+        productos
+        categorias
