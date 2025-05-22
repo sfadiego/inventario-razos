@@ -22,7 +22,7 @@ class UbicacionesStoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'nombre' => ['requerid', 'string', 'max:255']
+            'nombre' => ['requerid', 'string', 'max:255'],
         ];
     }
 }

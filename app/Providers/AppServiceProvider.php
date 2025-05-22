@@ -34,7 +34,7 @@ class AppServiceProvider extends ServiceProvider
         ): JsonResponse {
             return response()->json([
                 'success' => false,
-                'message' => $message !== '' ? $message :  '',
+                'message' => $message !== '' ? $message : '',
                 'data' => $data,
             ], $status->value);
         });
@@ -42,14 +42,14 @@ class AppServiceProvider extends ServiceProvider
         Response::macro('unauthenticated', function (): JsonResponse {
             return response()->json([
                 'status' => 'error',
-                'message' => 'Unauthenticated'
+                'message' => 'Unauthenticated',
             ], 401);
         });
 
         Response::macro('unauthorized', function (): JsonResponse {
             return response()->json([
                 'status' => 'error',
-                'message' => 'Unauthorized'
+                'message' => 'Unauthorized',
             ], 403);
         });
     }

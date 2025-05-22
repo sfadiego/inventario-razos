@@ -25,7 +25,7 @@ class ProductosUpdateRequest extends FormRequest
             'nombre' => ['required', 'string', 'max:255'],
             'proveedor_id' => ['required', 'exists:proveedores,id'],
             'categoria_id' => ['required', 'exists:categorias,id'],
-            'codigo' => ['required', 'string', 'unique:productos,codigo,' . $this->route('producto'), 'max:100'],
+            'codigo' => ['required', 'string', 'unique:productos,codigo,'.$this->route('producto'), 'max:100'],
             'precio_compra' => ['required', 'numeric', 'min:0'],
             'precio_venta' => ['required', 'numeric', 'min:0'],
             'stock' => ['required', 'integer', 'min:0'],

@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use Inertia\Inertia;
 
 class DashboardController extends Controller
@@ -12,7 +11,7 @@ class DashboardController extends Controller
         $widgets = [
             [
                 'title' => 'Venta del dia',
-                'value' => 1000 // TODO: obtener de la base de datos
+                'value' => 1000, // TODO: obtener de la base de datos
             ],
             [
                 'title' => 'Producto mas vendidos',
@@ -21,10 +20,11 @@ class DashboardController extends Controller
             [
                 'title' => 'Producto menos vendidos',
                 'value' => 1000, // TODO: obtener de la base de datos
-            ]
+            ],
         ];
+
         return Inertia::render('template', [
-            'widgets' => $widgets
+            'widgets' => $widgets,
         ]);
     }
 }

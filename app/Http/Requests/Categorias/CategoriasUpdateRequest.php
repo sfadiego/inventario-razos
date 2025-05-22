@@ -22,7 +22,7 @@ class CategoriasUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'nombre' => ['required', 'string', 'max:255', 'unique:categorias,nombre,' . $this->route('categoria')],
+            'nombre' => ['required', 'string', 'max:255', 'unique:categorias,nombre,'.$this->route('categoria')],
             'activa' => ['boolean'],
         ];
     }

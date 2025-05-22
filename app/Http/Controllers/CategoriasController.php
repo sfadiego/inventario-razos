@@ -23,12 +23,14 @@ class CategoriasController extends Controller
     public function store(CategoriasStoreRequest $params): JsonResponse
     {
         $categoria = Categoria::create($params->all());
+
         return Response::success($categoria);
     }
 
     public function update(CategoriasUpdateRequest $params, Categoria $categoria): JsonResponse
     {
         $categoria->update($params->validated());
+
         return Response::success($categoria);
     }
 

@@ -8,7 +8,7 @@ return new class extends Migration
 {
     public function up()
     {
-        if (!Schema::hasTable('venta_producto')) {
+        if (! Schema::hasTable('venta_producto')) {
             Schema::create('venta_producto', function (Blueprint $table) {
                 $table->id();
                 $table->integer('cantidad');
@@ -31,4 +31,4 @@ return new class extends Migration
         Schema::dropIfExists('venta_producto');
     }
 };
-//prueba
+// prueba
