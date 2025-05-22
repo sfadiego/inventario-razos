@@ -3,26 +3,21 @@ import { Link, useLocation } from 'react-router';
 
 import { EllipsisVertical } from 'lucide-react';
 // Assume these icons are imported from an icon library
-import IRoute from '@/interfaces/IRoute';
+import { INavItem } from '@/interfaces/INavItem';
 import { adminSidebarRoutes, mainSidebarRoutes } from '@/router/modules/sidebar.routes';
+import { menuTypes } from '@/types/menuTypes';
 import { AltArrowDown } from '@solar-icons/react';
 import { useSidebar } from '../context/SidebarContext';
+import { IOpenSubmenu } from './Sidebar/IOpenSubmenu';
 
-interface NavItem extends Omit<IRoute, 'element'> {
-    subItems?: { name: string; path: string; pro?: boolean; new?: boolean }[];
-}
-
-const navItems: NavItem[] = mainSidebarRoutes;
-const othersItems: NavItem[] = adminSidebarRoutes;
+const navItems: INavItem[] = mainSidebarRoutes;
+const othersItems: INavItem[] = adminSidebarRoutes;
 
 const AppSidebar: React.FC = () => {
     const { isExpanded, isMobileOpen, isHovered, setIsHovered } = useSidebar();
     const location = useLocation();
 
-    const [openSubmenu, setOpenSubmenu] = useState<{
-        type: 'main' | 'others';
-        index: number;
-    } | null>(null);
+    const [openSubmenu, setOpenSubmenu] = useState<IOpenSubmenu | null>(null);
     const [subMenuHeight, setSubMenuHeight] = useState<Record<string, number>>({});
     const subMenuRefs = useRef<Record<string, HTMLDivElement | null>>({});
 
@@ -38,7 +33,7 @@ const AppSidebar: React.FC = () => {
                     nav.subItems.forEach((subItem) => {
                         if (isActive(subItem.path)) {
                             setOpenSubmenu({
-                                type: menuType as 'main' | 'others',
+                                type: menuType as menuTypes,
                                 index,
                             });
                             submenuMatched = true;
@@ -65,7 +60,7 @@ const AppSidebar: React.FC = () => {
         }
     }, [openSubmenu]);
 
-    const handleSubmenuToggle = (index: number, menuType: 'main' | 'others') => {
+    const handleSubmenuToggle = (index: number, menuType: menuTypes) => {
         setOpenSubmenu((prevOpenSubmenu) => {
             if (prevOpenSubmenu && prevOpenSubmenu.type === menuType && prevOpenSubmenu.index === index) {
                 return null;
@@ -74,7 +69,7 @@ const AppSidebar: React.FC = () => {
         });
     };
 
-    const renderMenuItems = (items: NavItem[], menuType: 'main' | 'others') => (
+    const renderMenuItems = (items: INavItem[], menuType: menuTypes) => (
         <ul className="flex flex-col gap-4">
             {items.map((nav, index) => (
                 <li key={nav.name}>
