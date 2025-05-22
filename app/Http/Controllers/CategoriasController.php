@@ -6,7 +6,6 @@ use App\Http\Requests\Categorias\CategoriasStoreRequest;
 use App\Http\Requests\Categorias\CategoriasUpdateRequest;
 use App\Models\Categoria;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
 class CategoriasController extends Controller
