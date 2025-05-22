@@ -19,14 +19,14 @@ const navItems: NavItem[] = [
         name: 'Dashboard',
         path: '/',
     },
-    {
+];
+
+const othersItems: NavItem[] = [
+   {
         icon: <Cog />,
         name: 'Productos',
         path: '/admin/proveedores',
     },
-];
-
-const othersItems: NavItem[] = [
     {
         icon: <BookOpenText />,
         name: 'Reportes',
@@ -241,9 +241,7 @@ const AppSidebar: React.FC = () => {
                                 {isExpanded || isHovered || isMobileOpen ? (
                                     'Menu'
                                 ) : (
-                                    // <HorizontaLDots className="size-6" />
-
-                                    <EllipsisVertical />
+                                    <EllipsisVertical className="size-6" />
                                 )}
                             </h2>
                             {renderMenuItems(navItems, 'main')}
