@@ -1,8 +1,8 @@
 import IRoute from '@/interfaces/IRoute';
-import { BadgeDollarSign, BookOpenText, Cog, FolderSearch, Home, ListChecks, UserSearch } from 'lucide-react';
 import { lazy } from 'react';
 
 const DashboardPage = lazy(() => import('@/pages/Dashboard/Home'));
+const VentasPage = lazy(() => import('@/pages/Venta/VentasPage'));
 const ProovedoresPage = lazy(() => import('@/pages/Proovedores/ProovedoresPage'));
 const ProductosPage = lazy(() => import('@/pages/Productos/ProductosPage'));
 const ReportesPage = lazy(() => import('@/pages/Reportes/ReportesPage'));
@@ -12,6 +12,7 @@ const ClientesPage = lazy(() => import('@/pages/Clientes/ClientesPage'));
 
 export enum AdminRoutes {
     Dashboard = '/',
+    Venta = '/ventas',
     Proovedores = '/admin/proveedores',
     Productos = '/admin/productos',
     Reportes = '/admin/reportes',
@@ -21,11 +22,12 @@ export enum AdminRoutes {
 }
 
 export const adminRoutes: IRoute[] = [
-    { path: AdminRoutes.Dashboard, name: 'Dashboard', icon: <Home />, element: <DashboardPage /> },
-    { path: AdminRoutes.Proovedores, name: 'Proovedores', icon: <BadgeDollarSign />, element: <ProovedoresPage /> },
-    { path: AdminRoutes.Productos, name: 'Productos', icon: <Cog />, element: <ProductosPage /> },
-    { path: AdminRoutes.Reportes, name: 'Reportes', icon: <BookOpenText />, element: <ReportesPage /> },
-    { path: AdminRoutes.Catalogos, name: 'Catalogos', icon: <ListChecks />, element: <CatalogosPage /> },
-    { path: AdminRoutes.Ubicaciones, name: 'Ubicaciones', icon: <FolderSearch />, element: <UbicacionesPage /> },
-    { path: AdminRoutes.Clientes, name: 'Clientes', icon: <UserSearch />, element: <ClientesPage /> },
+    { path: AdminRoutes.Dashboard, name: 'Dashboard', element: <DashboardPage /> },
+    { path: AdminRoutes.Venta, name: 'Ventas', element: <VentasPage /> },
+    { path: AdminRoutes.Proovedores, name: 'Proovedores', element: <ProovedoresPage /> },
+    { path: AdminRoutes.Productos, name: 'Productos', element: <ProductosPage /> },
+    { path: AdminRoutes.Reportes, name: 'Reportes', element: <ReportesPage /> },
+    { path: AdminRoutes.Catalogos, name: 'Catalogos', element: <CatalogosPage /> },
+    { path: AdminRoutes.Ubicaciones, name: 'Ubicaciones', element: <UbicacionesPage /> },
+    { path: AdminRoutes.Clientes, name: 'Clientes', element: <ClientesPage /> },
 ];
