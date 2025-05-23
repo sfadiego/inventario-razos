@@ -11,9 +11,8 @@ interface IPageWrapper {
 export const PageWrapper = ({ pageTitle, children, className = '', blankWrapper = false }: IPageWrapper) => {
     const title = import.meta.env.VITE_APP_NAME;
     return (
-        <div>
+        <>
             <PageMeta title={title} description={title} />
-
             {blankWrapper ? (
                 <div className={`${className}`}>{children}</div>
             ) : (
@@ -24,6 +23,6 @@ export const PageWrapper = ({ pageTitle, children, className = '', blankWrapper 
                     </div>
                 </>
             )}
-        </div>
+        </>
     );
 };

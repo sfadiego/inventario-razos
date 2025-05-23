@@ -1,5 +1,6 @@
 "use client";
 
+import { useMantineColorScheme } from "@mantine/core";
 import type React from "react";
 import { createContext, useState, useContext, useEffect } from "react";
 
@@ -17,6 +18,7 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({
 }) => {
   const [theme, setTheme] = useState<Theme>("light");
   const [isInitialized, setIsInitialized] = useState(false);
+  const { setColorScheme } = useMantineColorScheme();
 
   useEffect(() => {
     // This code will only run on the client side
@@ -30,13 +32,14 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({
   useEffect(() => {
     if (isInitialized) {
       localStorage.setItem("theme", theme);
+      setColorScheme(theme)
       if (theme === "dark") {
         document.documentElement.classList.add("dark");
       } else {
         document.documentElement.classList.remove("dark");
       }
     }
-  }, [theme, isInitialized]);
+  }, [theme, isInitialized, setColorScheme]);
 
   const toggleTheme = () => {
     setTheme((prevTheme) => (prevTheme === "light" ? "dark" : "light"));

@@ -6,10 +6,9 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-
     public function up()
     {
-        if (!Schema::hasTable('categorias')) {
+        if (! Schema::hasTable('categorias')) {
             Schema::create('categorias', function (Blueprint $table) {
                 $table->id();
                 $table->string('nombre')->unique();

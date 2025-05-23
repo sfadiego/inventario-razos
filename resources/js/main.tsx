@@ -10,6 +10,11 @@ import { ThemeProvider } from './context/ThemeContext';
 import './index.css';
 import { router } from './router/routes.routes';
 
+// datatable
+import { MantineProvider } from '@mantine/core';
+import '@mantine/core/styles.layer.css';
+import 'mantine-datatable/styles.layer.css';
+
 const queryClient = new QueryClient({
     defaultOptions: {
         queries: {
@@ -21,15 +26,17 @@ const queryClient = new QueryClient({
 createRoot(document.getElementById('root')!).render(
     <StrictMode>
         <AxiosProvider>
-            <ThemeProvider>
-                <QueryClientProvider client={queryClient}>
-                    <Suspense>
-                        <AppWrapper>
-                            <RouterProvider router={router}></RouterProvider>
-                        </AppWrapper>
-                    </Suspense>
-                </QueryClientProvider>
-            </ThemeProvider>
+            <MantineProvider>
+                <ThemeProvider>
+                    <QueryClientProvider client={queryClient}>
+                        <Suspense>
+                            <AppWrapper>
+                                <RouterProvider router={router}></RouterProvider>
+                            </AppWrapper>
+                        </Suspense>
+                    </QueryClientProvider>
+                </ThemeProvider>
+            </MantineProvider>
         </AxiosProvider>
     </StrictMode>,
 );

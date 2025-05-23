@@ -130,6 +130,7 @@ const AppSidebar: React.FC = () => {
                                                 isActive(subItem.path) ? 'menu-dropdown-item-active' : 'menu-dropdown-item-inactive'
                                             }`}
                                         >
+                                            {subItem.icon}
                                             {subItem.name}
                                             <span className="ml-auto flex items-center gap-1">
                                                 {subItem.new && (

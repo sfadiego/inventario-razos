@@ -13,7 +13,7 @@ class CategoriaSeeder extends Seeder
             'nombre' => 'Luces',
             'activa' => true,
         ]);
-        
+
         Categoria::create([
             'nombre' => 'Refacciones',
             'activa' => true,

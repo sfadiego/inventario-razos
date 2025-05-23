@@ -3,11 +3,6 @@ import { BadgeDollarSign, Banknote, BookOpenText, Cog, FolderSearch, Home, ListC
 import { AdminRoutes } from './admin.routes';
 export const adminSidebarRoutes: INavItem[] = [
     {
-        icon: <Cog />,
-        name: 'Productos',
-        path: AdminRoutes.Productos,
-    },
-    {
         icon: <BookOpenText />,
         name: 'Reportes',
         path: AdminRoutes.Reportes,
@@ -16,11 +11,18 @@ export const adminSidebarRoutes: INavItem[] = [
         icon: <ListChecks />,
         name: 'Catalogos',
         path: AdminRoutes.Catalogos,
-    },
-    {
-        icon: <FolderSearch />,
-        name: 'Ubicaciones',
-        path: AdminRoutes.Ubicaciones,
+        subItems: [
+            {
+                icon: <Cog width={20} />,
+                name: 'Productos',
+                path: AdminRoutes.Productos,
+            },
+            {
+                icon: <FolderSearch width={20}/>,
+                name: 'Ubicaciones',
+                path: AdminRoutes.Ubicaciones,
+            },
+        ],
     },
     {
         icon: <BadgeDollarSign />,
