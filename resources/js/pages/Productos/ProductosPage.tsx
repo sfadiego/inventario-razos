@@ -1,10 +1,13 @@
 import { PageWrapper } from '@/components/layout/PageWrapper';
+import { useServiceIndexCategorias } from '@/Services/useServiceCategorias';
 
 import '@mantine/core/styles.layer.css';
 import { DataTable } from 'mantine-datatable';
 import 'mantine-datatable/styles.layer.css';
+import { useEffect, useState } from 'react';
 
 export default function ProductosPage() {
+    const PAGE_SIZE = 15;
     const data = [
         {
             id: '1323addd-a4ac-4dd2-8de2-6f934969a0f1',
@@ -24,6 +27,17 @@ export default function ProductosPage() {
         },
     ];
 
+    const columns = [{ accessor: 'name' }, { accessor: 'streetAddress' }, { accessor: 'city' }, { accessor: 'state' }];
+    const [page, setPage] = useState(1);
+    const [records, setRecords] = useState(data.slice(0, PAGE_SIZE));
+
+    useEffect(() => {
+        const from = (page - 1) * PAGE_SIZE;
+        const to = from + PAGE_SIZE;
+        setRecords(data.slice(from, to));
+    }, [page]);
+    // const {isLoading, data} = useServiceIndexCategorias({});
+    // console.log(isLoading, data);
     return (
         <>
             <PageWrapper blankWrapper={true} pageTitle="Productos">
@@ -33,8 +47,12 @@ export default function ProductosPage() {
                     withColumnBorders
                     striped
                     highlightOnHover
-                    columns={[{ accessor: 'name' }, { accessor: 'streetAddress' }, { accessor: 'city' }, { accessor: 'state' }]}
-                    records={data}
+                    columns={columns}
+                    records={records}
+                    totalRecords={data.length}
+                    recordsPerPage={PAGE_SIZE}
+                    page={page}
+                    onPageChange={(p) => setPage(p)}
                 />
             </PageWrapper>
         </>
