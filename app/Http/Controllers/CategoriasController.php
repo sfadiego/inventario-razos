@@ -6,13 +6,21 @@ use App\Http\Requests\Categorias\CategoriasStoreRequest;
 use App\Http\Requests\Categorias\CategoriasUpdateRequest;
 use App\Models\Categoria;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
 class CategoriasController extends Controller
 {
-    public function index(): JsonResponse
+    public function index(Request $request): JsonResponse
     {
-        return Response::success(Categoria::all());
+        $page = $request->input('page', 1);
+        $perPage = $request->input('per_page', 10);
+        $filter = $request->input('filter', null);
+        $data = Categoria::when($filter, function ($q) use ($filter) {
+            $q->where('nombre', 'like', "%$filter%");
+        })->paginate($perPage, ['*'], 'page', $page);
+
+        return Response::success($data);
     }
 
     public function show(Categoria $categoria): JsonResponse
