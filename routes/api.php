@@ -7,3 +7,11 @@ use Illuminate\Support\Facades\Route;
 // });
 
 Route::prefix('categorias')->group(base_path('/routes/modules/categorias.php'));
+
+Route::prefix('clientes')->group(base_path('/routes/modules/clientes.php'));
+
+Route::prefix('productos')->group(base_path('/routes/modules/productos.php'));
+
+Route::prefix('proveedores')->group(base_path('/routes/modules/proveedores.php'));
+
+Route::prefix('ubicaciones')->group(base_path('/routes/modules/ubicaciones.php'));
