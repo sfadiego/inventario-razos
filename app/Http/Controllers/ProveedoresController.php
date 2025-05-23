@@ -20,7 +20,7 @@ class ProveedoresController extends Controller
             $q->where('nombre', 'like', "%$filter%");
         })->paginate($perPage, ['*'], 'page', $page);
 
-        return Response::success(Proveedor::all());
+        return Response::success($data);
     }
 
     public function store(ProveedoresStoreRequest $params): JsonResponse

@@ -24,7 +24,7 @@ class ProveedoresUpdateRequest extends FormRequest
         return [
             'nombre' => ['required', 'string', 'max:255'],
             'empresa' => ['required', 'string', 'max:255'],
-            'observaciones' => ['nullable', 'string', 'max:500'],
+            'observaciones' => ['string', 'max:500'],
         ];
     }
 }
