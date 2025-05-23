@@ -55,7 +55,7 @@ export const AxiosProvider = ({ children }: IAuthProviderProps) => {
                 try {
                     const response: IUser = {
                         id: 1,
-                        name: 'diego',
+                        name: 'diego armando',
                         email: 'email@gmail.com',
                         role_id: 1,
                         activo: true,
