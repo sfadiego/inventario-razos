@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Clientes;
+namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class ClientesUpdateRequest extends FormRequest
+class ProveedoresStoreRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,8 +22,9 @@ class ClientesUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'nombre' => 'required|string|max:255|unique:clientes,nombre,'.$this->route('cliente'),
-            'observaciones' => 'nullable|string|max:500',
+            'nombre' => ['required', 'string', 'max:255'],
+            'empresa' => ['required', 'string', 'max:255'],
+            'observaciones' => ['string', 'max:500'],
         ];
     }
 }

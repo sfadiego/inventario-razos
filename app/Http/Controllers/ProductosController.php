@@ -19,6 +19,7 @@ class ProductosController extends Controller
         $data = Producto::when($filter, function ($q) use ($filter) {
             $q->where('nombre', 'like', "%$filter%");
         })->paginate($perPage, ['*'], 'page', $page);
+
         return Response::success($data);
     }
 

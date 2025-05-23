@@ -6,13 +6,21 @@ use App\Http\Requests\Clientes\ClientesStoreRequest;
 use App\Http\Requests\Clientes\ClientesUpdateRequest;
 use App\Models\Cliente;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
 class ClientesController extends Controller
 {
-    public function index(): JsonResponse
+    public function index(Request $request): JsonResponse
     {
-        return Response::success(Cliente::all());
+        $page = $request->input('page', 1);
+        $perPage = $request->input('per_page', 10);
+        $filter = $request->input('filter', null);
+        $data = Cliente::when($filter, function ($q) use ($filter) {
+            $q->where('nombre', 'like', "%$filter%");
+        })->paginate($perPage, ['*'], 'page', $page);
+
+        return Response::success($data);
     }
 
     public function store(ClientesStoreRequest $params): JsonResponse
