@@ -49,6 +49,7 @@ class ResponseMacros
       }
     );
 
+    //NOTE:REVISAR SI SE NECESITA
     Response::macro(
       'successPagination',
       function (

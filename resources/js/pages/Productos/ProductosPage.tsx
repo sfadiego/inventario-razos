@@ -1,6 +1,6 @@
 import { PageWrapper } from '@/components/layout/PageWrapper';
 import { useDataTable } from '@/components/tables/useDatatable';
-import { useServiceIndexProductos } from '@/services/productos/useServiceProductos';
+import { useServiceIndexProductos } from '@/Services/productos/useServiceProductos';
 
 import '@mantine/core/styles.layer.css';
 import 'mantine-datatable/styles.layer.css';
