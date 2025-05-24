@@ -27,7 +27,7 @@ return new class extends Migration
                 $table->foreignId('ubicacion_id')
                     ->constrained('ubicaciones')
                     ->onDelete('cascade');
-                $table->boolean('activo');
+                $table->boolean('activo')->default(true);
                 $table->timestamps();
             });
         }
