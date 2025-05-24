@@ -14,7 +14,7 @@ export default function ProductosPage() {
 
     return (
         <>
-            <PageWrapper blankWrapper={true} pageTitle="Productos">
+            <PageWrapper  pageTitle="Productos">
                 <DataTable {...dataTableProps} />
             </PageWrapper>
         </>
