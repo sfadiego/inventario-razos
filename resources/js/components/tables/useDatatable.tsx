@@ -23,6 +23,9 @@ export const useDataTable = ({ service, payload = {}, dataTableProps }: UseDataT
         recordsPerPageOptions: pageSize,
         noRecordsText: 'No se encontraron resultados que coincidan con tu búsqueda',
         highlightOnHover: true,
+        withTableBorder: true,
+        withColumnBorders: true,
+        striped: true,
         className: 'whitespace-nowrap table-hover',
         minHeight: 200,
         paginationText: ({ from, to, totalRecords }: { from: number; to: number; totalRecords: number }) =>

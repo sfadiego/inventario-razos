@@ -5,7 +5,7 @@ import GridShape from '../../components/common/GridShape';
 export default function NotFound() {
     return (
         <>
-            <PageWrapper pageTitle="Error" blankWrapper={true}>
+            <PageWrapper pageTitle="Error" >
                 <div className="relative z-1 flex min-h-screen flex-col items-center justify-center overflow-hidden p-6">
                     <GridShape />
                     <div className="mx-auto w-full max-w-[242px] text-center sm:max-w-[472px]">
