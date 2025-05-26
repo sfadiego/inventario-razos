@@ -1,16 +1,35 @@
+import { DataTableColumn } from 'mantine-datatable';
 import { useState } from 'react';
+
+export interface DataTableRenderersMap {
+    [key: string]: (record: any) => React.ReactNode;
+}
 
 interface UseDataTableParams {
     service: (params: any) => any;
     payload?: any;
     dataTableProps?: (props: any) => any;
+    renderersMap?: DataTableRenderersMap;
 }
 
-export const useDataTable = ({ service, payload = {}, dataTableProps }: UseDataTableParams) => {
+export const useDataTable = ({ service, payload = {}, renderersMap = {}, dataTableProps }: UseDataTableParams) => {
     const [page, setPage] = useState(1);
     const pageSize = [10, 20, 30, 50, 100];
     const [limit, setLimit] = useState(pageSize[0]);
     const { data, isLoading, refetch } = service({ page, limit, ...payload });
+    const applyRenderers = (columns: DataTableColumn<any>[]) => {
+        return columns.map((column) => {
+            const accessor = column.accessor as string;
+            if (accessor && renderersMap[accessor]) {
+                return {
+                    ...column,
+                    render: renderersMap[accessor],
+                };
+            }
+
+            return column;
+        });
+    };
 
     const defaultDataTableProps = {
         page,
@@ -18,7 +37,7 @@ export const useDataTable = ({ service, payload = {}, dataTableProps }: UseDataT
         totalRecords: data?.total || 0,
         onPageChange: setPage,
         records: data?.data || [],
-        columns: data?.columns ?? [],
+        columns: data?.columns ? applyRenderers(data.columns) : [],
         onRecordsPerPageChange: setLimit,
         recordsPerPageOptions: pageSize,
         noRecordsText: 'No se encontraron resultados que coincidan con tu búsqueda',
