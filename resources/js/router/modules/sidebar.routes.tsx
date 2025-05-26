@@ -27,7 +27,7 @@ export const adminSidebarRoutes: INavItem[] = [
     {
         icon: <BadgeDollarSign />,
         name: 'Proveedores',
-        path: AdminRoutes.Proovedores,
+        path: AdminRoutes.Proveedores,
     },
     {
         icon: <UserSearch />,

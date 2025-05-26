@@ -1,5 +1,5 @@
 import { axiosApi } from '@/configs/axiosConfig';
-import { IUser } from '@/models/User/user.interface';
+import { IUser } from '@/models/user.interface';
 import { createContext, useCallback, useEffect, useState } from 'react';
 import { IAuthContextType } from './interfaces/IAuthContextType';
 import { IAuthProviderProps } from './interfaces/IAuthProviderProps';

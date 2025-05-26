@@ -1,4 +1,4 @@
-import { IProducto } from '@/models/Products/producto.interface';
+import { IProducto } from '@/models/producto.interface';
 import * as Yup from 'yup';
 
 export const useProduct = () => {

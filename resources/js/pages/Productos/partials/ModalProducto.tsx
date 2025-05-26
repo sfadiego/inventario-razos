@@ -4,8 +4,9 @@ import InputSelect from '@/components/form/select/InputSelect';
 import { IOptions } from '@/components/form/select/interfaces/IOptions';
 import Button from '@/components/ui/button/Button';
 import { Modal } from '@/components/ui/modal';
-import { IProducto } from '@/models/Products/producto.interface';
+import { IProducto } from '@/models/producto.interface';
 import { Form, Formik } from 'formik';
+import { Save } from 'lucide-react';
 import { useProduct } from './useProduct';
 
 interface IModalProductoProps {
@@ -19,9 +20,7 @@ export const ModalProducto = ({ isOpen, closeModal }: IModalProductoProps) => {
         { value: 'template', label: 'Template' },
         { value: 'development', label: 'Development' },
     ];
-    const handleSelectChange = (value: string) => {
-        console.log('Selected value:', value);
-    };
+
     return (
         <Modal isOpen={isOpen} onClose={closeModal} className="m-4 max-w-[700px]">
             <div className="no-scrollbar relative w-full overflow-y-auto rounded-3xl bg-white p-4 lg:p-11 dark:bg-gray-900">
@@ -32,7 +31,7 @@ export const ModalProducto = ({ isOpen, closeModal }: IModalProductoProps) => {
                 <Formik enableReinitialize initialValues={initialValues} validationSchema={validationSchema} onSubmit={onSubmit}>
                     {(formik) => (
                         <Form className={`flex flex-col`}>
-                            <div className="custom-scrollbar overflow-y-auto px-2">
+                            <div className="custom-scrollbar mb-4 overflow-y-auto px-2">
                                 <div className="grid grid-cols-12 gap-x-6 gap-y-5 lg:grid-cols-2">
                                     <div className="col-span-12 lg:col-span-12">
                                         <Input<IProducto> label={`Producto`} name="nombre" formik={formik} type={InputTypeEnum.Text} />
@@ -41,7 +40,7 @@ export const ModalProducto = ({ isOpen, closeModal }: IModalProductoProps) => {
                                         <Input<IProducto> label={`Codigo`} name="codigo" formik={formik} type={InputTypeEnum.Text} />
                                     </div>
                                     <div className="col-span-12 md:col-span-4">
-                                        <Input<IProducto> label={`Stock`} name="codigo" formik={formik} type={InputTypeEnum.Text} />
+                                        <Input<IProducto> label={`Stock`} name="stock" formik={formik} type={InputTypeEnum.Text} />
                                     </div>
                                     <div className="col-span-12 md:col-span-12">
                                         <Input<IProducto>
@@ -59,21 +58,21 @@ export const ModalProducto = ({ isOpen, closeModal }: IModalProductoProps) => {
                                         <Input<IProducto> label={`Precio venta`} name="precio_venta" formik={formik} type={InputTypeEnum.Text} />
                                     </div>
                                     <div className="col-span-12 md:col-span-12">
-                                        <InputSelect<IProducto> label={`Proovedor`} name={`proveedor_id`} formik={formik} options={options} />
+                                        <InputSelect<IProducto> label={`Proveedor`} name={`proveedor_id`} formik={formik} options={options} />
                                     </div>
                                     <div className="col-span-12 md:col-span-12">
-                                        <InputSelect<IProducto> label={`Categoria`} name={`proveedor_id`} formik={formik} options={options} />
+                                        <InputSelect<IProducto> label={`Categoria`} name={`categoria_id`} formik={formik} options={options} />
                                     </div>
                                     <div className="col-span-12 md:col-span-12">
-                                        <InputSelect<IProducto> label={`Ubicacion`} name={`proveedor_id`} formik={formik} options={options} />
+                                        <InputSelect<IProducto> label={`Ubicacion`} name={`ubicacion_id`} formik={formik} options={options} />
                                     </div>
                                 </div>
                             </div>
                             <div className="mt-6 flex items-center gap-3 px-2 lg:justify-end">
-                                <Button size="sm" variant="outline">
+                                <Button onClick={closeModal} size="sm" variant="outline">
                                     Close
                                 </Button>
-                                <Button size="sm" onClick={() => null}>
+                                <Button startIcon={<Save />} size="sm" onClick={() => null}>
                                     Guardar
                                 </Button>
                             </div>
