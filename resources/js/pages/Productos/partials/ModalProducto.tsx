@@ -2,6 +2,7 @@ import { InputTypeEnum } from '@/components/form/input/enum/InputType.enum';
 import Input from '@/components/form/input/InputField';
 import InputSelect from '@/components/form/select/InputSelect';
 import { IOptions } from '@/components/form/select/interfaces/IOptions';
+import { SelectProovedores } from '@/components/select/proovedores/SelectProovedores';
 import Button from '@/components/ui/button/Button';
 import { Modal } from '@/components/ui/modal';
 import { IProducto } from '@/models/producto.interface';
@@ -58,7 +59,8 @@ export const ModalProducto = ({ isOpen, closeModal }: IModalProductoProps) => {
                                         <Input<IProducto> label={`Precio venta`} name="precio_venta" formik={formik} type={InputTypeEnum.Text} />
                                     </div>
                                     <div className="col-span-12 md:col-span-12">
-                                        <InputSelect<IProducto> label={`Proveedor`} name={`proveedor_id`} formik={formik} options={options} />
+                                        {/* <InputSelect<IProducto> label={`Proveedor`} name={`proveedor_id`} formik={formik} options={options} /> */}
+                                        <SelectProovedores formik={formik}></SelectProovedores>
                                     </div>
                                     <div className="col-span-12 md:col-span-12">
                                         <InputSelect<IProducto> label={`Categoria`} name={`categoria_id`} formik={formik} options={options} />
