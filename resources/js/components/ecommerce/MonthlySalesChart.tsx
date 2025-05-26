@@ -2,8 +2,8 @@ import Chart from "react-apexcharts";
 import { ApexOptions } from "apexcharts";
 import { Dropdown } from "../ui/dropdown/Dropdown";
 import { DropdownItem } from "../ui/dropdown/DropdownItem";
-// import { MoreDotIcon } from "../../icons";
 import { useState } from "react";
+import { EllipsisVertical } from "lucide-react";
 
 export default function MonthlySalesChart() {
   const options: ApexOptions = {
@@ -108,8 +108,7 @@ export default function MonthlySalesChart() {
         </h3>
         <div className="relative inline-block">
           <button className="dropdown-toggle" onClick={toggleDropdown}>
-            {/* <MoreDotIcon className="text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 size-6" /> */}
-            <>missing icon</>
+            <EllipsisVertical className="text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 size-6" />
           </button>
           <Dropdown
             isOpen={isOpen}

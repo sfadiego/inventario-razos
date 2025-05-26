@@ -1,9 +1,4 @@
-// import {
-//   ArrowDownIcon,
-//   ArrowUpIcon,
-//   BoxIconLine,
-//   GroupIcon,
-// } from "../../icons";
+import { ArrowDown, ArrowUp, Box, Users } from "lucide-react";
 import Badge from "../ui/badge/Badge";
 
 export default function EcommerceMetrics() {
@@ -12,7 +7,7 @@ export default function EcommerceMetrics() {
       {/* <!-- Metric Item Start --> */}
       <div className="rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-white/[0.03] md:p-6">
         <div className="flex items-center justify-center w-12 h-12 bg-gray-100 rounded-xl dark:bg-gray-800">
-          {/* <GroupIcon className="text-gray-800 size-6 dark:text-white/90" /> */}
+          <Users className="text-gray-800 size-6 dark:text-white/90"/>
         </div>
 
         <div className="flex items-end justify-between mt-5">
@@ -25,7 +20,7 @@ export default function EcommerceMetrics() {
             </h4>
           </div>
           <Badge color="success">
-            {/* <ArrowUpIcon /> */}
+            <ArrowUp />
             11.01%
           </Badge>
         </div>
@@ -35,8 +30,7 @@ export default function EcommerceMetrics() {
       {/* <!-- Metric Item Start --> */}
       <div className="rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-white/[0.03] md:p-6">
         <div className="flex items-center justify-center w-12 h-12 bg-gray-100 rounded-xl dark:bg-gray-800">
-          {/* <BoxIconLine className="text-gray-800 size-6 dark:text-white/90" /> */}
-          <>missing icon</>
+          <Box className="text-gray-800 size-6 dark:text-white/90"/>
         </div>
         <div className="flex items-end justify-between mt-5">
           <div>
@@ -49,8 +43,7 @@ export default function EcommerceMetrics() {
           </div>
 
           <Badge color="error">
-            {/* <ArrowDownIcon /> */}
-            <>missing icon</>
+           <ArrowDown />
             9.05%
           </Badge>
         </div>

@@ -1,23 +1,37 @@
-import { FC, ReactNode, FormEvent } from "react";
+import { Form, Formik } from 'formik';
+import { ReactNode } from 'react';
+import Button from '../ui/button/Button';
 
-interface FormProps {
-  onSubmit: (event: FormEvent<HTMLFormElement>) => void;
-  children: ReactNode;
-  className?: string;
+interface IFormProps {
+    onSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
+    initialValues: any;
+    validationSchema: any;
+    children: ReactNode;
+    className?: string;
 }
 
-const Form: FC<FormProps> = ({ onSubmit, children, className }) => {
-  return (
-    <form
-      onSubmit={(event) => {
-        event.preventDefault(); // Prevent default form submission
-        onSubmit(event);
-      }}
-      className={` ${className}`} // Default spacing between form fields
-    >
-      {children}
-    </form>
-  );
-};
+const FormComponent = ({ children, initialValues, validationSchema, className = '', onSubmit }: IFormProps) => {
+    return (
+        // <Form
+        // iniitialValues={{}}
+        // validationSchema={null}
+        //  onSubmit={onSubmit} className={`${className}`}>
 
-export default Form;
+        //     {children}
+        // </Form>
+        <Formik enableReinitialize initialValues={initialValues} validationSchema={validationSchema} onSubmit={onSubmit}>
+            {(formik) => (
+                <Form className={`${className}`}>
+                    {children}
+                    <Button size="sm" variant="outline">
+                        Close
+                    </Button>
+                    <Button size="sm" onClick={() => null}>
+                        Guardar
+                    </Button>
+                </Form>
+            )}
+        </Formik>
+    );
+};
+export default FormComponent;
