@@ -2,25 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use App\Core\Data\IndexData;
 use App\Http\Requests\Ubicaciones\UbicacionesStoreRequest;
 use App\Http\Requests\Ubicaciones\UbicacionesUpdateRequest;
+use App\Logic\Producto\UbicacionIndexLogic;
 use App\Models\Ubicacion;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
 class UbicacionesController extends Controller
 {
-    public function index(Request $request): JsonResponse
+    public function index(IndexData $data, UbicacionIndexLogic $logic): JsonResponse
     {
-        $page = $request->input('page', 1);
-        $perPage = $request->input('per_page', 10);
-        $filter = $request->input('filter', null);
-        $data = Ubicacion::when($filter, function ($q) use ($filter) {
-            $q->where('nombre', 'like', "%$filter%");
-        })->paginate($perPage, ['*'], 'page', $page);
-
-        return Response::success($data);
+        return $logic->run($data);
     }
 
     public function store(UbicacionesStoreRequest $params): JsonResponse

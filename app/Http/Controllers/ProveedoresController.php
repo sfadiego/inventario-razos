@@ -2,25 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use App\Core\Data\IndexData;
 use App\Http\Requests\ProveedoresStoreRequest;
 use App\Http\Requests\ProveedoresUpdateRequest;
+use App\Logic\Proveedor\ProveedorIndexLogic;
 use App\Models\Proveedor;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
 class ProveedoresController extends Controller
 {
-    public function index(Request $request): JsonResponse
+    public function index(IndexData $data, ProveedorIndexLogic $logic): JsonResponse
     {
-        $page = $request->input('page', 1);
-        $perPage = $request->input('per_page', 10);
-        $filter = $request->input('filter', null);
-        $data = Proveedor::when($filter, function ($q) use ($filter) {
-            $q->where('nombre', 'like', "%$filter%");
-        })->paginate($perPage, ['*'], 'page', $page);
-
-        return Response::success($data);
+        return $logic->run($data);
     }
 
     public function store(ProveedoresStoreRequest $params): JsonResponse
