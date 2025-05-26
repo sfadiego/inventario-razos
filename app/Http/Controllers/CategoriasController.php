@@ -2,25 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use App\Core\Data\IndexData;
 use App\Http\Requests\Categorias\CategoriasStoreRequest;
 use App\Http\Requests\Categorias\CategoriasUpdateRequest;
+use App\Logic\Categoria\CategoriaIndexLogic;
 use App\Models\Categoria;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
 
 class CategoriasController extends Controller
 {
-    public function index(Request $request): JsonResponse
+    public function index(IndexData $data, CategoriaIndexLogic $logic): JsonResponse
     {
-        $page = $request->input('page', 1);
-        $perPage = $request->input('per_page', 10);
-        $filter = $request->input('filter', null);
-        $data = Categoria::when($filter, function ($q) use ($filter) {
-            $q->where('nombre', 'like', "%$filter%");
-        })->paginate($perPage, ['*'], 'page', $page);
-
-        return Response::success($data);
+        return $logic->run($data);
     }
 
     public function show(Categoria $categoria): JsonResponse
