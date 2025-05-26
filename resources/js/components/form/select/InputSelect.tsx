@@ -9,14 +9,7 @@ const InputSelect = <T extends object>(props: ISelect<T>) => {
         <>
             {label ? <Label>{label}</Label> : ''}
             <Field disabled={disabled} name={name} id={name}>
-                {() => (
-                    <Select
-                        options={options}
-                        isSearchable={true}
-                        isMulti={isMulti}
-                        isDisabled={disabled}
-                    />
-                )}
+                {() => <Select options={options} isSearchable={true} isMulti={isMulti} isDisabled={disabled} />}
             </Field>
             {formik.submitCount ? formik.errors[name] ? <p className={`text-error-500 mt-1.5`}>{String(formik.errors[name])}</p> : '' : ''}
         </>
