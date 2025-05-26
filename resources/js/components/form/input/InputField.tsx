@@ -13,6 +13,7 @@ interface InputProps<T> {
     formik: FormikProps<T>;
     showPassword?: boolean;
     label?: string;
+    hint?: string;
 }
 
 type InputVariant = 'default' | 'disabled' | 'error' | 'success';
@@ -31,7 +32,7 @@ const useInputVariant = (variant: InputVariant): string => {
 };
 
 const Input = <T extends object>(props: InputProps<T>) => {
-    const { type = InputTypeEnum.Text, name, placeholder, disabled = false, success = false, formik, showPassword = false, label = '' } = props;
+    const { type = InputTypeEnum.Text, hint, name, placeholder, disabled = false, success = false, formik, showPassword = false, label = '' } = props;
 
     const variant = formik.errors[name] ? 'error' : disabled ? 'disabled' : success ? 'success' : 'default';
     const inputClasses = useInputVariant(variant);
@@ -47,7 +48,8 @@ const Input = <T extends object>(props: InputProps<T>) => {
                 placeholder={placeholder}
                 className={inputClasses}
             />
-            {formik.submitCount ? formik.errors[name] ? <p className={`text-error-500 mt-1.5 text-xs`}>{String(formik.errors[name])}</p> : '' : ''}
+            {formik.submitCount ? formik.errors[name] ? <p className={`text-error-500 mt-1.5`}>{String(formik.errors[name])}</p> : '' : ''}
+            {hint && <p className="text-sm text-gray-500">{hint}</p>}
         </div>
     );
 };

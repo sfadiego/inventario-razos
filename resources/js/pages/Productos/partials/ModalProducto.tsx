@@ -1,7 +1,10 @@
 import { InputTypeEnum } from '@/components/form/input/enum/InputType.enum';
 import Input from '@/components/form/input/InputField';
+import InputSelect from '@/components/form/select/InputSelect';
+import { IOptions } from '@/components/form/select/interfaces/IOptions';
 import Button from '@/components/ui/button/Button';
 import { Modal } from '@/components/ui/modal';
+import { IProducto } from '@/models/Products/producto.interface';
 import { Form, Formik } from 'formik';
 import { useProduct } from './useProduct';
 
@@ -11,7 +14,14 @@ interface IModalProductoProps {
 }
 export const ModalProducto = ({ isOpen, closeModal }: IModalProductoProps) => {
     const { initialValues, validationSchema, onSubmit } = useProduct();
-
+    const options: IOptions[] = [
+        { value: 'marketing', label: 'Marketing' },
+        { value: 'template', label: 'Template' },
+        { value: 'development', label: 'Development' },
+    ];
+    const handleSelectChange = (value: string) => {
+        console.log('Selected value:', value);
+    };
     return (
         <Modal isOpen={isOpen} onClose={closeModal} className="m-4 max-w-[700px]">
             <div className="no-scrollbar relative w-full overflow-y-auto rounded-3xl bg-white p-4 lg:p-11 dark:bg-gray-900">
@@ -25,7 +35,37 @@ export const ModalProducto = ({ isOpen, closeModal }: IModalProductoProps) => {
                             <div className="custom-scrollbar overflow-y-auto px-2">
                                 <div className="grid grid-cols-12 gap-x-6 gap-y-5 lg:grid-cols-2">
                                     <div className="col-span-12 lg:col-span-12">
-                                        <Input label={`Producto`} name="nombre" formik={formik} type={InputTypeEnum.Text} />
+                                        <Input<IProducto> label={`Producto`} name="nombre" formik={formik} type={InputTypeEnum.Text} />
+                                    </div>
+                                    <div className="col-span-12 md:col-span-8">
+                                        <Input<IProducto> label={`Codigo`} name="codigo" formik={formik} type={InputTypeEnum.Text} />
+                                    </div>
+                                    <div className="col-span-12 md:col-span-4">
+                                        <Input<IProducto> label={`Stock`} name="codigo" formik={formik} type={InputTypeEnum.Text} />
+                                    </div>
+                                    <div className="col-span-12 md:col-span-12">
+                                        <Input<IProducto>
+                                            label={`Cantidad minima`}
+                                            name="cantidad_minima"
+                                            formik={formik}
+                                            type={InputTypeEnum.Text}
+                                            hint={`Cantidad minima para alerta de stock minimo`}
+                                        />
+                                    </div>
+                                    <div className="col-span-12 md:col-span-6">
+                                        <Input<IProducto> label={`Precio de compra`} name="precio_compra" formik={formik} type={InputTypeEnum.Text} />
+                                    </div>
+                                    <div className="col-span-12 md:col-span-6">
+                                        <Input<IProducto> label={`Precio venta`} name="precio_venta" formik={formik} type={InputTypeEnum.Text} />
+                                    </div>
+                                    <div className="col-span-12 md:col-span-12">
+                                        <InputSelect<IProducto> label={`Proovedor`} name={`proveedor_id`} formik={formik} options={options} />
+                                    </div>
+                                    <div className="col-span-12 md:col-span-12">
+                                        <InputSelect<IProducto> label={`Categoria`} name={`proveedor_id`} formik={formik} options={options} />
+                                    </div>
+                                    <div className="col-span-12 md:col-span-12">
+                                        <InputSelect<IProducto> label={`Ubicacion`} name={`proveedor_id`} formik={formik} options={options} />
                                     </div>
                                 </div>
                             </div>
