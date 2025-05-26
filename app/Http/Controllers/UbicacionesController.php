@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Core\Data\IndexData;
 use App\Http\Requests\Ubicaciones\UbicacionesStoreRequest;
 use App\Http\Requests\Ubicaciones\UbicacionesUpdateRequest;
-use App\Logic\Producto\UbicacionIndexLogic;
+use App\Logic\Ubicacion\UbicacionIndexLogic;
 use App\Models\Ubicacion;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;

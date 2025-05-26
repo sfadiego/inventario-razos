@@ -4,10 +4,8 @@ namespace App\Logic\Cliente;
 
 use App\Core\Data\IndexData;
 use App\Core\Logic\IndexLogic;
-use App\Http\Resources\ClienteResource;
 use App\Models\Cliente;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class ClienteIndexLogic extends IndexLogic
 {
@@ -27,10 +25,5 @@ class ClienteIndexLogic extends IndexLogic
     public function run(IndexData $data): JsonResponse
     {
         return parent::run($data);
-    }
-
-    protected function withResource(): AnonymousResourceCollection
-    {
-        return ClienteResource::collection($this->response);
     }
 }
