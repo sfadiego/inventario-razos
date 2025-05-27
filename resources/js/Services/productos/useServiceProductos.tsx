@@ -1,4 +1,4 @@
-import { useGET } from '@/hooks/useApi';
+import { useGET, usePOST } from '@/hooks/useApi';
 import { IPaginate } from '@/interfaces/IPaginate';
 import { IPaginateServiceProps } from '@/interfaces/IPaginateServiceProps';
 import { IProducto } from '@/models/producto.interface';
@@ -15,3 +15,5 @@ export const useServiceIndexProductos = ({ filters = [], search = null, page = 1
         },
     });
 };
+
+export const useServiceStoreProducto = () => usePOST({ url });

@@ -13,5 +13,5 @@ export const SelectUbicaciones = ({ formik }: { formik: FormikProps<any> }) => {
                 label: item.nombre,
             }))) ||
         [];
-    return <InputSelect<IProducto> label={`Ubicaciones`} name={`ubicacion_id`} formik={formik} options={options} />;
+    return <InputSelect<IProducto> label={`Ubicacion`} name={`ubicacion_id`} formik={formik} options={options} />;
 };

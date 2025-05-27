@@ -1,4 +1,6 @@
+import { useOnSubmit } from '@/hooks/useOnSubmit';
 import { IProducto } from '@/models/producto.interface';
+import { useServiceStoreProducto } from '@/Services/productos/useServiceProductos';
 import * as Yup from 'yup';
 
 export const useProduct = () => {
@@ -20,20 +22,23 @@ export const useProduct = () => {
         nombre: Yup.string().required('El nombre es obligatorio'),
         proveedor_id: Yup.number().min(1, 'Seleccione un proveedor').required('El proveedor es obligatorio'),
         categoria_id: Yup.number().min(1, 'Seleccione una categoría').required('La categoría es obligatoria'),
-        codigo: Yup.string().required('El código es obligatorio'),
-        precio_compra: Yup.number().min(0, 'Debe ser mayor o igual a 0').required('El precio de compra es obligatorio'),
-        precio_venta: Yup.number().min(0, 'Debe ser mayor o igual a 0').required('El precio de venta es obligatorio'),
-        stock: Yup.number().min(0, 'Debe ser mayor o igual a 0').required('El stock es obligatorio'),
-        cantidad_minima: Yup.number().min(0, 'Debe ser mayor o igual a 0').required('La cantidad mínima es obligatoria'),
+        codigo: Yup.string(),
+        precio_compra: Yup.number().min(1, 'Debe ser mayor o igual a 1').required('El precio de compra es obligatorio'),
+        precio_venta: Yup.number().min(1, 'Debe ser mayor o igual a 1').required('El precio de venta es obligatorio'),
+        stock: Yup.number().min(0, 'Debe ser mayor o igual a 1').required('El stock es obligatorio'),
+        cantidad_minima: Yup.number().min(0, 'Debe ser mayor o igual a 1').required('La cantidad mínima es obligatoria'),
         compatibilidad: Yup.string(),
         ubicacion_id: Yup.number().min(1, 'Seleccione una ubicación').required('La ubicación es obligatoria'),
         activo: Yup.boolean(),
     });
 
-    const onSubmit = (values) => {
-        console.log('Form submitted with values:', values);
-        // Handle form submission logic here
-    };
+    const mutator = useServiceStoreProducto();
+    const { onSubmit } = useOnSubmit<IProducto>({
+        mutateAsync: mutator.mutateAsync,
+        onSuccess: async ({ data }) => {
+            console.log(data);
+        },
+    });
 
-    return { initialValues, validationSchema, onSubmit };
+    return { initialValues, validationSchema, onSubmit, isPending: mutator.isPending };
 };
