@@ -12,7 +12,6 @@ use Illuminate\Support\Facades\Response;
 
 class ProductosController extends Controller
 {
-
     public function index(IndexData $data, ProductoIndexLogic $logic): JsonResponse
     {
         return $logic->run($data);
@@ -20,6 +19,10 @@ class ProductosController extends Controller
 
     public function store(ProductosStoreRequest $params): JsonResponse
     {
+        $params->merge([
+            'codigo' => Producto::createFolio($params->get('nombre')),
+        ]);
+
         $producto = Producto::create($params->all());
 
         return Response::success($producto);
