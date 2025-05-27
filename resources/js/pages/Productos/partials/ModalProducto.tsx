@@ -56,10 +56,17 @@ export const ModalProducto = ({ isOpen, closeModal }: IModalProductoProps) => {
                             <div className="col-span-12 md:col-span-12">
                                 <SelectUbicaciones formik={formik}></SelectUbicaciones>
                             </div>
-                            <Button className="col-span-12 md:col-span-6" onClick={closeModal} size="sm" variant="outline">
+                            <Button size="md" variant="outline" className="col-span-12 md:col-span-6" onClick={closeModal}>
                                 Close
                             </Button>
-                            <Button disabled={isPending || formik.isSubmitting} className="col-span-12 md:col-span-6" startIcon={<Save />} size="sm">
+                            <Button
+                                size="md"
+                                variant="primary"
+                                type="submit"
+                                disabled={isPending || formik.isSubmitting}
+                                className="col-span-12 md:col-span-6"
+                            >
+                                <Save />
                                 Guardar
                             </Button>
                         </Form>
