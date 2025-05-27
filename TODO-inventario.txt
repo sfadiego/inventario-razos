@@ -107,12 +107,60 @@ REPORTES:
 
 
 
- --------------
- SIDEBAR
+ ---- TODO ----------
+ 
+Migraciones
+- crear tabla de venta
+  - venta_total
+  - nombre_venta
+  - cliente_id
+  - tipo_compra: contado/credito
+
+Guardar en tabla venta_producto
+  - cantidad
+  - precio
+  - producto_id
+  - cliente_id => borrar
+  - tipo_compra => borrar
+  - venta_id: agregar foreign key a venta
+  - created_at
+  - updated_at
+
+
+Apis Faltantes
+
+- Total de ventas por dia
+- Total de ventas por mes
+- Total de ventas por año
+- Total de Clientes
+- Producto mas vendido
+- producto menos vendido
+- Total de ventas por producto
+
+- Generar Venta:
+    - Api store Venta:
+      - Parametros: 
+        - nombre_venta: opcional
+        - cliente_id: opcional
+        - tipo_compra: contado/credito -> default contado
+        - venta_total: 0 -> inicializar en 0
+      - Guarda en tabla venta
+        - Regresa id de venta
+
+
+      - Guarda en tabla venta_producto
+    - Api update Venta
+    - Api store Venta Producto
+
+
+
+- Api update Venta Producto
+  - Parametros:
+    - cantidad
+    - precio
+    - producto_id
+    - venta_id: requerido
     
-    Admin/
-        clientes
-        ubicaciones
-        proveedores
-        productos
-        categorias
+- Api delete Venta Producto
+
+

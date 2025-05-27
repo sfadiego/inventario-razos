@@ -36,8 +36,9 @@ const Input = <T extends object>(props: InputProps<T>) => {
 
     const variant = formik.errors[name] ? 'error' : disabled ? 'disabled' : success ? 'success' : 'default';
     const inputClasses = useInputVariant(variant);
+
     return (
-        <div className="relative">
+        <>
             {label ? <Label>{label}</Label> : ''}
             <Field
                 as={'input'}
@@ -48,9 +49,9 @@ const Input = <T extends object>(props: InputProps<T>) => {
                 placeholder={placeholder}
                 className={inputClasses}
             />
-            {formik.submitCount ? formik.errors[name] ? <p className={`text-error-500 mt-1.5`}>{String(formik.errors[name])}</p> : '' : ''}
-            {hint && <p className="text-sm text-gray-500">{hint}</p>}
-        </div>
+            {formik.submitCount ? formik.errors[name] ? <span className={`text-error-500 mt-1.5`}>{String(formik.errors[name])}</span> : '' : ''}
+            {hint && <span className="text-sm text-gray-500">{hint}</span>}
+        </>
     );
 };
 

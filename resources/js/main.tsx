@@ -14,6 +14,7 @@ import { router } from './router/routes.routes';
 import { MantineProvider } from '@mantine/core';
 import '@mantine/core/styles.layer.css';
 import 'mantine-datatable/styles.layer.css';
+import { ToastContainer } from 'react-toastify';
 
 const queryClient = new QueryClient({
     defaultOptions: {
@@ -28,6 +29,7 @@ createRoot(document.getElementById('root')!).render(
         <AxiosProvider>
             <MantineProvider>
                 <ThemeProvider>
+                    <ToastContainer />
                     <QueryClientProvider client={queryClient}>
                         <Suspense>
                             <AppWrapper>

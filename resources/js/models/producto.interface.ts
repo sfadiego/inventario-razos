@@ -2,7 +2,7 @@ export interface IProducto {
   nombre: string;
   proveedor_id: number;
   categoria_id: number;
-  codigo: string;
+  codigo?: string;
   precio_compra: number;
   precio_venta: number;
   stock: number;

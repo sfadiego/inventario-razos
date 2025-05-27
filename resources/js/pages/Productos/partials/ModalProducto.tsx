@@ -4,6 +4,8 @@ import { SelectCategorias } from '@/components/select/categorias/SelectCategoria
 import { SelectProovedores } from '@/components/select/proovedores/SelectProovedores';
 import { SelectUbicaciones } from '@/components/select/ubicaciones/SelectUbicaciones';
 import Button from '@/components/ui/button/Button';
+
+import { ButtonTypeEnum } from '@/components/ui/button/enums/buttonType.enum';
 import { Modal } from '@/components/ui/modal';
 import { IProducto } from '@/models/producto.interface';
 import { Form, Formik } from 'formik';
@@ -15,7 +17,8 @@ interface IModalProductoProps {
     closeModal: () => void;
 }
 export const ModalProducto = ({ isOpen, closeModal }: IModalProductoProps) => {
-    const { initialValues, validationSchema, onSubmit } = useProduct();
+    const { initialValues, isPending, validationSchema, onSubmit } = useProduct({ closeModal });
+
     return (
         <Modal isOpen={isOpen} onClose={closeModal} className="m-4 max-w-[700px]">
             <div className="no-scrollbar relative w-full overflow-y-auto rounded-3xl bg-white p-4 lg:p-11 dark:bg-gray-900">
@@ -25,52 +28,49 @@ export const ModalProducto = ({ isOpen, closeModal }: IModalProductoProps) => {
                 </div>
                 <Formik enableReinitialize initialValues={initialValues} validationSchema={validationSchema} onSubmit={onSubmit}>
                     {(formik) => (
-                        <Form className={`flex flex-col`}>
-                            <div className="custom-scrollbar mb-4 overflow-y-auto px-2">
-                                <div className="grid grid-cols-12 gap-x-6 gap-y-5 lg:grid-cols-2">
-                                    <div className="col-span-12 lg:col-span-12">
-                                        <Input<IProducto> label={`Producto`} name="nombre" formik={formik} type={InputTypeEnum.Text} />
-                                    </div>
-                                    <div className="col-span-12 md:col-span-8">
-                                        <Input<IProducto> label={`Codigo`} name="codigo" formik={formik} type={InputTypeEnum.Text} />
-                                    </div>
-                                    <div className="col-span-12 md:col-span-4">
-                                        <Input<IProducto> label={`Stock`} name="stock" formik={formik} type={InputTypeEnum.Text} />
-                                    </div>
-                                    <div className="col-span-12 md:col-span-12">
-                                        <Input<IProducto>
-                                            label={`Cantidad minima`}
-                                            name="cantidad_minima"
-                                            formik={formik}
-                                            type={InputTypeEnum.Text}
-                                            hint={`Cantidad minima para alerta de stock minimo`}
-                                        />
-                                    </div>
-                                    <div className="col-span-12 md:col-span-6">
-                                        <Input<IProducto> label={`Precio de compra`} name="precio_compra" formik={formik} type={InputTypeEnum.Text} />
-                                    </div>
-                                    <div className="col-span-12 md:col-span-6">
-                                        <Input<IProducto> label={`Precio venta`} name="precio_venta" formik={formik} type={InputTypeEnum.Text} />
-                                    </div>
-                                    <div className="col-span-12 md:col-span-12">
-                                        <SelectProovedores formik={formik}></SelectProovedores>
-                                    </div>
-                                    <div className="col-span-12 md:col-span-12">
-                                        <SelectCategorias formik={formik}></SelectCategorias>
-                                    </div>
-                                    <div className="col-span-12 md:col-span-12">
-                                        <SelectUbicaciones formik={formik}></SelectUbicaciones>
-                                    </div>
-                                </div>
+                        <Form className={`grid grid-cols-12 gap-3`}>
+                            <div className="col-span-12 lg:col-span-12">
+                                <Input<IProducto> label={`Producto`} name="nombre" formik={formik} type={InputTypeEnum.Text} />
                             </div>
-                            <div className="mt-6 flex items-center gap-3 px-2 lg:justify-end">
-                                <Button onClick={closeModal} size="sm" variant="outline">
-                                    Close
-                                </Button>
-                                <Button startIcon={<Save />} size="sm" onClick={() => null}>
-                                    Guardar
-                                </Button>
+                            <div className="col-span-12 md:col-span-6">
+                                <Input<IProducto> label={`Stock`} name="stock" formik={formik} type={InputTypeEnum.Text} />
                             </div>
+                            <div className="col-span-12 md:col-span-6">
+                                <Input<IProducto>
+                                    label={`Cantidad minima`}
+                                    name="cantidad_minima"
+                                    formik={formik}
+                                    type={InputTypeEnum.Text}
+                                    hint={`Cantidad minima para alerta de stock minimo`}
+                                />
+                            </div>
+                            <div className="col-span-12 md:col-span-6">
+                                <Input<IProducto> label={`Precio de compra`} name="precio_compra" formik={formik} type={InputTypeEnum.Text} />
+                            </div>
+                            <div className="col-span-12 md:col-span-6">
+                                <Input<IProducto> label={`Precio venta`} name="precio_venta" formik={formik} type={InputTypeEnum.Text} />
+                            </div>
+                            <div className="col-span-12 md:col-span-12">
+                                <SelectProovedores formik={formik}></SelectProovedores>
+                            </div>
+                            <div className="col-span-12 md:col-span-12">
+                                <SelectCategorias formik={formik}></SelectCategorias>
+                            </div>
+                            <div className="col-span-12 md:col-span-12">
+                                <SelectUbicaciones formik={formik}></SelectUbicaciones>
+                            </div>
+                            <Button size="md" variant="outline" className="col-span-12 md:col-span-6" onClick={closeModal}>
+                                Close
+                            </Button>
+                            <Button
+                                size="md"
+                                type={ButtonTypeEnum.Submit}
+                                disabled={isPending || formik.isSubmitting}
+                                className="col-span-12 md:col-span-6"
+                            >
+                                <Save />
+                                Guardar
+                            </Button>
                         </Form>
                     )}
                 </Formik>

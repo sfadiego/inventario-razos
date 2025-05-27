@@ -9,9 +9,9 @@ export const SelectUbicaciones = ({ formik }: { formik: FormikProps<any> }) => {
     const options: IOptions[] =
         (!isLoading &&
             data?.data.map((item) => ({
-                value: item.id,
+                value: item.id ?? 0,
                 label: item.nombre,
             }))) ||
         [];
-    return <InputSelect<IProducto> label={`Ubicaciones`} name={`ubicacion_id`} formik={formik} options={options} />;
+    return <InputSelect<IProducto> label={`Ubicacion`} name={`ubicacion_id`} formik={formik} options={options} />;
 };

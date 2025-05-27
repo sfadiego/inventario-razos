@@ -24,14 +24,15 @@ export default function ProductosPage() {
                 <div className="grid grid-cols-12 gap-2 pb-5">
                     <div className="col-span-10"></div>
                     <div className="col-span-2 flex justify-end">
-                        <Button onClick={openModal} startIcon={<Plus />} className="">
-                            Nuevo producto
+                        <Button onClick={openModal} className="">
+                            <Plus /> Nuevo producto
                         </Button>
                     </div>
                     <div className="col-span-12">
                         <DataTable {...dataTableProps} />
                     </div>
                 </div>
+
                 <ModalProducto closeModal={closeModal} isOpen={isOpen}></ModalProducto>
             </PageWrapper>
         </>
