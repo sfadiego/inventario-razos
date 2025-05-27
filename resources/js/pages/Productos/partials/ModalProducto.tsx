@@ -17,7 +17,8 @@ interface IModalProductoProps {
     closeModal: () => void;
 }
 export const ModalProducto = ({ isOpen, closeModal }: IModalProductoProps) => {
-    const { initialValues, isPending, validationSchema, onSubmit } = useProduct();
+    const { initialValues, isPending, validationSchema, onSubmit } = useProduct({ closeModal });
+
     return (
         <Modal isOpen={isOpen} onClose={closeModal} className="m-4 max-w-[700px]">
             <div className="no-scrollbar relative w-full overflow-y-auto rounded-3xl bg-white p-4 lg:p-11 dark:bg-gray-900">
