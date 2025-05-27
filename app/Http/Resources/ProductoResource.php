@@ -29,7 +29,7 @@ class ProductoResource extends JsonResource
             'compatibilidad' => $this->compatibilidad,
             'ubicacion_id' => $this->ubicacion_id,
             'ubicacion' => $this->ubicacion ? $this->ubicacion : null,
-            'activo' => $this->activo
+            'activo' => $this->activo,
         ];
     }
 }
