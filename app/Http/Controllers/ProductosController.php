@@ -6,6 +6,7 @@ use App\Core\Data\IndexData;
 use App\Http\Requests\Productos\ProductosStoreRequest;
 use App\Http\Requests\Productos\ProductosUpdateRequest;
 use App\Logic\Producto\ProductoIndexLogic;
+use App\Logic\Producto\ProductoStoreLogic;
 use App\Models\Producto;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Response;
@@ -18,9 +19,9 @@ class ProductosController extends Controller
         return $logic->run($data);
     }
 
-    public function store(ProductosStoreRequest $params): JsonResponse
+    public function store(ProductosStoreRequest $params, ProductoStoreLogic $logic): JsonResponse
     {
-        $producto = Producto::create($params->all());
+        $producto = $logic->handle($params->validated());
 
         return Response::success($producto);
     }
