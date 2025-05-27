@@ -25,6 +25,7 @@ class ProductosStoreRequest extends FormRequest
             'nombre' => ['required', 'string', 'max:255'],
             'proveedor_id' => ['required', 'exists:proveedores,id'],
             'categoria_id' => ['required', 'exists:categorias,id'],
+            'codigo' => ['nullable', 'string', 'unique:productos,codigo', 'max:18'],
             'precio_compra' => ['required', 'numeric', 'min:0'],
             'precio_venta' => ['required', 'numeric', 'min:0'],
             'stock' => ['required', 'integer', 'min:0'],

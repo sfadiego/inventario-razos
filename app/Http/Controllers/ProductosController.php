@@ -19,9 +19,13 @@ class ProductosController extends Controller
         return $logic->run($data);
     }
 
-    public function store(ProductosStoreRequest $params, ProductoStoreLogic $logic): JsonResponse
+    public function store(ProductosStoreRequest $params): JsonResponse
     {
-        $producto = $logic->handle($params->validated());
+        $params->merge([
+            'codigo' => Producto::createFolio($params->get('nombre'))
+        ]);
+
+        $producto = Producto::create($params->all());
 
         return Response::success($producto);
     }
