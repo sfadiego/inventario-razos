@@ -1,8 +1,9 @@
 import { InputTypeEnum } from '@/components/form/input/enum/InputType.enum';
 import Input from '@/components/form/input/InputField';
-import InputSelect from '@/components/form/select/InputSelect';
 import { IOptions } from '@/components/form/select/interfaces/IOptions';
+import { SelectCategorias } from '@/components/select/categorias/SelectCategorias';
 import { SelectProovedores } from '@/components/select/proovedores/SelectProovedores';
+import { SelectUbicaciones } from '@/components/select/ubicaciones/SelectUbicaciones';
 import Button from '@/components/ui/button/Button';
 import { Modal } from '@/components/ui/modal';
 import { IProducto } from '@/models/producto.interface';
@@ -59,14 +60,13 @@ export const ModalProducto = ({ isOpen, closeModal }: IModalProductoProps) => {
                                         <Input<IProducto> label={`Precio venta`} name="precio_venta" formik={formik} type={InputTypeEnum.Text} />
                                     </div>
                                     <div className="col-span-12 md:col-span-12">
-                                        {/* <InputSelect<IProducto> label={`Proveedor`} name={`proveedor_id`} formik={formik} options={options} /> */}
                                         <SelectProovedores formik={formik}></SelectProovedores>
                                     </div>
                                     <div className="col-span-12 md:col-span-12">
-                                        <InputSelect<IProducto> label={`Categoria`} name={`categoria_id`} formik={formik} options={options} />
+                                        <SelectCategorias formik={formik}></SelectCategorias>
                                     </div>
                                     <div className="col-span-12 md:col-span-12">
-                                        <InputSelect<IProducto> label={`Ubicacion`} name={`ubicacion_id`} formik={formik} options={options} />
+                                        <SelectUbicaciones formik={formik}></SelectUbicaciones>
                                     </div>
                                 </div>
                             </div>

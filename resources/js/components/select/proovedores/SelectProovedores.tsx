@@ -5,12 +5,14 @@ import { useServiceIndexProveedor } from '@/Services/proveedor/useServiceProveed
 import { FormikProps } from 'formik';
 
 export const SelectProovedores = ({ formik }: { formik: FormikProps<any> }) => {
-    const { isloading, data } = useServiceIndexProveedor({});
-    console.log(isloading, data);
-    const options: IOptions[] = [
-        { value: 'marketing', label: 'Marketing' },
-        { value: 'template', label: 'Template' },
-        { value: 'development', label: 'Development' },
-    ];
+    const { isLoading, data } = useServiceIndexProveedor({});
+    const options: IOptions[] =
+        (!isLoading &&
+            data?.data.map((item) => ({
+                value: item.id,
+                label: item.nombre,
+            }))) ||
+        [];
+
     return <InputSelect<IProducto> label={`Proveedor`} name={`proveedor_id`} formik={formik} options={options} />;
 };
