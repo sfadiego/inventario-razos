@@ -5,6 +5,7 @@ import Label from "./Label";
 // import { CalenderIcon } from "../../icons";
 import Hook = flatpickr.Options.Hook;
 import DateOption = flatpickr.Options.DateOption;
+import { Calendar } from "lucide-react";
 
 type PropsType = {
   id: string;
@@ -52,8 +53,7 @@ export default function DatePicker({
         />
 
         <span className="absolute text-gray-500 -translate-y-1/2 pointer-events-none right-3 top-1/2 dark:text-gray-400">
-          {/* <CalenderIcon className="size-6" /> */}
-          <>missing icon</>
+          <Calendar className="size-6"></Calendar>
         </span>
       </div>
     </div>

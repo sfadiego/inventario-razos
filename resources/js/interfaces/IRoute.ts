@@ -1,4 +1,4 @@
-import { IUser } from '@/models/User/user.interface';
+import { IUser } from '@/models/user.interface';
 import { ReactElement } from 'react';
 
 interface IRoute {

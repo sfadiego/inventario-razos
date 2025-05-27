@@ -3,6 +3,7 @@ import { ApexOptions } from "apexcharts";
 import { useState } from "react";
 import { Dropdown } from "../ui/dropdown/Dropdown";
 import { DropdownItem } from "../ui/dropdown/DropdownItem";
+import { EllipsisVertical } from "lucide-react";
 // import { MoreDotIcon } from "../../icons";
 
 export default function MonthlyTarget() {
@@ -77,8 +78,7 @@ export default function MonthlyTarget() {
           </div>
           <div className="relative inline-block">
             <button className="dropdown-toggle" onClick={toggleDropdown}>
-              {/* <MoreDotIcon className="text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 size-6" /> */}
-              <>missing icon</>
+              <EllipsisVertical className="text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 size-6"/>
             </button>
             <Dropdown
               isOpen={isOpen}

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import ComponentCard from "../../common/ComponentCard";
 import Label from "../Label";
-import Select from "../Select";
+import Select from "../select/InputSelect";
 import MultiSelect from "../MultiSelect";
 
 export default function SelectInputs() {

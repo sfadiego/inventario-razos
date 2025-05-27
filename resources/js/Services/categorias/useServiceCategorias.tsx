@@ -1,16 +1,12 @@
 import { useGET } from '@/hooks/useApi';
 import { IPaginate } from '@/interfaces/IPaginate';
 import { IPaginateServiceProps } from '@/interfaces/IPaginateServiceProps';
+import { ICategoria } from '@/models/categoria.interface';
 
-interface ICategorias {
-    id: number;
-    nombre: string;
-    activa: boolean;
-}
 
 const url = '/api/categorias';
 export const useServiceIndexCategorias = ({ filters = [], search = null, page = 1, limit = 10 }: IPaginateServiceProps) => {
-    return useGET<IPaginate<ICategorias>>({
+    return useGET<IPaginate<ICategoria>>({
         url,
         filters: {
             filters,

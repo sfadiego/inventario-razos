@@ -1,4 +1,4 @@
-import { IUser } from '@/models/User/user.interface'
+import { IUser } from '@/models/user.interface'
 import { AxiosInstance } from 'axios'
 
 export interface IAuthContextType {
