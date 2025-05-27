@@ -1,13 +1,33 @@
 import { PageWrapper } from '@/components/layout/PageWrapper';
+import { useDataTable } from '@/components/tables/useDatatable';
+import Button from '@/components/ui/button/Button';
+import { useModal } from '@/hooks/useModal';
+import { useServiceIndexProveedor } from '@/Services/proveedor/useServiceProveedor';
+import { DataTable } from 'mantine-datatable';
+import { ModalProveedor } from './partials/ModalProveedor';
+import { Plus } from 'lucide-react';
 
 export default function ProveedoresPage() {
+    const { isOpen, openModal, closeModal } = useModal();
+    const { dataTableProps } = useDataTable({
+        service: useServiceIndexProveedor,
+        payload: {},
+    });
+
     return (
         <PageWrapper pageTitle="Proveedores">
-            <h3 className="text-theme-xl mb-4 font-semibold text-gray-800 sm:text-2xl dark:text-white/90">Card Title Here</h3>
-            <p className="text-sm text-gray-500 sm:text-base dark:text-gray-400">
-                Start putting content on grids or panels, you can also use different combinations of grids.Please check out the dashboard and other
-                pages
-            </p>
+            <div className="grid grid-cols-12 gap-2 pb-5">
+                <div className="col-span-10"></div>
+                <div className="col-span-2 flex justify-end">
+                    <Button onClick={openModal} startIcon={<Plus />} className="">
+                        Nuevo Proveedor
+                    </Button>
+                </div>
+                <div className="col-span-12">
+                    <DataTable {...dataTableProps} />
+                </div>
+            </div>
+            <ModalProveedor closeModal={closeModal} isOpen={isOpen}></ModalProveedor>
         </PageWrapper>
     );
 }

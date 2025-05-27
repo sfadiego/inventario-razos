@@ -17,6 +17,7 @@ class UbicacionIndexLogic extends IndexLogic
     protected function tableHeaders(): array
     {
         return [
+            'id' => __('#'),
             'nombre' => 'Nombre',
         ];
     }

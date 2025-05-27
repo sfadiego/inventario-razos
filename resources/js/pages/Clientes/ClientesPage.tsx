@@ -1,13 +1,21 @@
 import { PageWrapper } from '@/components/layout/PageWrapper';
+import { useDataTable } from '@/components/tables/useDatatable';
+import { useServiceIndexClientes } from '@/Services/clientes/useServiceClientes';
+import { DataTable } from 'mantine-datatable';
 
 export default function ClientesPage() {
+    const { dataTableProps } = useDataTable({
+        service: useServiceIndexClientes,
+        payload: {},
+    });
+
     return (
         <PageWrapper pageTitle="Clientes">
-            <h3 className="text-theme-xl mb-4 font-semibold text-gray-800 sm:text-2xl dark:text-white/90">Card Title Here</h3>
-            <p className="text-sm text-gray-500 sm:text-base dark:text-gray-400">
-                Start putting content on grids or panels, you can also use different combinations of grids.Please check out the dashboard and other
-                pages
-            </p>
+            <div className="grid grid-cols-12 gap-2 pb-5">
+                <div className="col-span-12">
+                    <DataTable {...dataTableProps} />
+                </div>
+            </div>
         </PageWrapper>
     );
 }

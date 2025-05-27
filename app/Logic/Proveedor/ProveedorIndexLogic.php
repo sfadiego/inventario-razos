@@ -17,6 +17,7 @@ class ProveedorIndexLogic extends IndexLogic
     protected function tableHeaders(): array
     {
         return [
+            'id' => __('#'),
             'nombre' => 'Nombre',
             'empresa' => 'Empresa',
             'observaciones' => 'Observaciones',

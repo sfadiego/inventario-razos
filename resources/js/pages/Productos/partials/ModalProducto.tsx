@@ -1,6 +1,5 @@
 import { InputTypeEnum } from '@/components/form/input/enum/InputType.enum';
 import Input from '@/components/form/input/InputField';
-import { IOptions } from '@/components/form/select/interfaces/IOptions';
 import { SelectCategorias } from '@/components/select/categorias/SelectCategorias';
 import { SelectProovedores } from '@/components/select/proovedores/SelectProovedores';
 import { SelectUbicaciones } from '@/components/select/ubicaciones/SelectUbicaciones';
@@ -17,12 +16,6 @@ interface IModalProductoProps {
 }
 export const ModalProducto = ({ isOpen, closeModal }: IModalProductoProps) => {
     const { initialValues, validationSchema, onSubmit } = useProduct();
-    const options: IOptions[] = [
-        { value: 'marketing', label: 'Marketing' },
-        { value: 'template', label: 'Template' },
-        { value: 'development', label: 'Development' },
-    ];
-
     return (
         <Modal isOpen={isOpen} onClose={closeModal} className="m-4 max-w-[700px]">
             <div className="no-scrollbar relative w-full overflow-y-auto rounded-3xl bg-white p-4 lg:p-11 dark:bg-gray-900">
