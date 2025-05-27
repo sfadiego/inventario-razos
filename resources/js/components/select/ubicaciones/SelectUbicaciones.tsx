@@ -9,7 +9,7 @@ export const SelectUbicaciones = ({ formik }: { formik: FormikProps<any> }) => {
     const options: IOptions[] =
         (!isLoading &&
             data?.data.map((item) => ({
-                value: item.id,
+                value: item.id ?? 0,
                 label: item.nombre,
             }))) ||
         [];
