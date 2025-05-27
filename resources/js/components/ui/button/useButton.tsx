@@ -3,7 +3,7 @@ import { buttonClassEnum } from './enums/buttonClass.enum';
 import { ButtonTypeEnum } from './enums/buttonType.enum';
 import { buttonVariant } from './enums/buttonVariant';
 import { IUseButtonProps } from './interfaces/useButtonProps.interface';
-import { buttonSize } from './types/buttonTypes';
+import { buttonSize } from './types/buttonSize';
 
 const SIZE_CLASSES: Record<buttonSize, string> = {
     sm: 'px-4 py-3 text-sm',

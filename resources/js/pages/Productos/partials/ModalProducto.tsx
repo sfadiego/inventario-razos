@@ -4,6 +4,8 @@ import { SelectCategorias } from '@/components/select/categorias/SelectCategoria
 import { SelectProovedores } from '@/components/select/proovedores/SelectProovedores';
 import { SelectUbicaciones } from '@/components/select/ubicaciones/SelectUbicaciones';
 import Button from '@/components/ui/button/Button';
+
+import { ButtonTypeEnum } from '@/components/ui/button/enums/buttonType.enum';
 import { Modal } from '@/components/ui/modal';
 import { IProducto } from '@/models/producto.interface';
 import { Form, Formik } from 'formik';
@@ -61,8 +63,7 @@ export const ModalProducto = ({ isOpen, closeModal }: IModalProductoProps) => {
                             </Button>
                             <Button
                                 size="md"
-                                variant="primary"
-                                type="submit"
+                                type={ButtonTypeEnum.Submit}
                                 disabled={isPending || formik.isSubmitting}
                                 className="col-span-12 md:col-span-6"
                             >

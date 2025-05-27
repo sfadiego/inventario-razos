@@ -9,6 +9,7 @@ const Button = ({
     variant = 'primary',
     children,
     className,
+    size = 'sm',
     loading = false,
     onClick,
 }: IButtonProps) => {
@@ -19,6 +20,7 @@ const Button = ({
     } = useButton({
         variant,
         type,
+        size,
         className,
         loading,
         children,
