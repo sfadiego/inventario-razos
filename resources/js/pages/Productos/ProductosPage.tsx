@@ -28,7 +28,7 @@ export default function ProductosPage() {
                     </div>
                     <div className="col-span-12 md:col-span-2">
                         <Button onClick={openModal} className="w-full">
-                            <Plus /> Nuevo producto
+                            <Plus /> Nuevo
                         </Button>
                     </div>
                     <div className="col-span-12 h-[500px] overflow-auto">
