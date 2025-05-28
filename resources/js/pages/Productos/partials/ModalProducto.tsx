@@ -5,21 +5,19 @@ import { SelectProovedores } from '@/components/select/proovedores/SelectProoved
 import { SelectUbicaciones } from '@/components/select/ubicaciones/SelectUbicaciones';
 import Button from '@/components/ui/button/Button';
 
-import { AlertSwal } from '@/components/alertSwal/AlertSwal';
 import { ButtonTypeEnum } from '@/components/ui/button/enums/buttonType.enum';
 import { Modal } from '@/components/ui/modal';
-import { AlertTypeEnum } from '@/enums/AlertTypeEnum';
 import { IProducto } from '@/models/producto.interface';
 import { Form, Formik } from 'formik';
 import { Save } from 'lucide-react';
-import { useProduct } from './useProduct';
+import { useModalProduct } from './useModalProducto';
 
 interface IModalProductoProps {
     isOpen: boolean;
     closeModal: () => void;
 }
 export const ModalProducto = ({ isOpen, closeModal }: IModalProductoProps) => {
-    const { initialValues, isPending, validationSchema, onSubmit } = useProduct({closeModal});
+    const { formikProps, isPending } = useModalProduct({ closeModal });
 
     return (
         <Modal isOpen={isOpen} onClose={closeModal} className="m-4 max-w-[700px]">
@@ -28,7 +26,7 @@ export const ModalProducto = ({ isOpen, closeModal }: IModalProductoProps) => {
                     <h4 className="mb-2 text-2xl font-semibold text-gray-800 dark:text-white/90">Producto</h4>
                     <p className="mb-6 text-sm text-gray-500 lg:mb-7 dark:text-gray-400">Crea o actualiza un producto existente</p>
                 </div>
-                <Formik enableReinitialize initialValues={initialValues} validationSchema={validationSchema} onSubmit={onSubmit}>
+                <Formik enableReinitialize {...formikProps}>
                     {(formik) => (
                         <Form className={`grid grid-cols-12 gap-3`}>
                             <div className="col-span-12 lg:col-span-12">
@@ -61,23 +59,7 @@ export const ModalProducto = ({ isOpen, closeModal }: IModalProductoProps) => {
                             <div className="col-span-12 md:col-span-12">
                                 <SelectUbicaciones formik={formik}></SelectUbicaciones>
                             </div>
-                            <Button
-                                size="md"
-                                variant="outline"
-                                className="col-span-12 md:col-span-6"
-                                onClick={() => {
-                                    closeModal()
-                                    // AlertToast({
-                                    //     type: 'info',
-                                    //     message: 'Funcionalidad no implementada',
-                                    // });
-                                    AlertSwal({
-                                        title: 'Funcionalidad no implementada',
-                                        text: 'Esta funcionalidad aún no está disponible.',
-                                        type: AlertTypeEnum.Success,
-                                    });
-                                }}
-                            >
+                            <Button size="md" variant="outline" className="col-span-12 md:col-span-6" onClick={closeModal}>
                                 Close
                             </Button>
                             <Button

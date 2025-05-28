@@ -1,50 +1,18 @@
-import { PageWrapper } from '@/components/layout/PageWrapper';
-import { useDataTable } from '@/components/tables/useDatatable';
-import Button from '@/components/ui/button/Button';
-import { useModal } from '@/hooks/useModal';
-
-import { useServiceIndexProductos } from '@/Services/productos/useServiceProductos';
 import { InputWithIcon } from '@/components/form/input/InputWithIcon';
-import { IFilterItem } from '@/components/form/select/interfaces/IFilter';
+import { PageWrapper } from '@/components/layout/PageWrapper';
+import Button from '@/components/ui/button/Button';
+import { useFilterForm } from '@/hooks/useFilterForm';
 import '@mantine/core/styles.layer.css';
+import 'mantine-datatable/styles.layer.css';
 import { Filter, Plus } from 'lucide-react';
 import { DataTable } from 'mantine-datatable';
-import 'mantine-datatable/styles.layer.css';
-import { useMemo, useState } from 'react';
-import { FiltrosProductos } from './partials/FiltrosProductos';
+import { FiltrosProductos } from './partials/filters/FiltrosProductos';
 import { ModalProducto } from './partials/ModalProducto';
+import { useProductPage } from './useProductPage';
 
 export default function ProductosPage() {
-    const { isOpen, openModal, closeModal } = useModal();
-    const { isOpen: isOpenFilter, openModal: openModalFilter, closeModal: closeModalFilter } = useModal();
-    const [search, setSearch] = useState<string>('');
-    const [appliedFilters, setAppliedFilters] = useState<IFilterItem[]>([]);
-    const searchFilter = useMemo(() => {
-        return search
-            ? [
-                  {
-                      property: 'nombre',
-                      operator: 'like',
-                      value: search,
-                  },
-              ]
-            : [];
-    }, [search]);
-
-    const combinedFilters = useMemo(() => {
-        return [...searchFilter, ...appliedFilters];
-    }, [searchFilter, appliedFilters]);
-
-    const onFilter = (filters: IFilterItem[]) => {
-        setAppliedFilters(filters);
-    };
-
-    const { dataTableProps } = useDataTable({
-        service: useServiceIndexProductos,
-        payload: {
-            filters: combinedFilters,
-        },
-    });
+    const { onFilter, combinedFilters, isOpenFilter, openModalFilter, closeModalFilter } = useFilterForm();
+    const { search, dataTableProps, setSearch, openModal, isOpen, closeModal } = useProductPage({ combinedFilters });
     return (
         <>
             <PageWrapper pageTitle="Productos">
@@ -67,7 +35,7 @@ export default function ProductosPage() {
                         <DataTable {...dataTableProps} />
                     </div>
                 </div>
-                <ModalProducto closeModal={closeModal} isOpen={isOpen}></ModalProducto>
+                <ModalProducto isOpen={isOpen} closeModal={closeModal}></ModalProducto>
                 {isOpenFilter && <FiltrosProductos isOpen={isOpenFilter} onFilter={onFilter} closeModal={closeModalFilter} />}
             </PageWrapper>
         </>

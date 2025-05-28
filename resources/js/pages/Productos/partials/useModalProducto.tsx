@@ -2,13 +2,16 @@ import { AlertToast } from '@/components/alertToast/AlertToast';
 import { useOnSubmit } from '@/hooks/useOnSubmit';
 import { IProducto } from '@/models/producto.interface';
 import { useServiceStoreProducto } from '@/Services/productos/useServiceProductos';
+import { useState } from 'react';
 import * as Yup from 'yup';
 
 interface IUseProductProps {
     closeModal?: () => void;
 }
 
-export const useProduct = ({ closeModal }: IUseProductProps) => {
+export const useModalProduct = (props: IUseProductProps) => {
+    const { closeModal } = props;
+    const [search, setSearch] = useState<string>('');
     const handleSuccess = (data: IProducto) => {
         const { nombre, codigo } = data;
         if (closeModal) {
@@ -52,7 +55,19 @@ export const useProduct = ({ closeModal }: IUseProductProps) => {
     const { onSubmit } = useOnSubmit<IProducto>({
         mutateAsync: mutator.mutateAsync,
         onSuccess: async (data) => handleSuccess(data),
+        onError: ({ response }) => {
+            console.log(response.data);
+            AlertToast({
+                type: 'error',
+                message: 'Llene todos los campos obligatorios y vuelva a intentarlo',
+            });
+        },
     });
 
-    return { initialValues, validationSchema, onSubmit, isPending: mutator.isPending };
+    const formikProps = {
+        initialValues,
+        validationSchema,
+        onSubmit,
+    };
+    return { formikProps, isPending: mutator.isPending, search, setSearch };
 };
