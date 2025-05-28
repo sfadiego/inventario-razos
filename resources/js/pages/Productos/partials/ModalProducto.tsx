@@ -5,8 +5,10 @@ import { SelectProovedores } from '@/components/select/proovedores/SelectProoved
 import { SelectUbicaciones } from '@/components/select/ubicaciones/SelectUbicaciones';
 import Button from '@/components/ui/button/Button';
 
+import { AlertSwal } from '@/components/alertSwal/AlertSwal';
 import { ButtonTypeEnum } from '@/components/ui/button/enums/buttonType.enum';
 import { Modal } from '@/components/ui/modal';
+import { AlertTypeEnum } from '@/enums/AlertTypeEnum';
 import { IProducto } from '@/models/producto.interface';
 import { Form, Formik } from 'formik';
 import { Save } from 'lucide-react';
@@ -17,7 +19,7 @@ interface IModalProductoProps {
     closeModal: () => void;
 }
 export const ModalProducto = ({ isOpen, closeModal }: IModalProductoProps) => {
-    const { initialValues, isPending, validationSchema, onSubmit } = useProduct({ closeModal });
+    const { initialValues, isPending, validationSchema, onSubmit } = useProduct({closeModal});
 
     return (
         <Modal isOpen={isOpen} onClose={closeModal} className="m-4 max-w-[700px]">
@@ -59,7 +61,23 @@ export const ModalProducto = ({ isOpen, closeModal }: IModalProductoProps) => {
                             <div className="col-span-12 md:col-span-12">
                                 <SelectUbicaciones formik={formik}></SelectUbicaciones>
                             </div>
-                            <Button size="md" variant="outline" className="col-span-12 md:col-span-6" onClick={closeModal}>
+                            <Button
+                                size="md"
+                                variant="outline"
+                                className="col-span-12 md:col-span-6"
+                                onClick={() => {
+                                    closeModal()
+                                    // AlertToast({
+                                    //     type: 'info',
+                                    //     message: 'Funcionalidad no implementada',
+                                    // });
+                                    AlertSwal({
+                                        title: 'Funcionalidad no implementada',
+                                        text: 'Esta funcionalidad aún no está disponible.',
+                                        type: AlertTypeEnum.Success,
+                                    });
+                                }}
+                            >
                                 Close
                             </Button>
                             <Button
