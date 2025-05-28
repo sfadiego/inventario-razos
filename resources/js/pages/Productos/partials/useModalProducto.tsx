@@ -1,23 +1,31 @@
-import { AlertToast } from '@/components/alertToast/AlertToast';
+import { AlertSwal } from '@/components/alertSwal/AlertSwal';
+import { AlertTypeEnum } from '@/enums/AlertTypeEnum';
 import { useOnSubmit } from '@/hooks/useOnSubmit';
 import { IProducto } from '@/models/producto.interface';
 import { useServiceStoreProducto } from '@/Services/productos/useServiceProductos';
+import { QueryObserverResult } from '@tanstack/react-query';
+import { useState } from 'react';
 import * as Yup from 'yup';
 
 interface IUseProductProps {
     closeModal?: () => void;
+    refetch: () => Promise<QueryObserverResult<any, Error>>;
 }
 
-export const useProduct = ({ closeModal }: IUseProductProps) => {
+export const useModalProduct = (props: IUseProductProps) => {
+    const { closeModal, refetch } = props;
+    const [search, setSearch] = useState<string>('');
     const handleSuccess = (data: IProducto) => {
-        const { nombre, codigo } = data;
+        const { codigo } = data;
         if (closeModal) {
             closeModal();
         }
 
-        AlertToast({
-            type: 'success',
-            message: `${nombre} guardado correctamente : ${codigo} `,
+        refetch();
+        AlertSwal({
+            type: AlertTypeEnum.Success,
+            title: `Exito`,
+            text: `Elemento guardado correctamente : ${codigo} `,
         });
     };
     const initialValues: IProducto = {
@@ -54,5 +62,10 @@ export const useProduct = ({ closeModal }: IUseProductProps) => {
         onSuccess: async (data) => handleSuccess(data),
     });
 
-    return { initialValues, validationSchema, onSubmit, isPending: mutator.isPending };
+    const formikProps = {
+        initialValues,
+        validationSchema,
+        onSubmit,
+    };
+    return { formikProps, isPending: mutator.isPending, search, setSearch };
 };

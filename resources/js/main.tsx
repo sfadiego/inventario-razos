@@ -29,10 +29,10 @@ createRoot(document.getElementById('root')!).render(
         <AxiosProvider>
             <MantineProvider>
                 <ThemeProvider>
-                    <ToastContainer />
                     <QueryClientProvider client={queryClient}>
                         <Suspense>
                             <AppWrapper>
+                                <ToastContainer />
                                 <RouterProvider router={router}></RouterProvider>
                             </AppWrapper>
                         </Suspense>

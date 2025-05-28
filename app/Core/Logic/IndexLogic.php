@@ -43,6 +43,17 @@ class IndexLogic
         return $this->modelo->newQuery();
     }
 
+    protected function runQueryFilters(array $filters): Builder
+    {
+        $query = $this->queryBuilder->newQuery();
+        foreach ($filters as $filter) {
+            if ($filter['value']) {
+                $query->where($filter['property'], $filter['operator'], $filter['value']);
+            }
+        }
+        return $query;
+    }
+
     public function run(IndexData $data): JsonResponse
     {
         if (! $this->modelo) {
@@ -50,6 +61,10 @@ class IndexLogic
         }
 
         $this->queryBuilder = $this->makeQuery();
+        if ($data->filters) {
+            $this->queryBuilder = $this->runQueryFilters($data->filters);
+        }
+
         if ($this->withPagination) {
             $this->pagination = $this->queryBuilder->paginate($data->perPage, ['*'], 'page', $data->page);
             $this->response = $this->pagination->getCollection();
