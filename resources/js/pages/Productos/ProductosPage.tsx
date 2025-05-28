@@ -3,16 +3,16 @@ import { PageWrapper } from '@/components/layout/PageWrapper';
 import Button from '@/components/ui/button/Button';
 import { useFilterForm } from '@/hooks/useFilterForm';
 import '@mantine/core/styles.layer.css';
-import 'mantine-datatable/styles.layer.css';
 import { Filter, Plus } from 'lucide-react';
 import { DataTable } from 'mantine-datatable';
+import 'mantine-datatable/styles.layer.css';
 import { FiltrosProductos } from './partials/filters/FiltrosProductos';
 import { ModalProducto } from './partials/ModalProducto';
 import { useProductPage } from './useProductPage';
 
 export default function ProductosPage() {
     const { onFilter, combinedFilters, isOpenFilter, openModalFilter, closeModalFilter } = useFilterForm();
-    const { search, dataTableProps, setSearch, openModal, isOpen, closeModal } = useProductPage({ combinedFilters });
+    const { search, dataTableProps, setSearch, openModal, isOpen, closeModal, refetch } = useProductPage({ combinedFilters });
     return (
         <>
             <PageWrapper pageTitle="Productos">
@@ -35,7 +35,7 @@ export default function ProductosPage() {
                         <DataTable {...dataTableProps} />
                     </div>
                 </div>
-                <ModalProducto isOpen={isOpen} closeModal={closeModal}></ModalProducto>
+                <ModalProducto refetch={refetch} isOpen={isOpen} closeModal={closeModal}></ModalProducto>
                 {isOpenFilter && <FiltrosProductos isOpen={isOpenFilter} onFilter={onFilter} closeModal={closeModalFilter} />}
             </PageWrapper>
         </>

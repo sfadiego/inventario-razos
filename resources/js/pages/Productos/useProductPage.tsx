@@ -8,11 +8,11 @@ export const useProductPage = ({ combinedFilters }: { combinedFilters: IFilterIt
     const [search, setSearch] = useState<string>('');
     const { openModal, isOpen, closeModal } = useModal();
 
-    const { dataTableProps } = useDataTable({
+    const { dataTableProps, refetch } = useDataTable({
         service: useServiceIndexProductos,
         payload: {
             filters: combinedFilters,
         },
     });
-    return { openModal, dataTableProps, isOpen, closeModal, search, setSearch };
+    return { openModal, dataTableProps, isOpen, closeModal, search, setSearch, refetch };
 };

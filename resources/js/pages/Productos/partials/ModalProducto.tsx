@@ -11,13 +11,15 @@ import { IProducto } from '@/models/producto.interface';
 import { Form, Formik } from 'formik';
 import { Save } from 'lucide-react';
 import { useModalProduct } from './useModalProducto';
+import { QueryObserverResult } from '@tanstack/react-query';
 
 interface IModalProductoProps {
     isOpen: boolean;
     closeModal: () => void;
+    refetch: () => Promise<QueryObserverResult<any, Error>>;
 }
-export const ModalProducto = ({ isOpen, closeModal }: IModalProductoProps) => {
-    const { formikProps, isPending } = useModalProduct({ closeModal });
+export const ModalProducto = ({ isOpen, closeModal, refetch }: IModalProductoProps) => {
+    const { formikProps, isPending } = useModalProduct({ closeModal, refetch });
 
     return (
         <Modal isOpen={isOpen} onClose={closeModal} className="m-4 max-w-[700px]">

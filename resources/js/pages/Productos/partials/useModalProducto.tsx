@@ -1,26 +1,31 @@
-import { AlertToast } from '@/components/alertToast/AlertToast';
+import { AlertSwal } from '@/components/alertSwal/AlertSwal';
+import { AlertTypeEnum } from '@/enums/AlertTypeEnum';
 import { useOnSubmit } from '@/hooks/useOnSubmit';
 import { IProducto } from '@/models/producto.interface';
 import { useServiceStoreProducto } from '@/Services/productos/useServiceProductos';
+import { QueryObserverResult } from '@tanstack/react-query';
 import { useState } from 'react';
 import * as Yup from 'yup';
 
 interface IUseProductProps {
     closeModal?: () => void;
+    refetch: () => Promise<QueryObserverResult<any, Error>>;
 }
 
 export const useModalProduct = (props: IUseProductProps) => {
-    const { closeModal } = props;
+    const { closeModal, refetch } = props;
     const [search, setSearch] = useState<string>('');
     const handleSuccess = (data: IProducto) => {
-        const { nombre, codigo } = data;
+        const { codigo } = data;
         if (closeModal) {
             closeModal();
         }
 
-        AlertToast({
-            type: 'success',
-            message: `${nombre} guardado correctamente : ${codigo} `,
+        refetch();
+        AlertSwal({
+            type: AlertTypeEnum.Success,
+            title: `Exito`,
+            text: `Elemento guardado correctamente : ${codigo} `,
         });
     };
     const initialValues: IProducto = {
@@ -55,13 +60,6 @@ export const useModalProduct = (props: IUseProductProps) => {
     const { onSubmit } = useOnSubmit<IProducto>({
         mutateAsync: mutator.mutateAsync,
         onSuccess: async (data) => handleSuccess(data),
-        onError: ({ response }) => {
-            console.log(response.data);
-            AlertToast({
-                type: 'error',
-                message: 'Llene todos los campos obligatorios y vuelva a intentarlo',
-            });
-        },
     });
 
     const formikProps = {
