@@ -47,13 +47,10 @@ class IndexLogic
     {
         $query = $this->queryBuilder->newQuery();
         foreach ($filters as $filter) {
-            if (method_exists($this->modelo, 'scope' . ucfirst($filter['property']))) {
-                $query = $query->{'scope' . ucfirst($filter['property'])}($query, $filter['value']);
-            } else {
+            if ($filter['value']) {
                 $query->where($filter['property'], $filter['operator'], $filter['value']);
             }
         }
-
         return $query;
     }
 
