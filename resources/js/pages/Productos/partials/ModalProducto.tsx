@@ -8,10 +8,10 @@ import Button from '@/components/ui/button/Button';
 import { ButtonTypeEnum } from '@/components/ui/button/enums/buttonType.enum';
 import { Modal } from '@/components/ui/modal';
 import { IProducto } from '@/models/producto.interface';
+import { QueryObserverResult } from '@tanstack/react-query';
 import { Form, Formik } from 'formik';
 import { Save } from 'lucide-react';
 import { useModalProduct } from './useModalProducto';
-import { QueryObserverResult } from '@tanstack/react-query';
 
 interface IModalProductoProps {
     isOpen: boolean;
