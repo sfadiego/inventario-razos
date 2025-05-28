@@ -6,7 +6,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Str;
 
 class Producto extends Model
@@ -37,10 +36,15 @@ class Producto extends Model
         return $this->hasMany(ProductoProveedor::class);
     }
 
+    public function ventaProductos(): HasMany
+    {
+        return $this->hasMany(VentaProducto::class);
+    }
+
     public static function createFolio(string $nombre): string
     {
         return strtoupper(Str::substr(preg_replace('/[^A-Za-z]/', '', $nombre), 0, 4))
-            . '-' . str_pad(random_int(0, 99999), 5, '0', STR_PAD_LEFT)
-            . '-' . now()->format('Ymd');
+            .'-'.str_pad(random_int(0, 99999), 5, '0', STR_PAD_LEFT)
+            .'-'.now()->format('Ymd');
     }
 }

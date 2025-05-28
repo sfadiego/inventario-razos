@@ -13,10 +13,10 @@ return new class extends Migration
             $table->decimal('venta_total', 10, 2);
             $table->string('nombre_venta');
             $table->foreignId('cliente_id')
+                ->nullable()
                 ->constrained('clientes')
                 ->onDelete('cascade');
-            $table->string('tipo_compra')
-                ->default('contado');
+            $table->enum('tipo_compra', ['credito', 'contado']);
             $table->timestamps();
         });
     }
