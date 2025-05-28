@@ -15,3 +15,5 @@ Route::prefix('productos')->group(base_path('/routes/modules/productos.php'));
 Route::prefix('proveedores')->group(base_path('/routes/modules/proveedores.php'));
 
 Route::prefix('ubicaciones')->group(base_path('/routes/modules/ubicaciones.php'));
+
+Route::prefix('venta-producto')->group(base_path('/routes/modules/ventaProducto.php'));
