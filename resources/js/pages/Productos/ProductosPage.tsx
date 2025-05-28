@@ -31,8 +31,8 @@ export default function ProductosPage() {
                             <Plus /> Nuevo producto
                         </Button>
                     </div>
-                    <div className="col-span-12">
-                        <DataTable {...dataTableProps} />
+                    <div className="col-span-12 h-[500px] overflow-auto">
+                        <DataTable  {...dataTableProps} />
                     </div>
                 </div>
                 <ModalProducto refetch={refetch} isOpen={isOpen} closeModal={closeModal}></ModalProducto>
