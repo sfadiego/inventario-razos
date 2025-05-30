@@ -47,10 +47,16 @@ class IndexLogic
     {
         $query = $this->queryBuilder->newQuery();
         foreach ($filters as $filter) {
-            if ($filter['value']) {
-                $query->where($filter['property'], $filter['operator'], $filter['value']);
+            if ($filter['operator']) {
+                $filterValue = match ($filter['operator']) {
+                    'like' => "%" . $filter['value'] . "%",
+                    default => $filter['value'],
+                };
+
+                $query->where($filter['property'], $filter['operator'], $filterValue);
             }
         }
+
         return $query;
     }
 

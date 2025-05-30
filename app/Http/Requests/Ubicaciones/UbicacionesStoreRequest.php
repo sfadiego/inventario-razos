@@ -11,7 +11,7 @@ class UbicacionesStoreRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,7 @@ class UbicacionesStoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'nombre' => ['requerid', 'string', 'max:255'],
+            'nombre' => ['required', 'unique:ubicaciones,nombre', 'string', 'max:255'],
         ];
     }
 }

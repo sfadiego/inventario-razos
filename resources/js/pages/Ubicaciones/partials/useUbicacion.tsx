@@ -1,19 +1,47 @@
+import { useOnSubmit } from '@/hooks/useOnSubmit';
 import { IUbicacion } from '@/models/ubicacion.interface';
+import { useServiceStoreUbicacion } from '@/Services/ubicaciones/useServiceUbicaciones';
 import * as Yup from 'yup';
 
-export const useUbicacion = () => {
+export interface IFiltrosUbicaciones {
+    nombre: string;
+}
+interface IuseUbicacionProps {
+    closeModal?: () => void;
+}
+
+export const useUbicacion = ({ closeModal }: IuseUbicacionProps) => {
     const initialValues: IUbicacion = {
         nombre: '',
     };
 
     const validationSchema = Yup.object().shape({
-        nombre: Yup.string().required('El nombre es obligatorio'),
+        nombre: Yup.string().required('La ubicacion es obligatorio'),
     });
 
-    const onSubmit = (values: IUbicacion) => {
-        console.log('Form submitted with values:', values);
-        // Handle form submission logic here
+    const handleSuccess = (data: IUbicacion) => {
+        console.log(data);
+        // const { codigo } = data;
+        if (closeModal) {
+            closeModal();
+        }
+        // setRefreshFlag();
+        // AlertSwal({
+        //     type: AlertTypeEnum.Success,
+        //     title: `Exito`,
+        //     text: `Elemento guardado correctamente : ${codigo} `,
+        // });
     };
+    const mutator = useServiceStoreUbicacion();
+    const { onSubmit } = useOnSubmit<IUbicacion>({
+        mutateAsync: mutator.mutateAsync,
+        onSuccess: async (data) => handleSuccess(data),
+    });
 
-    return { initialValues, validationSchema, onSubmit };
+    const formikProps = {
+        initialValues,
+        validationSchema,
+        onSubmit,
+    };
+    return { formikProps };
 };

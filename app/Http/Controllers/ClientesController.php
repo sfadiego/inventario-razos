@@ -8,7 +8,7 @@ use App\Http\Requests\Clientes\ClientesUpdateRequest;
 use App\Logic\Cliente\ClienteIndexLogic;
 use App\Models\Cliente;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Response;
 
 class ClientesController extends Controller
 {

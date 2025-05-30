@@ -3,12 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Core\Data\IndexData;
-use App\Http\Requests\ProveedoresStoreRequest;
-use App\Http\Requests\ProveedoresUpdateRequest;
+use App\Http\Requests\Proveedores\ProveedoresStoreRequest;
+use App\Http\Requests\Proveedores\ProveedoresUpdateRequest;
 use App\Logic\Proveedor\ProveedorIndexLogic;
 use App\Models\Proveedor;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Response;
 
 class ProveedoresController extends Controller
 {
