@@ -11,7 +11,13 @@ export default function ProductosPage() {
     return (
         <>
             <PageWrapper pageTitle="Productos">
-                <DatatableWithFilter initialValues={initialValues} filters={filters} onClickNew={openModal} service={useServiceIndexProductos}>
+                <DatatableWithFilter
+                    propertyInputSearch={`nombre`}
+                    initialValues={initialValues}
+                    filters={filters}
+                    onClickNew={openModal}
+                    service={useServiceIndexProductos}
+                >
                     {(formik) => <FiltrosProductos formik={formik} />}
                 </DatatableWithFilter>
                 <FormProducto isOpen={isOpen} closeModal={closeModal}></FormProducto>

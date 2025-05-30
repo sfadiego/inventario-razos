@@ -8,7 +8,7 @@ use App\Http\Requests\Ubicaciones\UbicacionesUpdateRequest;
 use App\Logic\Ubicacion\UbicacionIndexLogic;
 use App\Models\Ubicacion;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Response;
 
 class UbicacionesController extends Controller
 {

@@ -1,19 +1,47 @@
+import { AlertSwal } from '@/components/alertSwal/AlertSwal';
+import { AlertTypeEnum } from '@/enums/AlertTypeEnum';
+import { useOnSubmit } from '@/hooks/useOnSubmit';
 import { IUbicacion } from '@/models/ubicacion.interface';
+import { useServiceStoreUbicacion } from '@/Services/ubicaciones/useServiceUbicaciones';
 import * as Yup from 'yup';
 
-export const useUbicacion = () => {
+export interface IFiltrosUbicaciones {
+    nombre: string;
+}
+interface IuseUbicacionProps {
+    closeModal?: () => void;
+}
+
+export const useUbicacion = ({ closeModal }: IuseUbicacionProps) => {
     const initialValues: IUbicacion = {
         nombre: '',
     };
 
     const validationSchema = Yup.object().shape({
-        nombre: Yup.string().required('El nombre es obligatorio'),
+        nombre: Yup.string().required('La ubicacion es obligatorio'),
     });
 
-    const onSubmit = (values) => {
-        console.log('Form submitted with values:', values);
-        // Handle form submission logic here
-    };
+    const handleSuccess = (data: IUbicacion) => {
+        if (closeModal) {
+            closeModal();
+        }
 
-    return { initialValues, validationSchema, onSubmit };
+        AlertSwal({
+            type: AlertTypeEnum.Success,
+            title: `Exito`,
+            text: `Ubicacion guardado correctamente`,
+        });
+    };
+    const mutator = useServiceStoreUbicacion();
+    const { onSubmit } = useOnSubmit<IUbicacion>({
+        mutateAsync: mutator.mutateAsync,
+        onSuccess: async (data) => handleSuccess(data),
+    });
+
+    const formikProps = {
+        initialValues,
+        validationSchema,
+        onSubmit,
+    };
+    return { formikProps };
 };

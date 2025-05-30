@@ -1,8 +1,7 @@
-import { useGET } from '@/hooks/useApi';
+import { useGET, usePOST } from '@/hooks/useApi';
 import { IPaginate } from '@/interfaces/IPaginate';
 import { IPaginateServiceProps } from '@/interfaces/IPaginateServiceProps';
 import { ICategoria } from '@/models/categoria.interface';
-
 
 const url = '/api/categorias';
 export const useServiceIndexCategorias = ({ filters = [], search = null, page = 1, limit = 10 }: IPaginateServiceProps) => {
@@ -16,3 +15,5 @@ export const useServiceIndexCategorias = ({ filters = [], search = null, page = 
         },
     });
 };
+
+export const useServiceStoreCategorias = () => usePOST({ url });

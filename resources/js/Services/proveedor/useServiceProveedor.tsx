@@ -1,4 +1,4 @@
-import { useGET } from '@/hooks/useApi';
+import { useGET, usePOST } from '@/hooks/useApi';
 import { IPaginate } from '@/interfaces/IPaginate';
 import { IPaginateServiceProps } from '@/interfaces/IPaginateServiceProps';
 import { IProveedor } from '@/models/proveedor.interface';
@@ -16,3 +16,5 @@ export const useServiceIndexProveedor = ({ filters = [], search = null, page = 1
         },
     });
 };
+
+export const useServiceStoreProveedor = () => usePOST({ url });

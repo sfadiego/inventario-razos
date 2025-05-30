@@ -16,7 +16,7 @@ export const fomikValuesToSearchFilter = (filterValues: Record<string, string>) 
     });
 };
 export const useDatatableFilters = (props: IDatatableFilterProps) => {
-    const { service, renderersMap, onClickNew, children, initialValues } = props;
+    const { service, renderersMap, onClickNew, children, initialValues, propertyInputSearch } = props;
     const [search, setSearch] = useState<string>('');
     const { refreshProductTableFlag } = useStoreProducto();
     const { openModal, isOpen, closeModal } = useModal();
@@ -25,13 +25,13 @@ export const useDatatableFilters = (props: IDatatableFilterProps) => {
         return search
             ? [
                   {
-                      property: 'nombre',
+                      property: propertyInputSearch,
                       operator: 'like',
                       value: search,
                   },
               ]
             : [];
-    }, [search]);
+    }, [search, propertyInputSearch]);
 
     const combinedFilters = useMemo(() => {
         return [...searchFilter, ...appliedFilters] as IFilterItem[];

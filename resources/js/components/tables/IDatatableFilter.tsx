@@ -21,4 +21,5 @@ export interface IDatatableFilterProps {
     onClickNew: () => void;
     children: ((formik: FormikProps) => ReactNode) | ReactNode;
     initialValues: any;
+    propertyInputSearch?: string
 }
