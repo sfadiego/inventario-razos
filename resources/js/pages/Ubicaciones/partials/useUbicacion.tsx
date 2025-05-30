@@ -1,3 +1,5 @@
+import { AlertSwal } from '@/components/alertSwal/AlertSwal';
+import { AlertTypeEnum } from '@/enums/AlertTypeEnum';
 import { useOnSubmit } from '@/hooks/useOnSubmit';
 import { IUbicacion } from '@/models/ubicacion.interface';
 import { useServiceStoreUbicacion } from '@/Services/ubicaciones/useServiceUbicaciones';
@@ -20,17 +22,15 @@ export const useUbicacion = ({ closeModal }: IuseUbicacionProps) => {
     });
 
     const handleSuccess = (data: IUbicacion) => {
-        console.log(data);
-        // const { codigo } = data;
         if (closeModal) {
             closeModal();
         }
-        // setRefreshFlag();
-        // AlertSwal({
-        //     type: AlertTypeEnum.Success,
-        //     title: `Exito`,
-        //     text: `Elemento guardado correctamente : ${codigo} `,
-        // });
+
+        AlertSwal({
+            type: AlertTypeEnum.Success,
+            title: `Exito`,
+            text: `Ubicacion guardado correctamente`,
+        });
     };
     const mutator = useServiceStoreUbicacion();
     const { onSubmit } = useOnSubmit<IUbicacion>({
