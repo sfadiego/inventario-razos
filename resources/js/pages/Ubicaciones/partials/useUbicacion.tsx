@@ -10,7 +10,7 @@ export const useUbicacion = () => {
         nombre: Yup.string().required('El nombre es obligatorio'),
     });
 
-    const onSubmit = (values) => {
+    const onSubmit = (values: IUbicacion) => {
         console.log('Form submitted with values:', values);
         // Handle form submission logic here
     };

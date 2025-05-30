@@ -14,7 +14,7 @@ export const useProveedor = () => {
         observaciones: Yup.string(),
     });
 
-    const onSubmit = (values) => {
+    const onSubmit = (values:IProveedor) => {
         console.log('Form submitted with values:', values);
         // Handle form submission logic here
     };

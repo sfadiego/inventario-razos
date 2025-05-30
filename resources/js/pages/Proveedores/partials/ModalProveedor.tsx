@@ -40,8 +40,8 @@ export const ModalProveedor = ({ isOpen, closeModal }: IModalProveedorProps) => 
                                 <Button onClick={closeModal} size="sm" variant="outline">
                                     Cerrar
                                 </Button>
-                                <Button startIcon={<Save />} size="sm" onClick={() => null}>
-                                    Guardar
+                                <Button size="sm" onClick={() => null}>
+                                    <Save /> Guardar
                                 </Button>
                             </div>
                         </Form>

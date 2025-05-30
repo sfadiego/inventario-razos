@@ -19,8 +19,8 @@ export default function ProveedoresPage() {
             <div className="grid grid-cols-12 gap-2 pb-5">
                 <div className="col-span-10"></div>
                 <div className="col-span-2 flex justify-end">
-                    <Button onClick={openModal} startIcon={<Plus />} className="">
-                        Nuevo Proveedor
+                    <Button onClick={openModal} className="">
+                        <Plus /> Nuevo Proveedor
                     </Button>
                 </div>
                 <div className="col-span-12">

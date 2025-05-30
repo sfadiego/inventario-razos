@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { Link } from 'react-router';
-// import { ChevronLeftIcon, EyeCloseIcon, EyeIcon } from "../../icons";
 import { ChevronLeft, Eye, EyeClosed } from 'lucide-react';
 import Label from '../form/Label';
 import Checkbox from '../form/input/Checkbox';
