@@ -29,4 +29,14 @@ class Venta extends Model
     {
         return $this->hasMany(VentaProducto::class);
     }
+
+    public static function createVenta(array $data): Venta
+    {
+        return self::create([
+            'venta_total' => 0,
+            'nombre_venta' => $data['nombre_venta'] ?? null,
+            'cliente_id' => $data['cliente_id'] ?? null,
+            'tipo_compra' => $data['tipo_compra'] ?? 'contado',
+        ]);
+    }
 }
