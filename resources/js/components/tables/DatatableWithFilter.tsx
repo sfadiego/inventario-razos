@@ -1,3 +1,4 @@
+import React from 'react';
 import { Filter, Plus } from 'lucide-react';
 import { DataTable } from 'mantine-datatable';
 import { ModalFilter } from '../filters/modalFilter/ModalFilter';
