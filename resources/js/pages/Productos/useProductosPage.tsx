@@ -20,6 +20,7 @@ export const useProductosPage = () => {
         proveedor_id: 0,
         categoria_id: 0,
     };
+
     return {
         openModal,
         isOpen,

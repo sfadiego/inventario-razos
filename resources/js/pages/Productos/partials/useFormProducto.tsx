@@ -5,14 +5,15 @@ import { IProducto } from '@/models/producto.interface';
 import { useServiceStoreProducto } from '@/Services/productos/useServiceProductos';
 import { useState } from 'react';
 import * as Yup from 'yup';
+import { useStoreProducto } from './useProductoStore';
 
 interface IUseProductProps {
     closeModal?: () => void;
-    // refetch: () => Promise<QueryObserverResult<any, Error>>;
 }
 
 export const useFormProducto = (props: IUseProductProps) => {
     const { closeModal } = props;
+    const { setRefreshFlag } = useStoreProducto();
     const [search, setSearch] = useState<string>('');
     const handleSuccess = (data: IProducto) => {
         const { codigo } = data;
@@ -20,7 +21,7 @@ export const useFormProducto = (props: IUseProductProps) => {
             closeModal();
         }
 
-        // refetch();
+        setRefreshFlag();
         AlertSwal({
             type: AlertTypeEnum.Success,
             title: `Exito`,

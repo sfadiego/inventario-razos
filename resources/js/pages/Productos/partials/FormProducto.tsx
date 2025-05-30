@@ -15,7 +15,6 @@ import { useFormProducto } from './useFormProducto';
 interface IModalProductoProps {
     isOpen: boolean;
     closeModal: () => void;
-    // refetch: () => Promise<QueryObserverResult<any, Error>>;
 }
 export const FormProducto = ({ isOpen, closeModal }: IModalProductoProps) => {
     const { formikProps, isPending } = useFormProducto({ closeModal });
