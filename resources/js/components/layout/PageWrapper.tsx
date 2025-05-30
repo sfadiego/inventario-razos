@@ -5,9 +5,8 @@ import PageMeta from '../common/PageMeta';
 interface IPageWrapper {
     pageTitle: string;
     children: ReactNode;
-    className?: string;
 }
-export const PageWrapper = ({ pageTitle, children, className = '' }: IPageWrapper) => {
+export const PageWrapper = ({ pageTitle, children}: IPageWrapper) => {
     const title = import.meta.env.VITE_APP_NAME;
     return (
         <>

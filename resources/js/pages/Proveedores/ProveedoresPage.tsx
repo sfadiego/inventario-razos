@@ -1,5 +1,5 @@
 import { PageWrapper } from '@/components/layout/PageWrapper';
-import { useDataTable } from '@/components/tables/useDatatable';
+import { useDataTable } from '@/hooks/useDatatable';
 import Button from '@/components/ui/button/Button';
 import { useModal } from '@/hooks/useModal';
 import { useServiceIndexProveedor } from '@/Services/proveedor/useServiceProveedor';
