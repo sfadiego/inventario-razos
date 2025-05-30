@@ -1,25 +1,24 @@
 import { InputTypeEnum } from '@/components/form/input/enum/InputType.enum';
-import Input from '@/components/form/input/InputField';
 import { SelectCategorias } from '@/components/select/categorias/SelectCategorias';
 import { SelectProovedores } from '@/components/select/proovedores/SelectProovedores';
 import { SelectUbicaciones } from '@/components/select/ubicaciones/SelectUbicaciones';
 import Button from '@/components/ui/button/Button';
-
 import { ButtonTypeEnum } from '@/components/ui/button/enums/buttonType.enum';
 import { Modal } from '@/components/ui/modal';
 import { IProducto } from '@/models/producto.interface';
-import { QueryObserverResult } from '@tanstack/react-query';
+
+import Input from '@/components/form/input/InputField';
 import { Form, Formik } from 'formik';
 import { Save } from 'lucide-react';
-import { useModalProduct } from './useModalProducto';
+import { useFormProducto } from './useFormProducto';
 
 interface IModalProductoProps {
     isOpen: boolean;
     closeModal: () => void;
-    refetch: () => Promise<QueryObserverResult<any, Error>>;
+    // refetch: () => Promise<QueryObserverResult<any, Error>>;
 }
-export const ModalProducto = ({ isOpen, closeModal, refetch }: IModalProductoProps) => {
-    const { formikProps, isPending } = useModalProduct({ closeModal, refetch });
+export const FormProducto = ({ isOpen, closeModal }: IModalProductoProps) => {
+    const { formikProps, isPending } = useFormProducto({ closeModal });
 
     return (
         <Modal isOpen={isOpen} onClose={closeModal} className="m-4 max-w-[700px]">

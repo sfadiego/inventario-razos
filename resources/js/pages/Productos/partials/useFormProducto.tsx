@@ -3,17 +3,16 @@ import { AlertTypeEnum } from '@/enums/AlertTypeEnum';
 import { useOnSubmit } from '@/hooks/useOnSubmit';
 import { IProducto } from '@/models/producto.interface';
 import { useServiceStoreProducto } from '@/Services/productos/useServiceProductos';
-import { QueryObserverResult } from '@tanstack/react-query';
 import { useState } from 'react';
 import * as Yup from 'yup';
 
 interface IUseProductProps {
     closeModal?: () => void;
-    refetch: () => Promise<QueryObserverResult<any, Error>>;
+    // refetch: () => Promise<QueryObserverResult<any, Error>>;
 }
 
-export const useModalProduct = (props: IUseProductProps) => {
-    const { closeModal, refetch } = props;
+export const useFormProducto = (props: IUseProductProps) => {
+    const { closeModal } = props;
     const [search, setSearch] = useState<string>('');
     const handleSuccess = (data: IProducto) => {
         const { codigo } = data;
@@ -21,7 +20,7 @@ export const useModalProduct = (props: IUseProductProps) => {
             closeModal();
         }
 
-        refetch();
+        // refetch();
         AlertSwal({
             type: AlertTypeEnum.Success,
             title: `Exito`,

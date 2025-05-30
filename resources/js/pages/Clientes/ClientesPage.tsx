@@ -1,5 +1,5 @@
 import { PageWrapper } from '@/components/layout/PageWrapper';
-import { useDataTable } from '@/components/tables/useDatatable';
+import { useDataTable } from '@/hooks/useDatatable';
 import { useServiceIndexClientes } from '@/Services/clientes/useServiceClientes';
 import { DataTable } from 'mantine-datatable';
 
