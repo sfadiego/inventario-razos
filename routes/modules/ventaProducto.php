@@ -5,5 +5,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::controller(VentaProductoController::class)
     ->group(function () {
-        Route::delete('{ventaProducto}', 'delete');
+        Route::prefix('{ventaProducto}')->group(function () {
+            Route::delete('', 'delete');
+        });
     });

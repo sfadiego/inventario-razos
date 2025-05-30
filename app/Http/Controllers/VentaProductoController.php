@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\VentaProducto;
+use Illuminate\Support\Facades\Response;
 use Illuminate\Http\JsonResponse;
 
 class VentaProductoController extends Controller
@@ -11,6 +12,6 @@ class VentaProductoController extends Controller
     {
         $ventaProducto->delete();
 
-        return response()->json(['message' => 'Borrado correctamente.']);
+        return Response::success(null, 'Borrado correctamente');
     }
 }
