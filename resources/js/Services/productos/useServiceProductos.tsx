@@ -16,4 +16,5 @@ export const useServiceIndexProductos = ({ filters = [], search = null, page = 1
     });
 };
 
+export const useServiceShowProducto = (id: number) => useGET({ url: `${url}/${id}` });
 export const useServiceStoreProducto = () => usePOST({ url });

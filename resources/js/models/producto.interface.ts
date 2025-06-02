@@ -1,4 +1,5 @@
 export interface IProducto {
+  id: number;
   nombre: string;
   proveedor_id: number;
   categoria_id: number;

@@ -4,7 +4,7 @@ import { IProducto } from '@/models/producto.interface';
 import { useServiceIndexProveedor } from '@/Services/proveedor/useServiceProveedor';
 import { FormikProps } from 'formik';
 
-export const SelectProovedores = ({ formik }: { formik: FormikProps<any> }) => {
+export const SelectProveedores = ({ formik }: { formik: FormikProps<any> }) => {
     const { isLoading, data } = useServiceIndexProveedor({});
     const options: IOptions[] =
         (!isLoading &&

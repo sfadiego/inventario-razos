@@ -1,5 +1,5 @@
 import { SelectCategorias } from '@/components/select/categorias/SelectCategorias';
-import { SelectProovedores } from '@/components/select/proovedores/SelectProovedores';
+import { SelectProovedores } from '@/components/select/proveedores/SelectProveedores';
 import { FormikProps } from 'formik';
 import { IFiltroProducto } from '../useProductosPage';
 
