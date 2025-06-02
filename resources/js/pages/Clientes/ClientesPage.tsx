@@ -13,6 +13,7 @@ export default function ClientesPage() {
                 initialValues={initialValues}
                 renderersMap={renderersMap}
                 filters={filters}
+                disableNewButton={true}
                 onClickNew={openModal}
                 service={useServiceIndexClientes}
             >

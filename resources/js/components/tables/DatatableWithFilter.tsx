@@ -14,7 +14,7 @@ export const DatatableWithFilter = (props: IDatatableWithFilterProps) => {
     return (
         <>
             <div className="grid grid-cols-12 gap-2 pb-5">
-                <div className={`${disableNewButton ? 'col-span-12 md:col-span-10' : 'col-span-12 md:col-span-12'}`}>
+                <div className={`${!disableNewButton ? 'col-span-12 md:col-span-10' : 'col-span-12 md:col-span-12'}`}>
                     <InputWithIcon
                         name={`search`}
                         value={search}
@@ -23,7 +23,7 @@ export const DatatableWithFilter = (props: IDatatableWithFilterProps) => {
                         IconComponent={() => <Filter className="text-gray-500" onClick={openModal} />}
                     />
                 </div>
-                {disableNewButton && (
+                {!disableNewButton && (
                     <div className="col-span-12 md:col-span-2">
                         <Button onClick={onClickNew} className="w-full">
                             <Plus /> Nuevo
