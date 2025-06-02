@@ -3,7 +3,7 @@ import { useModal } from '@/hooks/useModal';
 import { useStoreProducto } from '@/pages/Productos/partials/useProductoStore';
 import { useEffect, useMemo, useState } from 'react';
 import { IFilterItem } from '../filters/modalFilter/types';
-import { IDatatableFilterProps } from './IDatatableFilter';
+import {  IDatatableWithFilterProps } from './IDatatableFilter';
 
 export const fomikValuesToSearchFilter = (filterValues: Record<string, string>) => {
     return Object.keys(filterValues).map((key) => {
@@ -15,7 +15,7 @@ export const fomikValuesToSearchFilter = (filterValues: Record<string, string>) 
         return item;
     });
 };
-export const useDatatableFilters = (props: IDatatableFilterProps) => {
+export const useDatatableFilters = (props: IDatatableWithFilterProps) => {
     const { service, renderersMap, onClickNew, children, initialValues, propertyInputSearch } = props;
     const [search, setSearch] = useState<string>('');
     const { refreshProductTableFlag } = useStoreProducto();

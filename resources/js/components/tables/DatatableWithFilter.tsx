@@ -1,4 +1,3 @@
-import React from 'react';
 import { Filter, Plus } from 'lucide-react';
 import { DataTable } from 'mantine-datatable';
 import { ModalFilter } from '../filters/modalFilter/ModalFilter';
@@ -8,12 +7,14 @@ import { IDatatableWithFilterProps } from './IDatatableFilter';
 import { useDatatableFilters } from './useDatatableFilters';
 
 export const DatatableWithFilter = (props: IDatatableWithFilterProps) => {
+    const { disableNewButton = false } = props;
     const { initialValues, isOpen, search, dataTableProps, children, openModal, closeModal, onFilter, setSearch, onClickNew } =
         useDatatableFilters(props);
+
     return (
         <>
             <div className="grid grid-cols-12 gap-2 pb-5">
-                <div className="col-span-12 md:col-span-10">
+                <div className={`${disableNewButton ? 'col-span-12 md:col-span-10' : 'col-span-12 md:col-span-12'}`}>
                     <InputWithIcon
                         name={`search`}
                         value={search}
@@ -22,11 +23,13 @@ export const DatatableWithFilter = (props: IDatatableWithFilterProps) => {
                         IconComponent={() => <Filter className="text-gray-500" onClick={openModal} />}
                     />
                 </div>
-                <div className="col-span-12 md:col-span-2">
-                    <Button onClick={onClickNew} className="w-full">
-                        <Plus /> Nuevo
-                    </Button>
-                </div>
+                {disableNewButton && (
+                    <div className="col-span-12 md:col-span-2">
+                        <Button onClick={onClickNew} className="w-full">
+                            <Plus /> Nuevo
+                        </Button>
+                    </div>
+                )}
             </div>
             <div className="col-span-12 h-9/10 overflow-auto">
                 <DataTable {...dataTableProps} />

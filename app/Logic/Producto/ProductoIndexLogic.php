@@ -28,6 +28,7 @@ class ProductoIndexLogic extends IndexLogic
             'precio_venta' => 'Precio Venta',
             'stock' => 'Stock',
             'ubicacion.nombre' => 'Ubicacion',
+            'actions' => '#',
         ];
     }
 

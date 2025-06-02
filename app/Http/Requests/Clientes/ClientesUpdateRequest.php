@@ -24,6 +24,7 @@ class ClientesUpdateRequest extends FormRequest
         return [
             'nombre' => 'required|string|max:255|unique:clientes,nombre,'.$this->route('cliente'),
             'observaciones' => 'nullable|string|max:500',
+            'confiable' => ['boolean'],
         ];
     }
 }

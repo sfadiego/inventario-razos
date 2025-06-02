@@ -19,6 +19,7 @@ class UbicacionIndexLogic extends IndexLogic
         return [
             'id' => __('#'),
             'nombre' => 'Nombre',
+            'actions' => '#',
         ];
     }
 

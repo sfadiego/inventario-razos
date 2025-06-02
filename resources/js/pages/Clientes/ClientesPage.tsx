@@ -1,21 +1,23 @@
 import { PageWrapper } from '@/components/layout/PageWrapper';
-import { useDataTable } from '@/hooks/useDatatable';
-import { useServiceIndexClientes } from '@/Services/clientes/useServiceClientes';
-import { DataTable } from 'mantine-datatable';
+import { DatatableWithFilter } from '@/components/tables/DatatableWithFilter';
+import { FiltrosCliente } from './partials/FiltrosCliente';
+import { useClientesPage } from './useClientesPage';
 
 export default function ClientesPage() {
-    const { dataTableProps } = useDataTable({
-        service: useServiceIndexClientes,
-        payload: {},
-    });
+    const { useServiceIndexClientes, renderersMap, initialValues, filters, openModal } = useClientesPage();
 
     return (
         <PageWrapper pageTitle="Clientes">
-            <div className="grid grid-cols-12 gap-2 pb-5">
-                <div className="col-span-12">
-                    <DataTable {...dataTableProps} />
-                </div>
-            </div>
+            <DatatableWithFilter
+                propertyInputSearch={`nombre`}
+                initialValues={initialValues}
+                renderersMap={renderersMap}
+                filters={filters}
+                onClickNew={openModal}
+                service={useServiceIndexClientes}
+            >
+                {(formik) => <FiltrosCliente formik={formik} />}
+            </DatatableWithFilter>
         </PageWrapper>
     );
 }
