@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Response;
 
 class VentasController extends Controller
 {
-    public function Store(VentaStoreRequest $params): JsonResponse
+    public function store(VentaStoreRequest $params): JsonResponse
     {
         $venta = Venta::createVenta($params->all());
 
