@@ -5,7 +5,7 @@ import { FormUbicacion } from './partials/FormUbicacion';
 import { useUbicacionesPage } from './useUbicacionesPage';
 
 export default function ProovedoresPage() {
-    const { initialValues, filters, isOpen, closeModal, openModal, useServiceIndexUbicaciones } = useUbicacionesPage();
+    const { initialValues, renderersMap, filters, isOpen, closeModal, openModal, useServiceIndexUbicaciones } = useUbicacionesPage();
 
     return (
         <PageWrapper pageTitle="Ubicaciones">
@@ -14,6 +14,7 @@ export default function ProovedoresPage() {
                 initialValues={initialValues}
                 filters={filters}
                 onClickNew={openModal}
+                renderersMap={renderersMap}
                 service={useServiceIndexUbicaciones}
             >
                 {(formik) => <FiltroUbicaciones formik={formik} />}

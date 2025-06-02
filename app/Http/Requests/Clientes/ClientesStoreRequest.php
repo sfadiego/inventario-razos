@@ -23,6 +23,7 @@ class ClientesStoreRequest extends FormRequest
     {
         return [
             'nombre' => 'required|string|max:255|unique:clientes,nombre',
+            'confiable' => ['boolean'],
             'observaciones' => 'nullable|string|max:500',
         ];
     }

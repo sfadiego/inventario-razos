@@ -21,6 +21,7 @@ class ProveedorIndexLogic extends IndexLogic
             'nombre' => 'Nombre',
             'empresa' => 'Empresa',
             'observaciones' => 'Observaciones',
+            'actions' => '#',
         ];
     }
 

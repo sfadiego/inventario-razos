@@ -20,6 +20,7 @@ class CategoriaIndexLogic extends IndexLogic
             'id' => __('#'),
             'nombre' => 'Nombre',
             'activa' => 'Activa',
+            'actions' => '#',
         ];
     }
 

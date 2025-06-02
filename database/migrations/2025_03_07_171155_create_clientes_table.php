@@ -12,6 +12,7 @@ return new class extends Migration
             Schema::create('clientes', function (Blueprint $table) {
                 $table->id();
                 $table->string('nombre');
+                $table->boolean('confiable')->default(true);
                 $table->text('observaciones')
                     ->nullable();
                 $table->timestamps();

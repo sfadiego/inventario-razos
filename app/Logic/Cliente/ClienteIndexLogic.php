@@ -18,8 +18,10 @@ class ClienteIndexLogic extends IndexLogic
     {
         return [
             'id' => __('#'),
+            'confiable' => 'Es confiable',
             'nombre' => 'Nombre',
             'observaciones' => 'Observaciones',
+            'actions' => '#',
         ];
     }
 
