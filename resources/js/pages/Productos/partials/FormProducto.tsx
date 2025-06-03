@@ -1,13 +1,12 @@
 import { InputTypeEnum } from '@/components/form/input/enum/InputType.enum';
+import Input from '@/components/form/input/InputField';
 import { SelectCategorias } from '@/components/select/categorias/SelectCategorias';
-import { SelectProovedores } from '@/components/select/proovedores/SelectProovedores';
+import { SelectProveedores } from '@/components/select/proveedores/SelectProveedores';
 import { SelectUbicaciones } from '@/components/select/ubicaciones/SelectUbicaciones';
 import Button from '@/components/ui/button/Button';
 import { ButtonTypeEnum } from '@/components/ui/button/enums/buttonType.enum';
 import { Modal } from '@/components/ui/modal';
 import { IProducto } from '@/models/producto.interface';
-
-import Input from '@/components/form/input/InputField';
 import { Form, Formik } from 'formik';
 import { Save } from 'lucide-react';
 import { useFormProducto } from './useFormProducto';
@@ -16,6 +15,7 @@ interface IModalProductoProps {
     isOpen: boolean;
     closeModal: () => void;
 }
+
 export const FormProducto = ({ isOpen, closeModal }: IModalProductoProps) => {
     const { formikProps, isPending } = useFormProducto({ closeModal });
 
@@ -52,7 +52,7 @@ export const FormProducto = ({ isOpen, closeModal }: IModalProductoProps) => {
                             <Input<IProducto> label={`Precio venta`} name="precio_venta" formik={formik} type={InputTypeEnum.Text} />
                         </div>
                         <div className="col-span-12 md:col-span-12">
-                            <SelectProovedores formik={formik}></SelectProovedores>
+                            <SelectProveedores formik={formik}></SelectProveedores>
                         </div>
                         <div className="col-span-12 md:col-span-12">
                             <SelectCategorias formik={formik}></SelectCategorias>

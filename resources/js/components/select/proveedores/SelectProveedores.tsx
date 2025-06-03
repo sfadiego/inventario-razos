@@ -2,21 +2,21 @@ import InputSelect from '@/components/form/select/InputSelect';
 import { IOptions } from '@/components/form/select/interfaces/IOptions';
 import { IProducto } from '@/models/producto.interface';
 import { useStoreProducto } from '@/pages/Productos/partials/useProductoStore';
-import { useServiceIndexUbicaciones } from '@/Services/ubicaciones/useServiceUbicaciones';
+import { useServiceIndexProveedor } from '@/Services/proveedor/useServiceProveedor';
 import { FormikProps } from 'formik';
 
 const useCompareOrAddNewOption = (data: IOptions[]) => {
     const { producto } = useStoreProducto();
-    const existInOriginalData = !!(producto && data?.find((item: IOptions) => item.value === producto?.ubicacion_id));
+    const existInOriginalData = !!(producto && data?.find((item: IOptions) => item.value === producto?.proveedor_id));
     const newOption: IOptions = {
-        value: producto?.ubicacion?.id ?? 0,
-        label: producto?.ubicacion?.nombre ?? '',
+        value: producto?.proveedor?.id ?? 0,
+        label: producto?.proveedor?.nombre ?? '',
     };
     return producto && data.length && !existInOriginalData ? [...data, newOption] : data;
 };
 
-export const SelectUbicaciones = ({ formik }: { formik: FormikProps<any> }) => {
-    const { isLoading, data } = useServiceIndexUbicaciones({});
+export const SelectProveedores = ({ formik }: { formik: FormikProps<any> }) => {
+    const { isLoading, data } = useServiceIndexProveedor({});
     const defaultValues = [{ value: 0, label: `seleccionar...` }];
     const options = useCompareOrAddNewOption(
         (!isLoading &&
@@ -26,11 +26,12 @@ export const SelectUbicaciones = ({ formik }: { formik: FormikProps<any> }) => {
             }))) ||
             defaultValues,
     );
+
     return (
         <InputSelect<IProducto>
-            setValue={options.filter((option): option is IOptions => option.value === formik.values.ubicacion_id)}
-            label={`Ubicacion`}
-            name={`ubicacion_id`}
+            setValue={options.filter((option): option is IOptions => option.value === formik.values.proveedor_id)}
+            label={`Proveedor`}
+            name={`proveedor_id`}
             formik={formik}
             options={options}
         />

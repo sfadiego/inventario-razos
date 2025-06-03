@@ -30,6 +30,7 @@ class ProductosController extends Controller
 
     public function show(Producto $producto): JsonResponse
     {
+        $producto->load(['proveedor', 'ubicacion', 'categoria']);
         return Response::success($producto);
     }
 
