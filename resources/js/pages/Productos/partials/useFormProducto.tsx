@@ -13,8 +13,9 @@ interface IUseProductProps {
 
 export const useFormProducto = (props: IUseProductProps) => {
     const { closeModal } = props;
-    const { setRefreshFlag } = useStoreProducto();
+    const { setRefreshFlag, producto } = useStoreProducto();
     const [search, setSearch] = useState<string>('');
+
     const handleSuccess = (data: IProducto) => {
         const { codigo } = data;
         if (closeModal) {
@@ -28,17 +29,18 @@ export const useFormProducto = (props: IUseProductProps) => {
             text: `Elemento guardado correctamente : ${codigo} `,
         });
     };
+
     const initialValues: IProducto = {
-        nombre: '',
-        proveedor_id: 0,
-        categoria_id: 0,
-        codigo: '',
-        precio_compra: 0,
-        precio_venta: 0,
-        stock: 0,
-        cantidad_minima: 0,
-        compatibilidad: '',
-        ubicacion_id: 0,
+        nombre: producto?.nombre ?? '',
+        proveedor_id: producto?.proveedor_id ?? 0,
+        categoria_id: producto?.categoria_id ?? 0,
+        codigo: producto?.codigo ?? '',
+        precio_compra: producto?.precio_compra ?? 0,
+        precio_venta: producto?.precio_venta ?? 0,
+        stock: producto?.stock ?? 0,
+        cantidad_minima: producto?.cantidad_minima ?? 0,
+        compatibilidad: producto?.compatibilidad ?? '',
+        ubicacion_id: producto?.ubicacion_id ?? 0,
         activo: true,
     };
 

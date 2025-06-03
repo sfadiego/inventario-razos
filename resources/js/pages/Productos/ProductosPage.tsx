@@ -7,13 +7,13 @@ import { FormProducto } from './partials/FormProducto';
 import { useProductosPage } from './useProductosPage';
 
 export default function ProductosPage() {
-    const { filters, openModal, renderersMap,isOpen, closeModal, initialValues, useServiceIndexProductos } = useProductosPage();
+    const { filters, openModal, renderersMap, isOpen, closeModal, initialValues, useServiceIndexProductos } = useProductosPage();
     return (
         <>
             <PageWrapper pageTitle="Productos">
                 <DatatableWithFilter
                     propertyInputSearch={`nombre`}
-                     renderersMap={renderersMap}
+                    renderersMap={renderersMap}
                     initialValues={initialValues}
                     filters={filters}
                     onClickNew={openModal}

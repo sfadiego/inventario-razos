@@ -2,18 +2,49 @@ import { IFilterItem } from '@/components/filters/modalFilter/types';
 import Button from '@/components/ui/button/Button';
 import { useModal } from '@/hooks/useModal';
 import { IProducto } from '@/models/producto.interface';
-import { useServiceIndexProductos } from '@/Services/productos/useServiceProductos';
+import { useServiceIndexProductos, useServiceShowProducto } from '@/Services/productos/useServiceProductos';
 import { Edit } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { useStoreProducto } from './partials/useProductoStore';
 
 export interface IFiltroProducto {
     proveedor_id?: number;
     categoria_id?: number;
 }
+
 export const useProductosPage = () => {
     const { openModal, isOpen, closeModal } = useModal();
+    const [selectedProduct, setselectedProduct] = useState(0);
+    const { isLoading, data } = useServiceShowProducto(selectedProduct);
+    const { setSelectedProducto } = useStoreProducto();
+    const handleCloseModal = () => {
+        closeModal();
+        setselectedProduct(0);
+        setSelectedProducto(null);
+    };
+
+    const handleOpenModal = () => {
+        openModal();
+        setselectedProduct(0);
+        setSelectedProducto(null);
+    };
+
+    useEffect(() => {
+        if (!isLoading && data && selectedProduct) {
+            setSelectedProducto(data);
+        }
+    }, [isLoading, data, setSelectedProducto, selectedProduct]);
+
     const renderersMap = {
         actions: ({ id }: IProducto) => (
-            <Button variant="primary" size="sm">
+            <Button
+                onClick={() => {
+                    openModal();
+                    setselectedProduct(id!);
+                }}
+                variant="primary"
+                size="sm"
+            >
                 <Edit />
             </Button>
         ),
@@ -31,10 +62,10 @@ export const useProductosPage = () => {
     };
 
     return {
-        openModal,
+        openModal: handleOpenModal,
         isOpen,
         filters,
-        closeModal,
+        closeModal: handleCloseModal,
         useServiceIndexProductos,
         renderersMap,
         initialValues,
