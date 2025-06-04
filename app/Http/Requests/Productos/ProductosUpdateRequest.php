@@ -22,16 +22,16 @@ class ProductosUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'nombre' => ['required', 'string', 'max:255'],
-            'proveedor_id' => ['required', 'exists:proveedores,id'],
-            'categoria_id' => ['required', 'exists:categorias,id'],
-            'codigo' => ['required', 'string', 'unique:productos,codigo,'.$this->route('producto'), 'max:100'],
-            'precio_compra' => ['required', 'numeric', 'min:0'],
-            'precio_venta' => ['required', 'numeric', 'min:0'],
-            'stock' => ['required', 'integer', 'min:0'],
-            'cantidad_minima' => ['required', 'integer', 'min:0'],
+            'nombre' => ['nullable', 'string', 'max:255'],
+            'proveedor_id' => ['nullable', 'exists:proveedores,id'],
+            'categoria_id' => ['nullable', 'exists:categorias,id'],
+            'codigo' => ['nullable', 'string'],
+            'precio_compra' => ['nullable', 'numeric', 'min:1'],
+            'precio_venta' => ['nullable', 'numeric', 'min:1'],
+            'stock' => ['nullable', 'integer', 'min:0'],
+            'cantidad_minima' => ['nullable', 'integer', 'min:1'],
             'compatibilidad' => ['nullable', 'string', 'max:500'],
-            'ubicacion_id' => ['required', 'exists:ubicaciones,id'],
+            'ubicacion_id' => ['nullable', 'exists:ubicaciones,id'],
             'activo' => ['nullable', 'boolean'],
         ];
     }

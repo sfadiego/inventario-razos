@@ -2,7 +2,7 @@ import { AlertSwal } from '@/components/alertSwal/AlertSwal';
 import { AlertTypeEnum } from '@/enums/AlertTypeEnum';
 import { useOnSubmit } from '@/hooks/useOnSubmit';
 import { IProducto } from '@/models/producto.interface';
-import { useServiceStoreProducto } from '@/Services/productos/useServiceProductos';
+import { useServiceStoreProducto, useServiceUpdateProducto } from '@/Services/productos/useServiceProductos';
 import { useState } from 'react';
 import * as Yup from 'yup';
 import { useStoreProducto } from './useProductoStore';
@@ -59,8 +59,9 @@ export const useFormProducto = (props: IUseProductProps) => {
     });
 
     const mutator = useServiceStoreProducto();
+    const mutatorUpdate = useServiceUpdateProducto(producto?.id ?? 0);
     const { onSubmit } = useOnSubmit<IProducto>({
-        mutateAsync: mutator.mutateAsync,
+        mutateAsync: producto?.id ? mutatorUpdate.mutateAsync : mutator.mutateAsync,
         onSuccess: async (data) => handleSuccess(data),
     });
 
