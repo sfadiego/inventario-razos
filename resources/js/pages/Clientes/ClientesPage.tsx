@@ -4,11 +4,12 @@ import { FiltrosCliente } from './partials/FiltrosCliente';
 import { useClientesPage } from './useClientesPage';
 
 export default function ClientesPage() {
-    const { useServiceIndexClientes, renderersMap, initialValues, filters, openModal } = useClientesPage();
+    const { useServiceIndexClientes, renderersMap, initialValues, filters, openModal, refreshClienteFlag } = useClientesPage();
 
     return (
         <PageWrapper pageTitle="Clientes">
             <DatatableWithFilter
+                refreshFlag={refreshClienteFlag}
                 propertyInputSearch={`nombre`}
                 initialValues={initialValues}
                 renderersMap={renderersMap}
