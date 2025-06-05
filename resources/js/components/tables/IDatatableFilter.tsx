@@ -5,6 +5,7 @@ import { IFilterItem } from '../filters/modalFilter/types';
 
 export interface IDatatableWithFilterProps {
     filters: IFilterItem[];
+    refreshFlag: boolean;
     renderersMap?: DataTableRenderersMap | undefined;
     service: (params: any) => any;
     propertyInputSearch?: string;

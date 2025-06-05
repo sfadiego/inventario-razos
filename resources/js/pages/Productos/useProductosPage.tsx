@@ -5,7 +5,7 @@ import { IProducto } from '@/models/producto.interface';
 import { useServiceIndexProductos, useServiceShowProducto } from '@/Services/productos/useServiceProductos';
 import { Edit } from 'lucide-react';
 import { useEffect, useState } from 'react';
-import { useStoreProducto } from './partials/useProductoStore';
+import { useProductoStore } from './partials/useProductoStore';
 
 export interface IFiltroProducto {
     proveedor_id?: number;
@@ -16,7 +16,7 @@ export const useProductosPage = () => {
     const { openModal, isOpen, closeModal } = useModal();
     const [selectedProduct, setselectedProduct] = useState(0);
     const { isLoading, data } = useServiceShowProducto(selectedProduct);
-    const { setSelectedProducto } = useStoreProducto();
+    const { setSelectedProducto, refreshTableFlag } = useProductoStore();
     const handleCloseModal = () => {
         closeModal();
         setselectedProduct(0);
@@ -65,6 +65,7 @@ export const useProductosPage = () => {
         openModal: handleOpenModal,
         isOpen,
         filters,
+        refreshTableFlag,
         closeModal: handleCloseModal,
         useServiceIndexProductos,
         renderersMap,

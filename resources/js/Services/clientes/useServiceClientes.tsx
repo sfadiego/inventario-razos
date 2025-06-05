@@ -1,4 +1,4 @@
-import { useGET, usePOST } from '@/hooks/useApi';
+import { useGET, usePOST, usePUT } from '@/hooks/useApi';
 import { IPaginate } from '@/interfaces/IPaginate';
 import { IPaginateServiceProps } from '@/interfaces/IPaginateServiceProps';
 import { ICliente } from '@/models/cliente.interface';
@@ -17,3 +17,5 @@ export const useServiceIndexClientes = ({ filters = [], search = null, page = 1,
 };
 
 export const useServiceStoreCliente = () => usePOST({ url });
+export const useServiceShowCliente = (id?: number) => useGET<ICliente>({ url: `${url}/${id}`, enable: !!id });
+export const useServiceUpdateCliente = (id?: number) => usePUT({ url: `${url}/${id}` });

@@ -22,7 +22,7 @@ class ClientesUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'nombre' => 'required|string|max:255|unique:clientes,nombre,'.$this->route('cliente'),
+            'nombre' => 'required|string|max:255|unique:clientes,nombre',
             'observaciones' => 'nullable|string|max:500',
             'confiable' => ['boolean'],
         ];

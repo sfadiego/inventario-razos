@@ -11,7 +11,7 @@ class UbicacionesUpdateRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,7 @@ class UbicacionesUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'nombre' => ['required', 'string', 'max:255', 'unique:ubicaciones,nombre,'.$this->route('ubicacion')],
+            'nombre' => ['required', 'string', 'max:255', 'unique:ubicaciones,nombre'],
         ];
     }
 }
