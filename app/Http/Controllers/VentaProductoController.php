@@ -2,12 +2,20 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\VentaProducto\VentaProductoStoreRequest;
 use App\Models\VentaProducto;
-use Illuminate\Support\Facades\Response;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Response;
 
 class VentaProductoController extends Controller
 {
+    public function store(VentaProductoStoreRequest $request): JsonResponse
+    {
+        $ventaProducto = VentaProducto::createVentaProducto($request->all());
+
+        return Response::success($ventaProducto);
+    }
+
     public function delete(VentaProducto $ventaProducto): JsonResponse
     {
         $ventaProducto->delete();
