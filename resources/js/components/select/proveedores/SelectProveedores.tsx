@@ -1,12 +1,12 @@
 import InputSelect from '@/components/form/select/InputSelect';
 import { IOptions } from '@/components/form/select/interfaces/IOptions';
 import { IProducto } from '@/models/producto.interface';
-import { useStoreProducto } from '@/pages/Productos/partials/useProductoStore';
+import { useProductoStore } from '@/pages/Productos/partials/useProductoStore';
 import { useServiceIndexProveedor } from '@/Services/proveedor/useServiceProveedor';
 import { FormikProps } from 'formik';
 
 const useCompareOrAddNewOption = (data: IOptions[]) => {
-    const { producto } = useStoreProducto();
+    const { producto } = useProductoStore();
     const existInOriginalData = !!(producto && data?.find((item: IOptions) => item.value === producto?.proveedor_id));
     const newOption: IOptions = {
         value: producto?.proveedor?.id ?? 0,

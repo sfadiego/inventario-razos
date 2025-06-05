@@ -10,7 +10,6 @@ export const adminSidebarRoutes: INavItem[] = [
     {
         icon: <ListChecks />,
         name: 'Catalogos',
-        path: AdminRoutes.Catalogos,
         subItems: [
             {
                 icon: <Cog width={20} />,

@@ -5,7 +5,8 @@ import { FormUbicacion } from './partials/FormUbicacion';
 import { useUbicacionesPage } from './useUbicacionesPage';
 
 export default function ProovedoresPage() {
-    const { initialValues, renderersMap, filters, isOpen, closeModal, openModal, useServiceIndexUbicaciones } = useUbicacionesPage();
+    const { initialValues, renderersMap, filters, isOpen, closeModal, openModal, useServiceIndexUbicaciones, refreshUbicacionFlag } =
+        useUbicacionesPage();
 
     return (
         <PageWrapper pageTitle="Ubicaciones">
@@ -13,6 +14,7 @@ export default function ProovedoresPage() {
                 propertyInputSearch={`nombre`}
                 initialValues={initialValues}
                 filters={filters}
+                refreshFlag={refreshUbicacionFlag}
                 onClickNew={openModal}
                 renderersMap={renderersMap}
                 service={useServiceIndexUbicaciones}

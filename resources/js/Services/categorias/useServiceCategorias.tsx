@@ -1,4 +1,4 @@
-import { useGET, usePOST } from '@/hooks/useApi';
+import { useGET, usePOST, usePUT } from '@/hooks/useApi';
 import { IPaginate } from '@/interfaces/IPaginate';
 import { IPaginateServiceProps } from '@/interfaces/IPaginateServiceProps';
 import { ICategoria } from '@/models/categoria.interface';
@@ -17,3 +17,5 @@ export const useServiceIndexCategorias = ({ filters = [], search = null, page = 
 };
 
 export const useServiceStoreCategorias = () => usePOST({ url });
+export const useServiceShowCategoria = (id?: number) => useGET<ICategoria>({ url: `${url}/${id}`, enable: !!id });
+export const useServiceUpdateCategoria = (id?: number) => usePUT({ url: `${url}/${id}` });

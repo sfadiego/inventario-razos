@@ -5,7 +5,7 @@ import { IProducto } from '@/models/producto.interface';
 import { useServiceStoreProducto, useServiceUpdateProducto } from '@/Services/productos/useServiceProductos';
 import { useState } from 'react';
 import * as Yup from 'yup';
-import { useStoreProducto } from './useProductoStore';
+import { useProductoStore } from './useProductoStore';
 
 interface IUseProductProps {
     closeModal?: () => void;
@@ -13,7 +13,7 @@ interface IUseProductProps {
 
 export const useFormProducto = (props: IUseProductProps) => {
     const { closeModal } = props;
-    const { setRefreshFlag, producto } = useStoreProducto();
+    const { setRefreshFlag, producto } = useProductoStore();
     const [search, setSearch] = useState<string>('');
 
     const handleSuccess = (data: IProducto) => {
