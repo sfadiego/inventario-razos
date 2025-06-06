@@ -9,7 +9,7 @@ import { useClienteStore } from './useClienteStore';
 
 export const useCliente = () => {
     const { cliente, setRefreshFlag } = useClienteStore();
-    const [isCheckedDisabled, setIsCheckedDisabled] = useState(false);
+    const [isCheckedDisabled, setIsCheckedDisabled] = useState(true);
     const initialValues: ICliente = {
         nombre: cliente?.nombre ?? '',
         confiable: cliente?.confiable ?? true,

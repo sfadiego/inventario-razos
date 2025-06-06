@@ -1,8 +1,8 @@
+export type TipoCompraType = 'credito' | 'contado';
 export interface IVenta {
     id: number;
-    cantidad: number;
-    precio: number;
-    producto_id: number;
-    venta_id: number;
-    created_at: string;
+    venta_total: number;
+    nombre_venta: string;
+    cliente_id: number;
+    tipo_compra: TipoCompraType;
 }
