@@ -3,6 +3,6 @@ export interface IVenta {
     id: number;
     venta_total: number;
     nombre_venta: string;
-    cliente_id: number;
+    cliente_id: number | null;
     tipo_compra: TipoCompraType;
 }

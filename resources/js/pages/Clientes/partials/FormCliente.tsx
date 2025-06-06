@@ -11,39 +11,44 @@ import { useCliente } from './useCliente';
 export const FormCliente = () => {
     const { formikProps, isPending, isCheckedDisabled, setIsCheckedDisabled } = useCliente();
     return (
-        <Formik enableReinitialize {...formikProps}>
-            {(formik) => (
-                <Form className={`grid grid-cols-12 gap-2 pb-5`}>
-                    <div className="col-span-12 mb-3 lg:col-span-12">
-                        <Input<ICliente> label={`Nombre`} name="nombre" formik={formik} type={InputTypeEnum.Text} />
-                    </div>
-                    <div className="col-span-12 mb-3 lg:col-span-12">
-                        <Input<ICliente> label={`Observaciones`} name="observaciones" formik={formik} type={InputTypeEnum.Text} />
-                    </div>
-                    <div className="col-span-12 mb-3 lg:col-span-12">
-                        <Checkbox<ICliente>
-                            formik={formik}
-                            id="confiable"
-                            checked={isCheckedDisabled}
-                            onChange={setIsCheckedDisabled}
-                            label="Confiable"
-                        />
-                    </div>
-                    <div className="col-span-12 mt-3 flex justify-end gap-2">
-                        <Button className="col-span-12 mb-3 lg:col-span-6" onClick={() => null} size="sm" variant="outline">
-                            Cerrar
-                        </Button>
-                        <Button
-                            className="col-span-12 mb-3 lg:col-span-6"
-                            size="md"
-                            type={ButtonTypeEnum.Submit}
-                            disabled={isPending || formik.isSubmitting}
-                        >
-                            <Save /> Guardar
-                        </Button>
-                    </div>
-                </Form>
-            )}
-        </Formik>
+        <>
+            <h2 className="text-xl font-semibold text-gray-800 dark:text-white/90" x-text="pageName">
+                Nuevo cliente
+            </h2>
+            <Formik enableReinitialize {...formikProps}>
+                {(formik) => (
+                    <Form className={`grid grid-cols-12 gap-2 pb-5`}>
+                        <div className="col-span-12 mb-3 lg:col-span-12">
+                            <Input<ICliente> label={`Nombre`} name="nombre" formik={formik} type={InputTypeEnum.Text} />
+                        </div>
+                        <div className="col-span-12 mb-3 lg:col-span-12">
+                            <Input<ICliente> label={`Observaciones`} name="observaciones" formik={formik} type={InputTypeEnum.Text} />
+                        </div>
+                        <div className="col-span-12 mb-3 lg:col-span-12">
+                            <Checkbox<ICliente>
+                                formik={formik}
+                                id="confiable"
+                                checked={isCheckedDisabled}
+                                onChange={setIsCheckedDisabled}
+                                label="Confiable"
+                            />
+                        </div>
+                        <div className="col-span-12 mt-3 flex justify-end gap-2">
+                            <Button className="col-span-12 mb-3 lg:col-span-6" onClick={() => null} size="sm" variant="outline">
+                                Cerrar
+                            </Button>
+                            <Button
+                                className="col-span-12 mb-3 lg:col-span-6"
+                                size="md"
+                                type={ButtonTypeEnum.Submit}
+                                disabled={isPending || formik.isSubmitting}
+                            >
+                                <Save /> Guardar
+                            </Button>
+                        </div>
+                    </Form>
+                )}
+            </Formik>
+        </>
     );
 };
