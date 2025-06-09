@@ -34,5 +34,8 @@ export const useFormVenta = () => {
         isPending: mutator.isPending,
         ventaActual: venta,
         disabled: !!venta?.id,
+        resetVenta: () => {
+            setVenta(null);
+        },
     };
 };

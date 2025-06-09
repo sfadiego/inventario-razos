@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Core\Data\IndexData;
 use App\Http\Requests\Ventas\VentaStoreRequest;
+use App\Logic\VentaProductos\ProductosByVentaLogic;
 use App\Logic\Ventas\VentasIndexLogic;
 use App\Models\Venta;
 use Illuminate\Http\JsonResponse;
@@ -22,9 +23,8 @@ class VentasController extends Controller
         return Response::success($venta);
     }
 
-    public function productoVenta(Venta $venta): JsonResponse
+    public function productoVenta(IndexData $data, ProductosByVentaLogic $logic): JsonResponse
     {
-        $productos = $venta->load('ventaProductos');
-        return Response::success($productos?->ventaProductos);
+        return $logic->run($data);
     }
 }

@@ -7,7 +7,7 @@ Route::controller(ProveedoresController::class)
     ->group(function () {
         Route::get('', 'index');
         Route::post('', 'store');
-        Route::prefix('{proveedor}')->group(function () {
+        Route::prefix('{id}')->group(function () {
             Route::get('', 'show');
             Route::put('', 'update');
             Route::delete('', 'destroy');
