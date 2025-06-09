@@ -72,7 +72,7 @@ class IndexLogic
         }
 
         if ($this->withPagination) {
-            $this->pagination = $this->queryBuilder->paginate($data->perPage, ['*'], 'page', $data->page);
+            $this->pagination = $this->queryBuilder->paginate($data->limit, ['*'], 'page', $data->page);
             $this->response = $this->pagination->getCollection();
 
             return Response::successDataTable(

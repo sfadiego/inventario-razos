@@ -21,7 +21,6 @@ class ClienteIndexLogic extends IndexLogic
             'confiable' => 'Es confiable',
             'nombre' => 'Nombre',
             'observaciones' => 'Observaciones',
-            'actions' => '#',
         ];
     }
 

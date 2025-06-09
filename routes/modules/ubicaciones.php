@@ -7,7 +7,7 @@ Route::controller(UbicacionesController::class)
     ->group(function () {
         Route::get('', 'index');
         Route::post('', 'store');
-        Route::prefix('{ubicacion}')->group(function () {
+        Route::prefix('{id}')->group(function () {
             Route::get('', 'show');
             Route::put('', 'update');
             Route::delete('', 'destroy');

@@ -3,16 +3,13 @@ import { AlertTypeEnum } from '@/enums/AlertTypeEnum';
 import { useOnSubmit } from '@/hooks/useOnSubmit';
 import { ICliente } from '@/models/cliente.interface';
 import { useServiceStoreCliente, useServiceUpdateCliente } from '@/Services/clientes/useServiceClientes';
+import { useState } from 'react';
 import * as Yup from 'yup';
 import { useClienteStore } from './useClienteStore';
 
-interface IuseClienteProps {
-    closeModal?: () => void;
-}
-
-export const useCliente = (props: IuseClienteProps) => {
-    const { closeModal } = props;
+export const useCliente = () => {
     const { cliente, setRefreshFlag } = useClienteStore();
+    const [isCheckedDisabled, setIsCheckedDisabled] = useState(true);
     const initialValues: ICliente = {
         nombre: cliente?.nombre ?? '',
         confiable: cliente?.confiable ?? true,
@@ -26,9 +23,6 @@ export const useCliente = (props: IuseClienteProps) => {
     });
 
     const handleSuccess = () => {
-        if (closeModal) {
-            closeModal();
-        }
         setRefreshFlag();
         AlertSwal({
             type: AlertTypeEnum.Success,
@@ -48,5 +42,5 @@ export const useCliente = (props: IuseClienteProps) => {
         validationSchema,
         onSubmit,
     };
-    return { formikProps, isPending: mutator.isPending };
+    return { formikProps, isPending: mutator.isPending, isCheckedDisabled, setIsCheckedDisabled };
 };

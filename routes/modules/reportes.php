@@ -7,7 +7,7 @@ Route::controller(CategoriasController::class)
     ->group(function () {
         Route::get('', 'index');
         Route::post('', 'store');
-        Route::prefix('{categoria}')->group(function () {
+        Route::prefix('{id}')->group(function () {
             Route::get('', 'show');
             Route::put('', 'update');
             Route::delete('', 'destroy');
