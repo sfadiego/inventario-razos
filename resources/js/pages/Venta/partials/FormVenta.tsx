@@ -20,7 +20,10 @@ export const FormVenta = ({ nuevocliente }: IFormVentaProps) => {
             <Formik enableReinitialize {...formikProps}>
                 {(formik) => (
                     <Form className={`grid grid-cols-12 gap-2 pb-5`}>
-                        <div className="col-span-6">
+                        <div className="col-span-4">
+                            <Input<IVenta> disabled={true} label={`Folio`} name="folio" formik={formik} type={InputTypeEnum.Text} />
+                        </div>
+                        <div className="col-span-4">
                             <Input<IVenta>
                                 disabled={disabled}
                                 label={`Nombre de Venta`}
@@ -29,7 +32,7 @@ export const FormVenta = ({ nuevocliente }: IFormVentaProps) => {
                                 type={InputTypeEnum.Text}
                             />
                         </div>
-                        <div className="col-span-6">
+                        <div className="col-span-4">
                             <SelectTipoVenta disabled={disabled} formik={formik} />
                         </div>
                         {!nuevocliente && (
@@ -53,6 +56,7 @@ export const FormVenta = ({ nuevocliente }: IFormVentaProps) => {
                     </Form>
                 )}
             </Formik>
+            {nuevocliente && <hr></hr>}
         </>
     );
 };

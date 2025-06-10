@@ -1,5 +1,4 @@
-import { AlertSwal } from '@/components/alertSwal/AlertSwal';
-import { AlertTypeEnum } from '@/enums/AlertTypeEnum';
+import { AlertToast } from '@/components/alertToast/AlertToast';
 import { useOnSubmit } from '@/hooks/useOnSubmit';
 import { ICliente } from '@/models/cliente.interface';
 import { useServiceStoreCliente, useServiceUpdateCliente } from '@/Services/clientes/useServiceClientes';
@@ -8,7 +7,7 @@ import * as Yup from 'yup';
 import { useClienteStore } from './useClienteStore';
 
 export const useCliente = () => {
-    const { cliente, setRefreshFlag } = useClienteStore();
+    const { cliente, setSelectedCliente } = useClienteStore();
     const [isCheckedDisabled, setIsCheckedDisabled] = useState(true);
     const initialValues: ICliente = {
         nombre: cliente?.nombre ?? '',
@@ -22,19 +21,18 @@ export const useCliente = () => {
         observaciones: Yup.string(),
     });
 
-    const handleSuccess = () => {
-        setRefreshFlag();
-        AlertSwal({
-            type: AlertTypeEnum.Success,
-            title: `Exito`,
-            text: `Cliente guardado correctamente`,
+    const handleSuccess = (data: ICliente) => {
+        AlertToast({
+            type: 'success',
+            message: 'Nuevo cliente guardado',
         });
+        setSelectedCliente(data);
     };
     const mutator = useServiceStoreCliente();
     const mutatorUpdate = useServiceUpdateCliente(cliente?.id ?? 0);
     const { onSubmit } = useOnSubmit<ICliente>({
         mutateAsync: cliente?.id ? mutatorUpdate.mutateAsync : mutator.mutateAsync,
-        onSuccess: async () => handleSuccess(),
+        onSuccess: async (data) => handleSuccess(data),
     });
 
     const formikProps = {

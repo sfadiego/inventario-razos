@@ -2,7 +2,7 @@ import { toast, ToastOptions } from 'react-toastify';
 
 type ToastType = 'success' | 'error' | 'info' | 'warning';
 const defaultToastOptions: ToastOptions = {
-    position: 'bottom-right',
+    position: 'top-right',
     autoClose: 3000,
 };
 interface IAlertToastOptions {
