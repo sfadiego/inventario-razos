@@ -34,15 +34,15 @@ class ProductosStoreRequest extends FormRequest
             'ubicacion_id' => ['required', 'exists:ubicaciones,id'],
             'activo' => ['nullable', 'boolean'],
         ];
-        }
+    }
 
-        /**
-         * mensajes personalizados
-         *
-         * @return array<string, string>
-         */
-        public function messages(): array
-        {
+    /**
+     * mensajes personalizados
+     *
+     * @return array<string, string>
+     */
+    public function messages(): array
+    {
         return [
             'nombre.required' => 'El nombre es obligatorio.',
             'nombre.unique' => 'El nombre ya existe en la base de datos.',

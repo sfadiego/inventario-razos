@@ -20,6 +20,7 @@ class VentasController extends Controller
     public function store(VentaStoreRequest $params): JsonResponse
     {
         $venta = Venta::createVenta($params->all());
+
         return Response::success($venta);
     }
 

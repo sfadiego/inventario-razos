@@ -11,30 +11,30 @@ use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class VentasIndexLogic extends IndexLogic
 {
-  public function __construct(Venta $modelo)
-  {
-    parent::__construct($modelo);
-  }
+    public function __construct(Venta $modelo)
+    {
+        parent::__construct($modelo);
+    }
 
-  protected function tableHeaders(): array
-  {
-    return [
-      'id' => __('#'),
-      'nombre_venta' => 'Nombre',
-      'cliente' => 'Cliente',
-      'tipo_compra' => 'Tipo de compra',
-      'venta_total' => 'Total',
-      'actions' => '#',
-    ];
-  }
+    protected function tableHeaders(): array
+    {
+        return [
+            'id' => __('#'),
+            'nombre_venta' => 'Nombre',
+            'cliente' => 'Cliente',
+            'tipo_compra' => 'Tipo de compra',
+            'venta_total' => 'Total',
+            'actions' => '#',
+        ];
+    }
 
-  public function run(IndexData $data): JsonResponse
-  {
-    return parent::run($data);
-  }
+    public function run(IndexData $data): JsonResponse
+    {
+        return parent::run($data);
+    }
 
-  protected function withResource(): AnonymousResourceCollection
-  {
-    return VentasResource::collection($this->response);
-  }
+    protected function withResource(): AnonymousResourceCollection
+    {
+        return VentasResource::collection($this->response);
+    }
 }

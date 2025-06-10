@@ -7,10 +7,15 @@ use Illuminate\Http\Request;
 class IndexData extends Request
 {
     public ?int $page;
+
     public ?int $limit;
+
     public ?int $id;
+
     public ?string $order;
+
     public ?array $filters;
+
     public ?string $search;
 
     public function __construct(Request $request)

@@ -2,12 +2,11 @@
 
 namespace App\Models;
 
+use App\Enums\TipoCompraEnum;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use App\Enums\TipoCompraEnum;
-use Illuminate\Support\Str;
 
 class Venta extends Model
 {
@@ -37,12 +36,12 @@ class Venta extends Model
     {
         $lastFolio = Venta::latest()->value('folio');
         $newFolio = $lastFolio ? intval(substr($lastFolio, -4)) + 1 : 1;
-        $folio = 'VENTA-' . date('Ymd') . '-' . str_pad($newFolio, 4, '0', STR_PAD_LEFT);
+        $folio = 'VENTA-'.date('Ymd').'-'.str_pad($newFolio, 4, '0', STR_PAD_LEFT);
 
         return self::create([
             'venta_total' => $data['venta_total'] ?? 0,
             'nombre_venta' => $data['nombre_venta'] ?? '',
-            'folio' =>  $folio,
+            'folio' => $folio,
             'cliente_id' => $data['cliente_id'] ?? null,
             'tipo_compra' => $data['tipo_compra'] ?? TipoCompraEnum::Contado->value,
         ]);
