@@ -1,12 +1,15 @@
 import { useOnSubmit } from '@/hooks/useOnSubmit';
 import { IVenta } from '@/models/venta.interface';
+import { useClienteStore } from '@/pages/Clientes/partials/useClienteStore';
 import { useServiceStoreVenta } from '@/Services/ventas/useServiceVenta';
 import * as Yup from 'yup';
 import { useVentasStore } from './useVentasStore';
 export const useFormVenta = () => {
     const { venta, setVenta } = useVentasStore();
+    const { cliente } = useClienteStore();
     const validationSchema = Yup.object().shape({
         venta_total: Yup.number(),
+        folio: Yup.string(),
         nombre_venta: Yup.string().max(100, 'El nombre no puede exceder 100 caracteres'),
         cliente_id: Yup.number().nullable(),
         tipo_compra: Yup.string().oneOf(['contado', 'credito'], 'Tipo de compra inválido').required('El tipo de compra es obligatorio'),
@@ -14,8 +17,9 @@ export const useFormVenta = () => {
     const initialValues: IVenta = {
         id: venta?.id ?? 0,
         venta_total: venta?.venta_total ?? 0,
+        folio: venta?.folio ?? '',
         nombre_venta: venta?.nombre_venta ?? '',
-        cliente_id: venta?.cliente_id ?? null,
+        cliente_id: cliente?.id ?? venta?.cliente_id ?? null,
         tipo_compra: venta?.tipo_compra ?? 'contado',
     };
     const handleSuccess = (venta: IVenta) => setVenta(venta);

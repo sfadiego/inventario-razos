@@ -12,6 +12,7 @@ return new class extends Migration
             $table->id();
             $table->decimal('venta_total', 10, 2);
             $table->string('nombre_venta');
+            $table->string('folio')->unique();
             $table->foreignId('cliente_id')
                 ->nullable()
                 ->constrained('clientes')
