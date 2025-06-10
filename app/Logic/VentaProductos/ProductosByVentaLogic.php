@@ -32,7 +32,7 @@ class ProductosByVentaLogic extends ShowLogic
 
     public function run(IndexData $data): JsonResponse
     {
-        $productos = $this->modelo->where('venta_id', $data->id);
+        $productos = $this->modelo->where('venta_id', $data->params['venta_id'] ?? 0);
         $paginator = $productos->paginate($data->limit, ['*'], 'page', $data->page);
 
         return Response::successDataTable(

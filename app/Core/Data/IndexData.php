@@ -3,6 +3,7 @@
 namespace App\Core\Data;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
 
 class IndexData extends Request
 {
@@ -16,6 +17,8 @@ class IndexData extends Request
 
     public ?array $filters;
 
+    public ?array $params;
+
     public ?string $search;
 
     public function __construct(Request $request)
@@ -26,6 +29,7 @@ class IndexData extends Request
         $this->limit = $request->input('limit', 15);
         $this->order = $request->input('order', 'asc');
         $this->filters = $request->input('filters', []);
+        $this->params = $request->all() ?? [];
         $this->search = $request->input('search');
     }
 }

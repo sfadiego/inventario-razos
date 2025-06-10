@@ -7,7 +7,5 @@ Route::controller(VentasController::class)
     ->group(function () {
         Route::get('', 'index');
         Route::post('', 'store');
-        Route::prefix('{venta}')->group(function () {
-            Route::get('productos', 'productoVenta');
-        });
+        Route::get('productos', 'productoVenta');
     });
