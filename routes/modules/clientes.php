@@ -7,7 +7,7 @@ Route::controller(ClientesController::class)
     ->group(function () {
         Route::get('', 'index');
         Route::post('', 'store');
-        Route::prefix('{id}')->group(function () {
+        Route::prefix('{cliente}')->group(function () {
             Route::get('', 'show');
             Route::put('', 'update');
             Route::delete('', 'destroy');

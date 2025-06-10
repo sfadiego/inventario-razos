@@ -46,6 +46,7 @@ class Producto extends Model
         $letras = strtoupper(Str::substr(preg_replace('/[^A-Za-z]/', '', $nombre), 0, 4));
         $numeros = str_pad(random_int(0, 9999), 4, '0', STR_PAD_LEFT);
         $fecha = now()->format('ymd');
+
         return "{$letras}-{$numeros}-{$fecha}";
     }
 }

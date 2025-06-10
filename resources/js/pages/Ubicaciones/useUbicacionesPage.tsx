@@ -14,7 +14,7 @@ export const useUbicacionesPage = () => {
     const { openModal, isOpen, closeModal } = useModal();
     const [selected, setSelected] = useState(0);
     const { isLoading, data } = useServiceShowUbicacion(selected);
-    const { setSelectedUbicacion,refreshUbicacionFlag } = useUbicacionStore();
+    const { setSelectedUbicacion, refreshUbicacionFlag } = useUbicacionStore();
     const handleCloseModal = () => {
         closeModal();
         setSelected(0);

@@ -9,13 +9,17 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Response;
 
-//TODO: revisar a detalle ShowLogic
+// TODO: revisar a detalle ShowLogic
 class ShowLogic
 {
     protected bool $withPagination = true;
+
     protected $response = null;
+
     protected LengthAwarePaginator $pagination;
+
     protected ?Model $modelo = null;
+
     protected Builder $queryBuilder;
 
     public function __construct(?Model $modelo = null)
