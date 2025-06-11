@@ -1,11 +1,11 @@
 import { ScrollToTop } from '@/components/common/ScrollToTop';
-import { Outlet } from 'react-router';
+import React from 'react';
 import { SidebarProvider, useSidebar } from '../context/SidebarContext';
 import AppHeader from './AppHeader';
 import AppSidebar from './AppSidebar';
 import Backdrop from './Backdrop';
 
-const LayoutContent: React.FC = () => {
+const LayoutContent: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     const { isExpanded, isHovered, isMobileOpen } = useSidebar();
 
     return (
@@ -20,18 +20,16 @@ const LayoutContent: React.FC = () => {
                 } ${isMobileOpen ? 'ml-0' : ''}`}
             >
                 <AppHeader />
-                <div className="mx-auto max-w-(--breakpoint-2xl) p-4 md:p-6">
-                    <Outlet />
-                </div>
+                <div className="mx-auto max-w-(--breakpoint-2xl) p-4 md:p-6">{children}</div>
             </div>
         </div>
     );
 };
 
-const AppLayout: React.FC = () => {
+const AppLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     return (
         <SidebarProvider>
-            <LayoutContent />
+            <LayoutContent>{children}</LayoutContent>
             <ScrollToTop />
         </SidebarProvider>
     );
