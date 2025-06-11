@@ -21,11 +21,11 @@ export enum AdminRoutes {
 }
 
 export const adminRoutes: IRoute[] = [
-    { path: AdminRoutes.Dashboard, name: 'Dashboard', element: <DashboardPage /> },
-    { path: AdminRoutes.Venta, name: 'Ventas', element: <VentasPage /> },
-    { path: AdminRoutes.Proveedores, name: 'Provedores', element: <ProveedoresPage /> },
-    { path: AdminRoutes.Productos, name: 'Productos', element: <ProductosPage /> },
-    { path: AdminRoutes.Reportes, name: 'Reportes', element: <ReportesPage /> },
-    { path: AdminRoutes.Ubicaciones, name: 'Ubicaciones', element: <UbicacionesPage /> },
-    { path: AdminRoutes.Clientes, name: 'Clientes', element: <ClientesPage /> },
+    { private: true, path: AdminRoutes.Dashboard, name: 'Dashboard', element: <DashboardPage /> },
+    { private: true, path: AdminRoutes.Venta, name: 'Ventas', element: <VentasPage /> },
+    { private: true, path: AdminRoutes.Proveedores, name: 'Provedores', element: <ProveedoresPage /> },
+    { private: true, path: AdminRoutes.Productos, name: 'Productos', element: <ProductosPage /> },
+    { private: true, path: AdminRoutes.Reportes, name: 'Reportes', element: <ReportesPage /> },
+    { private: true, path: AdminRoutes.Ubicaciones, name: 'Ubicaciones', element: <UbicacionesPage /> },
+    { private: true, path: AdminRoutes.Clientes, name: 'Clientes', element: <ClientesPage /> },
 ];

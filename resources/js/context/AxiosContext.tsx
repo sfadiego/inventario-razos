@@ -9,7 +9,6 @@ export const AxiosContext = createContext<IAuthContextType | undefined>(undefine
 export const AxiosProvider = ({ children }: IAuthProviderProps) => {
     const [authToken, setAuthToken] = useState<string | null>(localStorage.getItem('authToken'));
     const [user, setUser] = useState<IUser | null>(localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')!) : null);
-    const [isFetchingUser, setIsFetchingUser] = useState<boolean>(false);
 
     const logout = useCallback(() => {
         configureAxiosHeaders(null);
@@ -47,30 +46,6 @@ export const AxiosProvider = ({ children }: IAuthProviderProps) => {
     const updateUser = useCallback((user: IUser) => {
         configUser(user);
     }, []);
-
-    useEffect(() => {
-        const fetchUser = async () => {
-            if (!isFetchingUser && authToken && user) {
-                setIsFetchingUser(true);
-                try {
-                    const response: IUser = {
-                        id: 1,
-                        name: 'diego armando',
-                        email: 'email@gmail.com',
-                        role_id: 1,
-                        activo: true,
-                        created_at: '2025-03-20',
-                        updated_at: '2025-03-20',
-                    };
-                    updateUser(response);
-                } catch (error) {
-                    console.error('Error fetching user profile', error);
-                }
-            }
-        };
-
-        fetchUser();
-    }, [authToken, isFetchingUser, updateUser, user]);
 
     const configureAxiosHeaders = (token: string | null) => {
         if (token) {

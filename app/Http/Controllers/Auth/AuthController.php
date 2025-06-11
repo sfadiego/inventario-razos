@@ -35,8 +35,6 @@ class AuthController extends Controller
             email: $data['email'],
             password: $data['password']
         );
-
-        return $user
-            ? Response::success($user) : Response::error(__('Credencial no válida.'));
+        return $user ? Response::success($user) : Response::error(__('Credencial no válida.'));
     }
 }
