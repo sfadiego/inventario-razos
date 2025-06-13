@@ -21,13 +21,13 @@ class VentasIndexLogic extends IndexLogic
         return [
             'id' => __('#'),
             'nombre_venta' => 'Nombre',
-            'cliente' => 'Cliente',
+            'folio' => 'folio',
+            'cliente.nombre' => 'Cliente',
             'tipo_compra' => 'Tipo de compra',
             'venta_total' => 'Total',
             'actions' => '#',
         ];
     }
-
     public function run(IndexData $data): JsonResponse
     {
         return parent::run($data);
