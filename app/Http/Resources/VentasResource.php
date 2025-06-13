@@ -18,6 +18,7 @@ class VentasResource extends JsonResource
             'id' => $this->id,
             'venta_total' => $this->venta_total,
             'nombre_venta' => $this->nombre_venta,
+            'folio' => strtoupper($this->folio),
             'cliente_id' => $this->cliente_id,
             'cliente' => $this->cliente ? $this->cliente : null,
             'tipo_compra' => $this->tipo_compra,

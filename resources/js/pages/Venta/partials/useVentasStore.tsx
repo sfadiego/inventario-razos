@@ -4,9 +4,13 @@ import { create } from 'zustand';
 interface IuseVentasStore {
     venta: IVenta | null;
     setVenta: (prop?: IVenta | null) => void;
+    refreshFlag: boolean;
+    setRefreshFlag: (prop?: IVenta | null) => void;
 }
 
 export const useVentasStore = create<IuseVentasStore>((set) => ({
     venta: null,
     setVenta: (data?: IVenta | null) => set(() => ({ venta: data ? data : null })),
+    refreshFlag: false,
+    setRefreshFlag: () => set((state) => ({ refreshFlag: !state.refreshFlag })),
 }));

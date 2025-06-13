@@ -14,4 +14,5 @@ export interface IDatatableWithFilterProps {
     rowExpansion?: { content: ({ record }: { record: any }) => ReactNode };
     children: ((formik: FormikProps<any>) => ReactNode) | ReactNode;
     initialValues: any;
+    newButtonText?: string;
 }

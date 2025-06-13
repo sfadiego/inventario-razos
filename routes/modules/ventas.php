@@ -8,4 +8,7 @@ Route::controller(VentasController::class)
         Route::get('', 'index');
         Route::post('', 'store');
         Route::get('productos', 'productoVenta');
+        Route::prefix('{venta}')->group(function () {
+            Route::get('', 'show');
+        });
     });
