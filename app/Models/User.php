@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Auth;
@@ -17,6 +18,7 @@ class User extends Authenticatable
 
     protected $fillable = [
         'name',
+        'role_id',
         'email',
         'password',
         'activo',
@@ -74,5 +76,10 @@ class User extends Authenticatable
     public static function generateAccessToken($user)
     {
         return $user->createToken('access_token')->plainTextToken;
+    }
+
+    public function roles(): hasMany
+    {
+        return $this->hasMany(Role::class);
     }
 }
