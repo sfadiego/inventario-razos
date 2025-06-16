@@ -2,10 +2,11 @@ import { PageWrapper } from '@/components/layout/PageWrapper';
 import { DatatableWithFilter } from '@/components/tables/DatatableWithFilter';
 import { useServiceIndexVenta } from '@/Services/ventas/useServiceVenta';
 import { FiltrosVenta } from './partials/FiltrosVenta';
+import { FormVenta } from './partials/FormVenta';
 import { useVentasPage } from './useVentasPage';
 
 export default function VentasPage() {
-    const { openModal, filters, renderersMap, initialValues } = useVentasPage();
+    const { openModal, closeModal, isOpen, filters, renderersMap, initialValues } = useVentasPage();
 
     return (
         <PageWrapper pageTitle="Ventas">
@@ -15,12 +16,13 @@ export default function VentasPage() {
                 renderersMap={renderersMap}
                 initialValues={initialValues}
                 filters={filters}
-                onClickNew={() => openModal}
+                onClickNew={openModal}
                 refreshFlag={false}
                 service={useServiceIndexVenta}
             >
                 {(formik) => <FiltrosVenta formik={formik} />}
             </DatatableWithFilter>
+            <FormVenta closeModal={closeModal} isOpen={isOpen}></FormVenta>
         </PageWrapper>
     );
 }
