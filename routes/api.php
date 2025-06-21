@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 Route::prefix('auth')->group(base_path('/routes/modules/auth.php'));
 
 Route::middleware('auth:sanctum')->group(function () {
+    Route::prefix('users')->group(base_path('/routes/modules/users.php'));
     Route::prefix('categorias')->group(base_path('/routes/modules/categorias.php'));
     Route::prefix('clientes')->group(base_path('/routes/modules/clientes.php'));
     Route::prefix('productos')->group(base_path('/routes/modules/productos.php'));
