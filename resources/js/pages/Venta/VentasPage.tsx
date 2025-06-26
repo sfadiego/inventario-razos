@@ -7,7 +7,6 @@ import { useVentasPage } from './useVentasPage';
 
 export default function VentasPage() {
     const { openModal, closeModal, isOpen, filters, renderersMap, initialValues } = useVentasPage();
-
     return (
         <PageWrapper pageTitle="Ventas">
             <DatatableWithFilter

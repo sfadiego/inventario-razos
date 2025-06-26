@@ -10,7 +10,7 @@ export interface IDatatableWithFilterProps {
     service: (params: any) => any;
     propertyInputSearch?: string;
     disableNewButton?: boolean;
-    onClickNew: () => void;
+    onClickNew?: () => void;
     rowExpansion?: { content: ({ record }: { record: any }) => ReactNode };
     children: ((formik: FormikProps<any>) => ReactNode) | ReactNode;
     initialValues: any;

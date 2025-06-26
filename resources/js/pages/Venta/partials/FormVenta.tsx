@@ -26,7 +26,7 @@ export const FormVenta = ({ isOpen, closeModal }: IFormVentaProps) => {
                     <>
                         <Form className={`grid grid-cols-12 gap-2 pt-3 pb-5`}>
                             <div className="col-span-12 flex justify-end">
-                                <Switch disabled={false} label="Cliente nuevo" defaultChecked={nuevocliente} onChange={setNuevocliente} />
+                                <Switch disabled={disabled} label="Cliente nuevo" defaultChecked={nuevocliente} onChange={setNuevocliente} />
                             </div>
                             <div className="col-span-12">
                                 <Input<IVenta> disabled={true} label={`Folio`} name="folio" formik={formik} type={InputTypeEnum.Text} />

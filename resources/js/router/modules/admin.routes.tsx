@@ -3,6 +3,7 @@ import { lazy } from 'react';
 
 const DashboardPage = lazy(() => import('@/pages/Dashboard/Home'));
 const VentasPage = lazy(() => import('@/pages/Venta/VentasPage'));
+const ProductosVentaPage = lazy(() => import('@/pages/ProductosVenta/ProductosVentaPage'));
 const ProveedoresPage = lazy(() => import('@/pages/Proveedores/ProveedoresPage'));
 const ProductosPage = lazy(() => import('@/pages/Productos/ProductosPage'));
 const ReportesPage = lazy(() => import('@/pages/Reportes/ReportesPage'));
@@ -12,7 +13,8 @@ const ClientesPage = lazy(() => import('@/pages/Clientes/ClientesPage'));
 
 export enum AdminRoutes {
     Dashboard = '/',
-    Venta = '/ventas',
+    Venta = '/venta',
+    VentaProductos = '/venta/:id/productos',
     Proveedores = '/admin/proveedores',
     Productos = '/admin/productos',
     Reportes = '/admin/reportes',
@@ -23,6 +25,7 @@ export enum AdminRoutes {
 export const adminRoutes: IRoute[] = [
     { private: true, path: AdminRoutes.Dashboard, name: 'Dashboard', element: <DashboardPage /> },
     { private: true, path: AdminRoutes.Venta, name: 'Ventas', element: <VentasPage /> },
+    { private: true, path: AdminRoutes.VentaProductos, name: 'Productos de venta', element: <ProductosVentaPage /> },
     { private: true, path: AdminRoutes.Proveedores, name: 'Provedores', element: <ProveedoresPage /> },
     { private: true, path: AdminRoutes.Productos, name: 'Productos', element: <ProductosPage /> },
     { private: true, path: AdminRoutes.Reportes, name: 'Reportes', element: <ReportesPage /> },
