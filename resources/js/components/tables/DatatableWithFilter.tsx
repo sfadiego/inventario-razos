@@ -7,7 +7,7 @@ import { IDatatableWithFilterProps } from './IDatatableFilter';
 import { useDatatableFilters } from './useDatatableFilters';
 
 export const DatatableWithFilter = (props: IDatatableWithFilterProps) => {
-    const { disableNewButton = false } = props;
+    const { disableNewButton = false, newButtonText } = props;
     const { initialValues, isOpen, search, dataTableProps, children, openModal, closeModal, onFilter, setSearch, onClickNew } =
         useDatatableFilters(props);
 
@@ -26,7 +26,7 @@ export const DatatableWithFilter = (props: IDatatableWithFilterProps) => {
                 {!disableNewButton && (
                     <div className="col-span-12 md:col-span-2">
                         <Button onClick={onClickNew} className="w-full">
-                            <Plus /> Nuevo
+                            <Plus /> {newButtonText ? newButtonText : `Nuevo`}
                         </Button>
                     </div>
                 )}

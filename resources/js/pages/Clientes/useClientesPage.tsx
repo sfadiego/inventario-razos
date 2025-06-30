@@ -1,10 +1,8 @@
 import { IFilterItem } from '@/components/filters/modalFilter/types';
 import Badge from '@/components/ui/badge/Badge';
-import Button from '@/components/ui/button/Button';
 import { useModal } from '@/hooks/useModal';
 import { ICliente } from '@/models/cliente.interface';
 import { useServiceIndexClientes, useServiceShowCliente } from '@/Services/clientes/useServiceClientes';
-import { Edit } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { useClienteStore } from './partials/useClienteStore';
 

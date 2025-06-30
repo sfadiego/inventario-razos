@@ -2,9 +2,11 @@ import { useOnSubmit } from '@/hooks/useOnSubmit';
 import { IVenta } from '@/models/venta.interface';
 import { useClienteStore } from '@/pages/Clientes/partials/useClienteStore';
 import { useServiceStoreVenta } from '@/Services/ventas/useServiceVenta';
+import { useNavigate } from 'react-router';
 import * as Yup from 'yup';
 import { useVentasStore } from './useVentasStore';
 export const useFormVenta = () => {
+    const navigate = useNavigate();
     const { venta, setVenta } = useVentasStore();
     const { cliente } = useClienteStore();
     const validationSchema = Yup.object().shape({
@@ -22,7 +24,10 @@ export const useFormVenta = () => {
         cliente_id: cliente?.id ?? venta?.cliente_id ?? null,
         tipo_compra: venta?.tipo_compra ?? 'contado',
     };
-    const handleSuccess = (venta: IVenta) => setVenta(venta);
+    const handleSuccess = (venta: IVenta) => {
+        setVenta(venta);
+        navigate(`/venta/${venta?.id}/productos`);
+    };
     const mutator = useServiceStoreVenta();
     const { onSubmit } = useOnSubmit<IVenta>({
         mutateAsync: mutator.mutateAsync,
@@ -38,8 +43,6 @@ export const useFormVenta = () => {
         isPending: mutator.isPending,
         ventaActual: venta,
         disabled: !!venta?.id,
-        resetVenta: () => {
-            setVenta(null);
-        },
+        resetVenta: () => setVenta(null),
     };
 };

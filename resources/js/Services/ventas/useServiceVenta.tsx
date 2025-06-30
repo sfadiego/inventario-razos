@@ -2,6 +2,7 @@ import { useGET, usePOST, usePUT } from '@/hooks/useApi';
 import { IPaginate } from '@/interfaces/IPaginate';
 import { IPaginateServiceProps } from '@/interfaces/IPaginateServiceProps';
 import { IVenta } from '@/models/venta.interface';
+import { ICountVentaProducto } from '@/models/ventaProducto.interface';
 
 const url = '/api/ventas';
 export const useServiceIndexVenta = ({ filters = [], search = null, page = 1, limit = 10 }: IPaginateServiceProps) => {
@@ -19,3 +20,5 @@ export const useServiceIndexVenta = ({ filters = [], search = null, page = 1, li
 export const useServiceStoreVenta = () => usePOST({ url });
 export const useServiceShowVenta = (id?: number) => useGET<IVenta>({ url: `${url}/${id}`, enable: !!id });
 export const useServiceUpdateVenta = (id?: number) => usePUT({ url: `${url}/${id}` });
+
+export const useServiceCountVentaProducto = (id?: number) => useGET<ICountVentaProducto>({ url: `${url}/${id}/count-productos`, enable: !!id });

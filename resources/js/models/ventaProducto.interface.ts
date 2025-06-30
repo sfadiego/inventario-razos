@@ -6,3 +6,11 @@ export interface IVentaProducto {
     venta_id: number;
     created_at?: string;
 }
+
+export interface IVentaProductoForm extends Omit<IVentaProducto, 'id'> {
+    producto_nombre?: string;
+}
+
+export interface ICountVentaProducto {
+    total: number;
+}

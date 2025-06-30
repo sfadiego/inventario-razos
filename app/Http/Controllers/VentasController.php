@@ -23,9 +23,19 @@ class VentasController extends Controller
 
         return Response::success($venta);
     }
+    public function show(Venta $venta): JsonResponse
+    {
+        return Response::success($venta);
+    }
 
     public function productoVenta(IndexData $data, ProductosByVentaLogic $logic): JsonResponse
     {
         return $logic->run($data);
+    }
+
+    public function countProductos(Venta $venta): JsonResponse
+    {
+        $venta = $venta->ventaProductos()->count();
+        return Response::success(['total' => $venta]);
     }
 }

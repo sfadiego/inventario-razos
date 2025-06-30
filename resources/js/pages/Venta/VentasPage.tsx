@@ -1,33 +1,27 @@
-import ComponentCard from '@/components/common/ComponentCard';
-import Switch from '@/components/form/switch/Switch';
 import { PageWrapper } from '@/components/layout/PageWrapper';
-import { useEffect, useState } from 'react';
-import { FormCliente } from '../Clientes/partials/FormCliente';
-import { useClienteStore } from '../Clientes/partials/useClienteStore';
+import { DatatableWithFilter } from '@/components/tables/DatatableWithFilter';
+import { useServiceIndexVenta } from '@/Services/ventas/useServiceVenta';
+import { FiltrosVenta } from './partials/FiltrosVenta';
 import { FormVenta } from './partials/FormVenta';
-import { useVentasStore } from './partials/useVentasStore';
+import { useVentasPage } from './useVentasPage';
 
 export default function VentasPage() {
-    const [nuevocliente, setNuevocliente] = useState(false);
-    const { venta } = useVentasStore();
-    const { cliente } = useClienteStore();
-    useEffect(() => {
-        if (cliente?.id) {
-            setNuevocliente(false);
-        }
-    }, [cliente]);
-
+    const { openModal, closeModal, isOpen, filters, renderersMap, initialValues } = useVentasPage();
     return (
         <PageWrapper pageTitle="Ventas">
-            <>
-                <div className="grid grid-cols-12 gap-6 xl:grid-cols-12">
-                    <ComponentCard className="col-span-12" title={'Venta de producto'}>
-                        <Switch disabled={!!venta?.id} label="Cliente nuevo" defaultChecked={nuevocliente} onChange={setNuevocliente} />
-                        <FormVenta nuevocliente={nuevocliente} />
-                        {nuevocliente && <FormCliente />}
-                    </ComponentCard>
-                </div>
-            </>
+            <DatatableWithFilter
+                propertyInputSearch={`folio`}
+                newButtonText={`Venta`}
+                renderersMap={renderersMap}
+                initialValues={initialValues}
+                filters={filters}
+                onClickNew={openModal}
+                refreshFlag={false}
+                service={useServiceIndexVenta}
+            >
+                {(formik) => <FiltrosVenta formik={formik} />}
+            </DatatableWithFilter>
+            <FormVenta closeModal={closeModal} isOpen={isOpen}></FormVenta>
         </PageWrapper>
     );
 }
