@@ -1,10 +1,12 @@
 import { BreadcrumbArrayProps } from '@/components/common/breadcrum';
 import { PageWrapper } from '@/components/layout/PageWrapper';
-import { useDataTable } from '@/hooks/useDatatable';
+import { DatatableWithFilter } from '@/components/tables/DatatableWithFilter';
+import ShoppingCartButton from '@/components/ui/shoppingProductosbutton/ShoppingCartButton';
 import { AdminRoutes } from '@/router/modules/admin.routes';
-import { useServiceVentaProductoDetalle } from '@/Services/ventaProducto/useServiceVentaProducto';
-import { DataTable } from 'mantine-datatable';
 import { useParams } from 'react-router';
+import { FiltrosProductos } from '../Productos/partials/FiltrosProductos';
+import { AgregarProductoVenta } from './partials/AgregarProductoVenta';
+import { useProductosVentaPage } from './useProductosVentaPage';
 
 export default function ProductosVentaPage() {
     const { id } = useParams();
@@ -12,29 +14,27 @@ export default function ProductosVentaPage() {
         { name: 'Ventas', path: AdminRoutes.Venta },
         { name: 'Productos', path: `/venta/${id}/productos` },
     ];
-
-    const { dataTableProps } = useDataTable({
-        service: useServiceVentaProductoDetalle,
-        payload: {
-            serviceParamId: id,
-        },
-    });
-    console.log(dataTableProps);
+    const { filters, openModal, isOpen, closeModal, renderersMap, initialValues, useServiceIndexProductos } = useProductosVentaPage();
     return (
-        <PageWrapper breadcrumbArray={breadcrumbArray} pageTitle="Agregar Productos">
-            {/* <DatatableWithFilter
+        <PageWrapper breadcrumbArray={breadcrumbArray} pageTitle="Carrito de compra">
+            <div className="mb-3 grid grid-cols-12">
+                <div className="col-span-12 flex justify-end">
+                    <ShoppingCartButton />
+                </div>
+            </div>
+            <DatatableWithFilter
                 propertyInputSearch={`nombre`}
                 renderersMap={renderersMap}
                 initialValues={initialValues}
                 filters={filters}
+                onClickNew={openModal}
+                refreshFlag={true}
                 disableNewButton={true}
-                // onClickNew={() => {}}
-                refreshFlag={false}
                 service={useServiceIndexProductos}
             >
                 {(formik) => <FiltrosProductos formik={formik} />}
-            </DatatableWithFilter> */}
-            <DataTable {...dataTableProps} />
+            </DatatableWithFilter>
+            <AgregarProductoVenta closeModal={closeModal} isOpen={isOpen}></AgregarProductoVenta>
         </PageWrapper>
     );
 }

@@ -32,4 +32,10 @@ class VentasController extends Controller
     {
         return $logic->run($data);
     }
+
+    public function countProductos(Venta $venta): JsonResponse
+    {
+        $venta = $venta->ventaProductos()->count();
+        return Response::success(['total' => $venta]);
+    }
 }

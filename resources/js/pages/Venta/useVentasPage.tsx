@@ -3,8 +3,9 @@ import Button from '@/components/ui/button/Button';
 import { useModal } from '@/hooks/useModal';
 import { IVenta } from '@/models/venta.interface';
 import { useServiceShowVenta } from '@/Services/ventas/useServiceVenta';
-import { Edit } from 'lucide-react';
+import { ArrowRight, Edit } from 'lucide-react';
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router';
 import { useVentasStore } from './partials/useVentasStore';
 
 export interface IFiltroVenta {
@@ -18,6 +19,7 @@ export const useVentasPage = () => {
     const [selected, setSelected] = useState(0);
     const { isLoading, data } = useServiceShowVenta(selected);
     const { refreshFlag, setVenta } = useVentasStore();
+    const navigate = useNavigate();
 
     const handleCloseModal = () => {
         closeModal();
@@ -39,16 +41,21 @@ export const useVentasPage = () => {
 
     const renderersMap = {
         actions: ({ id }: IVenta) => (
-            <Button
-                onClick={() => {
-                    openModal();
-                    setSelected(id!);
-                }}
-                variant="primary"
-                size="sm"
-            >
-                <Edit />
-            </Button>
+            <>
+                <Button
+                    onClick={() => {
+                        openModal();
+                        setSelected(id!);
+                    }}
+                    variant="primary"
+                    size="sm"
+                >
+                    <Edit />
+                </Button>
+                <Button className="ml-2" onClick={() => navigate(`/venta/${id}/productos`)} variant="outline" size="sm">
+                    <ArrowRight />
+                </Button>
+            </>
         ),
     };
     const filters: IFilterItem[] = [

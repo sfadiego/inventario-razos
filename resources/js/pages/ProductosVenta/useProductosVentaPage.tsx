@@ -3,48 +3,37 @@ import Button from '@/components/ui/button/Button';
 import { useModal } from '@/hooks/useModal';
 import { IProducto } from '@/models/producto.interface';
 import { useServiceIndexProductos } from '@/Services/productos/useServiceProductos';
-import { Edit } from 'lucide-react';
+import { Plus } from 'lucide-react';
 import { useState } from 'react';
 
-// export interface IFiltroProducto {
-//     proveedor_id?: number;
-//     categoria_id?: number;
-// }
-
+export interface IFiltroProducto {
+    proveedor_id?: number;
+    categoria_id?: number;
+}
 export const useProductosVentaPage = () => {
     const { openModal, isOpen, closeModal } = useModal();
     const [selectedProduct, setselectedProduct] = useState(0);
-    // const { isLoading, data } = useServiceShowProducto(selectedProduct);
-    // const { setSelectedProducto, refreshTableFlag } = useProductoStore();
     const handleCloseModal = () => {
         closeModal();
-        // setselectedProduct(0);
-        // setSelectedProducto(null);
+        setselectedProduct(0);
     };
 
     const handleOpenModal = () => {
         openModal();
         setselectedProduct(0);
-        // setSelectedProducto(null);
     };
-
-    // useEffect(() => {
-    //     if (!isLoading && data && selectedProduct) {
-    //         setSelectedProducto(data);
-    //     }
-    // }, [isLoading, data, setSelectedProducto, selectedProduct]);
 
     const renderersMap = {
         actions: ({ id }: IProducto) => (
             <Button
                 onClick={() => {
                     openModal();
-                    // setselectedProduct(id!);
+                    setselectedProduct(id!);
                 }}
                 variant="primary"
                 size="sm"
             >
-                <Edit />
+                <Plus />
             </Button>
         ),
     };
@@ -55,7 +44,8 @@ export const useProductosVentaPage = () => {
             value: '',
         },
     ];
-    const initialValues = {
+
+    const initialValues: IFiltroProducto = {
         proveedor_id: 0,
         categoria_id: 0,
     };
@@ -64,7 +54,6 @@ export const useProductosVentaPage = () => {
         openModal: handleOpenModal,
         isOpen,
         filters,
-        // refreshTableFlag,
         closeModal: handleCloseModal,
         useServiceIndexProductos,
         renderersMap,

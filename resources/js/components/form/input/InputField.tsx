@@ -39,7 +39,7 @@ const Input = <T extends object>(props: InputProps<T>) => {
 
     return (
         <>
-            {label ? <Label>{label}</Label> : ''}
+            {label && type !== InputTypeEnum.Hidden ? <Label>{label}</Label> : ''}
             <Field
                 as={'input'}
                 disabled={disabled}
