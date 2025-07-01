@@ -23,6 +23,7 @@ class VentasController extends Controller
 
         return Response::success($venta);
     }
+
     public function show(Venta $venta): JsonResponse
     {
         return Response::success($venta);
@@ -36,6 +37,7 @@ class VentasController extends Controller
     public function countProductos(Venta $venta): JsonResponse
     {
         $venta = $venta->ventaProductos()->count();
+
         return Response::success(['total' => $venta]);
     }
 }

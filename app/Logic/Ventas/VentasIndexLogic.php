@@ -28,6 +28,7 @@ class VentasIndexLogic extends IndexLogic
             'actions' => '#',
         ];
     }
+
     public function run(IndexData $data): JsonResponse
     {
         return parent::run($data);

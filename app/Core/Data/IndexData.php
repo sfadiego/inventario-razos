@@ -3,7 +3,6 @@
 namespace App\Core\Data;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Route;
 
 class IndexData extends Request
 {
