@@ -11,14 +11,16 @@ import { useAgregarProductoVenta } from './useAgregarProductoVenta';
 interface IModalAgregarProductoVentaProps {
     isOpen: boolean;
     closeModal: () => void;
+    productoId?: number;
+    ventaId?: number | undefined;
 }
 
-export const AgregarProductoVenta = ({ isOpen, closeModal }: IModalAgregarProductoVentaProps) => {
-    const { formikProps, isPending } = useAgregarProductoVenta();
+export const AgregarProductoVenta = ({ isOpen, closeModal, ventaId = 0, productoId = 0 }: IModalAgregarProductoVentaProps) => {
+    const { formikProps, isPending } = useAgregarProductoVenta({ ventaId, productoId });
     return (
         <Modal
-            title={`Producto`}
-            subtitle={`Crea o actualiza un producto existente`}
+            title={`Nuevo Producto`}
+            subtitle={`Crea o actualiza un producto en el carrito de compras`}
             isOpen={isOpen}
             onClose={closeModal}
             className="m-4 max-w-[700px]"
@@ -29,6 +31,7 @@ export const AgregarProductoVenta = ({ isOpen, closeModal }: IModalAgregarProduc
                         <div className="col-span-12 md:col-span-12">
                             <Input<IVentaProductoForm>
                                 label={`Nombre de producto`}
+                                disabled={true}
                                 name="producto_nombre"
                                 formik={formik}
                                 type={InputTypeEnum.Text}

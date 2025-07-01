@@ -58,5 +58,6 @@ export const useProductosVentaPage = () => {
         useServiceIndexProductos,
         renderersMap,
         initialValues,
+        selectedProduct
     };
 };
