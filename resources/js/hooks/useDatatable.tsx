@@ -38,6 +38,7 @@ export const useDataTable = ({ service, payload = {}, renderersMap = {}, dataTab
         onPageChange: setPage,
         records: data?.data || [],
         columns: data?.columns ? applyRenderers(data.columns) : [],
+        rowClassName: data?.columns ? renderersMap.rowClassName : [],
         onRecordsPerPageChange: setLimit,
         recordsPerPageOptions: pageSize,
         noRecordsText: 'No se encontraron resultados que coincidan con tu búsqueda',

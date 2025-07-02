@@ -22,6 +22,7 @@ class VentasResource extends JsonResource
             'cliente_id' => $this->cliente_id,
             'cliente' => $this->cliente ? $this->cliente : null,
             'tipo_compra' => $this->tipo_compra,
+            'status_venta' => $this->status_venta,
         ];
     }
 }

@@ -2,6 +2,7 @@ import { InputTypeEnum } from '@/components/form/input/enum/InputType.enum';
 import Input from '@/components/form/input/InputField';
 import Switch from '@/components/form/switch/Switch';
 import { SelectCliente } from '@/components/select/clientes/SelectCliente';
+import { SelectStatusVenta } from '@/components/select/statusVenta/SelectStatusVenta';
 import { SelectTipoVenta } from '@/components/select/tipoVenta/SelectTipoVenta';
 import Button from '@/components/ui/button/Button';
 import { ButtonTypeEnum } from '@/components/ui/button/enums/buttonType.enum';
@@ -19,8 +20,9 @@ interface IFormVentaProps {
 export const FormVenta = ({ isOpen, closeModal }: IFormVentaProps) => {
     const { formikProps, isPending, disabled, resetVenta, ventaActual } = useFormVenta();
     const [nuevocliente, setNuevocliente] = useState(false);
+    const title = ventaActual?.id ? `Detalles de Venta ${ventaActual.folio}` : 'Crear Venta';
     return (
-        <Modal isOpen={isOpen} title="Nueva venta" onClose={closeModal} className="m-4 max-w-[700px]">
+        <Modal isOpen={isOpen} title={title} onClose={closeModal} className="m-4 max-w-[700px]">
             <Formik enableReinitialize {...formikProps}>
                 {(formik) => (
                     <>
@@ -43,6 +45,9 @@ export const FormVenta = ({ isOpen, closeModal }: IFormVentaProps) => {
                             <div className="col-span-12">
                                 <SelectTipoVenta disabled={disabled} formik={formik} />
                             </div>
+                            <div className="col-span-12">
+                                <SelectStatusVenta disabled={true} formik={formik} />
+                            </div>
                             {!nuevocliente && (
                                 <>
                                     <div className="col-span-12 mt-2">
@@ -52,7 +57,10 @@ export const FormVenta = ({ isOpen, closeModal }: IFormVentaProps) => {
                             )}
                             {!nuevocliente && !ventaActual?.id && (
                                 <div className="col-span-12 mt-3 flex justify-end gap-2">
-                                    <Button className="col-span-6" onClick={resetVenta} size="sm" variant="outline">
+                                    <Button className="col-span-6" onClick={()=>{
+                                        resetVenta();
+                                        closeModal();
+                                    }} size="sm" variant="outline">
                                         Cancelar
                                     </Button>
                                     <Button className="col-span-6" size="md" type={ButtonTypeEnum.Submit} disabled={isPending || formik.isSubmitting}>

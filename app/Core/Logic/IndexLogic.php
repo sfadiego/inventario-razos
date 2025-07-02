@@ -49,7 +49,7 @@ class IndexLogic
         foreach ($filters as $filter) {
             if ($filter['operator']) {
                 $filterValue = match ($filter['operator']) {
-                    'like' => '%' . $filter['value'] . '%',
+                    'like' => '%'.$filter['value'].'%',
                     default => $filter['value'],
                 };
 

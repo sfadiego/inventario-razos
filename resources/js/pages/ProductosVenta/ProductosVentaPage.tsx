@@ -14,9 +14,10 @@ export default function ProductosVentaPage() {
         { name: 'Ventas', path: AdminRoutes.Venta },
         { name: 'Productos', path: `/venta/${id}/productos` },
     ];
-    const { filters, openModal, isOpen, closeModal, renderersMap, initialValues, useServiceIndexProductos } = useProductosVentaPage();
+    const { filters, openModal, isOpen, closeModal, selectedProduct, renderersMap, initialValues, useServiceIndexProductos } =
+        useProductosVentaPage();
     return (
-        <PageWrapper breadcrumbArray={breadcrumbArray} pageTitle="Carrito de compra">
+        <PageWrapper breadcrumbArray={breadcrumbArray} pageTitle="Listado de productos para venta" >
             <div className="mb-3 grid grid-cols-12">
                 <div className="col-span-12 flex justify-end">
                     <ShoppingCartButton />
@@ -34,7 +35,7 @@ export default function ProductosVentaPage() {
             >
                 {(formik) => <FiltrosProductos formik={formik} />}
             </DatatableWithFilter>
-            <AgregarProductoVenta closeModal={closeModal} isOpen={isOpen}></AgregarProductoVenta>
+            <AgregarProductoVenta ventaId={id ? Number(id) : undefined} productoId={selectedProduct} closeModal={closeModal} isOpen={isOpen}></AgregarProductoVenta>
         </PageWrapper>
     );
 }

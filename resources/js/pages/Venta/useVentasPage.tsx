@@ -1,9 +1,9 @@
 import { IFilterItem } from '@/components/filters/modalFilter/types';
 import Button from '@/components/ui/button/Button';
 import { useModal } from '@/hooks/useModal';
-import { IVenta } from '@/models/venta.interface';
+import { IVenta, StatusVenta } from '@/models/venta.interface';
 import { useServiceShowVenta } from '@/Services/ventas/useServiceVenta';
-import { ArrowRight, Edit } from 'lucide-react';
+import { ArrowRight, Eye } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
 import { useVentasStore } from './partials/useVentasStore';
@@ -13,6 +13,7 @@ export interface IFiltroVenta {
     folio: string;
     cliente_id: number;
     tipo_compra: string;
+    status_venta: StatusVenta;
 }
 export const useVentasPage = () => {
     const { openModal, isOpen, closeModal } = useModal();
@@ -40,7 +41,7 @@ export const useVentasPage = () => {
     }, [isLoading, data, selected, setVenta]);
 
     const renderersMap = {
-        actions: ({ id }: IVenta) => (
+        actions: ({ id, status_venta }: IVenta) => (
             <>
                 <Button
                     onClick={() => {
@@ -50,17 +51,19 @@ export const useVentasPage = () => {
                     variant="primary"
                     size="sm"
                 >
-                    <Edit />
+                    <Eye />
                 </Button>
-                <Button className="ml-2" onClick={() => navigate(`/venta/${id}/productos`)} variant="outline" size="sm">
-                    <ArrowRight />
-                </Button>
+                {status_venta == 'activa' && (
+                    <Button className="ml-2" onClick={() => navigate(`/venta/${id}/productos`)} variant="outline" size="sm">
+                        <ArrowRight />
+                    </Button>
+                )}
             </>
         ),
     };
     const filters: IFilterItem[] = [
         {
-            property: 'folio',
+            property: 'nombre_venta',
             operator: 'like',
             value: '',
         },
@@ -70,6 +73,7 @@ export const useVentasPage = () => {
         folio: '',
         cliente_id: 0,
         tipo_compra: '',
+        status_venta: 'activa',
     };
 
     return {

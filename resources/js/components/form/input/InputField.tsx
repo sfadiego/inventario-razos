@@ -14,6 +14,7 @@ interface InputProps<T> {
     showPassword?: boolean;
     label?: string;
     hint?: string;
+    readOnly?: boolean;
 }
 
 type InputVariant = 'default' | 'disabled' | 'error' | 'success';
@@ -28,11 +29,11 @@ const useInputVariant = (variant: InputVariant): string => {
             'bg-transparent text-gray-800 border-gray-300 focus:border-brand-300 focus:ring-brand-500/20 dark:border-gray-700 dark:text-white/90 dark:focus:border-brand-800',
     };
 
-    return `h-11 w-full rounded-lg border appearance-none px-4 py-2.5 text-sm shadow-theme-xs placeholder:text-gray-400 focus:outline-hidden focus:ring-3  dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30 ${variants[variant] || variants.default}`;
+    return `h-11 w-full rounded-lg border appearance-none px-4 py-2.5 text-sm shadow-theme-xs placeholder:text-gray-400  dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30 ${variants[variant] || variants.default}`;
 };
 
 const Input = <T extends object>(props: InputProps<T>) => {
-    const { type = InputTypeEnum.Text, hint, name, placeholder, disabled = false, success = false, formik, showPassword = false, label = '' } = props;
+    const {  readOnly, type = InputTypeEnum.Text, hint, name, placeholder, disabled = false, success = false, formik, showPassword = false, label = '' } = props;
 
     const variant = formik.errors[name] ? 'error' : disabled ? 'disabled' : success ? 'success' : 'default';
     const inputClasses = useInputVariant(variant);
@@ -46,6 +47,7 @@ const Input = <T extends object>(props: InputProps<T>) => {
                 name={name}
                 type={type === InputTypeEnum.Password && showPassword ? InputTypeEnum.Text : type}
                 id={name}
+                readOnly={readOnly}
                 placeholder={placeholder}
                 className={inputClasses}
             />

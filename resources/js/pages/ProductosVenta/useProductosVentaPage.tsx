@@ -1,4 +1,5 @@
 import { IFilterItem } from '@/components/filters/modalFilter/types';
+import { rowTypes } from '@/components/tables/rowTypes';
 import Button from '@/components/ui/button/Button';
 import { useModal } from '@/hooks/useModal';
 import { IProducto } from '@/models/producto.interface';
@@ -24,18 +25,22 @@ export const useProductosVentaPage = () => {
     };
 
     const renderersMap = {
-        actions: ({ id }: IProducto) => (
-            <Button
-                onClick={() => {
-                    openModal();
-                    setselectedProduct(id!);
-                }}
-                variant="primary"
-                size="sm"
-            >
-                <Plus />
-            </Button>
-        ),
+        rowClassName: ({ stock, cantidad_minima }: IProducto): rowTypes | '' => {
+            return cantidad_minima >= stock ? 'redRow' : '';
+        },
+        actions: ({ id, stock }: IProducto) =>
+            stock > 0 && (
+                <Button
+                    onClick={() => {
+                        openModal();
+                        setselectedProduct(id!);
+                    }}
+                    variant="primary"
+                    size="sm"
+                >
+                    <Plus />
+                </Button>
+            ),
     };
     const filters: IFilterItem[] = [
         {
@@ -58,5 +63,6 @@ export const useProductosVentaPage = () => {
         useServiceIndexProductos,
         renderersMap,
         initialValues,
+        selectedProduct,
     };
 };

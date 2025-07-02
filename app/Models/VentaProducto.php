@@ -26,23 +26,27 @@ class VentaProducto extends Model
 
     public static function createVentaProducto(array $data): VentaProducto
     {
-        $ventaProducto = self::updateOrCreate(
-            [
-                'producto_id' => $data['producto_id'],
-                'venta_id' => $data['venta_id'],
-            ],
-            [
-                'cantidad' => $data['cantidad'],
-                'precio' => $data['precio'],
-            ]
-        );
+        $productoActual = Producto::find($data['producto_id']);
+        $ventaProductoActual = VentaProducto::where('venta_id', $data['venta_id'])->where('producto_id', $data['producto_id'])->first();
+        $cantidadRequerida = ($ventaProductoActual->cantidad ?? 0) + $data['cantidad'] ?? $data['cantidad'];
+        if ($productoActual->stock < $cantidadRequerida) {
+            throw new \Exception('No hay suficiente stock del producto seleccionado.');
+        }
+
+        $ventaProducto = self::updateOrCreate([
+            'producto_id' => $data['producto_id'],
+            'venta_id' => $data['venta_id'],
+        ], [
+            'cantidad' => $cantidadRequerida,
+            'precio' => $data['precio'],
+        ]);
+
 
         $ventaTotal = self::where('venta_id', $data['venta_id'])
             ->get()
-            ->sum(fn ($item) => $item->cantidad * $item->precio);
+            ->sum(fn($item) => $item->cantidad * $item->precio);
 
         Venta::where('id', $data['venta_id'])->update(['venta_total' => $ventaTotal]);
-
         return $ventaProducto;
     }
 }

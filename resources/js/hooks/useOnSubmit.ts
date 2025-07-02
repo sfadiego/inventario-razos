@@ -1,5 +1,6 @@
 import { UseMutateAsyncFunction } from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
+import { toast } from 'react-toastify';
 
 export const useOnSubmit = <Request = any, Response = any>({
     mutateAsync,
@@ -22,8 +23,8 @@ export const useOnSubmit = <Request = any, Response = any>({
             if (onError) {
                 onError(error);
             } else {
-                // TODO: Show a toast message
                 console.log(error.response?.data.message);
+                toast.error(error.response?.data.message || 'Ha ocurrido un error procesando la solicitud.');
             }
         }
     };

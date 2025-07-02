@@ -1,3 +1,4 @@
+Precio de sistema: $20k
 TODO LIST:
 
 Tipos de widgets
@@ -164,3 +165,14 @@ Apis Faltantes
 - Api delete Venta Producto
 
 
+TODO:
+agregar tabla de MovImiento de producto
+- cuando se agreguen productos al stock-> agregar movimiento y registrar todo en tabla movimientos
+
+
+Agregar modulos
+Reporte de movimiento de productos
+    catalogo de tipo de movimiento
+    -entrada, salida, reajuste
+ajuste => cuando haces inventario y actualizas stock quitando del stock, (por que caduco, o se rompio etc.)
+agregar => agregar cantidad al stock

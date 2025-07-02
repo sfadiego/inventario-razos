@@ -17,7 +17,7 @@ interface IModalProductoProps {
 }
 
 export const FormProducto = ({ isOpen, closeModal }: IModalProductoProps) => {
-    const { formikProps, isPending } = useFormProducto({ closeModal });
+    const { formikProps, isPending, disableStock } = useFormProducto({ closeModal });
 
     return (
         <Modal
@@ -34,7 +34,7 @@ export const FormProducto = ({ isOpen, closeModal }: IModalProductoProps) => {
                             <Input<IProducto> label={`Producto`} name="nombre" formik={formik} type={InputTypeEnum.Text} />
                         </div>
                         <div className="col-span-12 md:col-span-6">
-                            <Input<IProducto> label={`Stock`} name="stock" formik={formik} type={InputTypeEnum.Text} />
+                            <Input<IProducto> disabled={disableStock} label={`Stock`} name="stock" formik={formik} type={InputTypeEnum.Text} />
                         </div>
                         <div className="col-span-12 md:col-span-6">
                             <Input<IProducto>

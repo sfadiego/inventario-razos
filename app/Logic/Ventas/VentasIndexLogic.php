@@ -4,6 +4,7 @@ namespace App\Logic\Ventas;
 
 use App\Core\Data\IndexData;
 use App\Core\Logic\IndexLogic;
+use App\Enums\StatusVentaEnum;
 use App\Http\Resources\VentasResource;
 use App\Models\Venta;
 use Illuminate\Http\JsonResponse;
@@ -25,11 +26,19 @@ class VentasIndexLogic extends IndexLogic
             'cliente.nombre' => 'Cliente',
             'tipo_compra' => 'Tipo de compra',
             'venta_total' => 'Total',
+            'status_venta' => 'Estatus',
             'actions' => '#',
         ];
     }
+
     public function run(IndexData $data): JsonResponse
     {
+        $defaultStatus = [
+            'property' => 'status_venta',
+            'operator' => 'like',
+            'value' => StatusVentaEnum::Activa->value,
+        ];
+        $data->filters = $data->filters ? $data->filters : [$defaultStatus];
         return parent::run($data);
     }
 

@@ -5,7 +5,7 @@ import { IAuthResponse, ISignInForm } from '@/interfaces/auth';
 import { AdminRoutes } from '@/router/modules/admin.routes';
 import { Form, Formik } from 'formik';
 import { LogIn } from 'lucide-react';
-import { Link, useNavigate } from 'react-router';
+import { useNavigate } from 'react-router';
 import * as Yup from 'yup';
 import Input from '../form/input/InputField';
 import { InputTypeEnum } from '../form/input/enum/InputType.enum';
@@ -61,11 +61,6 @@ export default function SignInForm() {
                                         <div>
                                             <Input<ISignInForm> label={`Password`} name="password" formik={formik} type={InputTypeEnum.Password} />
                                         </div>
-                                        <div className="flex items-center justify-between">
-                                            <Link to="/reset-password" className="text-brand-500 hover:text-brand-600 dark:text-brand-400 text-sm">
-                                                Olvidaste el password?
-                                            </Link>
-                                        </div>
                                         <div>
                                             <Button type={ButtonTypeEnum.Submit} className="w-full" size="sm">
                                                 <LogIn /> Login
@@ -75,14 +70,6 @@ export default function SignInForm() {
                                 </Form>
                             )}
                         </Formik>
-                        <div className="mt-5">
-                            <p className="text-center text-sm font-normal text-gray-700 sm:text-start dark:text-gray-400">
-                                No tienes cuenta?
-                                <Link to="/signup" className="text-brand-500 hover:text-brand-600 dark:text-brand-400 ml-2">
-                                    Registrarse
-                                </Link>
-                            </p>
-                        </div>
                     </div>
                 </div>
             </div>

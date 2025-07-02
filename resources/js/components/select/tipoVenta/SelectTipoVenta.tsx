@@ -1,10 +1,10 @@
 import InputSelect from '@/components/form/select/InputSelect';
 import { FormikProps } from 'formik';
-interface ISelectTopoVenta {
+interface ISelectTipoVenta {
     disabled?: boolean;
     formik: FormikProps<any>;
 }
-export const SelectTipoVenta = ({ formik, disabled = false }: ISelectTopoVenta) => {
+export const SelectTipoVenta = ({ formik, disabled = false }: ISelectTipoVenta) => {
     const options = [
         { value: 'credito', label: `credito` },
         { value: 'contado', label: `contado` },

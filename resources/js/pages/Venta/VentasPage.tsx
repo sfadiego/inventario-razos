@@ -10,7 +10,7 @@ export default function VentasPage() {
     return (
         <PageWrapper pageTitle="Ventas">
             <DatatableWithFilter
-                propertyInputSearch={`folio`}
+                propertyInputSearch={`nombre_venta`}
                 newButtonText={`Venta`}
                 renderersMap={renderersMap}
                 initialValues={initialValues}
