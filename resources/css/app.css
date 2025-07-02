@@ -147,4 +147,18 @@
     --sidebar-ring: oklch(0.439 0 0);
 }
 
-/* @layer mantine, mantine-datatable; */
+/* Datatables */
+.redRow {
+  color: var(--mantine-color-red-6);
+  background-color: light-dark(
+    color-mix(in srgb, var(--mantine-color-red-6) 10%, var(--mantine-color-white)),
+    color-mix(in srgb, var(--mantine-color-red-6) 30%, var(--mantine-color-black))
+  );
+}
+.warningRow {
+  color: var(--mantine-color-yellow-6);
+  background-color: light-dark(
+    color-mix(in srgb, var(--mantine-color-yellow-6) 10%, var(--mantine-color-white)),
+    color-mix(in srgb, var(--mantine-color-yellow-6) 30%, var(--mantine-color-black))
+  );
+}

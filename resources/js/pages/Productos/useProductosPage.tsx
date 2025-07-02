@@ -1,4 +1,5 @@
 import { IFilterItem } from '@/components/filters/modalFilter/types';
+import { rowTypes } from '@/components/tables/rowTypes';
 import Button from '@/components/ui/button/Button';
 import { useModal } from '@/hooks/useModal';
 import { IProducto } from '@/models/producto.interface';
@@ -36,6 +37,9 @@ export const useProductosPage = () => {
     }, [isLoading, data, setSelectedProducto, selectedProduct]);
 
     const renderersMap = {
+        rowClassName: ({ stock, cantidad_minima }: IProducto): rowTypes | '' => {
+            return cantidad_minima >= stock ? 'redRow' : '';
+        },
         actions: ({ id }: IProducto) => (
             <Button
                 onClick={() => {

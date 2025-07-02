@@ -70,5 +70,5 @@ export const useFormProducto = (props: IUseProductProps) => {
         validationSchema,
         onSubmit,
     };
-    return { formikProps, isPending: mutator.isPending, search, setSearch };
+    return { formikProps, isPending: mutator.isPending, search, setSearch, disableStock: producto?.id ? true : false };
 };

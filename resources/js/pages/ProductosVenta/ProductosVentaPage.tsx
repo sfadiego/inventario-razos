@@ -17,7 +17,7 @@ export default function ProductosVentaPage() {
     const { filters, openModal, isOpen, closeModal, selectedProduct, renderersMap, initialValues, useServiceIndexProductos } =
         useProductosVentaPage();
     return (
-        <PageWrapper breadcrumbArray={breadcrumbArray} pageTitle="Carrito de compra">
+        <PageWrapper breadcrumbArray={breadcrumbArray} pageTitle="Listado de productos para venta" >
             <div className="mb-3 grid grid-cols-12">
                 <div className="col-span-12 flex justify-end">
                     <ShoppingCartButton />

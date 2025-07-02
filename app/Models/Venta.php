@@ -38,7 +38,7 @@ class Venta extends Model
     {
         $lastFolio = Venta::latest()->value('folio');
         $newFolio = $lastFolio ? intval(substr($lastFolio, -4)) + 1 : 1;
-        $folio = 'VENTA-'.date('Ymd').'-'.str_pad($newFolio, 4, '0', STR_PAD_LEFT);
+        $folio = 'VENTA-' . date('Ymd') . '-' . str_pad($newFolio, 4, '0', STR_PAD_LEFT);
 
         return self::create([
             'venta_total' => $data['venta_total'] ?? 0,
@@ -48,5 +48,13 @@ class Venta extends Model
             'tipo_compra' => $data['tipo_compra'] ?? TipoCompraEnum::Contado->value,
             'status_venta' => StatusVentaEnum::Activa->value,
         ]);
+    }
+
+    public function finalizarVenta(Venta $venta): Venta
+    {
+        $venta->update([
+            'status_venta' => StatusVentaEnum::Finalizada->value,
+        ]);
+        return $venta;
     }
 }
