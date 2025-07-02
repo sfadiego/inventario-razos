@@ -1,5 +1,6 @@
 import { InputTypeEnum } from '@/components/form/input/enum/InputType.enum';
 import Input from '@/components/form/input/InputField';
+import Alert from '@/components/ui/alert/Alert';
 import Button from '@/components/ui/button/Button';
 import { ButtonTypeEnum } from '@/components/ui/button/enums/buttonType.enum';
 import { Modal } from '@/components/ui/modal';
@@ -16,11 +17,11 @@ interface IModalAgregarProductoVentaProps {
 }
 
 export const AgregarProductoVenta = ({ isOpen, closeModal, ventaId = 0, productoId = 0 }: IModalAgregarProductoVentaProps) => {
-    const { formikProps, isPending } = useAgregarProductoVenta({ ventaId, productoId });
+    const { formikProps, isPending, onErrorMessage } = useAgregarProductoVenta({ closeModal, ventaId, productoId });
     return (
         <Modal
-            title={`Nuevo Producto`}
-            subtitle={`Crea o actualiza un producto en el carrito de compras`}
+            title={`Agregar Producto`}
+            subtitle={`Agrega o actualiza un producto en el carrito de compras`}
             isOpen={isOpen}
             onClose={closeModal}
             className="m-4 max-w-[700px]"
@@ -28,6 +29,11 @@ export const AgregarProductoVenta = ({ isOpen, closeModal, ventaId = 0, producto
             <Formik enableReinitialize {...formikProps}>
                 {(formik) => (
                     <Form className={`grid grid-cols-12 gap-3`}>
+                        {onErrorMessage && (
+                            <div className="col-span-12">
+                                <Alert variant="error" title="Error" message={onErrorMessage} />
+                            </div>
+                        )}
                         <div className="col-span-12 md:col-span-12">
                             <Input<IVentaProductoForm>
                                 label={`Nombre de producto`}

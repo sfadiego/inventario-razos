@@ -28,7 +28,7 @@ class VentaProducto extends Model
     {
         $productoActual = Producto::find($data['producto_id']);
         $ventaProductoActual = VentaProducto::where('venta_id', $data['venta_id'])->where('producto_id', $data['producto_id'])->first();
-        $cantidadRequerida = $ventaProductoActual->cantidad + $data['cantidad'] ?? $data['cantidad'];
+        $cantidadRequerida = ($ventaProductoActual->cantidad ?? 0) + $data['cantidad'] ?? $data['cantidad'];
         if ($productoActual->stock < $cantidadRequerida) {
             throw new \Exception('No hay suficiente stock del producto seleccionado.');
         }
