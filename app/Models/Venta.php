@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\StatusVentaEnum;
 use App\Enums\TipoCompraEnum;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -20,6 +21,7 @@ class Venta extends Model
         'folio',
         'cliente_id',
         'tipo_compra',
+        'status_venta',
     ];
 
     public function cliente(): BelongsTo
@@ -44,6 +46,7 @@ class Venta extends Model
             'folio' => $folio,
             'cliente_id' => $data['cliente_id'] ?? null,
             'tipo_compra' => $data['tipo_compra'] ?? TipoCompraEnum::Contado->value,
+            'status_venta' => StatusVentaEnum::Activa->value,
         ]);
     }
 }

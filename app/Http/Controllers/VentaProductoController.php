@@ -11,15 +11,17 @@ class VentaProductoController extends Controller
 {
     public function store(VentaProductoStoreRequest $request): JsonResponse
     {
-        $ventaProducto = VentaProducto::createVentaProducto($request->all());
-
-        return Response::success($ventaProducto);
+        try {
+            $ventaProducto = VentaProducto::createVentaProducto($request->all());
+            return Response::success($ventaProducto);
+        } catch (\Throwable $th) {
+            return Response::error($th->getMessage());
+        }
     }
 
     public function delete(VentaProducto $ventaProducto): JsonResponse
     {
         $ventaProducto->delete();
-
         return Response::success(null, 'Borrado correctamente');
     }
 }

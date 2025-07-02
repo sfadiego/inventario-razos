@@ -26,6 +26,11 @@ class VentaProducto extends Model
 
     public static function createVentaProducto(array $data): VentaProducto
     {
+        $productoActual = Producto::find($data['producto_id']);
+        if ($productoActual->stock < $data['cantidad']) {
+            throw new \Exception('No hay suficiente stock del producto seleccionado.');
+        }
+
         $ventaProducto = self::create([
             'producto_id' => $data['producto_id'],
             'venta_id' => $data['venta_id'],
@@ -33,9 +38,10 @@ class VentaProducto extends Model
             'precio' => $data['precio'],
         ]);
 
+        $productoActual->decrement('stock', $data['cantidad']);
         $ventaTotal = self::where('venta_id', $data['venta_id'])
             ->get()
-            ->sum(fn ($item) => $item->cantidad * $item->precio);
+            ->sum(fn($item) => $item->cantidad * $item->precio);
 
         Venta::where('id', $data['venta_id'])->update(['venta_total' => $ventaTotal]);
 

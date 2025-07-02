@@ -15,6 +15,7 @@ export const useFormVenta = () => {
         nombre_venta: Yup.string().max(100, 'El nombre no puede exceder 100 caracteres'),
         cliente_id: Yup.number().nullable(),
         tipo_compra: Yup.string().oneOf(['contado', 'credito'], 'Tipo de compra inválido').required('El tipo de compra es obligatorio'),
+        status_venta: Yup.string().oneOf(['activa', 'finalizada'], 'Estatus de compra inválido').required('El estatus de compra es obligatorio'),
     });
     const initialValues: IVenta = {
         id: venta?.id ?? 0,
@@ -23,6 +24,7 @@ export const useFormVenta = () => {
         nombre_venta: venta?.nombre_venta ?? '',
         cliente_id: cliente?.id ?? venta?.cliente_id ?? null,
         tipo_compra: venta?.tipo_compra ?? 'contado',
+        status_venta: venta?.status_venta ?? 'activa',
     };
     const handleSuccess = (venta: IVenta) => {
         setVenta(venta);

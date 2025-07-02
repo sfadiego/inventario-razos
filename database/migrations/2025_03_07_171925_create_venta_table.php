@@ -18,6 +18,8 @@ return new class extends Migration
                 ->constrained('clientes')
                 ->onDelete('cascade');
             $table->enum('tipo_compra', ['credito', 'contado']);
+            $table->enum('status_venta', ['activa', 'finalizada'])
+                ->default('activa');
             $table->timestamps();
         });
     }

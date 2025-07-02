@@ -23,7 +23,7 @@ class ProductoFactory extends Factory
             'nombre' => $this->faker->word,
             'proveedor_id' => Proveedor::inRandomOrder()->value('id'),
             'categoria_id' => Categoria::inRandomOrder()->value('id'),
-            'codigo' => $this->faker->unique()->bothify('????-#####'),
+            'codigo' => strtoupper($this->faker->unique()->bothify('????-#####')),
             'precio_compra' => $this->faker->randomFloat(2, 10, 100),
             'precio_venta' => $this->faker->randomFloat(2, 20, 200),
             'stock' => $this->faker->numberBetween(1, 100),
