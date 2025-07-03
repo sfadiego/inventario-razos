@@ -39,6 +39,7 @@ class VentasIndexLogic extends IndexLogic
             'value' => StatusVentaEnum::Activa->value,
         ];
         $data->filters = $data->filters ? $data->filters : [$defaultStatus];
+
         return parent::run($data);
     }
 

@@ -13,6 +13,7 @@ class VentaProductoController extends Controller
     {
         try {
             $ventaProducto = VentaProducto::createVentaProducto($request->all());
+
             return Response::success($ventaProducto);
         } catch (\Throwable $th) {
             return Response::error($th->getMessage());
@@ -22,6 +23,7 @@ class VentaProductoController extends Controller
     public function delete(VentaProducto $ventaProducto): JsonResponse
     {
         $ventaProducto->delete();
+
         return Response::success(null, 'Borrado correctamente');
     }
 }
