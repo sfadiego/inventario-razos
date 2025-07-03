@@ -5,7 +5,6 @@ namespace App\Logic\VentaProductos;
 use App\Core\Data\IndexData;
 use App\Core\Logic\ShowLogic;
 use App\Http\Resources\VentaProductoResource;
-use App\Http\Resources\VentasResource;
 use App\Models\VentaProducto;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
@@ -36,6 +35,7 @@ class ProductosByVentaLogic extends ShowLogic
         $this->pagination = $this->queryBuilder->where('venta_id', $data->params['venta_id'] ?? 0)
             ->paginate($data->limit, ['*'], 'page', $data->page);
         $this->response = $this->pagination->getCollection();
+
         return Response::successDataTable(
             new LengthAwarePaginator(
                 $this->withResource(),

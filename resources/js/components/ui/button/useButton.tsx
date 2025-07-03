@@ -13,6 +13,7 @@ const SIZE_CLASSES: Record<buttonSize, string> = {
 const VARIANT_CLASSES: Record<buttonVariant, string> = {
     primary: buttonClassEnum.Primary,
     outline: buttonClassEnum.Outline,
+    error: buttonClassEnum.Error,
 };
 
 export const useButton = ({ variant = 'primary', size = 'sm', type, className = '', disabled, loading, children }: IUseButtonProps) => {
@@ -20,7 +21,7 @@ export const useButton = ({ variant = 'primary', size = 'sm', type, className = 
 
     const baseClass = useMemo(
         () =>
-            `inline-flex items-center justify-center gap-2 rounded-lg transition ${className} ${SIZE_CLASSES[size as buttonSize] || ''} ${VARIANT_CLASSES[variant as buttonVariant]} ${
+            `inline-flex items-center justify-center gap-2 rounded-lg transition ${className ?? ''} ${SIZE_CLASSES[size as buttonSize] || ''} ${VARIANT_CLASSES[variant as buttonVariant]} ${
                 isDisabled ? 'cursor-not-allowed opacity-50' : ''
             }`,
         [className, size, variant, isDisabled],
