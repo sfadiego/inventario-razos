@@ -9,5 +9,5 @@ export interface IPaginateServiceProps {
     search?: string | null;
     page?: number;
     limit?: number;
-    serviceParamId?: number;
+    serviceParamId?: number | null;
 }
