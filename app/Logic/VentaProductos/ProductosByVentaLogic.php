@@ -4,6 +4,7 @@ namespace App\Logic\VentaProductos;
 
 use App\Core\Data\IndexData;
 use App\Core\Logic\ShowLogic;
+use App\Http\Resources\VentaProductoResource;
 use App\Http\Resources\VentasResource;
 use App\Models\VentaProducto;
 use Illuminate\Http\JsonResponse;
@@ -22,25 +23,25 @@ class ProductosByVentaLogic extends ShowLogic
     {
         return [
             'id' => __('#'),
+            'producto.nombre' => 'Producto',
             'cantidad' => 'Cantidad',
             'precio' => 'Precio',
-            'producto_id' => 'Producto',
-            'venta_id' => 'Venta',
             'actions' => __('#'),
         ];
     }
 
     public function run(IndexData $data): JsonResponse
     {
-        $productos = $this->modelo->where('venta_id', $data->params['venta_id'] ?? 0);
-        $paginator = $productos->paginate($data->limit, ['*'], 'page', $data->page);
-
+        $this->queryBuilder = $this->modelo->newQuery();
+        $this->pagination = $this->queryBuilder->where('venta_id', $data->params['venta_id'] ?? 0)
+            ->paginate($data->limit, ['*'], 'page', $data->page);
+        $this->response = $this->pagination->getCollection();
         return Response::successDataTable(
             new LengthAwarePaginator(
-                $paginator->getCollection(),
-                $paginator->total(),
-                $paginator->perPage(),
-                $paginator->currentPage()
+                $this->withResource(),
+                $this->pagination->total(),
+                $this->pagination->perPage(),
+                $this->pagination->currentPage()
             ),
             $this->tableHeaders()
         );
@@ -48,6 +49,6 @@ class ProductosByVentaLogic extends ShowLogic
 
     protected function withResource(): AnonymousResourceCollection
     {
-        return VentasResource::collection($this->response);
+        return VentaProductoResource::collection($this->response);
     }
 }

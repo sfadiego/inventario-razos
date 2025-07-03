@@ -14,6 +14,7 @@ export interface IFiltroProducto {
 export const useProductosVentaPage = () => {
     const { openModal, isOpen, closeModal } = useModal();
     const [selectedProduct, setselectedProduct] = useState(0);
+    const [refetchCart, setRefetchCart] = useState<boolean>(false);
     const handleCloseModal = () => {
         closeModal();
         setselectedProduct(0);
@@ -64,5 +65,7 @@ export const useProductosVentaPage = () => {
         renderersMap,
         initialValues,
         selectedProduct,
+        refetchCart,
+        setRefetchCart,
     };
 };

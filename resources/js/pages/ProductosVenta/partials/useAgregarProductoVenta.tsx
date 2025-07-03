@@ -5,7 +5,16 @@ import { useServiceShowProducto } from '@/Services/productos/useServiceProductos
 import { useServiceStoreVentaProducto } from '@/Services/ventaProducto/useServiceVentaProducto';
 import { useState } from 'react';
 import * as Yup from 'yup';
-export const useAgregarProductoVenta = ({ ventaId, productoId, closeModal }: { ventaId: number; productoId: number; closeModal?: () => void }) => {
+
+interface IAgregarProductosVentaProps {
+    ventaId: number;
+    productoId: number;
+    closeModal?: () => void;
+    setRefetchShoppingCar?: (flag: boolean) => void;
+    refetchShoppingCar?: boolean;
+}
+export const useAgregarProductoVenta = (props: IAgregarProductosVentaProps) => {
+    const { closeModal, ventaId, productoId, setRefetchShoppingCar, refetchShoppingCar } = props;
     const { isLoading, data } = useServiceShowProducto(productoId);
     const [error, seterror] = useState('');
 
@@ -33,6 +42,10 @@ export const useAgregarProductoVenta = ({ ventaId, productoId, closeModal }: { v
             type: 'success',
             message: 'Producto guardado exitosamente',
         });
+
+        if (setRefetchShoppingCar) {
+            setRefetchShoppingCar(!refetchShoppingCar);
+        }
         if (closeModal) {
             closeModal();
         }
