@@ -7,6 +7,7 @@ Route::controller(VentaProductoController::class)
     ->group(function () {
         Route::post('', 'store');
         Route::prefix('{ventaProducto}')->group(function () {
+            Route::put('', 'update');
             Route::delete('', 'delete');
         });
     });

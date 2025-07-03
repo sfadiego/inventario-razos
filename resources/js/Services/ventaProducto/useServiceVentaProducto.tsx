@@ -1,4 +1,4 @@
-import { useGET, usePOST } from '@/hooks/useApi';
+import { useGET, usePOST, usePUT } from '@/hooks/useApi';
 import { IPaginateServiceProps } from '@/interfaces/IPaginateServiceProps';
 import { IVentaProducto } from '@/models/ventaProducto.interface';
 
@@ -14,3 +14,4 @@ export const useServiceVentaProductoDetalle = ({ serviceParamId, page = 1, limit
         },
     });
 export const useServiceStoreVentaProducto = () => usePOST<IVentaProducto>({ url });
+export const useServiceUpdateVentaProducto = (id?: number) => usePUT<IVentaProducto>({ url: `${url}/${id}` });
