@@ -41,6 +41,11 @@ class Producto extends Model
         return $this->hasMany(VentaProducto::class);
     }
 
+    public function tipoMovimientos(): HasMany
+    {
+        return $this->hasMany(TipoMovimiento::class);
+    }
+
     public static function createFolio(string $nombre): string
     {
         $letras = strtoupper(Str::substr(preg_replace('/[^A-Za-z]/', '', $nombre), 0, 4));
