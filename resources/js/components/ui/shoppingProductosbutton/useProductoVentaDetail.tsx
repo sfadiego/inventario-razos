@@ -1,18 +1,31 @@
 import { useDataTable } from '@/hooks/useDatatable';
-import { useServiceVentaProductoDetalle } from '@/Services/ventaProducto/useServiceVentaProducto';
+import { useOnSubmit } from '@/hooks/useOnSubmit';
+import { IVentaProducto } from '@/models/ventaProducto.interface';
+import { useServiceDeleteVentaProducto, useServiceVentaProductoDetalle } from '@/Services/ventaProducto/useServiceVentaProducto';
 import { Trash } from 'lucide-react';
+import { useEffect, useState } from 'react';
 import Button from '../button/Button';
 import { ActualizaProductoVenta } from './partials/ActualizaProductoVenta';
+interface rowExpansionContentProps {
+    record: IVentaProducto;
+    collapse: () => void;
+}
 
 export const useProductoVentaDetail = (ventaId: number) => {
+    const [refetchDatatable, setrefetchDatatable] = useState<boolean>(false);
+    const [selectedId, seSelectedId] = useState<number>(0);
     const renderersMap = {
         rowExpansion: {
-            content: (props: any) => <ActualizaProductoVenta {...props.record} />,
+            content: ({ record }: rowExpansionContentProps) => {
+                return <ActualizaProductoVenta record={record} refetchDatatable={refetchDatatable} setrefetchDatatable={setrefetchDatatable} />;
+            },
         },
-        actions: () => (
+        actions: ({ id }: IVentaProducto) => (
             <Button
-                onClick={() => {
-                    console.log('aqui');
+                onClick={(e) => {
+                    e.stopPropagation();
+                    seSelectedId(id);
+                    handleDelete();
                 }}
                 variant="error"
                 size="sm"
@@ -21,7 +34,8 @@ export const useProductoVentaDetail = (ventaId: number) => {
             </Button>
         ),
     };
-    const { dataTableProps } = useDataTable({
+    //TODO: arreglar tipado de renderersMap
+    const { dataTableProps, refetch } = useDataTable({
         service: useServiceVentaProductoDetalle,
         payload: {
             serviceParamId: ventaId,
@@ -29,5 +43,18 @@ export const useProductoVentaDetail = (ventaId: number) => {
         },
         renderersMap,
     });
-    return { dataTableProps };
+
+    const mutator = useServiceDeleteVentaProducto(selectedId);
+    const { onSubmit } = useOnSubmit({
+        mutateAsync: mutator.mutateAsync,
+        onSuccess: async () => setrefetchDatatable(!refetchDatatable),
+    });
+
+    useEffect(() => {
+        refetch();
+    }, [refetchDatatable, refetch]);
+
+    const handleDelete = () => onSubmit(null, {});
+
+    return { dataTableProps, refetch };
 };

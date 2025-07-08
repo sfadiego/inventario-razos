@@ -1,19 +1,29 @@
 import { useOnSubmit } from '@/hooks/useOnSubmit';
 import { IVentaProducto } from '@/models/ventaProducto.interface';
 import { useServiceUpdateVentaProducto } from '@/Services/ventaProducto/useServiceVentaProducto';
+import { Dispatch, SetStateAction, useState } from 'react';
 import * as Yup from 'yup';
 
-export const useActualizaProductoVenta = ({ item }: { item: IVentaProducto }) => {
-    const handleSuccess = (data: IVentaProducto) => {
-        console.log(data);
+interface useActualizaProductoVentaProps {
+    record: IVentaProducto;
+    refetchDatatable?: boolean;
+    setrefetchDatatable?: Dispatch<SetStateAction<boolean>>;
+}
+export const useActualizaProductoVenta = (props: useActualizaProductoVentaProps) => {
+    const { record, setrefetchDatatable, refetchDatatable } = props;
+    const [errorMessage, seterror] = useState<string>('');
+    const handleSuccess = () => {
+        if (setrefetchDatatable) {
+            setrefetchDatatable(!refetchDatatable);
+        }
     };
 
     const initialValues: IVentaProducto = {
-        id: item.id || 0,
-        cantidad: item.cantidad || 1,
-        precio: item.precio || 0,
-        producto_id: item.producto_id || 0,
-        venta_id: item.venta_id || 0,
+        id: record.id || 0,
+        cantidad: record.cantidad || 1,
+        precio: record.precio || 0,
+        producto_id: record.producto_id || 0,
+        venta_id: record.venta_id || 0,
     };
 
     const validationSchema = Yup.object().shape({
@@ -24,10 +34,11 @@ export const useActualizaProductoVenta = ({ item }: { item: IVentaProducto }) =>
         venta_id: Yup.number().required('La venta es obligatoria').min(1, 'Seleccione una venta válida'),
     });
 
-    const mutatorUpdate = useServiceUpdateVentaProducto(item?.id ?? 0);
+    const mutatorUpdate = useServiceUpdateVentaProducto(record?.id ?? 0);
     const { onSubmit } = useOnSubmit<IVentaProducto>({
         mutateAsync: mutatorUpdate.mutateAsync,
-        onSuccess: async (data) => handleSuccess(data),
+        onSuccess: async () => handleSuccess(),
+        onError: (data: any) => seterror(data?.response?.data.message || data.message),
     });
 
     const formikProps = {
@@ -35,5 +46,5 @@ export const useActualizaProductoVenta = ({ item }: { item: IVentaProducto }) =>
         validationSchema,
         onSubmit,
     };
-    return { formikProps };
+    return { formikProps, isPending: mutatorUpdate.isPending, onErrorMessage: errorMessage };
 };
