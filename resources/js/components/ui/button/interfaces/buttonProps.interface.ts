@@ -10,7 +10,7 @@ export interface IButtonProps {
     loading?: boolean;
     color?: string;
     className?: string;
-    onClick?: () => unknown;
+    onClick?: (e:any) => unknown;
     disabled?: boolean;
     size?: buttonSize;
 }

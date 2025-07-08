@@ -10,7 +10,6 @@ export const DatatableWithFilter = (props: IDatatableWithFilterProps) => {
     const { disableNewButton = false, newButtonText } = props;
     const { initialValues, isOpen, search, dataTableProps, children, openModal, closeModal, onFilter, setSearch, onClickNew } =
         useDatatableFilters(props);
-
     return (
         <>
             <div className="grid grid-cols-12 gap-2 pb-5">

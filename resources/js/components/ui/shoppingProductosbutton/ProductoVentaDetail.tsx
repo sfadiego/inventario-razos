@@ -12,8 +12,7 @@ export const ProductoVentaDetail = ({ isOpen, closeModal, ventaId = 0 }: Product
     return (
         <Modal title={`Carrito de compras`} subtitle={`Productos de venta`} isOpen={isOpen} onClose={closeModal} className="m-4 max-w-[700px]">
             <div className="grid grid-cols-12">
-                <div className="col-span-12"></div>
-                <div className="col-span-12 h-9/10 overflow-auto">
+                <div className="col-span-12 overflow-auto">
                     <DataTable {...dataTableProps} />
                 </div>
             </div>

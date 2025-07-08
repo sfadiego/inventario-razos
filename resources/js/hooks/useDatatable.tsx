@@ -11,7 +11,6 @@ interface UseDataTableParams {
     dataTableProps?: (props: any) => any;
     renderersMap?: DataTableRenderersMap;
 }
-
 export const useDataTable = ({ service, payload = {}, renderersMap = {}, dataTableProps }: UseDataTableParams) => {
     const [page, setPage] = useState(1);
     const pageSize = [10, 20, 30, 50, 100];
@@ -31,6 +30,7 @@ export const useDataTable = ({ service, payload = {}, renderersMap = {}, dataTab
         });
     };
 
+    const rowExpansion = renderersMap?.rowExpansion || undefined;
     const defaultDataTableProps = {
         page,
         recordsPerPage: data?.per_page ?? limit,
@@ -38,8 +38,8 @@ export const useDataTable = ({ service, payload = {}, renderersMap = {}, dataTab
         onPageChange: setPage,
         records: data?.data || [],
         columns: data?.columns ? applyRenderers(data.columns) : [],
-        rowClassName: data?.columns ? renderersMap.rowClassName : [],
-        rowExpansion: renderersMap.rowExpansion ?? [],
+        rowClassName: renderersMap.rowClassName ? renderersMap.rowClassName : '',
+        rowExpansion: rowExpansion,
         onRecordsPerPageChange: setLimit,
         recordsPerPageOptions: pageSize,
         noRecordsText: 'No se encontraron resultados que coincidan con tu búsqueda',

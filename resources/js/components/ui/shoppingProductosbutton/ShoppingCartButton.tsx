@@ -16,6 +16,11 @@ export default function ShoppingCartButton({ refetchNumber }: { refetchNumber?: 
         refetch();
     }, [refetchNumber, refetch]);
 
+    const handleCloseModal = () => {
+        closeModal();
+        refetch();
+    };
+
     return (
         <>
             <div className="relative">
@@ -24,7 +29,7 @@ export default function ShoppingCartButton({ refetchNumber }: { refetchNumber?: 
                     <div className="dark:text-gray top-0.5 right-0 z-10 h-5 w-5 rounded-full bg-orange-400 text-sm text-white">{total}</div>
                 </Button>
             </div>
-            <ProductoVentaDetail isOpen={isOpen} ventaId={ventaId} closeModal={closeModal} />
+            {isOpen && <ProductoVentaDetail isOpen={isOpen} ventaId={ventaId} closeModal={handleCloseModal} />}
         </>
     );
 }
