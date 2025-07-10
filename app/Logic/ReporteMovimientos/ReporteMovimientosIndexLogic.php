@@ -2,11 +2,10 @@
 
 namespace App\Logic\ReporteMovimientos;
 
-use App\Core\Logic\IndexLogic;
 use App\Core\Data\IndexData;
+use App\Core\Logic\IndexLogic;
 use App\Models\ReporteMovimiento;
 use Illuminate\Http\JsonResponse;
-
 
 class ReporteMovimientosIndexLogic extends IndexLogic
 {
