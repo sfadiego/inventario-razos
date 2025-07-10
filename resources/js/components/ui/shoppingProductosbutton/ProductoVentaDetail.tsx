@@ -13,6 +13,7 @@ interface ProductoVentaDetailProps {
 
 export const ProductoVentaDetail = ({ isOpen, disabledConfirmButton, closeModal, ventaId = 0 }: ProductoVentaDetailProps) => {
     const { dataTableProps, onSubmitFinalizarVenta } = useProductoVentaDetail(ventaId);
+    const disabled = !!(dataTableProps?.totalRecords == 0);
     return (
         <Modal title={`Carrito de compras`} subtitle={`Productos de venta`} isOpen={isOpen} onClose={closeModal} className="m-4 max-w-[700px]">
             <div className="grid grid-cols-12">
@@ -24,7 +25,7 @@ export const ProductoVentaDetail = ({ isOpen, disabledConfirmButton, closeModal,
                         onClick={() => onSubmitFinalizarVenta({ status_venta: 'finalizada' }, {})}
                         size="md"
                         type={ButtonTypeEnum.Button}
-                        disabled={disabledConfirmButton}
+                        disabled={disabledConfirmButton || disabled}
                         className="col-span-12 md:col-span-6"
                     >
                         <ShoppingCart />

@@ -15,11 +15,12 @@ interface rowExpansionContentProps {
 
 export const useProductoVentaDetail = (ventaId: number) => {
     const [refetchDatatable, setrefetchDatatable] = useState<boolean>(false);
+    const refetchTable = () => setrefetchDatatable(!refetchDatatable);
     const [selectedId, seSelectedId] = useState<number>(0);
     const renderersMap = {
         rowExpansion: {
             content: ({ record }: rowExpansionContentProps) => {
-                return <ActualizaProductoVenta record={record} refetchDatatable={refetchDatatable} setrefetchDatatable={setrefetchDatatable} />;
+                return <ActualizaProductoVenta record={record} refetchDatatable={refetchTable} />;
             },
         },
         actions: ({ id }: IVentaProducto) => (
@@ -45,12 +46,14 @@ export const useProductoVentaDetail = (ventaId: number) => {
         },
         renderersMap,
     });
+    // console.log(dataTableProps?.totalRecords);
 
     const mutatorUpdate = useServiceUpdateVenta(ventaId);
     const { onSubmit: onSubmitFinalizarVenta } = useOnSubmit<IVentaUpdateProps>({
         mutateAsync: mutatorUpdate.mutateAsync,
         onSuccess: async (data: IVenta) => handleSuccessVenta(data),
     });
+    // const validate
     const handleSuccessVenta = (data: IVenta) => {
         console.log('handleSuccessVenta', data);
     };
@@ -59,7 +62,7 @@ export const useProductoVentaDetail = (ventaId: number) => {
     const { onSubmit: onSubmitDelete } = useOnSubmit({
         mutateAsync: mutatorDelete.mutateAsync,
         onSuccess: async () => {
-            setrefetchDatatable(!refetchDatatable);
+            refetchTable()
             seSelectedId(0);
         },
     });
