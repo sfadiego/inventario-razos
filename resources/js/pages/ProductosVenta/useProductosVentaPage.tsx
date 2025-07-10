@@ -75,6 +75,6 @@ export const useProductosVentaPage = ({ ventaId = 0 }: useProductosVentaPageProp
         selectedProduct,
         refetchCart,
         setRefetchCart,
-        venta: !isLoading && data ? data : {},
+        venta: !isLoading && data ? data : null,
     };
 };

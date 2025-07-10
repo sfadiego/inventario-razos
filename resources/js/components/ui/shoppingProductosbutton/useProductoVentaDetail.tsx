@@ -1,7 +1,9 @@
 import { useDataTable } from '@/hooks/useDatatable';
 import { useOnSubmit } from '@/hooks/useOnSubmit';
+import { IVenta, IVentaUpdateProps } from '@/models/venta.interface';
 import { IVentaProducto } from '@/models/ventaProducto.interface';
 import { useServiceDeleteVentaProducto, useServiceVentaProductoDetalle } from '@/Services/ventaProducto/useServiceVentaProducto';
+import { useServiceUpdateVenta } from '@/Services/ventas/useServiceVenta';
 import { Trash } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import Button from '../button/Button';
@@ -44,8 +46,17 @@ export const useProductoVentaDetail = (ventaId: number) => {
         renderersMap,
     });
 
+    const mutatorUpdate = useServiceUpdateVenta(ventaId);
+    const { onSubmit: onSubmitFinalizarVenta } = useOnSubmit<IVentaUpdateProps>({
+        mutateAsync: mutatorUpdate.mutateAsync,
+        onSuccess: async (data: IVenta) => handleSuccessVenta(data),
+    });
+    const handleSuccessVenta = (data: IVenta) => {
+        console.log('handleSuccessVenta', data);
+    };
+
     const mutatorDelete = useServiceDeleteVentaProducto(selectedId);
-    const { onSubmit } = useOnSubmit({
+    const { onSubmit: onSubmitDelete } = useOnSubmit({
         mutateAsync: mutatorDelete.mutateAsync,
         onSuccess: async () => {
             setrefetchDatatable(!refetchDatatable);
@@ -57,7 +68,7 @@ export const useProductoVentaDetail = (ventaId: number) => {
         refetch();
     }, [refetchDatatable, refetch]);
 
-    const handleDelete = () => onSubmit(null, {});
+    const handleDelete = () => onSubmitDelete(null, {});
 
-    return { dataTableProps, refetch };
+    return { dataTableProps, refetch, onSubmitFinalizarVenta };
 };
