@@ -20,9 +20,17 @@ interface IFormVentaProps {
 export const FormVenta = ({ isOpen, closeModal }: IFormVentaProps) => {
     const { formikProps, isPending, disabled, resetVenta, ventaActual } = useFormVenta();
     const [nuevocliente, setNuevocliente] = useState(false);
-    const title = ventaActual?.id ? `Detalles de Venta ${ventaActual.folio}` : 'Crear Venta';
+    const title = ventaActual?.id ? `Venta: ${ventaActual.folio}` : 'Crear Venta';
+    const total = ventaActual?.venta_total ?? null;
     return (
         <Modal isOpen={isOpen} title={title} onClose={closeModal} className="m-4 max-w-[700px]">
+            {ventaActual?.id && (
+                <div className={`grid grid-cols-12 gap-2 pt-3 pb-5`}>
+                    <div className="col-span-12">
+                        <b>Total</b>: {total}
+                    </div>
+                </div>
+            )}
             <Formik enableReinitialize {...formikProps}>
                 {(formik) => (
                     <>
@@ -57,10 +65,15 @@ export const FormVenta = ({ isOpen, closeModal }: IFormVentaProps) => {
                             )}
                             {!nuevocliente && !ventaActual?.id && (
                                 <div className="col-span-12 mt-3 flex justify-end gap-2">
-                                    <Button className="col-span-6" onClick={()=>{
-                                        resetVenta();
-                                        closeModal();
-                                    }} size="sm" variant="outline">
+                                    <Button
+                                        className="col-span-6"
+                                        onClick={() => {
+                                            resetVenta();
+                                            closeModal();
+                                        }}
+                                        size="sm"
+                                        variant="outline"
+                                    >
                                         Cancelar
                                     </Button>
                                     <Button className="col-span-6" size="md" type={ButtonTypeEnum.Submit} disabled={isPending || formik.isSubmitting}>
