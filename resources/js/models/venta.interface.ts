@@ -12,3 +12,10 @@ export interface IVenta {
     tipo_compra: TipoCompraType;
     status_venta: StatusVenta;
 }
+
+export interface IVentaUpdateProps {
+    nombre_venta?: string;
+    cliente_id?: number | null;
+    tipo_compra?: TipoCompraType;
+    status_venta?: StatusVenta;
+}

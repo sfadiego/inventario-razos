@@ -44,10 +44,13 @@ export const useProductoVentaDetail = (ventaId: number) => {
         renderersMap,
     });
 
-    const mutator = useServiceDeleteVentaProducto(selectedId);
+    const mutatorDelete = useServiceDeleteVentaProducto(selectedId);
     const { onSubmit } = useOnSubmit({
-        mutateAsync: mutator.mutateAsync,
-        onSuccess: async () => setrefetchDatatable(!refetchDatatable),
+        mutateAsync: mutatorDelete.mutateAsync,
+        onSuccess: async () => {
+            setrefetchDatatable(!refetchDatatable);
+            seSelectedId(0);
+        },
     });
 
     useEffect(() => {

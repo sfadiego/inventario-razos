@@ -12,6 +12,8 @@ export default function ShoppingCartButton({ refetchNumber }: { refetchNumber?: 
     const ventaId = id !== undefined ? Number(id) : 0;
     const { isLoading, data, refetch } = useServiceCountVentaProducto(ventaId);
     const total = data?.total || 0;
+    const disabledConfirmButton = !!(total == 0);
+
     useEffect(() => {
         refetch();
     }, [refetchNumber, refetch]);
@@ -29,7 +31,9 @@ export default function ShoppingCartButton({ refetchNumber }: { refetchNumber?: 
                     <div className="dark:text-gray top-0.5 right-0 z-10 h-5 w-5 rounded-full bg-orange-400 text-sm text-white">{total}</div>
                 </Button>
             </div>
-            {isOpen && <ProductoVentaDetail isOpen={isOpen} ventaId={ventaId} closeModal={handleCloseModal} />}
+            {isOpen && (
+                <ProductoVentaDetail disabledConfirmButton={disabledConfirmButton} isOpen={isOpen} ventaId={ventaId} closeModal={handleCloseModal} />
+            )}
         </>
     );
 }

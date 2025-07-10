@@ -9,6 +9,7 @@ Route::controller(VentasController::class)
         Route::post('', 'store');
         Route::get('productos', 'productoVenta');
         Route::prefix('{venta}')->group(function () {
+            Route::put('', 'update');
             Route::get('', 'show');
             Route::get('count-productos', 'countProductos');
         });

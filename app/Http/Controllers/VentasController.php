@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Core\Data\IndexData;
 use App\Http\Requests\Ventas\VentaStoreRequest;
+use App\Http\Requests\Ventas\VentaUpdateRequest;
 use App\Logic\VentaProductos\ProductosByVentaLogic;
 use App\Logic\Ventas\VentasIndexLogic;
 use App\Models\Venta;
@@ -21,6 +22,12 @@ class VentasController extends Controller
     {
         $venta = Venta::createVenta($params->all());
 
+        return Response::success($venta);
+    }
+
+    public function update(VentaUpdateRequest $params, Venta $venta): JsonResponse
+    {
+        $venta->update($params->validated());
         return Response::success($venta);
     }
 
