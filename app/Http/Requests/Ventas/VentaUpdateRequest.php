@@ -4,7 +4,7 @@ namespace App\Http\Requests\Ventas;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class VentaStoreRequest extends FormRequest
+class VentaUpdateRequest extends FormRequest
 {
     public function authorize(): bool
     {
@@ -18,7 +18,7 @@ class VentaStoreRequest extends FormRequest
             'nombre_venta' => ['nullable', 'string', 'max:255'],
             'cliente_id' => ['nullable', 'exists:clientes,id'],
             'tipo_compra' => ['nullable', 'in:contado,credito'],
-            'status_venta' => ['required', 'in:contado,credito'],
+            'status_venta' => ['required', 'in:activa,finalizada'],
         ];
     }
 }
