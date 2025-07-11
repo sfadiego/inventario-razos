@@ -11,7 +11,12 @@ interface useActualizaProductoVentaProps {
 export const useActualizaProductoVenta = (props: useActualizaProductoVentaProps) => {
     const { record, refetchDatatable } = props;
     const [errorMessage, seterror] = useState<string>('');
-    const handleSuccess = () => refetchDatatable && refetchDatatable();
+    const handleSuccess = () => {
+        seterror('');
+        if (refetchDatatable) {
+            refetchDatatable();
+        }
+    };
 
     const initialValues: IVentaProducto = {
         id: record.id || 0,
