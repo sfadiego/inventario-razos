@@ -12,4 +12,5 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::prefix('ubicaciones')->group(base_path('/routes/modules/ubicaciones.php'));
     Route::prefix('venta-producto')->group(base_path('/routes/modules/ventaProducto.php'));
     Route::prefix('ventas')->group(base_path('/routes/modules/ventas.php'));
+    Route::prefix('reporte-movimientos')->group(base_path('/routes/modules/reporteMovimientos.php'));
 });

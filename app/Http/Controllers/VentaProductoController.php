@@ -24,10 +24,11 @@ class VentaProductoController extends Controller
     public function update(VentaProductoUpdateRequest $params, VentaProducto $ventaProducto): JsonResponse
     {
         try {
-            if (!VentaProducto::validateVentaProducto($params->all())) {
+            if (! VentaProducto::validateVentaProducto($params->all())) {
                 throw new \Exception('No hay suficiente stock del producto seleccionado.');
             }
             $ventaProducto->update($params->validated());
+
             return Response::success($ventaProducto);
         } catch (\Throwable $th) {
             return Response::error($th->getMessage());
@@ -37,6 +38,7 @@ class VentaProductoController extends Controller
     public function delete(VentaProducto $ventaProducto): JsonResponse
     {
         $ventaProducto->delete();
+
         return Response::success(null, 'Borrado correctamente');
     }
 }
