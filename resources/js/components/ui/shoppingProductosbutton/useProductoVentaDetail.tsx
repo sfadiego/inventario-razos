@@ -6,7 +6,7 @@ import { IVenta, IVentaUpdateProps } from '@/models/venta.interface';
 import { IVentaProducto } from '@/models/ventaProducto.interface';
 import { useVentasStore } from '@/pages/Venta/partials/useVentasStore';
 import { useServiceDeleteVentaProducto, useServiceVentaProductoDetalle } from '@/Services/ventaProducto/useServiceVentaProducto';
-import { useServiceUpdateVenta } from '@/Services/ventas/useServiceVenta';
+import { useServiceFinalizarVenta } from '@/Services/ventas/useServiceVenta';
 import { Trash } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import Button from '../button/Button';
@@ -57,12 +57,12 @@ export const useProductoVentaDetail = ({ ventaId, closeModal }: { ventaId: numbe
         renderersMap,
     });
 
-    const mutatorUpdate = useServiceUpdateVenta(ventaId);
+    const mutatorUpdate = useServiceFinalizarVenta(ventaId);
     const { onSubmit: onSubmitFinalizarVenta } = useOnSubmit<IVentaUpdateProps>({
         mutateAsync: mutatorUpdate.mutateAsync,
         onSuccess: async (data: IVenta) => handleSuccessVenta(data),
     });
-    // const validate
+
     const handleSuccessVenta = (data: IVenta) => {
         setVenta(data);
         closeModal();
