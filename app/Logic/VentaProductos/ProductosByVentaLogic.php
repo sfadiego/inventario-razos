@@ -25,6 +25,7 @@ class ProductosByVentaLogic extends ShowLogic
             'producto.nombre' => 'Producto',
             'cantidad' => 'Cantidad',
             'precio' => 'Precio',
+            'producto.stock' => 'Stock',
             'actions' => __('#'),
         ];
     }

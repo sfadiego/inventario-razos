@@ -23,6 +23,7 @@ class VentaProductoResource extends JsonResource
                 'id' => $this->producto_id,
                 'nombre' => $this->producto->nombre ?? null,
                 'codigo' => $this->producto->codigo ?? null,
+                'stock' => $this->producto->stock ?? 0,
             ] : null,
             'venta_id' => $this->venta_id,
         ];

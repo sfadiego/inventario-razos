@@ -11,6 +11,7 @@ Route::controller(VentasController::class)
         Route::prefix('{venta}')->group(function () {
             Route::put('', 'update');
             Route::get('', 'show');
+            Route::put('finalizar-venta', 'finalizarVenta');
             Route::get('count-productos', 'countProductos');
         });
     });
