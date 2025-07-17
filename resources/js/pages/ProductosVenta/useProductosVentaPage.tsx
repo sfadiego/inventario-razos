@@ -28,7 +28,7 @@ export const useProductosVentaPage = ({ ventaId = 0 }: useProductosVentaPageProp
     const { venta, setVenta } = useVentasStore();
     const breadcrumbArray: Array<BreadcrumbArrayProps> = [
         { name: 'Ventas', path: AdminRoutes.Venta },
-        { name: 'Productos', path: `/venta/${ventaId}/productos` },
+        { name: 'productos', path: `/venta/${ventaId}/productos` },
     ];
     useEffect(() => {
         if (!isLoading) {

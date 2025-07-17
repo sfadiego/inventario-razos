@@ -21,7 +21,7 @@ class ProductosByVentaLogic extends ShowLogic
     protected function tableHeaders(): array
     {
         return [
-            'id' => __('#'),
+            'producto.id' => __('#'),
             'producto.nombre' => 'Producto',
             'cantidad' => 'Cantidad',
             'precio' => 'Precio',

@@ -19,12 +19,12 @@ export const ProductoVentaDetail = ({ isOpen, closeModal, ventaId = 0 }: Product
                     <DataTable {...dataTableProps} />
                 </div>
                 <div className="col-span-12 mt-3 flex justify-end gap-2">
-                    <Button onClick={() => null} size="md" type={ButtonTypeEnum.Button} disabled={disabled} className="col-span-12 md:col-span-6">
+                    <Button onClick={() => null} size="md" type={ButtonTypeEnum.Button} disabled={false} className="col-span-12 md:col-span-6">
                         <Printer />
                         Imprimir Ticket
                     </Button>
                     <Button
-                        onClick={() => onSubmitFinalizarVenta({ status_venta: 'finalizada' }, {})}
+                        onClick={onSubmitFinalizarVenta}
                         size="md"
                         type={ButtonTypeEnum.Button}
                         disabled={disabled}

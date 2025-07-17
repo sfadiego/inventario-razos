@@ -4,6 +4,8 @@ namespace App\Models;
 
 use App\Enums\StatusVentaEnum;
 use App\Enums\TipoCompraEnum;
+use App\Enums\TipoMovimientoEnum;
+use App\Traits\Movimientos;
 use Exception;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -13,7 +15,7 @@ use Illuminate\Support\Facades\DB;
 
 class Venta extends Model
 {
-    use HasFactory;
+    use HasFactory, Movimientos;
 
     protected $table = 'venta';
 
@@ -65,6 +67,7 @@ class Venta extends Model
             ->map(function ($item) {
                 $cantidadDescontar = $item['cantidad_total'];
                 $producto = Producto::find($item['producto_id']);
+                $stockOriginal = $producto->stock;
                 $stockActual = $producto->stock - $cantidadDescontar;
                 if ($stockActual < 0) {
                     DB::rollBack();
@@ -72,7 +75,15 @@ class Venta extends Model
                 }
                 $producto->stock = $stockActual;
                 $producto->update();
-                // TODO: registrar en historial
+                $this->nuevoMovimiento([
+                    'producto_id' => $producto->id,
+                    'tipo_movimiento_id' => TipoMovimientoEnum::getMovimientoId(TipoMovimientoEnum::SALIDA),
+                    'motivo' => 'Venta de producto',
+                    'cantidad' => $cantidadDescontar,
+                    'cantidad_anterior' => $stockOriginal,
+                    'cantidad_actual' => $stockActual,
+                    'user_id' => auth()->user()->id,
+                ]);
             });
 
         $ventaTotal = $this->ventaProductos->sum(fn($item) => $item->cantidad * $item->precio);
@@ -82,6 +93,6 @@ class Venta extends Model
             'updated_at' => now(),
         ]);
         DB::commit();
-        return $this;
+        return $this->refresh();
     }
 }

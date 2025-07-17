@@ -89,6 +89,12 @@ export const useProductoVentaDetail = ({ ventaId, closeModal }: { ventaId: numbe
 
     const disabled = !!(dataTableProps?.totalRecords == 0 || ventaFinalizada);
     const handleDelete = () => onSubmitDelete(null, {});
+    const handleSubmitFinalizarVenta = () => {
+        onSubmitFinalizarVenta({}, {});
+        console.log('refreshed venta -> refetchTable');
+        //refetch producto tabla
+        // setRefreshFlag();
+    };
 
-    return { dataTableProps, refetch, onSubmitFinalizarVenta, disabled };
+    return { dataTableProps, refetch, onSubmitFinalizarVenta: handleSubmitFinalizarVenta, disabled };
 };

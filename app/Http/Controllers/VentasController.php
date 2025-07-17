@@ -3,17 +3,18 @@
 namespace App\Http\Controllers;
 
 use App\Core\Data\IndexData;
-use App\Http\Requests\Ventas\FilanizarVentaRequest;
 use App\Http\Requests\Ventas\VentaStoreRequest;
 use App\Http\Requests\Ventas\VentaUpdateRequest;
 use App\Logic\VentaProductos\ProductosByVentaLogic;
 use App\Logic\Ventas\VentasIndexLogic;
 use App\Models\Venta;
+use App\Traits\Movimientos;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Response;
 
 class VentasController extends Controller
 {
+    use Movimientos;
     public function index(IndexData $data, VentasIndexLogic $logic): JsonResponse
     {
         return $logic->run($data);
