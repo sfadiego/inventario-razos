@@ -1,21 +1,15 @@
-import { BreadcrumbArrayProps } from '@/components/common/breadcrum';
-import { Headers } from '@/components/layout/Headers';
 import { PageWrapper } from '@/components/layout/PageWrapper';
 import { DatatableWithFilter } from '@/components/tables/DatatableWithFilter';
 import ShoppingCartButton from '@/components/ui/shoppingProductosbutton/ShoppingCartButton';
-import { AdminRoutes } from '@/router/modules/admin.routes';
 import { useParams } from 'react-router';
 import { FiltrosProductos } from '../Productos/partials/FiltrosProductos';
+import { DetalleVenta } from '../Venta/partials/DetalleVenta';
 import { AgregarProductoVenta } from './partials/AgregarProductoVenta';
 import { useProductosVentaPage } from './useProductosVentaPage';
 
 export default function ProductosVentaPage() {
     const { id } = useParams();
     const ventaId = id ? Number(id) : 0;
-    const breadcrumbArray: Array<BreadcrumbArrayProps> = [
-        { name: 'Ventas', path: AdminRoutes.Venta },
-        { name: 'Productos', path: `/venta/${id}/productos` },
-    ];
     const {
         filters,
         openModal,
@@ -28,26 +22,13 @@ export default function ProductosVentaPage() {
         refetchCart,
         setRefetchCart,
         venta,
+        breadcrumbArray,
     } = useProductosVentaPage({ ventaId });
-    const folio = venta?.folio ?? ' --- ';
-    const venta_total = venta?.venta_total ?? '---';
-    const nombreCliente = venta?.cliente?.nombre ?? '---';
+
     return (
         <PageWrapper breadcrumbArray={breadcrumbArray} pageTitle="Listado de productos para venta">
             <div className="mb-3 grid grid-cols-12">
-                <div className="col-span-10">
-                    <Headers size="sm" type={`h1`}>
-                        Folio: {folio}
-                    </Headers>
-                    <Headers size="sm" type={`h2`}>
-                        Total: ${venta_total}
-                    </Headers>
-                    {venta?.cliente?.nombre && (
-                        <Headers size="sm" type={`h3`}>
-                            Cliente: {nombreCliente}
-                        </Headers>
-                    )}
-                </div>
+                <div className="col-span-10">{venta && <DetalleVenta venta={venta} />}</div>
                 <div className="col-span-2 flex justify-end">
                     <ShoppingCartButton refetchNumber={refetchCart} />
                 </div>
@@ -58,7 +39,7 @@ export default function ProductosVentaPage() {
                 initialValues={initialValues}
                 filters={filters}
                 onClickNew={openModal}
-                refreshFlag={true}
+                refreshFlag={true} //aqui refresh producto
                 disableNewButton={true}
                 service={useServiceIndexProductos}
             >

@@ -20,5 +20,6 @@ export const useServiceIndexVenta = ({ filters = [], search = null, page = 1, li
 export const useServiceStoreVenta = () => usePOST({ url });
 export const useServiceShowVenta = (id?: number) => useGET<IVenta>({ url: `${url}/${id}`, enable: !!id });
 export const useServiceUpdateVenta = (id?: number) => usePUT({ url: `${url}/${id}` });
+export const useServiceFinalizarVenta = (id?: number) => usePUT({ url: `${url}/${id}/finalizar-venta` });
 
 export const useServiceCountVentaProducto = (id?: number) => useGET<ICountVentaProducto>({ url: `${url}/${id}/count-productos`, enable: !!id });

@@ -18,7 +18,7 @@ class VentaStoreRequest extends FormRequest
             'nombre_venta' => ['nullable', 'string', 'max:255'],
             'cliente_id' => ['nullable', 'exists:clientes,id'],
             'tipo_compra' => ['nullable', 'in:contado,credito'],
-            'status_venta' => ['required', 'in:contado,credito'],
+            'status_venta' => ['required', 'in:activa,finalizada'],
         ];
     }
 }

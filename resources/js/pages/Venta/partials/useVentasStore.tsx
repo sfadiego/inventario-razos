@@ -5,7 +5,7 @@ interface IuseVentasStore {
     venta: IVenta | null;
     setVenta: (prop?: IVenta | null) => void;
     refreshFlag: boolean;
-    setRefreshFlag: (prop?: IVenta | null) => void;
+    setRefreshFlag: () => void;
 }
 
 export const useVentasStore = create<IuseVentasStore>((set) => ({

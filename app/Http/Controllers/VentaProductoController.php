@@ -24,9 +24,11 @@ class VentaProductoController extends Controller
     public function update(VentaProductoUpdateRequest $params, VentaProducto $ventaProducto): JsonResponse
     {
         try {
-            if (! VentaProducto::validateVentaProducto($params->all())) {
+            $params->merge(['venta_id' => $ventaProducto->venta_id]);
+            if (!VentaProducto::validateVentaProducto($params->all(), false)) {
                 throw new \Exception('No hay suficiente stock del producto seleccionado.');
             }
+
             $ventaProducto->update($params->validated());
 
             return Response::success($ventaProducto);

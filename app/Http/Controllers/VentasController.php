@@ -8,11 +8,13 @@ use App\Http\Requests\Ventas\VentaUpdateRequest;
 use App\Logic\VentaProductos\ProductosByVentaLogic;
 use App\Logic\Ventas\VentasIndexLogic;
 use App\Models\Venta;
+use App\Traits\Movimientos;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Response;
 
 class VentasController extends Controller
 {
+    use Movimientos;
     public function index(IndexData $data, VentasIndexLogic $logic): JsonResponse
     {
         return $logic->run($data);
@@ -21,7 +23,6 @@ class VentasController extends Controller
     public function store(VentaStoreRequest $params): JsonResponse
     {
         $venta = Venta::createVenta($params->all());
-
         return Response::success($venta);
     }
 
@@ -33,13 +34,23 @@ class VentasController extends Controller
 
     public function show(Venta $venta): JsonResponse
     {
-         $venta->load(['cliente']);
+        $venta->load(['cliente']);
         return Response::success($venta);
     }
 
     public function productoVenta(IndexData $data, ProductosByVentaLogic $logic): JsonResponse
     {
         return $logic->run($data);
+    }
+
+    public function finalizarVenta(Venta $venta): JsonResponse
+    {
+        try {
+            $venta->finalizarVenta();
+            return Response::success($venta);
+        } catch (\Throwable $th) {
+            return Response::error($th->getMessage());
+        }
     }
 
     public function countProductos(Venta $venta): JsonResponse

@@ -3,14 +3,12 @@ import Input from '@/components/form/input/InputField';
 import { IVentaProducto } from '@/models/ventaProducto.interface';
 import { Form, Formik } from 'formik';
 import { Save } from 'lucide-react';
-import { Dispatch, SetStateAction } from 'react';
 import Alert from '../../alert/Alert';
 import Button from '../../button/Button';
 import { ButtonTypeEnum } from '../../button/enums/buttonType.enum';
 import { useActualizaProductoVenta } from './useActualizaProductoVenta';
 interface ActualizaProductoVentaProps {
-    refetchDatatable?: boolean;
-    setrefetchDatatable?: Dispatch<SetStateAction<boolean>>;
+    refetchDatatable?: () => void;
     record: IVentaProducto;
 }
 export const ActualizaProductoVenta = (props: ActualizaProductoVentaProps) => {

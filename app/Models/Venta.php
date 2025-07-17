@@ -4,14 +4,18 @@ namespace App\Models;
 
 use App\Enums\StatusVentaEnum;
 use App\Enums\TipoCompraEnum;
+use App\Enums\TipoMovimientoEnum;
+use App\Traits\Movimientos;
+use Exception;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Facades\DB;
 
 class Venta extends Model
 {
-    use HasFactory;
+    use HasFactory, Movimientos;
 
     protected $table = 'venta';
 
@@ -38,7 +42,7 @@ class Venta extends Model
     {
         $lastFolio = Venta::latest()->value('folio');
         $newFolio = $lastFolio ? intval(substr($lastFolio, -4)) + 1 : 1;
-        $folio = 'VENTA-'.date('Ymd').'-'.str_pad($newFolio, 4, '0', STR_PAD_LEFT);
+        $folio = 'VENTA-' . date('Ymd') . '-' . str_pad($newFolio, 4, '0', STR_PAD_LEFT);
 
         return self::create([
             'venta_total' => $data['venta_total'] ?? 0,
@@ -50,12 +54,45 @@ class Venta extends Model
         ]);
     }
 
-    public function finalizarVenta(Venta $venta): Venta
+    public function finalizarVenta(): Venta
     {
-        $venta->update([
-            'status_venta' => StatusVentaEnum::Finalizada->value,
-        ]);
+        DB::beginTransaction();
+        $result = collect($this->ventaProductos)->groupBy('producto_id')
+            ->map(function ($items, $productoId) {
+                return [
+                    'producto_id' => $productoId,
+                    'cantidad_total' => $items->sum('cantidad'),
+                ];
+            })
+            ->map(function ($item) {
+                $cantidadDescontar = $item['cantidad_total'];
+                $producto = Producto::find($item['producto_id']);
+                $stockOriginal = $producto->stock;
+                $stockActual = $producto->stock - $cantidadDescontar;
+                if ($stockActual < 0) {
+                    DB::rollBack();
+                    throw new Exception("No se puede descontar, stock insuficiente");
+                }
+                $producto->stock = $stockActual;
+                $producto->update();
+                $this->nuevoMovimiento([
+                    'producto_id' => $producto->id,
+                    'tipo_movimiento_id' => TipoMovimientoEnum::getMovimientoId(TipoMovimientoEnum::SALIDA),
+                    'motivo' => 'Venta de producto',
+                    'cantidad' => $cantidadDescontar,
+                    'cantidad_anterior' => $stockOriginal,
+                    'cantidad_actual' => $stockActual,
+                    'user_id' => auth()->user()->id,
+                ]);
+            });
 
-        return $venta;
+        $ventaTotal = $this->ventaProductos->sum(fn($item) => $item->cantidad * $item->precio);
+        $this->update([
+            'venta_total' => $ventaTotal,
+            'status_venta' => StatusVentaEnum::Finalizada->value,
+            'updated_at' => now(),
+        ]);
+        DB::commit();
+        return $this->refresh();
     }
 }

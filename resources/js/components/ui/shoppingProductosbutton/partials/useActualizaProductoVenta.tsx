@@ -1,20 +1,20 @@
 import { useOnSubmit } from '@/hooks/useOnSubmit';
 import { IVentaProducto } from '@/models/ventaProducto.interface';
 import { useServiceUpdateVentaProducto } from '@/Services/ventaProducto/useServiceVentaProducto';
-import { Dispatch, SetStateAction, useState } from 'react';
+import { useState } from 'react';
 import * as Yup from 'yup';
 
 interface useActualizaProductoVentaProps {
     record: IVentaProducto;
-    refetchDatatable?: boolean;
-    setrefetchDatatable?: Dispatch<SetStateAction<boolean>>;
+    refetchDatatable?: () => void;
 }
 export const useActualizaProductoVenta = (props: useActualizaProductoVentaProps) => {
-    const { record, setrefetchDatatable, refetchDatatable } = props;
+    const { record, refetchDatatable } = props;
     const [errorMessage, seterror] = useState<string>('');
     const handleSuccess = () => {
-        if (setrefetchDatatable) {
-            setrefetchDatatable(!refetchDatatable);
+        seterror('');
+        if (refetchDatatable) {
+            refetchDatatable();
         }
     };
 

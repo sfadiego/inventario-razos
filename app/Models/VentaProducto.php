@@ -24,11 +24,15 @@ class VentaProducto extends Model
         return $this->belongsTo(Venta::class);
     }
 
-    public static function validateVentaProducto(array $data): false|int
+    public static function validateVentaProducto(array $data, bool $sumarCantidad = true): false|int
     {
         $productoActual = Producto::find($data['producto_id']);
-        $ventaProductoActual = VentaProducto::where('venta_id', $data['venta_id'])->where('producto_id', $data['producto_id'])->first();
-        $cantidadRequerida = ($ventaProductoActual->cantidad ?? 0) + $data['cantidad'] ?? $data['cantidad'];
+        $cantidadRequerida = $data['cantidad'];
+        if ($sumarCantidad) {
+            $ventaProductoActual = VentaProducto::where('venta_id', $data['venta_id'])->where('producto_id', $data['producto_id'])->first();
+            $cantidadRequerida = ($ventaProductoActual->cantidad ?? 0) + $data['cantidad'] ?? $data['cantidad'];
+        }
+
         if ($productoActual->stock < $cantidadRequerida) {
             return false;
         }

@@ -30,6 +30,5 @@ class DatabaseSeeder extends Seeder
         ProductoProveedor::factory(15)->create();
         Venta::factory(15)->create();
         VentaProducto::factory(15)->create();
-        ReporteMovimiento::factory(15)->create();
     }
 }
