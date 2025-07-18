@@ -15,18 +15,17 @@ export default function ProductosVentaPage() {
         openModal,
         isOpen,
         closeModal,
-        selectedProduct,
+        productId,
         renderersMap,
         initialValues,
         useServiceIndexProductos,
         refetchCart,
         setRefetchCart,
         venta,
-        breadcrumbArray,
+        breadcrumb,
     } = useProductosVentaPage({ ventaId });
-
     return (
-        <PageWrapper breadcrumbArray={breadcrumbArray} pageTitle="Listado de productos para venta">
+        <PageWrapper breadcrumbArray={breadcrumb} pageTitle="Listado de productos para venta">
             <div className="mb-3 grid grid-cols-12">
                 <div className="col-span-10">{venta && <DetalleVenta venta={venta} />}</div>
                 <div className="col-span-2 flex justify-end">
@@ -38,7 +37,7 @@ export default function ProductosVentaPage() {
                 renderersMap={renderersMap}
                 initialValues={initialValues}
                 filters={filters}
-                onClickNew={openModal}
+                onClickNew={() => openModal}
                 refreshFlag={true} //aqui refresh producto
                 disableNewButton={true}
                 service={useServiceIndexProductos}
@@ -47,7 +46,7 @@ export default function ProductosVentaPage() {
             </DatatableWithFilter>
             <AgregarProductoVenta
                 ventaId={ventaId}
-                productoId={selectedProduct}
+                productoId={productId}
                 closeModal={closeModal}
                 refetchShoppingCar={refetchCart}
                 setRefetchShoppingCar={setRefetchCart}

@@ -10,7 +10,6 @@ import { Modal } from '@/components/ui/modal';
 import { IVenta } from '@/models/venta.interface';
 import { Form, Formik } from 'formik';
 import { Save } from 'lucide-react';
-import { useState } from 'react';
 import { useFormVenta } from './useFormVenta';
 
 interface IFormVentaProps {
@@ -18,10 +17,7 @@ interface IFormVentaProps {
     closeModal: () => void;
 }
 export const FormVenta = ({ isOpen, closeModal }: IFormVentaProps) => {
-    const { formikProps, isPending, disabled, resetVenta, ventaActual } = useFormVenta();
-    const [nuevocliente, setNuevocliente] = useState(false);
-    const title = ventaActual?.id ? `Venta: ${ventaActual.folio}` : 'Crear Venta';
-    const total = ventaActual?.venta_total ?? null;
+    const { formikProps, isPending, disabled, title, total, resetVenta, ventaActual, nuevocliente, toggleClient } = useFormVenta();
     return (
         <Modal isOpen={isOpen} title={title} onClose={closeModal} className="m-4 max-w-[700px]">
             {ventaActual?.id && (
@@ -36,7 +32,12 @@ export const FormVenta = ({ isOpen, closeModal }: IFormVentaProps) => {
                     <>
                         <Form className={`grid grid-cols-12 gap-2 pt-3 pb-5`}>
                             <div className="col-span-12 flex justify-end">
-                                <Switch disabled={disabled} label="Cliente nuevo" defaultChecked={nuevocliente} onChange={setNuevocliente} />
+                                <Switch
+                                    disabled={disabled}
+                                    label={`${!nuevocliente ? '' : 'No'} Asignar cliente`}
+                                    defaultChecked={!nuevocliente}
+                                    onChange={toggleClient}
+                                />
                             </div>
                             <div className="col-span-12">
                                 <Input<IVenta> disabled={true} label={`Folio`} name="folio" formik={formik} type={InputTypeEnum.Text} />
@@ -63,7 +64,7 @@ export const FormVenta = ({ isOpen, closeModal }: IFormVentaProps) => {
                                     </div>
                                 </>
                             )}
-                            {!nuevocliente && !ventaActual?.id && (
+                            {!ventaActual?.id && (
                                 <div className="col-span-12 mt-3 flex justify-end gap-2">
                                     <Button
                                         className="col-span-6"
