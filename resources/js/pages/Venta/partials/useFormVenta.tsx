@@ -6,6 +6,15 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router';
 import * as Yup from 'yup';
 import { useVentasStore } from './useVentasStore';
+const validationSchema = Yup.object().shape({
+    venta_total: Yup.number(),
+    folio: Yup.string(),
+    nombre_venta: Yup.string().max(100, 'El nombre no puede exceder 100 caracteres'),
+    cliente_id: Yup.number().nullable(),
+    tipo_compra: Yup.string().oneOf(['contado', 'credito'], 'Tipo de compra inválido').required('El tipo de compra es obligatorio'),
+    status_venta: Yup.string().oneOf(['activa', 'finalizada'], 'Estatus de compra inválido').required('El estatus de compra es obligatorio'),
+});
+
 export const useFormVenta = () => {
     const navigate = useNavigate();
     const { venta, setVenta } = useVentasStore();
@@ -14,14 +23,7 @@ export const useFormVenta = () => {
     const toggleClient = () => setNuevocliente(!nuevocliente);
     const title = venta?.id ? `Venta: ${venta.folio}` : 'Crear Venta';
     const total = venta?.venta_total ?? null;
-    const validationSchema = Yup.object().shape({
-        venta_total: Yup.number(),
-        folio: Yup.string(),
-        nombre_venta: Yup.string().max(100, 'El nombre no puede exceder 100 caracteres'),
-        cliente_id: Yup.number().nullable(),
-        tipo_compra: Yup.string().oneOf(['contado', 'credito'], 'Tipo de compra inválido').required('El tipo de compra es obligatorio'),
-        status_venta: Yup.string().oneOf(['activa', 'finalizada'], 'Estatus de compra inválido').required('El estatus de compra es obligatorio'),
-    });
+
     const initialValues: IVenta = {
         id: venta?.id ?? 0,
         venta_total: venta?.venta_total ?? 0,
