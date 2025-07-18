@@ -8,47 +8,57 @@ import { useVentasStore } from '@/pages/Venta/partials/useVentasStore';
 import { useServiceDeleteVentaProducto, useServiceVentaProductoDetalle } from '@/Services/ventaProducto/useServiceVentaProducto';
 import { useServiceFinalizarVenta } from '@/Services/ventas/useServiceVenta';
 import { Trash } from 'lucide-react';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import Button from '../button/Button';
 import { ActualizaProductoVenta } from './partials/ActualizaProductoVenta';
-interface rowExpansionContentProps {
-    record: IVentaProducto;
-    collapse: () => void;
-}
 
 export const useProductoVentaDetail = ({ ventaId, closeModal }: { ventaId: number; closeModal: () => void }) => {
-    const [refetchDatatable, setrefetchDatatable] = useState<boolean>(false);
-    const refetchTable = () => setrefetchDatatable(!refetchDatatable);
-    const [selectedId, seSelectedId] = useState<number>(0);
-    const { venta, setVenta } = useVentasStore();
+    const [reloadFlag, setReloadFlag] = useState(false);
+    const triggerReload = useCallback(() => {
+        setReloadFlag((prev) => !prev);
+    }, []);
+    const [selectedId, setSelectedId] = useState<number>(0);
+    const { venta, setVenta, setRefreshFlag } = useVentasStore();
 
     const ventaFinalizada = !!(venta?.status_venta == 'finalizada');
-    const renderersMap = {
-        rowExpansion: {
-            content: ({ record }: rowExpansionContentProps) => {
-                return !ventaFinalizada && <ActualizaProductoVenta record={record} refetchDatatable={refetchTable} />;
-            },
+    const mutatorDelete = useServiceDeleteVentaProducto(selectedId);
+    const { onSubmit: onSubmitDelete } = useOnSubmit({
+        mutateAsync: mutatorDelete.mutateAsync,
+        onSuccess: async () => {
+            triggerReload();
+            setSelectedId(0);
         },
-        actions: ({ id }: IVentaProducto) => (
-            <>
-                {!ventaFinalizada && (
+    });
+    const handleDelete = useCallback(() => {
+        onSubmitDelete(null, {});
+    }, [onSubmitDelete]);
+
+    // Configuración de DataTable con renderers memoizados
+    const renderersMap = useMemo(
+        () => ({
+            rowExpansion: {
+                content: ({ record }: { record: IVentaProducto }) =>
+                    !ventaFinalizada && <ActualizaProductoVenta record={record} refetchDatatable={triggerReload} />,
+            },
+            actions: ({ id }: IVentaProducto) =>
+                !ventaFinalizada ? (
                     <Button
-                        onClick={(e) => {
-                            e.stopPropagation();
-                            seSelectedId(id);
-                            handleDelete();
-                        }}
                         variant="error"
                         size="sm"
+                        onClick={(e) => {
+                            e.stopPropagation();
+                            setSelectedId(id);
+                            handleDelete();
+                        }}
                     >
                         <Trash />
                     </Button>
-                )}
-            </>
-        ),
-    };
+                ) : null,
+        }),
+        [ventaFinalizada, triggerReload, handleDelete],
+    );
     //TODO: arreglar tipado de renderersMap
-    const { dataTableProps, refetch } = useDataTable({
+    const { dataTableProps, refetch: refetchProductoDetalle } = useDataTable({
         service: useServiceVentaProductoDetalle,
         payload: {
             serviceParamId: ventaId,
@@ -57,44 +67,34 @@ export const useProductoVentaDetail = ({ ventaId, closeModal }: { ventaId: numbe
         renderersMap,
     });
 
+    useEffect(() => {
+        refetchProductoDetalle();
+    }, [reloadFlag, refetchProductoDetalle]);
+
     const mutatorUpdate = useServiceFinalizarVenta(ventaId);
     const { onSubmit: onSubmitFinalizarVenta } = useOnSubmit<IVentaUpdateProps>({
         mutateAsync: mutatorUpdate.mutateAsync,
         onSuccess: async (data: IVenta) => handleSuccessVenta(data),
     });
 
-    const handleSuccessVenta = (data: IVenta) => {
-        setVenta(data);
-        closeModal();
-        AlertSwal({
-            type: AlertTypeEnum.Success,
-            options: {
-                timer: 2000,
-                timerProgressBar: true,
-            },
-        });
-    };
-
-    const mutatorDelete = useServiceDeleteVentaProducto(selectedId);
-    const { onSubmit: onSubmitDelete } = useOnSubmit({
-        mutateAsync: mutatorDelete.mutateAsync,
-        onSuccess: async () => {
-            refetchTable();
-            seSelectedId(0);
-        },
-    });
-    useEffect(() => {
-        refetch();
-    }, [refetchDatatable, refetch]);
-
-    const disabled = !!(dataTableProps?.totalRecords == 0 || ventaFinalizada);
-    const handleDelete = () => onSubmitDelete(null, {});
-    const handleSubmitFinalizarVenta = () => {
+    const handleFinalize = useCallback(() => {
         onSubmitFinalizarVenta({}, {});
-        console.log('refreshed venta -> refetchTable');
-        //refetch producto tabla
-        // setRefreshFlag();
-    };
+        setRefreshFlag();
+    }, [onSubmitFinalizarVenta, setRefreshFlag]);
 
-    return { dataTableProps, refetch, onSubmitFinalizarVenta: handleSubmitFinalizarVenta, disabled };
+    const handleSuccessVenta = useCallback(
+        (updated: IVenta) => {
+            setVenta(updated);
+            closeModal();
+            AlertSwal({
+                type: AlertTypeEnum.Success,
+                options: { timer: 2000, timerProgressBar: true },
+            });
+        },
+        [closeModal, setVenta],
+    );
+
+    const disabled = useMemo(() => (dataTableProps?.totalRecords ?? 0) === 0 || ventaFinalizada, [dataTableProps?.totalRecords, ventaFinalizada]);
+
+    return { dataTableProps, refetch: refetchProductoDetalle, onSubmitFinalizarVenta: handleFinalize, disabled };
 };
