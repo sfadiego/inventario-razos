@@ -11,7 +11,7 @@ return new class extends Migration
         Schema::create('reporte_movimientos', function (Blueprint $table) {
             $table->id();
             $table->foreignId('producto_id')->constrained('productos');
-            $table->foreignId('tipo_movimiento_id')->constrained('tipo_movimientos');
+            $table->foreignId('tipo_movimiento_id')->constrained('tipo_movimientos')->onDelete('cascade');
             $table->string('motivo')->nullable();
             $table->integer('cantidad');
             $table->integer('cantidad_anterior');
