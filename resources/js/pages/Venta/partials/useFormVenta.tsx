@@ -2,6 +2,7 @@ import { useOnSubmit } from '@/hooks/useOnSubmit';
 import { IVenta } from '@/models/venta.interface';
 import { useClienteStore } from '@/pages/Clientes/partials/useClienteStore';
 import { useServiceStoreVenta } from '@/Services/ventas/useServiceVenta';
+import { useState } from 'react';
 import { useNavigate } from 'react-router';
 import * as Yup from 'yup';
 import { useVentasStore } from './useVentasStore';
@@ -9,6 +10,10 @@ export const useFormVenta = () => {
     const navigate = useNavigate();
     const { venta, setVenta } = useVentasStore();
     const { cliente } = useClienteStore();
+    const [nuevocliente, setNuevocliente] = useState(false);
+    const toggleClient = () => setNuevocliente(!nuevocliente);
+    const title = venta?.id ? `Venta: ${venta.folio}` : 'Crear Venta';
+    const total = venta?.venta_total ?? null;
     const validationSchema = Yup.object().shape({
         venta_total: Yup.number(),
         folio: Yup.string(),
@@ -44,7 +49,11 @@ export const useFormVenta = () => {
         formikProps,
         isPending: mutator.isPending,
         ventaActual: venta,
+        title,
+        total,
         disabled: !!venta?.id,
         resetVenta: () => setVenta(null),
+        nuevocliente,
+        toggleClient,
     };
 };
