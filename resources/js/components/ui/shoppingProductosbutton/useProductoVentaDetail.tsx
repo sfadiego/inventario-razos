@@ -2,9 +2,8 @@ import { AlertSwal } from '@/components/alertSwal/AlertSwal';
 import { AlertTypeEnum } from '@/enums/AlertTypeEnum';
 import { useDataTable } from '@/hooks/useDatatable';
 import { useOnSubmit } from '@/hooks/useOnSubmit';
-import { IVenta, IVentaUpdateProps } from '@/models/venta.interface';
+import { IVentaUpdateProps } from '@/models/venta.interface';
 import { IVentaProducto } from '@/models/ventaProducto.interface';
-import { useVentasStore } from '@/pages/Venta/partials/useVentasStore';
 import { useServiceIndexProductos } from '@/Services/productos/useServiceProductos';
 import { useServiceDeleteVentaProducto, useServiceVentaProductoDetalle } from '@/Services/ventaProducto/useServiceVentaProducto';
 import { useServiceFinalizarVenta, useServiceShowVenta } from '@/Services/ventas/useServiceVenta';
@@ -19,39 +18,36 @@ export const useProductoVentaDetail = ({ closeModal }: { closeModal: () => void 
     const ventaId = id !== undefined ? Number(id) : 0;
     const [reloadFlag, setReloadFlag] = useState(false);
     const [selectedId, setSelectedId] = useState<number>(0);
-    const { venta, setVenta } = useVentasStore();
+
+    const { isLoading, data: venta, refetch: refetchVenta } = useServiceShowVenta(ventaId);
+
     const triggerReload = useCallback(() => {
         setReloadFlag((prev) => !prev);
     }, []);
 
-    const ventaFinalizada = !!(venta?.status_venta == 'finalizada');
+    const ventaFinalizada = useMemo(() => !isLoading && venta?.status_venta == 'finalizada', [isLoading, venta]);
     const { refetch: refetchProducto } = useServiceIndexProductos({});
-    const { refetch: refetchVenta } = useServiceShowVenta(ventaId);
     const mutatorDeleteProducto = useServiceDeleteVentaProducto(selectedId);
     const mutatorUpdate = useServiceFinalizarVenta(ventaId);
 
     const { onSubmit: onSubmitFinalizarVenta } = useOnSubmit<IVentaUpdateProps>({
         mutateAsync: mutatorUpdate.mutateAsync,
-        onSuccess: async (data: IVenta) => handleSuccessVenta(data),
+        onSuccess: async () => handleSuccessVenta(),
     });
 
     const handleFinalize = useCallback(() => {
         onSubmitFinalizarVenta({}, {});
     }, [onSubmitFinalizarVenta]);
 
-    const handleSuccessVenta = useCallback(
-        (updated: IVenta) => {
-            setVenta(updated);
-            closeModal();
-            AlertSwal({
-                type: AlertTypeEnum.Success,
-                options: { timer: 2000, timerProgressBar: true },
-            });
-            refetchProducto();
-            refetchVenta(); //revisar, se llama 2 veces, al guardar el store y recargar, igual en useProductoVentaPage
-        },
-        [closeModal, refetchVenta, refetchProducto, setVenta],
-    );
+    const handleSuccessVenta = useCallback(() => {
+        closeModal();
+        AlertSwal({
+            type: AlertTypeEnum.Success,
+            options: { timer: 2000, timerProgressBar: true },
+        });
+        refetchProducto();
+        refetchVenta(); //revisar, se llama 2 veces, al guardar el store y recargar, igual en useProductoVentaPage
+    }, [closeModal, refetchVenta, refetchProducto]);
 
     const { onSubmit: onSubmitDelete } = useOnSubmit({
         mutateAsync: mutatorDeleteProducto.mutateAsync,
@@ -60,6 +56,7 @@ export const useProductoVentaDetail = ({ closeModal }: { closeModal: () => void 
             setSelectedId(0);
         },
     });
+
     const handleDelete = useCallback(() => {
         onSubmitDelete(null, {});
     }, [onSubmitDelete]);
@@ -104,5 +101,5 @@ export const useProductoVentaDetail = ({ closeModal }: { closeModal: () => void 
 
     const disabled = useMemo(() => (dataTableProps?.totalRecords ?? 0) === 0 || ventaFinalizada, [dataTableProps?.totalRecords, ventaFinalizada]);
 
-    return { dataTableProps, refetchProductoDetalle, handleFinalize, disabled };
+    return { dataTableProps, handleFinalize, disabled };
 };

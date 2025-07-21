@@ -1,5 +1,5 @@
 import { Plus } from 'lucide-react';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 
 import { BreadcrumbArrayProps } from '@/components/common/breadcrum';
 import { IFilterItem } from '@/components/filters/modalFilter/types';
@@ -12,7 +12,6 @@ import { AdminRoutes } from '@/router/modules/admin.routes';
 import { useServiceIndexProductos } from '@/Services/productos/useServiceProductos';
 import { useServiceShowVenta } from '@/Services/ventas/useServiceVenta';
 import { useParams } from 'react-router';
-import { useVentasStore } from '../Venta/partials/useVentasStore';
 
 // Constantes
 const FILTERS: IFilterItem[] = [{ property: 'nombre', operator: 'like', value: '' }];
@@ -46,16 +45,7 @@ export const useProductosVentaPage = () => {
     const { id } = useParams();
     const ventaId = id ? Number(id) : 0;
 
-    const { data: ventaData, isLoading, refetch } = useServiceShowVenta(ventaId); //revisar, se llama 2 veces
-    const { setVenta } = useVentasStore();
-    // Sincronizar store y recarga tras acciones
-    useEffect(() => {
-        if (!isLoading && ventaData) {
-            setVenta(ventaData);
-            refetch(); // recarga productos en carrito
-        }
-    }, [isLoading, ventaData, setVenta, refetch]);
-
+    const { data: ventaData, isLoading } = useServiceShowVenta(ventaId); //revisar, se llama 2 veces
     const productModal = useProductModal();
     const ventaFinalizada = useMemo(() => !isLoading && ventaData?.status_venta === 'finalizada', [isLoading, ventaData]);
     // Breadcrumbs
