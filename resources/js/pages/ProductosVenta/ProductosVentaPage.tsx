@@ -23,7 +23,6 @@ export default function ProductosVentaPage() {
                 initialValues={initialValues}
                 filters={filters}
                 onClickNew={() => openModal}
-                refreshFlag={true} //aqui refresh producto
                 disableNewButton={true}
                 service={useServiceIndexProductos}
             >

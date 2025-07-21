@@ -46,7 +46,7 @@ export const useProductosVentaPage = () => {
     const { id } = useParams();
     const ventaId = id ? Number(id) : 0;
 
-    const { data: ventaData, isLoading, refetch } = useServiceShowVenta(ventaId);
+    const { data: ventaData, isLoading, refetch } = useServiceShowVenta(ventaId); //revisar, se llama 2 veces
     const { setVenta } = useVentasStore();
     // Sincronizar store y recarga tras acciones
     useEffect(() => {
@@ -58,7 +58,6 @@ export const useProductosVentaPage = () => {
 
     const productModal = useProductModal();
     const ventaFinalizada = useMemo(() => !isLoading && ventaData?.status_venta === 'finalizada', [isLoading, ventaData]);
-
     // Breadcrumbs
     const breadcrumb: BreadcrumbArrayProps[] = useMemo(
         () => [

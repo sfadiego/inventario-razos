@@ -7,7 +7,7 @@ import { IVentaProducto } from '@/models/ventaProducto.interface';
 import { useVentasStore } from '@/pages/Venta/partials/useVentasStore';
 import { useServiceIndexProductos } from '@/Services/productos/useServiceProductos';
 import { useServiceDeleteVentaProducto, useServiceVentaProductoDetalle } from '@/Services/ventaProducto/useServiceVentaProducto';
-import { useServiceFinalizarVenta } from '@/Services/ventas/useServiceVenta';
+import { useServiceFinalizarVenta, useServiceShowVenta } from '@/Services/ventas/useServiceVenta';
 import { Trash } from 'lucide-react';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useParams } from 'react-router';
@@ -26,6 +26,7 @@ export const useProductoVentaDetail = ({ closeModal }: { closeModal: () => void 
 
     const ventaFinalizada = !!(venta?.status_venta == 'finalizada');
     const { refetch: refetchProducto } = useServiceIndexProductos({});
+    const { refetch: refetchVenta } = useServiceShowVenta(ventaId);
     const mutatorDeleteProducto = useServiceDeleteVentaProducto(selectedId);
     const mutatorUpdate = useServiceFinalizarVenta(ventaId);
 
@@ -47,8 +48,9 @@ export const useProductoVentaDetail = ({ closeModal }: { closeModal: () => void 
                 options: { timer: 2000, timerProgressBar: true },
             });
             refetchProducto();
+            refetchVenta(); //revisar, se llama 2 veces, al guardar el store y recargar, igual en useProductoVentaPage
         },
-        [closeModal, refetchProducto, setVenta],
+        [closeModal, refetchVenta, refetchProducto, setVenta],
     );
 
     const { onSubmit: onSubmitDelete } = useOnSubmit({
@@ -102,5 +104,5 @@ export const useProductoVentaDetail = ({ closeModal }: { closeModal: () => void 
 
     const disabled = useMemo(() => (dataTableProps?.totalRecords ?? 0) === 0 || ventaFinalizada, [dataTableProps?.totalRecords, ventaFinalizada]);
 
-    return { dataTableProps, refetch: refetchProductoDetalle, onSubmitFinalizarVenta: handleFinalize, disabled };
+    return { dataTableProps, refetchProductoDetalle, handleFinalize, disabled };
 };
