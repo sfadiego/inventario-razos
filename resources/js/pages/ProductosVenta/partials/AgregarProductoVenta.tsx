@@ -13,20 +13,11 @@ interface IModalAgregarProductoVentaProps {
     isOpen: boolean;
     closeModal: () => void;
     productoId?: number;
-    ventaId?: number | undefined;
-    setRefetchShoppingCar?: (flag: boolean) => void;
-    refetchShoppingCar?: boolean;
 }
 
 export const AgregarProductoVenta = (props: IModalAgregarProductoVentaProps) => {
-    const { isOpen, closeModal, ventaId = 0, productoId = 0, setRefetchShoppingCar, refetchShoppingCar } = props;
-    const { formikProps, isPending, onErrorMessage } = useAgregarProductoVenta({
-        closeModal,
-        ventaId,
-        productoId,
-        setRefetchShoppingCar,
-        refetchShoppingCar,
-    });
+    const { isOpen, closeModal, productoId = 0 } = props;
+    const { formikProps, isPending, onErrorMessage } = useAgregarProductoVenta({ closeModal, productoId });
     return (
         <Modal
             title={`Agregar Producto`}

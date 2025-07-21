@@ -7,6 +7,7 @@ const url = '/api/productos';
 export const useServiceIndexProductos = ({ filters = [], search = null, page = 1, limit = 10 }: IPaginateServiceProps) => {
     return useGET<IPaginate<IProducto>>({
         url,
+        nameQuery: 'lista-productos',
         filters: {
             filters,
             search,

@@ -7,11 +7,10 @@ import { useProductoVentaDetail } from './useProductoVentaDetail';
 interface ProductoVentaDetailProps {
     isOpen: boolean;
     closeModal: () => void;
-    ventaId: number;
 }
 
-export const ProductoVentaDetail = ({ isOpen, closeModal, ventaId = 0 }: ProductoVentaDetailProps) => {
-    const { dataTableProps, onSubmitFinalizarVenta, disabled } = useProductoVentaDetail({ ventaId, closeModal });
+export const ProductoVentaDetail = ({ isOpen, closeModal }: ProductoVentaDetailProps) => {
+    const { dataTableProps, onSubmitFinalizarVenta, disabled } = useProductoVentaDetail({ closeModal });
     return (
         <Modal title={`Carrito de compras`} subtitle={`Productos de venta`} isOpen={isOpen} onClose={closeModal} className="m-4 max-w-[700px]">
             <div className="grid grid-cols-12">

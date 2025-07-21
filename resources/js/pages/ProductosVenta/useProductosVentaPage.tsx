@@ -11,6 +11,7 @@ import { IProducto } from '@/models/producto.interface';
 import { AdminRoutes } from '@/router/modules/admin.routes';
 import { useServiceIndexProductos } from '@/Services/productos/useServiceProductos';
 import { useServiceShowVenta } from '@/Services/ventas/useServiceVenta';
+import { useParams } from 'react-router';
 import { useVentasStore } from '../Venta/partials/useVentasStore';
 
 // Constantes
@@ -41,10 +42,19 @@ export interface useProductosVentaPageProps {
     ventaId?: number;
 }
 
-export const useProductosVentaPage = ({ ventaId = 0 }: useProductosVentaPageProps) => {
+export const useProductosVentaPage = () => {
+    const { id } = useParams();
+    const ventaId = id ? Number(id) : 0;
+
     const { data: ventaData, isLoading, refetch } = useServiceShowVenta(ventaId);
     const { setVenta } = useVentasStore();
-    const [refetchCart, setRefetchCart] = useState<boolean>(false);
+    // Sincronizar store y recarga tras acciones
+    useEffect(() => {
+        if (!isLoading && ventaData) {
+            setVenta(ventaData);
+            refetch(); // recarga productos en carrito
+        }
+    }, [isLoading, ventaData, setVenta, refetch]);
 
     const productModal = useProductModal();
     const ventaFinalizada = useMemo(() => !isLoading && ventaData?.status_venta === 'finalizada', [isLoading, ventaData]);
@@ -57,14 +67,6 @@ export const useProductosVentaPage = ({ ventaId = 0 }: useProductosVentaPageProp
         ],
         [ventaId],
     );
-
-    // Sincronizar store y recarga tras acciones
-    useEffect(() => {
-        if (!isLoading && ventaData) {
-            setVenta(ventaData);
-            refetch(); // recarga productos en carrito
-        }
-    }, [isLoading, ventaData, setVenta, refetch]);
 
     // Renderers para la tabla de productos
     const renderersMap = useMemo(() => {
@@ -94,7 +96,6 @@ export const useProductosVentaPage = ({ ventaId = 0 }: useProductosVentaPageProp
 
         // Servicios
         useServiceIndexProductos,
-        refetchVenta: refetch,
 
         // Tabla
         renderersMap,
@@ -102,9 +103,5 @@ export const useProductosVentaPage = ({ ventaId = 0 }: useProductosVentaPageProp
         // Venta
         venta: isLoading ? null : (ventaData ?? null),
         breadcrumb,
-        refetchCart,
-        setRefetchCart,
-
-        ventaFinalizada,
     };
 };
