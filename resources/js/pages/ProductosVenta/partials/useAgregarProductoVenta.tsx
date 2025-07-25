@@ -3,18 +3,21 @@ import { useOnSubmit } from '@/hooks/useOnSubmit';
 import { IVentaProductoForm } from '@/models/ventaProducto.interface';
 import { useServiceShowProducto } from '@/Services/productos/useServiceProductos';
 import { useServiceStoreVentaProducto } from '@/Services/ventaProducto/useServiceVentaProducto';
+import { useServiceCountVentaProducto } from '@/Services/ventas/useServiceVenta';
 import { useState } from 'react';
+import { useParams } from 'react-router';
 import * as Yup from 'yup';
 
 interface IAgregarProductosVentaProps {
-    ventaId: number;
     productoId: number;
     closeModal?: () => void;
-    setRefetchShoppingCar?: (flag: boolean) => void;
-    refetchShoppingCar?: boolean;
 }
 export const useAgregarProductoVenta = (props: IAgregarProductosVentaProps) => {
-    const { closeModal, ventaId, productoId, setRefetchShoppingCar, refetchShoppingCar } = props;
+    const { id } = useParams();
+    const ventaId = id !== undefined ? Number(id) : 0;
+    const { refetch: refetchCartNumber } = useServiceCountVentaProducto(ventaId);
+
+    const { closeModal, productoId } = props;
     const { isLoading, data } = useServiceShowProducto(productoId);
     const [error, seterror] = useState('');
 
@@ -43,9 +46,9 @@ export const useAgregarProductoVenta = (props: IAgregarProductosVentaProps) => {
             message: 'Producto guardado exitosamente',
         });
 
-        if (setRefetchShoppingCar) {
-            setRefetchShoppingCar(!refetchShoppingCar);
-        }
+        //refetch shopping cart
+        refetchCartNumber();
+
         if (closeModal) {
             closeModal();
         }

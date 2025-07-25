@@ -2,21 +2,28 @@ import { useOnSubmit } from '@/hooks/useOnSubmit';
 import { IVenta } from '@/models/venta.interface';
 import { useClienteStore } from '@/pages/Clientes/partials/useClienteStore';
 import { useServiceStoreVenta } from '@/Services/ventas/useServiceVenta';
+import { useState } from 'react';
 import { useNavigate } from 'react-router';
 import * as Yup from 'yup';
 import { useVentasStore } from './useVentasStore';
+const validationSchema = Yup.object().shape({
+    venta_total: Yup.number(),
+    folio: Yup.string(),
+    nombre_venta: Yup.string().max(100, 'El nombre no puede exceder 100 caracteres'),
+    cliente_id: Yup.number().nullable(),
+    tipo_compra: Yup.string().oneOf(['contado', 'credito'], 'Tipo de compra inválido').required('El tipo de compra es obligatorio'),
+    status_venta: Yup.string().oneOf(['activa', 'finalizada'], 'Estatus de compra inválido').required('El estatus de compra es obligatorio'),
+});
+
 export const useFormVenta = () => {
     const navigate = useNavigate();
     const { venta, setVenta } = useVentasStore();
     const { cliente } = useClienteStore();
-    const validationSchema = Yup.object().shape({
-        venta_total: Yup.number(),
-        folio: Yup.string(),
-        nombre_venta: Yup.string().max(100, 'El nombre no puede exceder 100 caracteres'),
-        cliente_id: Yup.number().nullable(),
-        tipo_compra: Yup.string().oneOf(['contado', 'credito'], 'Tipo de compra inválido').required('El tipo de compra es obligatorio'),
-        status_venta: Yup.string().oneOf(['activa', 'finalizada'], 'Estatus de compra inválido').required('El estatus de compra es obligatorio'),
-    });
+    const [nuevocliente, setNuevocliente] = useState(false);
+    const toggleClient = () => setNuevocliente(!nuevocliente);
+    const title = venta?.id ? `Venta: ${venta.folio}` : 'Crear Venta';
+    const total = venta?.venta_total ?? null;
+
     const initialValues: IVenta = {
         id: venta?.id ?? 0,
         venta_total: venta?.venta_total ?? 0,
@@ -44,7 +51,11 @@ export const useFormVenta = () => {
         formikProps,
         isPending: mutator.isPending,
         ventaActual: venta,
+        title,
+        total,
         disabled: !!venta?.id,
         resetVenta: () => setVenta(null),
+        nuevocliente,
+        toggleClient,
     };
 };

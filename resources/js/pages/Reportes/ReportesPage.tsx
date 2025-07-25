@@ -1,13 +1,26 @@
 import { PageWrapper } from '@/components/layout/PageWrapper';
+import { DatatableWithFilter } from '@/components/tables/DatatableWithFilter';
+import { useServiceIndexReporteMovimiento } from '@/Services/reporteMovimiento/useServiceReporteMovimientos';
+import { FiltroMovimientos } from './partials/FiltroMovimientos';
+import { FormReporte } from './partials/FormReporte';
+import { useReportesPage } from './useReportesPage';
 
 export default function ReportesPage() {
+    const { initialValues, filters, isOpen, closeModal, openModal, renderersMap } = useReportesPage();
     return (
-        <PageWrapper pageTitle="Reportes">
-            <h3 className="text-theme-xl mb-4 font-semibold text-gray-800 sm:text-2xl dark:text-white/90">Card Title Here</h3>
-            <p className="text-sm text-gray-500 sm:text-base dark:text-gray-400">
-                Start putting content on grids or panels, you can also use different combinations of grids.Please check out the dashboard and other
-                pages
-            </p>
+        <PageWrapper pageTitle="Reporte de movimientos">
+            <DatatableWithFilter
+                propertyInputSearch={`producto`}
+                initialValues={initialValues}
+                filters={filters}
+                onClickNew={openModal}
+                renderersMap={renderersMap}
+                newButtonText={`Crear movimiento`}
+                service={useServiceIndexReporteMovimiento}
+            >
+                {(formik) => <FiltroMovimientos formik={formik} />}
+            </DatatableWithFilter>
+            <FormReporte isOpen={isOpen} closeModal={closeModal} />
         </PageWrapper>
     );
 }

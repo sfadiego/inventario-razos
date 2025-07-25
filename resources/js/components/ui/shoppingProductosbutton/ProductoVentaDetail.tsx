@@ -7,11 +7,10 @@ import { useProductoVentaDetail } from './useProductoVentaDetail';
 interface ProductoVentaDetailProps {
     isOpen: boolean;
     closeModal: () => void;
-    ventaId: number;
 }
 
-export const ProductoVentaDetail = ({ isOpen, closeModal, ventaId = 0 }: ProductoVentaDetailProps) => {
-    const { dataTableProps, onSubmitFinalizarVenta, disabled } = useProductoVentaDetail({ ventaId, closeModal });
+export const ProductoVentaDetail = ({ isOpen, closeModal }: ProductoVentaDetailProps) => {
+    const { dataTableProps, disabled, handleFinalize } = useProductoVentaDetail({ closeModal });
     return (
         <Modal title={`Carrito de compras`} subtitle={`Productos de venta`} isOpen={isOpen} onClose={closeModal} className="m-4 max-w-[700px]">
             <div className="grid grid-cols-12">
@@ -23,13 +22,7 @@ export const ProductoVentaDetail = ({ isOpen, closeModal, ventaId = 0 }: Product
                         <Printer />
                         Imprimir Ticket
                     </Button>
-                    <Button
-                        onClick={onSubmitFinalizarVenta}
-                        size="md"
-                        type={ButtonTypeEnum.Button}
-                        disabled={disabled}
-                        className="col-span-12 md:col-span-6"
-                    >
+                    <Button onClick={handleFinalize} size="md" type={ButtonTypeEnum.Button} disabled={disabled} className="col-span-12 md:col-span-6">
                         <ShoppingCart />
                         Confirmar Venta
                     </Button>
