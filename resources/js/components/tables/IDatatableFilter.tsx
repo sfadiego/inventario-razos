@@ -3,6 +3,7 @@ import { FormikProps } from 'formik';
 import { ReactNode } from 'react';
 import { IFilterItem } from '../filters/modalFilter/types';
 
+//TODO: validar refreshFlag 
 export interface IDatatableWithFilterProps {
     filters: IFilterItem[];
     refreshFlag?: boolean;

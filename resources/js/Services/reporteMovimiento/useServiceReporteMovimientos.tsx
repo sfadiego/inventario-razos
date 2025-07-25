@@ -1,4 +1,4 @@
-import { useGET } from '@/hooks/useApi';
+import { useGET, usePOST, usePUT } from '@/hooks/useApi';
 import { IPaginate } from '@/interfaces/IPaginate';
 import { IPaginateServiceProps } from '@/interfaces/IPaginateServiceProps';
 import { IReporteMovimiento } from '@/models/reporteMovimiento.interface';
@@ -17,3 +17,5 @@ export const useServiceIndexReporteMovimiento = ({ filters = [], search = null, 
 };
 
 export const useServiceShowReporteMovimiento = (id?: number) => useGET<IReporteMovimiento>({ url: `${url}/${id}`, enable: !!id });
+export const useServiceStoreReporteMovimiento = () => usePOST<IReporteMovimiento>({ url });
+export const useServiceUpdateReporteMovimiento = (id?: number) => usePUT<IReporteMovimiento>({ url: `${url}/${id}` });

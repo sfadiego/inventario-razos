@@ -5,6 +5,7 @@ import { ButtonTypeEnum } from '@/components/ui/button/enums/buttonType.enum';
 import { Modal } from '@/components/ui/modal';
 import { Form, Formik } from 'formik';
 import { Save } from 'lucide-react';
+import { useFormReport } from './useFormReport';
 
 interface IFormReporteProps {
     isOpen: boolean;
@@ -12,18 +13,7 @@ interface IFormReporteProps {
 }
 
 export const FormReporte = ({ isOpen, closeModal }: IFormReporteProps) => {
-    const formikProps = {
-        initialValues: {
-            nombre: '',
-            empresa: '',
-            observaciones: '',
-        },
-        onSubmit: (values) => {
-            // Handle form submission logic here
-            console.log('Form submitted with values:', values);
-            closeModal();
-        },
-    };
+    const { formikProps } = useFormReport({ closeModal });
     return (
         <Modal title="Movimiento" subtitle="Crear movimiento de productos" isOpen={isOpen} onClose={closeModal} className="m-4 max-w-[700px]">
             <Formik enableReinitialize {...formikProps}>

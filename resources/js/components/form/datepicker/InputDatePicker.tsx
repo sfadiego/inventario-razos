@@ -1,7 +1,7 @@
 import { format } from 'date-fns';
 import 'flatpickr/dist/themes/material_green.css';
 import { FormikProps } from 'formik';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import Flatpickr from 'react-flatpickr';
 import Label from '../Label';
 import { useDatePicker } from './useDatepicker';
@@ -30,24 +30,24 @@ export default function DatePicker(props: DatePickerProps) {
         className = '',
         allowEmpty = false,
     } = props;
-    const { formatDate, handleSetDate, handleChange } = useDatePicker();
+
+    const { handleSetDate, handleChange } = useDatePicker();
 
     const isRangeMode = mode === 'range';
-    const currentDate = new Date();
-
     // Para modo de rango, usamos un array de dos fechas o valor vacío si allowEmpty es true
-    const initialValue = allowEmpty
-        ? isRangeMode
-            ? []
-            : null
-        : isRangeMode
-          ? [
-                initialDate ? initialDate : formatDate(format(currentDate, 'yyyy-MM-dd')),
-                initialEndDate ? initialEndDate : formatDate(format(currentDate, 'yyyy-MM-dd')),
-            ]
-          : initialDate
-            ? initialDate
-            : formatDate(format(currentDate, 'yyyy-MM-dd'));
+    const initialValue = useMemo(() => {
+        const currentDate = new Date();
+        if (allowEmpty) {
+            return isRangeMode ? [] : null;
+        } else if (isRangeMode) {
+            return [
+                initialDate ? initialDate : format(currentDate, 'yyyy-MM-dd'),
+                initialEndDate ? initialEndDate : format(currentDate, 'yyyy-MM-dd'),
+            ];
+        } else {
+            return initialDate ? initialDate : format(currentDate, 'yyyy-MM-dd');
+        }
+    }, [allowEmpty, isRangeMode, initialDate, initialEndDate]);
 
     const [date, setDate] = useState<any>(initialValue);
 
@@ -67,7 +67,7 @@ export default function DatePicker(props: DatePickerProps) {
         } else if (formikValue) {
             setDate(new Date(formikValue as string));
         }
-    }, [formik.values[name as keyof typeof formik.values], initialValue, isRangeMode]);
+    }, [formik, formik.values, name, initialValue, isRangeMode]);
 
     // Opciones de configuración para Flatpickr
     const flatpickrOptions = {
