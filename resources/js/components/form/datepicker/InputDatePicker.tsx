@@ -1,7 +1,7 @@
 import { format } from 'date-fns';
 import 'flatpickr/dist/themes/material_green.css';
 import { FormikProps } from 'formik';
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import Flatpickr from 'react-flatpickr';
 import Label from '../Label';
 import { useDatePicker } from './useDatepicker';
@@ -34,7 +34,6 @@ export default function DatePicker(props: DatePickerProps) {
     const { handleSetDate, handleChange } = useDatePicker();
 
     const isRangeMode = mode === 'range';
-    // Para modo de rango, usamos un array de dos fechas o valor vacío si allowEmpty es true
     const initialValue = useMemo(() => {
         const currentDate = new Date();
         if (allowEmpty) {
@@ -51,24 +50,6 @@ export default function DatePicker(props: DatePickerProps) {
 
     const [date, setDate] = useState<any>(initialValue);
 
-    useEffect(() => {
-        const formikValue = formik.values[name as keyof typeof formik.values];
-
-        if (formikValue === undefined || formikValue === null || (Array.isArray(formikValue) && formikValue.length === 0)) {
-            setDate(initialValue);
-            return;
-        }
-
-        if (isRangeMode) {
-            const endDateValue = formik.values[`${name}_end` as keyof typeof formik.values];
-            if (formikValue && endDateValue) {
-                setDate([new Date(formikValue as string), new Date(endDateValue as string)]);
-            }
-        } else if (formikValue) {
-            setDate(new Date(formikValue as string));
-        }
-    }, [formik, formik.values, name, initialValue, isRangeMode]);
-
     // Opciones de configuración para Flatpickr
     const flatpickrOptions = {
         dateFormat: 'Y-m-d',
@@ -80,6 +61,7 @@ export default function DatePicker(props: DatePickerProps) {
         closeOnSelect: !isRangeMode,
     };
     const defaultClassName = `${className != '' ? className : 'shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/20 dark:focus:border-brand-800 h-11 w-full appearance-none rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 focus:ring-3 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30'}`;
+
     return (
         <div>
             {label && <Label htmlFor={name}>{label}</Label>}

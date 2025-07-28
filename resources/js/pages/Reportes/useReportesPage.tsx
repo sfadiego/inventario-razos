@@ -2,6 +2,7 @@ import { IFilterItem } from '@/components/filters/modalFilter/types';
 import Button from '@/components/ui/button/Button';
 import { useModal } from '@/hooks/useModal';
 import { IInitialValuesReporteMovimiento, IReporteMovimiento } from '@/models/reporteMovimiento.interface';
+import { format } from 'date-fns';
 import { Edit } from 'lucide-react';
 import { useState } from 'react';
 
@@ -27,8 +28,9 @@ const initialValues: IInitialValuesReporteMovimiento = {
     cantidad_anterior: 0,
     cantidad_actual: 0,
     user_id: 0,
-    fecha_movimiento: '',
+    fecha_movimiento: format(new Date(), 'yyyy-MM-dd'),
 };
+// console.log(initialValues);
 
 export const useReportesPage = () => {
     const { openModal, isOpen, closeModal } = useModal();
