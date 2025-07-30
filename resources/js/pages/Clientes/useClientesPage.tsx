@@ -40,7 +40,7 @@ export const useClientesPage = () => {
             <Badge variant="solid" color={`${!confiable ? 'error' : 'success'}`}>{`${!confiable ? 'No' : 'Si'}`}</Badge>
         ),
     };
-    const filters: IFilters[] = [
+    const filters: IFilters<IFiltroCliente>[] = [
         {
             property: 'nombre',
             operator: 'like',

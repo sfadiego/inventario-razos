@@ -16,7 +16,7 @@ export const useProveedoresPage = () => {
     const { isOpen, openModal, closeModal } = useModal();
     const [selected, setSelected] = useState(0);
     const { isLoading, data } = useServiceShowProveedor(selected);
-    const { setSelectedProveedor, refreshProveedorFlag } = useProveedorStore();
+    const { setSelectedProveedor } = useProveedorStore();
     const handleCloseModal = () => {
         closeModal();
         setSelected(0);
@@ -49,23 +49,16 @@ export const useProveedoresPage = () => {
             </Button>
         ),
     };
-    const filters: IFilters[] = [
+    const filters: IFilters<IFiltroProveedor>[] = [
         {
             property: 'nombre',
             operator: 'like',
             initialValue: '',
         },
     ];
-    const initialValues: IFiltroProveedor = {
-        nombre: '',
-        empresa: '',
-        observaciones: '',
-    };
 
     return {
         useServiceIndexProveedor,
-        refreshProveedorFlag,
-        initialValues,
         renderersMap,
         filters,
         isOpen,

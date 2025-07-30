@@ -6,17 +6,15 @@ import { FormVenta } from './partials/FormVenta';
 import { useVentasPage } from './useVentasPage';
 
 export default function VentasPage() {
-    const { openModal, closeModal, isOpen, filters, renderersMap, initialValues } = useVentasPage();
+    const { openModal, closeModal, isOpen, filters, renderersMap } = useVentasPage();
     return (
         <PageWrapper pageTitle="Ventas">
             <DatatableWithFilter
                 propertyInputSearch={`nombre_venta`}
                 newButtonText={`Venta`}
                 renderersMap={renderersMap}
-                initialValues={initialValues}
                 filters={filters}
                 onClickNew={openModal}
-                refreshFlag={false}
                 service={useServiceIndexVenta}
             >
                 {(formik) => <FiltrosVenta formik={formik} />}

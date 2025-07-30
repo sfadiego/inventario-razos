@@ -46,11 +46,10 @@ class ReporteMovimientosIndexLogic extends IndexLogic
         });
     }
 
-
     protected function customFilters(): array
     {
         return [
-            'search' => fn(Filter $filter) => $this->filterProducto($filter),
+            'search' => fn (Filter $filter) => $this->filterProducto($filter),
         ];
     }
 

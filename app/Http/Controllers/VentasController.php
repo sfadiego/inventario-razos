@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Response;
 class VentasController extends Controller
 {
     use Movimientos;
+
     public function index(IndexData $data, VentasIndexLogic $logic): JsonResponse
     {
         return $logic->run($data);
@@ -23,18 +24,21 @@ class VentasController extends Controller
     public function store(VentaStoreRequest $params): JsonResponse
     {
         $venta = Venta::createVenta($params->all());
+
         return Response::success($venta);
     }
 
     public function update(VentaUpdateRequest $params, Venta $venta): JsonResponse
     {
         $venta->update($params->validated());
+
         return Response::success($venta);
     }
 
     public function show(Venta $venta): JsonResponse
     {
         $venta->load(['cliente']);
+
         return Response::success($venta);
     }
 
@@ -47,6 +51,7 @@ class VentasController extends Controller
     {
         try {
             $venta->finalizarVenta();
+
             return Response::success($venta);
         } catch (\Throwable $th) {
             return Response::error($th->getMessage());

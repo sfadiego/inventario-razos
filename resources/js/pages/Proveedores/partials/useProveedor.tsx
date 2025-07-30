@@ -12,7 +12,7 @@ interface IUseProveedorProps {
 
 export const useProveedor = (props: IUseProveedorProps) => {
     const { closeModal } = props;
-    const { proveedor, setRefreshFlag } = useProveedorStore();
+    const { proveedor } = useProveedorStore();
     const initialValues: IProveedor = {
         nombre: proveedor?.nombre ?? '',
         empresa: proveedor?.empresa ?? '',
@@ -30,7 +30,6 @@ export const useProveedor = (props: IUseProveedorProps) => {
             closeModal();
         }
 
-        setRefreshFlag();
         AlertSwal({
             type: AlertTypeEnum.Success,
             title: `Exito`,

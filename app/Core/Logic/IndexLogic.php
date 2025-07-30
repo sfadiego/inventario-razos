@@ -106,6 +106,7 @@ class IndexLogic
     {
         if (in_array('search', array_keys($this->customFilters()))) {
             $this->applyCustomFilter(new Filter('search', $search, 'like'));
+
             return $this->queryBuilder;
         }
 

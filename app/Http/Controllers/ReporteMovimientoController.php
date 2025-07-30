@@ -41,6 +41,7 @@ class ReporteMovimientoController extends Controller
 
         $reporteMovimiento = ReporteMovimiento::create($params->toArray());
         $producto->update(['stock' => $nuevoStock]);
+
         return Response::success($reporteMovimiento);
     }
 

@@ -7,8 +7,7 @@ import { AgregarProductoVenta } from './partials/AgregarProductoVenta';
 import { useProductosVentaPage } from './useProductosVentaPage';
 
 export default function ProductosVentaPage() {
-    const { filters, openModal, isOpen, closeModal, productId, renderersMap, initialValues, useServiceIndexProductos, venta, breadcrumb } =
-        useProductosVentaPage();
+    const { filters, openModal, isOpen, closeModal, productId, renderersMap, useServiceIndexProductos, venta, breadcrumb } = useProductosVentaPage();
     return (
         <PageWrapper breadcrumbArray={breadcrumb} pageTitle="Listado de productos para venta">
             <div className="mb-3 grid grid-cols-12">
@@ -20,7 +19,6 @@ export default function ProductosVentaPage() {
             <DatatableWithFilter
                 propertyInputSearch={`nombre`}
                 renderersMap={renderersMap}
-                initialValues={initialValues}
                 filters={filters}
                 onClickNew={() => openModal}
                 disableNewButton={true}

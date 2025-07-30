@@ -14,7 +14,7 @@ interface IuseUbicacionProps {
 }
 
 export const useUbicacion = ({ closeModal }: IuseUbicacionProps) => {
-    const { ubicacion, setRefreshFlag } = useUbicacionStore();
+    const { ubicacion } = useUbicacionStore();
     const initialValues: IUbicacion = {
         nombre: ubicacion?.nombre ?? '',
     };
@@ -27,7 +27,6 @@ export const useUbicacion = ({ closeModal }: IuseUbicacionProps) => {
         if (closeModal) {
             closeModal();
         }
-        setRefreshFlag();
         AlertSwal({
             type: AlertTypeEnum.Success,
             title: `Exito`,

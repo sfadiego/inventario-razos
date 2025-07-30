@@ -8,8 +8,6 @@ use App\Models\ProductoProveedor;
 use App\Models\Proveedor;
 use App\Models\ReporteMovimiento;
 use App\Models\Ubicacion;
-use App\Models\Venta;
-use App\Models\VentaProducto;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder

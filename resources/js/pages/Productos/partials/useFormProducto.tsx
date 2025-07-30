@@ -13,7 +13,7 @@ interface IUseProductProps {
 
 export const useFormProducto = (props: IUseProductProps) => {
     const { closeModal } = props;
-    const { setRefreshFlag, producto } = useProductoStore();
+    const { producto } = useProductoStore();
     const [search, setSearch] = useState<string>('');
 
     const handleSuccess = (data: IProducto) => {
@@ -22,7 +22,6 @@ export const useFormProducto = (props: IUseProductProps) => {
             closeModal();
         }
 
-        setRefreshFlag();
         AlertSwal({
             type: AlertTypeEnum.Success,
             title: `Exito`,

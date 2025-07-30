@@ -9,6 +9,7 @@ import { useEffect, useState } from 'react';
 import { useProductoStore } from './partials/useProductoStore';
 
 export interface IFiltroProducto {
+    nombre?: string;
     proveedor_id?: number;
     categoria_id?: number;
 }
@@ -17,7 +18,7 @@ export const useProductosPage = () => {
     const { openModal, isOpen, closeModal } = useModal();
     const [selectedProduct, setselectedProduct] = useState(0);
     const { isLoading, data } = useServiceShowProducto(selectedProduct);
-    const { setSelectedProducto, refreshTableFlag } = useProductoStore();
+    const { setSelectedProducto } = useProductoStore();
     const handleCloseModal = () => {
         closeModal();
         setselectedProduct(0);
@@ -53,26 +54,20 @@ export const useProductosPage = () => {
             </Button>
         ),
     };
-    const filters: IFilters[] = [
+    const filters: IFilters<IFiltroProducto>[] = [
         {
             property: 'nombre',
             operator: 'like',
             initialValue: '',
         },
     ];
-    const initialValues: IFiltroProducto = {
-        proveedor_id: 0,
-        categoria_id: 0,
-    };
 
     return {
         openModal: handleOpenModal,
         isOpen,
         filters,
-        refreshTableFlag,
         closeModal: handleCloseModal,
         useServiceIndexProductos,
         renderersMap,
-        initialValues,
     };
 };
