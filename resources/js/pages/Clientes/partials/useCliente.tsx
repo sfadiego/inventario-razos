@@ -1,13 +1,17 @@
 import { AlertToast } from '@/components/alertToast/AlertToast';
 import { useOnSubmit } from '@/hooks/useOnSubmit';
 import { ICliente } from '@/models/cliente.interface';
-import { useServiceStoreCliente, useServiceUpdateCliente } from '@/Services/clientes/useServiceClientes';
+import { useServiceIndexClientes, useServiceStoreCliente, useServiceUpdateCliente } from '@/Services/clientes/useServiceClientes';
 import { useState } from 'react';
 import * as Yup from 'yup';
 import { useClienteStore } from './useClienteStore';
 
-export const useCliente = () => {
+interface IUseClienteProps {
+    closeModal: () => void;
+}
+export const useCliente = ({ closeModal }: IUseClienteProps) => {
     const { cliente, setSelectedCliente } = useClienteStore();
+    const { refetch } = useServiceIndexClientes({});
     const [isCheckedDisabled, setIsCheckedDisabled] = useState(true);
     const initialValues: ICliente = {
         nombre: cliente?.nombre ?? '',
@@ -26,6 +30,8 @@ export const useCliente = () => {
             type: 'success',
             message: 'Nuevo cliente guardado',
         });
+        closeModal();
+        refetch()
         setSelectedCliente(data);
     };
     const mutator = useServiceStoreCliente();

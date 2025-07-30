@@ -51,7 +51,7 @@ export function useGET<Response>({
 }: IUseGetProps): UseQueryResult<Response> {
   const { axiosApi } = useAxios()
   return useQuery({
-    queryKey: [nameQuery || url, filters],
+    queryKey: [nameQuery || url],
     queryFn: async () => await axiosGET(axiosApi, { url, params: filters, headers, responseType, customHost }),
     retry: false,
     enabled: enable,

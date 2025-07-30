@@ -3,18 +3,22 @@ import { InputTypeEnum } from '@/components/form/input/enum/InputType.enum';
 import Input from '@/components/form/input/InputField';
 import Button from '@/components/ui/button/Button';
 import { ButtonTypeEnum } from '@/components/ui/button/enums/buttonType.enum';
+import { Modal } from '@/components/ui/modal';
 import { ICliente } from '@/models/cliente.interface';
 import { Form, Formik } from 'formik';
 import { Save } from 'lucide-react';
 import { useCliente } from './useCliente';
 
-export const FormCliente = () => {
-    const { formikProps, isPending, isCheckedDisabled, setIsCheckedDisabled } = useCliente();
+interface IModalClienteProps {
+    isOpen: boolean;
+    closeModal: () => void;
+}
+
+export const FormCliente = ({ isOpen, closeModal }: IModalClienteProps) => {
+    const { formikProps, isPending, isCheckedDisabled, setIsCheckedDisabled } = useCliente({ closeModal });
+
     return (
-        <>
-            <h2 className="text-xl font-semibold text-gray-800 dark:text-white/90" x-text="pageName">
-                Nuevo cliente
-            </h2>
+        <Modal title={`Nuevo Cliente`} subtitle={`Crea o actualiza un cliente`} isOpen={isOpen} onClose={closeModal} className="m-4 max-w-[700px]">
             <Formik enableReinitialize {...formikProps}>
                 {(formik) => (
                     <Form className={`grid grid-cols-12 gap-2 pb-5`}>
@@ -49,6 +53,6 @@ export const FormCliente = () => {
                     </Form>
                 )}
             </Formik>
-        </>
+        </Modal>
     );
 };

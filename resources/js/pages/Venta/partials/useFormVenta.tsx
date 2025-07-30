@@ -1,6 +1,7 @@
 import { useOnSubmit } from '@/hooks/useOnSubmit';
 import { IVenta } from '@/models/venta.interface';
 import { useClienteStore } from '@/pages/Clientes/partials/useClienteStore';
+import { AdminRoutes } from '@/router/modules/admin.routes';
 import { useServiceStoreVenta } from '@/Services/ventas/useServiceVenta';
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
@@ -33,6 +34,7 @@ export const useFormVenta = () => {
         tipo_compra: venta?.tipo_compra ?? 'contado',
         status_venta: venta?.status_venta ?? 'activa',
     };
+    const redirectNewCliente = () => navigate(AdminRoutes.Clientes);
     const handleSuccess = (venta: IVenta) => {
         setVenta(venta);
         navigate(`/venta/${venta?.id}/productos`);
@@ -57,5 +59,6 @@ export const useFormVenta = () => {
         resetVenta: () => setVenta(null),
         nuevocliente,
         toggleClient,
+        redirectNewCliente
     };
 };

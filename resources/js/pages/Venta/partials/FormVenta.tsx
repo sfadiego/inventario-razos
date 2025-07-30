@@ -9,7 +9,7 @@ import { ButtonTypeEnum } from '@/components/ui/button/enums/buttonType.enum';
 import { Modal } from '@/components/ui/modal';
 import { IVenta } from '@/models/venta.interface';
 import { Form, Formik } from 'formik';
-import { Save } from 'lucide-react';
+import { Save, UserPlus } from 'lucide-react';
 import { useFormVenta } from './useFormVenta';
 
 interface IFormVentaProps {
@@ -17,7 +17,8 @@ interface IFormVentaProps {
     closeModal: () => void;
 }
 export const FormVenta = ({ isOpen, closeModal }: IFormVentaProps) => {
-    const { formikProps, isPending, disabled, title, total, resetVenta, ventaActual, nuevocliente, toggleClient } = useFormVenta();
+    const { formikProps, isPending, disabled, title, total, resetVenta, ventaActual, nuevocliente, toggleClient, redirectNewCliente } =
+        useFormVenta();
     return (
         <Modal isOpen={isOpen} title={title} onClose={closeModal} className="m-4 max-w-[700px]">
             {ventaActual?.id && (
@@ -32,6 +33,12 @@ export const FormVenta = ({ isOpen, closeModal }: IFormVentaProps) => {
                     <>
                         <Form className={`grid grid-cols-12 gap-2 pt-3 pb-5`}>
                             <div className="col-span-12 flex justify-end">
+                                {!nuevocliente && (
+                                    <Button variant="outline" size="sm" className="mr-2" onClick={redirectNewCliente}>
+                                        <UserPlus />
+                                    </Button>
+                                )}
+
                                 <Switch
                                     disabled={disabled}
                                     label={`${!nuevocliente ? '' : 'No'} Asignar cliente`}
