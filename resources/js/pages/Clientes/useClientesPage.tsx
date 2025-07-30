@@ -1,4 +1,4 @@
-import { IFilterItem } from '@/components/filters/modalFilter/types';
+import { IFilters } from '@/components/filters/modalFilter/types';
 import Badge from '@/components/ui/badge/Badge';
 import { useModal } from '@/hooks/useModal';
 import { ICliente } from '@/models/cliente.interface';
@@ -40,11 +40,11 @@ export const useClientesPage = () => {
             <Badge variant="solid" color={`${!confiable ? 'error' : 'success'}`}>{`${!confiable ? 'No' : 'Si'}`}</Badge>
         ),
     };
-    const filters: IFilterItem[] = [
+    const filters: IFilters[] = [
         {
             property: 'nombre',
             operator: 'like',
-            value: '',
+            initialValue: '',
         },
     ];
     const initialValues: IFiltroCliente = {

@@ -34,7 +34,7 @@ class ReporteMovimientoResource extends JsonResource
             "cantidad_anterior" => $this->cantidad_anterior,
             "cantidad_actual" => $this->cantidad_actual,
             "user_id" => $this->user_id,
-            "user_id" => $this->user_id ? $this->user : null,
+            "user" => $this->user_id ? $this->user : null,
             "fecha_movimiento" => $this->fecha_movimiento,
         ];
     }

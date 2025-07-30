@@ -2,6 +2,7 @@
 
 namespace App\Logic\ReporteMovimientos;
 
+use App\Core\Classes\Filter;
 use App\Core\Data\IndexData;
 use App\Core\Logic\IndexLogic;
 use App\Http\Resources\ReporteMovimientoResource;
@@ -34,6 +35,23 @@ class ReporteMovimientosIndexLogic extends IndexLogic
     public function run(IndexData $data): JsonResponse
     {
         return parent::run($data);
+    }
+
+    public function filterProducto(Filter $filter): void
+    {
+        $this->queryBuilder->where(function ($query) use ($filter) {
+            $query->whereHas('producto', function ($qwh) use ($filter) {
+                $qwh->where('nombre', $filter->value);
+            });
+        });
+    }
+
+
+    protected function customFilters(): array
+    {
+        return [
+            'search' => fn(Filter $filter) => $this->filterProducto($filter),
+        ];
     }
 
     protected function withResource(): AnonymousResourceCollection
