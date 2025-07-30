@@ -4,16 +4,6 @@ import { useMemo, useState } from 'react';
 import { IFilterData, IFilterItem } from '../filters/modalFilter/types';
 import { IDatatableWithFilterProps } from './IDatatableFilter';
 
-// export const fomikValuesToSearchFilter = (filterValues: Record<string, string>) => {
-//     return Object.keys(filterValues).map((key) => {
-//         const item: IFilterItem = {
-//             property: key,
-//             operator: 'like',
-//             value: filterValues[key] || '',
-//         };
-//         return item;
-//     });
-// };
 export const useDatatableFilters = <Values,>(props: IDatatableWithFilterProps<Values>) => {
     const { onClickNew, renderersMap, rowExpansion, service, children, filters } = props;
     const [search, setSearch] = useState<string>('');

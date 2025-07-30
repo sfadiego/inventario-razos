@@ -72,11 +72,15 @@ class IndexLogic
         }
 
         $this->queryBuilder = $this->makeQuery();
+        $this->queryBuilder->with($this->withRelations());
+
         if ($data->filters) {
             $this->queryBuilder = $this->runQueryFilters($data->filters);
         }
 
-        $this->queryBuilder->with($this->withRelations());
+        if (isset($data->search)) {
+            $this->queryBuilder = $this->runQueryWithSearch($data->search);
+        }
 
         if ($this->withPagination) {
             $this->pagination = $this->queryBuilder->paginate($data->limit, ['*'], 'page', $data->page);
@@ -98,6 +102,16 @@ class IndexLogic
         return Response::success($this->response);
     }
 
+    public function runQueryWithSearch(string $search): Builder
+    {
+        if (in_array('search', array_keys($this->customFilters()))) {
+            $this->applyCustomFilter(new Filter('search', $search, 'like'));
+            return $this->queryBuilder;
+        }
+
+        return $this->queryBuilder->where($this->getColumnSearch(), 'like', "%{$search}%");
+    }
+
     protected function withResource(): mixed
     {
         return $this->response;
@@ -105,7 +119,7 @@ class IndexLogic
 
     protected function getColumnSearch(): string
     {
-        return 'name';
+        return 'nombre';
     }
 
     protected function customFilters(): array
