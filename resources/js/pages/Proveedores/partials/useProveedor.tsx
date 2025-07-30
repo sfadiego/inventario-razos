@@ -2,7 +2,7 @@ import { AlertSwal } from '@/components/alertSwal/AlertSwal';
 import { AlertTypeEnum } from '@/enums/AlertTypeEnum';
 import { useOnSubmit } from '@/hooks/useOnSubmit';
 import { IProveedor } from '@/models/proveedor.interface';
-import { useServiceStoreProveedor, useServiceUpdateProveedor } from '@/Services/proveedor/useServiceProveedor';
+import { useServiceIndexProveedor, useServiceStoreProveedor, useServiceUpdateProveedor } from '@/Services/proveedor/useServiceProveedor';
 import * as Yup from 'yup';
 import { useProveedorStore } from './useProveedorStore';
 
@@ -24,7 +24,7 @@ export const useProveedor = (props: IUseProveedorProps) => {
         empresa: Yup.string(),
         observaciones: Yup.string(),
     });
-
+    const { refetch } = useServiceIndexProveedor({});
     const handleSuccess = () => {
         if (closeModal) {
             closeModal();
@@ -35,6 +35,7 @@ export const useProveedor = (props: IUseProveedorProps) => {
             title: `Exito`,
             text: `Proveedor guardado correctamente`,
         });
+        refetch();
     };
     const mutator = useServiceStoreProveedor();
     const mutatorUpdate = useServiceUpdateProveedor(proveedor?.id ?? 0);

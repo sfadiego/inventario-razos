@@ -5,16 +5,14 @@ import { IUbicacion } from '@/models/ubicacion.interface';
 import { useServiceIndexUbicaciones, useServiceShowUbicacion } from '@/Services/ubicaciones/useServiceUbicaciones';
 import { Edit } from 'lucide-react';
 import { useEffect, useState } from 'react';
+import { IFiltrosUbicacion } from './partials/useUbicacion';
 import { useUbicacionStore } from './partials/useUbicacionStore';
 
-export interface IFiltroUbicacion {
-    nombre?: string;
-}
 export const useUbicacionesPage = () => {
     const { openModal, isOpen, closeModal } = useModal();
     const [selected, setSelected] = useState(0);
     const { isLoading, data } = useServiceShowUbicacion(selected);
-    const { setSelectedUbicacion, refreshUbicacionFlag } = useUbicacionStore();
+    const { setSelectedUbicacion } = useUbicacionStore();
     const handleCloseModal = () => {
         closeModal();
         setSelected(0);
@@ -47,25 +45,20 @@ export const useUbicacionesPage = () => {
             </Button>
         ),
     };
-    const filters: IFilters[] = [
+    const filters: IFilters<IFiltrosUbicacion>[] = [
         {
             property: 'nombre',
             operator: 'like',
             initialValue: '',
         },
     ];
-    const initialValues: IFiltroUbicacion = {
-        nombre: '',
-    };
 
     return {
         openModal: handleOpenModal,
         isOpen,
         filters,
-        refreshUbicacionFlag,
         closeModal: handleCloseModal,
         useServiceIndexUbicaciones,
         renderersMap,
-        initialValues,
     };
 };

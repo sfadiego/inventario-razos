@@ -2,11 +2,11 @@ import { AlertSwal } from '@/components/alertSwal/AlertSwal';
 import { AlertTypeEnum } from '@/enums/AlertTypeEnum';
 import { useOnSubmit } from '@/hooks/useOnSubmit';
 import { IUbicacion } from '@/models/ubicacion.interface';
-import { useServiceStoreUbicacion, useServiceUpdateUbicacion } from '@/Services/ubicaciones/useServiceUbicaciones';
+import { useServiceIndexUbicaciones, useServiceStoreUbicacion, useServiceUpdateUbicacion } from '@/Services/ubicaciones/useServiceUbicaciones';
 import * as Yup from 'yup';
 import { useUbicacionStore } from './useUbicacionStore';
 
-export interface IFiltrosUbicaciones {
+export interface IFiltrosUbicacion {
     nombre: string;
 }
 interface IuseUbicacionProps {
@@ -23,6 +23,7 @@ export const useUbicacion = ({ closeModal }: IuseUbicacionProps) => {
         nombre: Yup.string().required('La ubicacion es obligatorio'),
     });
 
+    const { refetch } = useServiceIndexUbicaciones({});
     const handleSuccess = () => {
         if (closeModal) {
             closeModal();
@@ -32,6 +33,7 @@ export const useUbicacion = ({ closeModal }: IuseUbicacionProps) => {
             title: `Exito`,
             text: `Ubicacion guardada correctamente`,
         });
+        refetch();
     };
     const mutator = useServiceStoreUbicacion();
     const mutatorUpdate = useServiceUpdateUbicacion(ubicacion?.id ?? 0);

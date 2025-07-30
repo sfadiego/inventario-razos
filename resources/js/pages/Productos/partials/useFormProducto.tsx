@@ -2,7 +2,7 @@ import { AlertSwal } from '@/components/alertSwal/AlertSwal';
 import { AlertTypeEnum } from '@/enums/AlertTypeEnum';
 import { useOnSubmit } from '@/hooks/useOnSubmit';
 import { IProducto } from '@/models/producto.interface';
-import { useServiceStoreProducto, useServiceUpdateProducto } from '@/Services/productos/useServiceProductos';
+import { useServiceIndexProductos, useServiceStoreProducto, useServiceUpdateProducto } from '@/Services/productos/useServiceProductos';
 import { useState } from 'react';
 import * as Yup from 'yup';
 import { useProductoStore } from './useProductoStore';
@@ -15,7 +15,7 @@ export const useFormProducto = (props: IUseProductProps) => {
     const { closeModal } = props;
     const { producto } = useProductoStore();
     const [search, setSearch] = useState<string>('');
-
+    const { refetch } = useServiceIndexProductos({});
     const handleSuccess = (data: IProducto) => {
         const { codigo } = data;
         if (closeModal) {
@@ -27,6 +27,7 @@ export const useFormProducto = (props: IUseProductProps) => {
             title: `Exito`,
             text: `Elemento guardado correctamente : ${codigo} `,
         });
+        refetch();
     };
 
     const initialValues: IProducto = {
