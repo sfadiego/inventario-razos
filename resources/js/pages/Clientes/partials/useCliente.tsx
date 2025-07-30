@@ -11,7 +11,7 @@ interface IUseClienteProps {
 }
 export const useCliente = ({ closeModal }: IUseClienteProps) => {
     const { cliente, setSelectedCliente } = useClienteStore();
-    const { refetch } = useServiceIndexClientes({});
+    const { refetch } = useServiceIndexClientes({ nameQuery: '/api/clientes' });
     const [isCheckedDisabled, setIsCheckedDisabled] = useState(true);
     const initialValues: ICliente = {
         nombre: cliente?.nombre ?? '',
@@ -28,10 +28,10 @@ export const useCliente = ({ closeModal }: IUseClienteProps) => {
     const handleSuccess = (data: ICliente) => {
         AlertToast({
             type: 'success',
-            message: 'Nuevo cliente guardado',
+            message: 'Cliente guardado',
         });
         closeModal();
-        refetch()
+        refetch();
         setSelectedCliente(data);
     };
     const mutator = useServiceStoreCliente();

@@ -5,9 +5,10 @@ import { IVenta } from '@/models/venta.interface';
 import { ICountVentaProducto } from '@/models/ventaProducto.interface';
 
 const url = '/api/ventas';
-export const useServiceIndexVenta = ({ filters = [], search = null, page = 1, limit = 10 }: IPaginateServiceProps) => {
+export const useServiceIndexVenta = ({ filters = [], nameQuery = null, search = null, page = 1, limit = 10 }: IPaginateServiceProps) => {
     return useGET<IPaginate<IVenta>>({
         url,
+        nameQuery,
         filters: {
             filters,
             search,

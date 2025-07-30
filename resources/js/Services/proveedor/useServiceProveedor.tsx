@@ -4,9 +4,10 @@ import { IPaginateServiceProps } from '@/interfaces/IPaginateServiceProps';
 import { IProveedor } from '@/models/proveedor.interface';
 
 const url = '/api/proveedores';
-export const useServiceIndexProveedor = ({ filters = [], search = null, page = 1, limit = 10 }: IPaginateServiceProps) => {
+export const useServiceIndexProveedor = ({ filters = [], nameQuery = null, search = null, page = 1, limit = 10 }: IPaginateServiceProps) => {
     return useGET<IPaginate<IProveedor>>({
         url,
+        nameQuery,
         filters: {
             filters,
             search,

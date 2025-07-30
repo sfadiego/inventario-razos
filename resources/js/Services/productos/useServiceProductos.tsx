@@ -4,10 +4,10 @@ import { IPaginateServiceProps } from '@/interfaces/IPaginateServiceProps';
 import { IProducto } from '@/models/producto.interface';
 
 const url = '/api/productos';
-export const useServiceIndexProductos = ({ filters = [], search = null, page = 1, limit = 10 }: IPaginateServiceProps) => {
+export const useServiceIndexProductos = ({ filters = [], nameQuery = url, search = null, page = 1, limit = 10 }: IPaginateServiceProps) => {
     return useGET<IPaginate<IProducto>>({
         url,
-        nameQuery: 'lista-productos',
+        nameQuery,
         filters: {
             filters,
             search,

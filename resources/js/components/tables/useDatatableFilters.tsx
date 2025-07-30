@@ -21,7 +21,7 @@ export const useDatatableFilters = <Values,>(props: IDatatableWithFilterProps<Va
         },
         renderersMap,
     });
-
+    
     const onFilter = (filters: IFilterData<Values>) => {
         setAppliedFilters(filters.filters);
         refetch();
