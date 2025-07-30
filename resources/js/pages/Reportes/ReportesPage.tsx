@@ -6,16 +6,14 @@ import { FormReporte } from './partials/FormReporte';
 import { useReportesPage } from './useReportesPage';
 
 export default function ReportesPage() {
-    const { initialValues, filters, isOpen, closeModal, openModal, renderersMap } = useReportesPage();
+    const { filters, isOpen, closeModal, openModal, renderersMap } = useReportesPage();
     return (
         <PageWrapper pageTitle="Reporte de movimientos">
             <DatatableWithFilter
-                propertyInputSearch={`producto`}
-                initialValues={initialValues}
                 filters={filters}
                 onClickNew={openModal}
                 renderersMap={renderersMap}
-                newButtonText={`Crear movimiento`}
+                newButtonText={`Movimiento`}
                 service={useServiceIndexReporteMovimiento}
             >
                 {(formik) => <FiltroMovimientos formik={formik} />}

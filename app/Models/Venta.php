@@ -77,7 +77,7 @@ class Venta extends Model
                 $producto->update();
                 $this->nuevoMovimiento([
                     'producto_id' => $producto->id,
-                    'tipo_movimiento_id' => TipoMovimientoEnum::getMovimientoId(TipoMovimientoEnum::SALIDA),
+                    'tipo_movimiento_id' => TipoMovimientoEnum::SALIDA->value,
                     'motivo' => 'Venta de producto',
                     'cantidad' => $cantidadDescontar,
                     'cantidad_anterior' => $stockOriginal,

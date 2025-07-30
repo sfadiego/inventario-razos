@@ -1,4 +1,4 @@
-import { IFilterItem } from '@/components/filters/modalFilter/types';
+import { IFilters } from '@/components/filters/modalFilter/types';
 import Button from '@/components/ui/button/Button';
 import { useModal } from '@/hooks/useModal';
 import { IVenta, StatusVenta } from '@/models/venta.interface';
@@ -61,11 +61,11 @@ export const useVentasPage = () => {
             </>
         ),
     };
-    const filters: IFilterItem[] = [
+    const filters: IFilters[] = [
         {
             property: 'nombre_venta',
             operator: 'like',
-            value: '',
+            initialValue: '',
         },
     ];
     const initialValues: IFiltroVenta = {

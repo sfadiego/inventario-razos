@@ -36,6 +36,11 @@ class ReporteMovimientosIndexLogic extends IndexLogic
         return parent::run($data);
     }
 
+    protected function withRelations(): array
+    {
+        return [];
+    }
+
     protected function withResource(): AnonymousResourceCollection
     {
         return ReporteMovimientoResource::collection($this->response);

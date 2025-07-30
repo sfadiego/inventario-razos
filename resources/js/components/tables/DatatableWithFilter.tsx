@@ -1,3 +1,4 @@
+import { FormikValues } from 'formik';
 import { Filter, Plus } from 'lucide-react';
 import { DataTable } from 'mantine-datatable';
 import { ModalFilter } from '../filters/modalFilter/ModalFilter';
@@ -6,10 +7,9 @@ import Button from '../ui/button/Button';
 import { IDatatableWithFilterProps } from './IDatatableFilter';
 import { useDatatableFilters } from './useDatatableFilters';
 
-export const DatatableWithFilter = (props: IDatatableWithFilterProps) => {
+export const DatatableWithFilter = <Values extends FormikValues>(props: IDatatableWithFilterProps<Values>) => {
     const { disableNewButton = false, newButtonText } = props;
-    const { initialValues, isOpen, search, dataTableProps, children, openModal, closeModal, onFilter, setSearch, onClickNew } =
-        useDatatableFilters(props);
+    const { isOpen, search, filters, dataTableProps, children, openModal, closeModal, onFilter, setSearch, onClickNew } = useDatatableFilters(props);
     return (
         <>
             <div className="grid grid-cols-12 gap-2 pb-5">
@@ -33,7 +33,7 @@ export const DatatableWithFilter = (props: IDatatableWithFilterProps) => {
             <div className="col-span-12 h-9/10 overflow-auto">
                 <DataTable {...dataTableProps} />
             </div>
-            <ModalFilter initialValues={initialValues} close={closeModal} isOpen={isOpen} onSubmit={onFilter}>
+            <ModalFilter<Values> filters={filters} close={closeModal} isOpen={isOpen} onSubmit={onFilter}>
                 {(formik) => <>{typeof children === 'function' ? children(formik) : children}</>}
             </ModalFilter>
         </>

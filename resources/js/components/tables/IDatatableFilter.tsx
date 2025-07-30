@@ -1,19 +1,20 @@
 import { DataTableRenderersMap } from '@/hooks/useDatatable';
 import { FormikProps } from 'formik';
 import { ReactNode } from 'react';
-import { IFilterItem } from '../filters/modalFilter/types';
+import { IFilters } from '../filters/modalFilter/types';
 
-//TODO: validar refreshFlag 
-export interface IDatatableWithFilterProps {
-    filters: IFilterItem[];
-    refreshFlag?: boolean;
-    renderersMap?: DataTableRenderersMap | undefined;
-    service: (params: any) => any;
+//TODO: validar refreshFlag
+export interface IDatatableWithFilterProps<Values> {
+    filters: IFilters<Values>[];
     propertyInputSearch?: string;
-    disableNewButton?: boolean;
-    onClickNew?: () => void;
-    rowExpansion?: { content: ({ record }: { record: any }) => ReactNode };
-    children: ((formik: FormikProps<any>) => ReactNode) | ReactNode;
-    initialValues: any;
+    onClickNew: () => void;
+    service: (params: any) => any;
+    renderersMap?: DataTableRenderersMap | undefined;
+    rowExpansion?: {
+        content: ({ record }: { record: any }) => ReactNode;
+    };
+    children: ((formik: FormikProps<Values>) => ReactNode) | ReactNode;
+    //custom
     newButtonText?: string;
+    disableNewButton?: boolean;
 }

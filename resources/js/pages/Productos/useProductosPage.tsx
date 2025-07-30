@@ -1,4 +1,4 @@
-import { IFilterItem } from '@/components/filters/modalFilter/types';
+import { IFilters } from '@/components/filters/modalFilter/types';
 import { rowTypes } from '@/components/tables/rowTypes';
 import Button from '@/components/ui/button/Button';
 import { useModal } from '@/hooks/useModal';
@@ -53,11 +53,11 @@ export const useProductosPage = () => {
             </Button>
         ),
     };
-    const filters: IFilterItem[] = [
+    const filters: IFilters[] = [
         {
             property: 'nombre',
             operator: 'like',
-            value: '',
+            initialValue: '',
         },
     ];
     const initialValues: IFiltroProducto = {

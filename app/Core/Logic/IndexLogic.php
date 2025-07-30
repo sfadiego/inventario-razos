@@ -2,6 +2,7 @@
 
 namespace App\Core\Logic;
 
+use App\Core\Classes\Filter;
 use App\Core\Data\IndexData;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
@@ -45,19 +46,23 @@ class IndexLogic
 
     protected function runQueryFilters(array $filters): Builder
     {
-        $query = $this->queryBuilder->newQuery();
-        foreach ($filters as $filter) {
-            if ($filter['operator']) {
-                $filterValue = match ($filter['operator']) {
-                    'like' => '%'.$filter['value'].'%',
-                    default => $filter['value'],
-                };
+        $customFilters = array_keys($this->customFilters());
+        foreach ($filters as $filterData) {
+            $property = $filterData['property'];
+            $value = $filterData['value'];
+            $operator = $filterData['operator'] ?? '=';
+            $filter = new Filter($property, $value, $operator);
 
-                $query->where($filter['property'], $filter['operator'], $filterValue);
+            if (in_array($property, $customFilters)) {
+                $this->applyCustomFilter($filter);
+
+                continue;
             }
+
+            $this->queryBuilder = $filter->applyToQuery($this->queryBuilder);
         }
 
-        return $query;
+        return $this->queryBuilder;
     }
 
     public function run(IndexData $data): JsonResponse
@@ -70,6 +75,8 @@ class IndexLogic
         if ($data->filters) {
             $this->queryBuilder = $this->runQueryFilters($data->filters);
         }
+
+        $this->queryBuilder->with($this->withRelations());
 
         if ($this->withPagination) {
             $this->pagination = $this->queryBuilder->paginate($data->limit, ['*'], 'page', $data->page);
@@ -94,5 +101,35 @@ class IndexLogic
     protected function withResource(): mixed
     {
         return $this->response;
+    }
+
+    protected function getColumnSearch(): string
+    {
+        return 'name';
+    }
+
+    protected function customFilters(): array
+    {
+        return [];
+    }
+
+    protected function withRelations(): array
+    {
+        return [];
+    }
+
+    protected function applyCustomFilter(Filter $filter): void
+    {
+        $customFilters = $this->customFilters();
+        $property = $filter->property;
+
+        if (isset($customFilters[$property])) {
+            $filterCallback = $customFilters[$property];
+            if (! is_callable($filterCallback)) {
+                throw new \InvalidArgumentException("Filter for property {$property} is not callable.");
+            }
+
+            $filterCallback($filter);
+        }
     }
 }
