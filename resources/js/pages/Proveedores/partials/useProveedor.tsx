@@ -2,7 +2,9 @@ import { AlertSwal } from '@/components/alertSwal/AlertSwal';
 import { AlertTypeEnum } from '@/enums/AlertTypeEnum';
 import { useOnSubmit } from '@/hooks/useOnSubmit';
 import { IProveedor } from '@/models/proveedor.interface';
-import { useServiceIndexProveedor, useServiceStoreProveedor, useServiceUpdateProveedor } from '@/Services/proveedor/useServiceProveedor';
+import { ApiRoutes } from '@/router/modules/admin.routes';
+import { useServiceStoreProveedor, useServiceUpdateProveedor } from '@/Services/proveedor/useServiceProveedor';
+import { useQueryClient } from '@tanstack/react-query';
 import * as Yup from 'yup';
 import { useProveedorStore } from './useProveedorStore';
 
@@ -24,7 +26,8 @@ export const useProveedor = (props: IUseProveedorProps) => {
         empresa: Yup.string(),
         observaciones: Yup.string(),
     });
-    const { refetch } = useServiceIndexProveedor({});
+
+    const queryClient = useQueryClient();
     const handleSuccess = () => {
         if (closeModal) {
             closeModal();
@@ -33,9 +36,9 @@ export const useProveedor = (props: IUseProveedorProps) => {
         AlertSwal({
             type: AlertTypeEnum.Success,
             title: `Exito`,
-            text: `Proveedor guardado correctamente`,
+            text: `Guardado correctamente`,
         });
-        refetch();
+        queryClient.invalidateQueries({ queryKey: [ApiRoutes.Proveedores] });
     };
     const mutator = useServiceStoreProveedor();
     const mutatorUpdate = useServiceUpdateProveedor(proveedor?.id ?? 0);

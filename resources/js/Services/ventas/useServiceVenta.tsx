@@ -3,12 +3,12 @@ import { IPaginate } from '@/interfaces/IPaginate';
 import { IPaginateServiceProps } from '@/interfaces/IPaginateServiceProps';
 import { IVenta } from '@/models/venta.interface';
 import { ICountVentaProducto } from '@/models/ventaProducto.interface';
+import { ApiRoutes } from '@/router/modules/admin.routes';
 
-const url = '/api/ventas';
-export const useServiceIndexVenta = ({ filters = [], nameQuery = null, search = null, page = 1, limit = 10 }: IPaginateServiceProps) => {
+const url = ApiRoutes.Venta;
+export const useServiceIndexVenta = ({ filters = [],  search = null, page = 1, limit = 10 }: IPaginateServiceProps) => {
     return useGET<IPaginate<IVenta>>({
         url,
-        nameQuery,
         filters: {
             filters,
             search,

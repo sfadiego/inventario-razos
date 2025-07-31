@@ -4,9 +4,10 @@ import { useDataTable } from '@/hooks/useDatatable';
 import { useOnSubmit } from '@/hooks/useOnSubmit';
 import { IVentaUpdateProps } from '@/models/venta.interface';
 import { IVentaProducto } from '@/models/ventaProducto.interface';
-import { useServiceIndexProductos } from '@/Services/productos/useServiceProductos';
+import { ApiRoutes } from '@/router/modules/admin.routes';
 import { useServiceDeleteVentaProducto, useServiceVentaProductoDetalle } from '@/Services/ventaProducto/useServiceVentaProducto';
 import { useServiceFinalizarVenta, useServiceShowVenta } from '@/Services/ventas/useServiceVenta';
+import { useQueryClient } from '@tanstack/react-query';
 import { Trash } from 'lucide-react';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useParams } from 'react-router';
@@ -26,7 +27,7 @@ export const useProductoVentaDetail = ({ closeModal }: { closeModal: () => void 
     }, []);
 
     const ventaFinalizada = useMemo(() => !isLoading && venta?.status_venta == 'finalizada', [isLoading, venta]);
-    const { refetch: refetchProducto } = useServiceIndexProductos({});
+    // const { refetch: refetchProducto } = useServiceIndexProductos({});
     const mutatorDeleteProducto = useServiceDeleteVentaProducto(selectedId);
     const mutatorUpdate = useServiceFinalizarVenta(ventaId);
 
@@ -39,15 +40,17 @@ export const useProductoVentaDetail = ({ closeModal }: { closeModal: () => void 
         onSubmitFinalizarVenta({}, {});
     }, [onSubmitFinalizarVenta]);
 
+    const queryClient = useQueryClient();
     const handleSuccessVenta = useCallback(() => {
         closeModal();
         AlertSwal({
             type: AlertTypeEnum.Success,
             options: { timer: 2000, timerProgressBar: true },
         });
-        refetchProducto();
+
         refetchVenta(); //revisar, se llama 2 veces, al guardar el store y recargar, igual en useProductoVentaPage
-    }, [closeModal, refetchVenta, refetchProducto]);
+        queryClient.invalidateQueries({ queryKey: [ApiRoutes.Productos] });
+    }, [closeModal, queryClient, refetchVenta]);
 
     const { onSubmit: onSubmitDelete } = useOnSubmit({
         mutateAsync: mutatorDeleteProducto.mutateAsync,

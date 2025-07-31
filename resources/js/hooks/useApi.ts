@@ -43,16 +43,15 @@ export const axiosDELETE = <Params>(axios: AxiosInstance, { url }: IAxiosProps<P
 export function useGET<Response>({
     filters = {},
     url,
-    nameQuery = null,
+    nameQuery = url,
     headers = {},
     enable = true,
     responseType = 'json',
     customHost,
 }: IUseGetProps): UseQueryResult<Response> {
     const { axiosApi } = useAxios();
-    console.log([nameQuery || url, filters]); //Revisar el key que se manda al useQuery
     return useQuery({
-        queryKey: [nameQuery || url, filters],
+        queryKey: [nameQuery, filters],
         queryFn: async () => await axiosGET(axiosApi, { url, params: filters, headers, responseType, customHost }),
         retry: false,
         enabled: enable,

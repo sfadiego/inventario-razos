@@ -2,8 +2,9 @@ import { useGET, usePOST, usePUT } from '@/hooks/useApi';
 import { IPaginate } from '@/interfaces/IPaginate';
 import { IPaginateServiceProps } from '@/interfaces/IPaginateServiceProps';
 import { ICategoria } from '@/models/categoria.interface';
+import { ApiRoutes } from '@/router/modules/admin.routes';
 
-const url = '/api/categorias';
+const url = ApiRoutes.Categorias;
 export const useServiceIndexCategorias = ({ filters = [], search = null, page = 1, limit = 10 }: IPaginateServiceProps) => {
     return useGET<IPaginate<ICategoria>>({
         url,

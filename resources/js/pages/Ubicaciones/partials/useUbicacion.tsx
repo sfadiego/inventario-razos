@@ -2,7 +2,9 @@ import { AlertSwal } from '@/components/alertSwal/AlertSwal';
 import { AlertTypeEnum } from '@/enums/AlertTypeEnum';
 import { useOnSubmit } from '@/hooks/useOnSubmit';
 import { IUbicacion } from '@/models/ubicacion.interface';
-import { useServiceIndexUbicaciones, useServiceStoreUbicacion, useServiceUpdateUbicacion } from '@/Services/ubicaciones/useServiceUbicaciones';
+import { ApiRoutes } from '@/router/modules/admin.routes';
+import { useServiceStoreUbicacion, useServiceUpdateUbicacion } from '@/Services/ubicaciones/useServiceUbicaciones';
+import { useQueryClient } from '@tanstack/react-query';
 import * as Yup from 'yup';
 import { useUbicacionStore } from './useUbicacionStore';
 
@@ -23,7 +25,13 @@ export const useUbicacion = ({ closeModal }: IuseUbicacionProps) => {
         nombre: Yup.string().required('La ubicacion es obligatorio'),
     });
 
-    const { refetch } = useServiceIndexUbicaciones({});
+    const queryClient = useQueryClient();
+    const mutator = useServiceStoreUbicacion();
+    const mutatorUpdate = useServiceUpdateUbicacion(ubicacion?.id ?? 0);
+    const { onSubmit } = useOnSubmit<IUbicacion>({
+        mutateAsync: ubicacion?.id ? mutatorUpdate.mutateAsync : mutator.mutateAsync,
+        onSuccess: async () => handleSuccess(),
+    });
     const handleSuccess = () => {
         if (closeModal) {
             closeModal();
@@ -33,14 +41,9 @@ export const useUbicacion = ({ closeModal }: IuseUbicacionProps) => {
             title: `Exito`,
             text: `Ubicacion guardada correctamente`,
         });
-        refetch();
+
+        queryClient.invalidateQueries({ queryKey: [ApiRoutes.Ubicaciones] });
     };
-    const mutator = useServiceStoreUbicacion();
-    const mutatorUpdate = useServiceUpdateUbicacion(ubicacion?.id ?? 0);
-    const { onSubmit } = useOnSubmit<IUbicacion>({
-        mutateAsync: ubicacion?.id ? mutatorUpdate.mutateAsync : mutator.mutateAsync,
-        onSuccess: async () => handleSuccess(),
-    });
 
     const formikProps = {
         initialValues,

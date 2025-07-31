@@ -1,7 +1,9 @@
 import { AlertToast } from '@/components/alertToast/AlertToast';
 import { useOnSubmit } from '@/hooks/useOnSubmit';
 import { ICliente } from '@/models/cliente.interface';
+import { ApiRoutes } from '@/router/modules/admin.routes';
 import { useServiceIndexClientes, useServiceStoreCliente, useServiceUpdateCliente } from '@/Services/clientes/useServiceClientes';
+import { useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';
 import * as Yup from 'yup';
 import { useClienteStore } from './useClienteStore';
@@ -24,7 +26,7 @@ export const useCliente = ({ closeModal }: IUseClienteProps) => {
         empresa: Yup.string(),
         observaciones: Yup.string(),
     });
-
+    const queryClient = useQueryClient();
     const handleSuccess = (data: ICliente) => {
         AlertToast({
             type: 'success',
@@ -33,6 +35,7 @@ export const useCliente = ({ closeModal }: IUseClienteProps) => {
         closeModal();
         refetch();
         setSelectedCliente(data);
+        queryClient.invalidateQueries({ queryKey: [ApiRoutes.Clientes] });
     };
     const mutator = useServiceStoreCliente();
     const mutatorUpdate = useServiceUpdateCliente(cliente?.id ?? 0);
