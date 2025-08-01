@@ -15,6 +15,7 @@ class ReporteMovimientoStoreRequest extends FormRequest
     public function rules(): array
     {
         $tipoMovimiento = TipoMovimientoEnum::REAJUSTE->value;
+
         return [
             'producto_id' => ['required', 'exists:productos,id'],
             'tipo_movimiento_id' => ['required', 'exists:tipo_movimientos,id'],
@@ -22,6 +23,7 @@ class ReporteMovimientoStoreRequest extends FormRequest
             'cantidad' => ['required', 'integer'],
         ];
     }
+
     public function messages()
     {
         return [

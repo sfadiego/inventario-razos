@@ -8,8 +8,6 @@ use App\Models\ProductoProveedor;
 use App\Models\Proveedor;
 use App\Models\ReporteMovimiento;
 use App\Models\Ubicacion;
-use App\Models\Venta;
-use App\Models\VentaProducto;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -23,7 +21,7 @@ class DatabaseSeeder extends Seeder
             TipoMovimientoSeeder::class,
         ]);
 
-        Ubicacion::factory(15)->create();
+        Ubicacion::factory(5)->create();
         Proveedor::factory(15)->create();
         Cliente::factory(15)->create();
         Producto::factory(15)->create();

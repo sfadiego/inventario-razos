@@ -22,7 +22,7 @@ class ClientesUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'nombre' => 'required|string|max:255|unique:clientes,nombre',
+            'nombre' => 'required|string|max:255',
             'observaciones' => 'nullable|string|max:500',
             'confiable' => ['boolean'],
         ];

@@ -2,7 +2,9 @@ import { AlertSwal } from '@/components/alertSwal/AlertSwal';
 import { AlertTypeEnum } from '@/enums/AlertTypeEnum';
 import { useOnSubmit } from '@/hooks/useOnSubmit';
 import { IProducto } from '@/models/producto.interface';
+import { ApiRoutes } from '@/router/modules/admin.routes';
 import { useServiceStoreProducto, useServiceUpdateProducto } from '@/Services/productos/useServiceProductos';
+import { useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';
 import * as Yup from 'yup';
 import { useProductoStore } from './useProductoStore';
@@ -13,21 +15,23 @@ interface IUseProductProps {
 
 export const useFormProducto = (props: IUseProductProps) => {
     const { closeModal } = props;
-    const { setRefreshFlag, producto } = useProductoStore();
+    const { producto } = useProductoStore();
     const [search, setSearch] = useState<string>('');
 
+    const queryClient = useQueryClient();
     const handleSuccess = (data: IProducto) => {
         const { codigo } = data;
         if (closeModal) {
             closeModal();
         }
 
-        setRefreshFlag();
         AlertSwal({
             type: AlertTypeEnum.Success,
             title: `Exito`,
             text: `Elemento guardado correctamente : ${codigo} `,
         });
+
+        queryClient.invalidateQueries({ queryKey: [ApiRoutes.Productos] });
     };
 
     const initialValues: IProducto = {

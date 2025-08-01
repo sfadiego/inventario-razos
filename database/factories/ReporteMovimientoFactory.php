@@ -2,8 +2,8 @@
 
 namespace Database\Factories;
 
+use App\Enums\TipoMovimientoEnum;
 use App\Models\Producto;
-use App\Models\TipoMovimiento;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -13,13 +13,13 @@ class ReporteMovimientoFactory extends Factory
     {
         return [
             'producto_id' => Producto::inRandomOrder()->value('id'),
-            'tipo_movimiento_id' => TipoMovimiento::inRandomOrder()->value('id'),
-            'motivo' => $this->faker->text(50),
+            'tipo_movimiento_id' => TipoMovimientoEnum::ENTRADA->value,
+            'motivo' => '',
             'cantidad' => $this->faker->randomNumber(2),
-            'cantidad_anterior' => $this->faker->randomNumber(2),
+            'cantidad_anterior' => 0,
             'cantidad_actual' => $this->faker->randomNumber(2),
             'user_id' => User::inRandomOrder()->value('id'),
-            'fecha_movimiento' => $this->faker->dateTimeBetween('-1 year', 'now'),
+            'fecha_movimiento' => now(),
         ];
     }
 }

@@ -35,6 +35,12 @@ export const useFormReport = (props: IuseFormReportProps) => {
             }),
     });
     const { refetch } = useServiceIndexReporteMovimiento({});
+    const mutator = useServiceStoreReporteMovimiento();
+    const { onSubmit } = useOnSubmit<IInitialValuesReporteMovimiento>({
+        mutateAsync: mutator.mutateAsync,
+        onSuccess: async () => handleSuccess(),
+    });
+
     const handleSuccess = () => {
         if (closeModal) {
             closeModal();
@@ -47,12 +53,6 @@ export const useFormReport = (props: IuseFormReportProps) => {
         });
         refetch();
     };
-
-    const mutator = useServiceStoreReporteMovimiento();
-    const { onSubmit } = useOnSubmit<IInitialValuesReporteMovimiento>({
-        mutateAsync: mutator.mutateAsync,
-        onSuccess: async () => handleSuccess(),
-    });
 
     const formikProps = {
         initialValues,

@@ -25,7 +25,7 @@ class VentaProductoController extends Controller
     {
         try {
             $params->merge(['venta_id' => $ventaProducto->venta_id]);
-            if (!VentaProducto::validateVentaProducto($params->all(), false)) {
+            if (! VentaProducto::validateVentaProducto($params->all(), false)) {
                 throw new \Exception('No hay suficiente stock del producto seleccionado.');
             }
 

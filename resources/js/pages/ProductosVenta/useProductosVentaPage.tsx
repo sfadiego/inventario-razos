@@ -2,7 +2,7 @@ import { Plus } from 'lucide-react';
 import { useCallback, useMemo, useState } from 'react';
 
 import { BreadcrumbArrayProps } from '@/components/common/breadcrum';
-import { IFilterItem } from '@/components/filters/modalFilter/types';
+import { IFilters } from '@/components/filters/modalFilter/types';
 import { rowTypes } from '@/components/tables/rowTypes';
 import Button from '@/components/ui/button/Button';
 
@@ -13,9 +13,12 @@ import { useServiceIndexProductos } from '@/Services/productos/useServiceProduct
 import { useServiceShowVenta } from '@/Services/ventas/useServiceVenta';
 import { useParams } from 'react-router';
 
-// Constantes
-const FILTERS: IFilterItem[] = [{ property: 'nombre', operator: 'like', value: '' }];
-const INITIAL_FILTER_VALUES = { proveedor_id: 0, categoria_id: 0 };
+export interface IFiltroProductoVenta {
+    nombre?: string;
+    proveedor_id?: number;
+    categoria_id?: number;
+}
+const FILTERS: IFilters<IFiltroProductoVenta>[] = [{ property: 'nombre', operator: 'like', initialValue: '' }];
 
 const useProductModal = () => {
     const { openModal, closeModal, isOpen } = useModal();
@@ -81,7 +84,6 @@ export const useProductosVentaPage = () => {
 
         // Filtros
         filters: FILTERS,
-        initialValues: INITIAL_FILTER_VALUES,
 
         // Servicios
         useServiceIndexProductos,

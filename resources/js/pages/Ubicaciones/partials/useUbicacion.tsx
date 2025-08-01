@@ -2,11 +2,13 @@ import { AlertSwal } from '@/components/alertSwal/AlertSwal';
 import { AlertTypeEnum } from '@/enums/AlertTypeEnum';
 import { useOnSubmit } from '@/hooks/useOnSubmit';
 import { IUbicacion } from '@/models/ubicacion.interface';
+import { ApiRoutes } from '@/router/modules/admin.routes';
 import { useServiceStoreUbicacion, useServiceUpdateUbicacion } from '@/Services/ubicaciones/useServiceUbicaciones';
+import { useQueryClient } from '@tanstack/react-query';
 import * as Yup from 'yup';
 import { useUbicacionStore } from './useUbicacionStore';
 
-export interface IFiltrosUbicaciones {
+export interface IFiltrosUbicacion {
     nombre: string;
 }
 interface IuseUbicacionProps {
@@ -14,7 +16,7 @@ interface IuseUbicacionProps {
 }
 
 export const useUbicacion = ({ closeModal }: IuseUbicacionProps) => {
-    const { ubicacion, setRefreshFlag } = useUbicacionStore();
+    const { ubicacion } = useUbicacionStore();
     const initialValues: IUbicacion = {
         nombre: ubicacion?.nombre ?? '',
     };
@@ -23,23 +25,25 @@ export const useUbicacion = ({ closeModal }: IuseUbicacionProps) => {
         nombre: Yup.string().required('La ubicacion es obligatorio'),
     });
 
-    const handleSuccess = () => {
-        if (closeModal) {
-            closeModal();
-        }
-        setRefreshFlag();
-        AlertSwal({
-            type: AlertTypeEnum.Success,
-            title: `Exito`,
-            text: `Ubicacion guardada correctamente`,
-        });
-    };
+    const queryClient = useQueryClient();
     const mutator = useServiceStoreUbicacion();
     const mutatorUpdate = useServiceUpdateUbicacion(ubicacion?.id ?? 0);
     const { onSubmit } = useOnSubmit<IUbicacion>({
         mutateAsync: ubicacion?.id ? mutatorUpdate.mutateAsync : mutator.mutateAsync,
         onSuccess: async () => handleSuccess(),
     });
+    const handleSuccess = () => {
+        if (closeModal) {
+            closeModal();
+        }
+        AlertSwal({
+            type: AlertTypeEnum.Success,
+            title: `Exito`,
+            text: `Ubicacion guardada correctamente`,
+        });
+
+        queryClient.invalidateQueries({ queryKey: [ApiRoutes.Ubicaciones] });
+    };
 
     const formikProps = {
         initialValues,

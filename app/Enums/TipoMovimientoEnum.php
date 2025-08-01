@@ -2,8 +2,6 @@
 
 namespace App\Enums;
 
-use App\Models\TipoMovimiento;
-
 enum TipoMovimientoEnum: int
 {
     case ENTRADA = 1;

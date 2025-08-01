@@ -5,16 +5,13 @@ import { FormProveedor } from './partials/FormProveedor';
 import { useProveedoresPage } from './useProveedoresPage';
 
 export default function ProveedoresPage() {
-    const { initialValues, renderersMap, filters, isOpen, openModal, closeModal, useServiceIndexProveedor, refreshProveedorFlag } =
-        useProveedoresPage();
+    const { renderersMap, filters, isOpen, openModal, closeModal, useServiceIndexProveedor } = useProveedoresPage();
 
     return (
         <PageWrapper pageTitle="Proveedores">
             <DatatableWithFilter
                 renderersMap={renderersMap}
                 propertyInputSearch={`nombre`}
-                initialValues={initialValues}
-                refreshFlag={refreshProveedorFlag}
                 filters={filters}
                 onClickNew={openModal}
                 service={useServiceIndexProveedor}

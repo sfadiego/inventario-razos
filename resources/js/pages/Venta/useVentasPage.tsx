@@ -19,7 +19,7 @@ export const useVentasPage = () => {
     const { openModal, isOpen, closeModal } = useModal();
     const [selected, setSelected] = useState(0);
     const { isLoading, data } = useServiceShowVenta(selected);
-    const { refreshFlag, setVenta } = useVentasStore();
+    const { setVenta } = useVentasStore();
     const navigate = useNavigate();
 
     const handleCloseModal = () => {
@@ -61,28 +61,19 @@ export const useVentasPage = () => {
             </>
         ),
     };
-    const filters: IFilters[] = [
+    const filters: IFilters<IFiltroVenta>[] = [
         {
             property: 'nombre_venta',
             operator: 'like',
             initialValue: '',
         },
     ];
-    const initialValues: IFiltroVenta = {
-        nombre_venta: '',
-        folio: '',
-        cliente_id: 0,
-        tipo_compra: '',
-        status_venta: 'activa',
-    };
 
     return {
         renderersMap,
         isOpen,
         filters,
-        initialValues,
         openModal: handleOpenModal,
         closeModal: handleCloseModal,
-        refreshFlag,
     };
 };

@@ -7,17 +7,15 @@ import { FormProducto } from './partials/FormProducto';
 import { useProductosPage } from './useProductosPage';
 
 export default function ProductosPage() {
-    const { filters, openModal, renderersMap, isOpen, closeModal, refreshTableFlag, initialValues, useServiceIndexProductos } = useProductosPage();
+    const { filters, openModal, renderersMap, isOpen, closeModal, useServiceIndexProductos } = useProductosPage();
     return (
         <>
             <PageWrapper pageTitle="Productos">
                 <DatatableWithFilter
                     propertyInputSearch={`nombre`}
                     renderersMap={renderersMap}
-                    initialValues={initialValues}
                     filters={filters}
                     onClickNew={openModal}
-                    refreshFlag={refreshTableFlag}
                     service={useServiceIndexProductos}
                 >
                     {(formik) => <FiltrosProductos formik={formik} />}

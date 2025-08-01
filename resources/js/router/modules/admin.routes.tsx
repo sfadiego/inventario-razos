@@ -22,6 +22,17 @@ export enum AdminRoutes {
     Clientes = '/admin/clientes',
 }
 
+export enum ApiRoutes {
+    Venta = '/api/ventas',
+    VentaProductos = '/api/venta-producto',
+    Proveedores = '/api/proveedores',
+    Productos = '/api/productos',
+    Reportes = '/api/reporte-movimientos',
+    Ubicaciones = '/api/ubicaciones',
+    Clientes = '/api/clientes',
+    Categorias = '/api/categorias',
+}
+
 export const adminRoutes: IRoute[] = [
     { private: true, path: AdminRoutes.Dashboard, name: 'Dashboard', element: <DashboardPage /> },
     { private: true, path: AdminRoutes.Venta, name: 'Ventas', element: <VentasPage /> },

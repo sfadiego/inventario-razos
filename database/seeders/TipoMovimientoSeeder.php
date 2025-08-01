@@ -12,17 +12,17 @@ class TipoMovimientoSeeder extends Seeder
     {
         TipoMovimiento::create([
             'id' => 1,
-            'nombre' => TipoMovimientoEnum::ENTRADA->value,
+            'nombre' => TipoMovimientoEnum::fromId(TipoMovimientoEnum::ENTRADA->value),
         ]);
 
         TipoMovimiento::create([
             'id' => 2,
-            'nombre' => TipoMovimientoEnum::SALIDA->value,
+            'nombre' => TipoMovimientoEnum::fromId(TipoMovimientoEnum::SALIDA->value),
         ]);
 
         TipoMovimiento::create([
             'id' => 3,
-            'nombre' => TipoMovimientoEnum::REAJUSTE->value,
+            'nombre' => TipoMovimientoEnum::fromId(TipoMovimientoEnum::REAJUSTE->value),
         ]);
     }
 }

@@ -5,16 +5,13 @@ import { FormUbicacion } from './partials/FormUbicacion';
 import { useUbicacionesPage } from './useUbicacionesPage';
 
 export default function ProovedoresPage() {
-    const { initialValues, renderersMap, filters, isOpen, closeModal, openModal, useServiceIndexUbicaciones, refreshUbicacionFlag } =
-        useUbicacionesPage();
+    const { renderersMap, filters, isOpen, closeModal, openModal, useServiceIndexUbicaciones } = useUbicacionesPage();
 
     return (
         <PageWrapper pageTitle="Ubicaciones">
             <DatatableWithFilter
                 propertyInputSearch={`nombre`}
-                initialValues={initialValues}
                 filters={filters}
-                refreshFlag={refreshUbicacionFlag}
                 onClickNew={openModal}
                 renderersMap={renderersMap}
                 service={useServiceIndexUbicaciones}

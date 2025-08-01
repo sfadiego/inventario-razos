@@ -2,9 +2,10 @@ import { useGET, usePOST, usePUT } from '@/hooks/useApi';
 import { IPaginate } from '@/interfaces/IPaginate';
 import { IPaginateServiceProps } from '@/interfaces/IPaginateServiceProps';
 import { ICliente } from '@/models/cliente.interface';
+import { ApiRoutes } from '@/router/modules/admin.routes';
 
-const url = '/api/clientes';
-export const useServiceIndexClientes = ({ filters = [], search = null, page = 1, limit = 10 }: IPaginateServiceProps) => {
+const url = ApiRoutes.Clientes;
+export const useServiceIndexClientes = ({ filters = [],  search = null, page = 1, limit = 10 }: IPaginateServiceProps) => {
     return useGET<IPaginate<ICliente>>({
         url,
         filters: {

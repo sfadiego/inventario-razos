@@ -2,12 +2,12 @@ import { useGET, usePOST, usePUT } from '@/hooks/useApi';
 import { IPaginate } from '@/interfaces/IPaginate';
 import { IPaginateServiceProps } from '@/interfaces/IPaginateServiceProps';
 import { IProducto } from '@/models/producto.interface';
+import { ApiRoutes } from '@/router/modules/admin.routes';
 
-const url = '/api/productos';
+const url = ApiRoutes.Productos;
 export const useServiceIndexProductos = ({ filters = [], search = null, page = 1, limit = 10 }: IPaginateServiceProps) => {
     return useGET<IPaginate<IProducto>>({
         url,
-        nameQuery: 'lista-productos',
         filters: {
             filters,
             search,

@@ -1,1 +1,1 @@
-export type rowTypes = 'redRow' | 'warningRow';
+export type rowTypes = 'redRow' | 'warningRow' | 'greenRow' | '';

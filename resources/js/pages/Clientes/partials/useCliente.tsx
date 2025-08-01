@@ -1,13 +1,19 @@
 import { AlertToast } from '@/components/alertToast/AlertToast';
 import { useOnSubmit } from '@/hooks/useOnSubmit';
 import { ICliente } from '@/models/cliente.interface';
-import { useServiceStoreCliente, useServiceUpdateCliente } from '@/Services/clientes/useServiceClientes';
+import { ApiRoutes } from '@/router/modules/admin.routes';
+import { useServiceIndexClientes, useServiceStoreCliente, useServiceUpdateCliente } from '@/Services/clientes/useServiceClientes';
+import { useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';
 import * as Yup from 'yup';
 import { useClienteStore } from './useClienteStore';
 
-export const useCliente = () => {
+interface IUseClienteProps {
+    closeModal: () => void;
+}
+export const useCliente = ({ closeModal }: IUseClienteProps) => {
     const { cliente, setSelectedCliente } = useClienteStore();
+    const { refetch } = useServiceIndexClientes({ nameQuery: '/api/clientes' });
     const [isCheckedDisabled, setIsCheckedDisabled] = useState(true);
     const initialValues: ICliente = {
         nombre: cliente?.nombre ?? '',
@@ -20,13 +26,16 @@ export const useCliente = () => {
         empresa: Yup.string(),
         observaciones: Yup.string(),
     });
-
+    const queryClient = useQueryClient();
     const handleSuccess = (data: ICliente) => {
         AlertToast({
             type: 'success',
-            message: 'Nuevo cliente guardado',
+            message: 'Cliente guardado',
         });
+        closeModal();
+        refetch();
         setSelectedCliente(data);
+        queryClient.invalidateQueries({ queryKey: [ApiRoutes.Clientes] });
     };
     const mutator = useServiceStoreCliente();
     const mutatorUpdate = useServiceUpdateCliente(cliente?.id ?? 0);
