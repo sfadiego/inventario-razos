@@ -14,6 +14,8 @@ class IndexData extends Request
 
     public ?string $order;
 
+    public ?string $orderParam;
+
     public ?array $filters;
 
     public ?array $params;
@@ -26,6 +28,7 @@ class IndexData extends Request
         $this->id = $request->route('id') ?? $request->query('id');
         $this->page = $request->input('page', 1);
         $this->limit = $request->input('limit', 15);
+        $this->orderParam = $request->input('orderParam', 'id');
         $this->order = $request->input('order', 'asc');
         $this->filters = $request->input('filters', []);
         $this->params = $request->all() ?? [];

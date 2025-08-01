@@ -6,12 +6,13 @@ import { ICountVentaProducto } from '@/models/ventaProducto.interface';
 import { ApiRoutes } from '@/router/modules/admin.routes';
 
 const url = ApiRoutes.Venta;
-export const useServiceIndexVenta = ({ filters = [],  search = null, page = 1, limit = 10 }: IPaginateServiceProps) => {
+export const useServiceIndexVenta = ({ filters = [], search = null, order = 'desc', page = 1, limit = 10 }: IPaginateServiceProps) => {
     return useGET<IPaginate<IVenta>>({
         url,
         filters: {
             filters,
             search,
+            order,
             page,
             limit,
         },

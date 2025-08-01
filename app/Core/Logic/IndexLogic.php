@@ -82,6 +82,8 @@ class IndexLogic
             $this->queryBuilder = $this->runQueryWithSearch($data->search);
         }
 
+        $this->orderQuery($data->orderParam, $data->order);
+
         if ($this->withPagination) {
             $this->pagination = $this->queryBuilder->paginate($data->limit, ['*'], 'page', $data->page);
             $this->response = $this->pagination->getCollection();
@@ -116,6 +118,11 @@ class IndexLogic
     protected function withResource(): mixed
     {
         return $this->response;
+    }
+
+    protected function orderQuery(string $orderParam, string $order): Builder
+    {
+        return $this->queryBuilder->orderBy($orderParam, $order);
     }
 
     protected function getColumnSearch(): string
