@@ -176,3 +176,37 @@ Reporte de movimiento de productos
     -entrada, salida, reajuste
 ajuste => cuando haces inventario y actualizas stock quitando del stock, (por que caduco, o se rompio etc.)
 agregar => agregar cantidad al stock
+
+
+---------------
+
+observaciones
+-- asignar proveedor a categoria
+- filtrado proveedor
+- modal cerrar
+
+- validar venta con cliente y venta credito
+ - manejar adeudo
+
+ - maquina lectora de codigos
+
+ venta:
+ mostrar en modal total de la venta 
+
+ revisar filtros
+
+ reporte de movimientos
+ en rojo colores negativos en reajuste
+
+ producto:
+ manejar unidad
+  pieza, metro, par
+
+  validar producto por unidad
+  agregar foto a productos
+
+
+  producto: agregar click para detalle
+  - compatibilidad
+  - detalles
+  

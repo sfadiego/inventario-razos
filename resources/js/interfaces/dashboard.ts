@@ -9,10 +9,6 @@ export interface IVentasItem {
     cantidad: number;
 }
 
-export interface IDashboardVentas {
-    month: IVentasItem;
-}
-
 export interface IDashboardTotalVentas {
     total: number;
 }

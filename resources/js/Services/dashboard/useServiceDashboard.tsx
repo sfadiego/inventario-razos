@@ -1,5 +1,5 @@
 import { useGET } from '@/hooks/useApi';
-import { IDashboardMasVendidos, IDashboardTotalVentas, IDashboardVentas } from '@/interfaces/dashboard';
+import { IDashboardMasVendidos, IDashboardTotalVentas, IVentasItem } from '@/interfaces/dashboard';
 import { ApiRoutes } from '@/router/modules/admin.routes';
 
 const url = ApiRoutes.Dashboard;
@@ -8,7 +8,7 @@ export const useServiceDashboardMasVendidos = () => {
 };
 
 export const useServiceDashboardVentas = () => {
-    return useGET<IDashboardVentas>({ url: `${url}/ventas` });
+    return useGET<IVentasItem>({ url: `${url}/ventas` });
 };
 
 export const useServiceDashboardTotalVentas = ({ fecha = '' }: { fecha?: string }) =>

@@ -9,10 +9,9 @@ use App\Models\VentaProducto;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Response;
 
-
 class DashboardController extends Controller
 {
-    public function totalVentas(DashboardTotalRequest  $param): JsonResponse
+    public function totalVentas(DashboardTotalRequest $param): JsonResponse
     {
         $fecha = $param?->fecha;
         $ventas = Venta::where('status_venta', StatusVentaEnum::Finalizada)
@@ -45,7 +44,6 @@ class DashboardController extends Controller
         return Response::success($ventas);
     }
 
-
     public function ventas(): JsonResponse
     {
         $months = collect([
@@ -60,19 +58,19 @@ class DashboardController extends Controller
             'September',
             'October',
             'November',
-            'December'
+            'December',
         ]);
 
         $ventasPorMes = Venta::where('status_venta', StatusVentaEnum::Finalizada)
             ->whereYear('created_at', now()->year)
             ->get()
-            ->groupBy(fn($venta) => $venta->created_at->format('F'))
-            ->map(fn($ventas) => [
+            ->groupBy(fn ($venta) => $venta->created_at->format('F'))
+            ->map(fn ($ventas) => [
                 'total' => $ventas->sum('venta_total'),
                 'cantidad' => $ventas->count(),
             ]);
 
-        $resultados = $months->map(fn($mes) => [
+        $resultados = $months->map(fn ($mes) => [
             'month' => $mes,
             'total' => $ventasPorMes[$mes]['total'] ?? 0,
             'cantidad' => $ventasPorMes[$mes]['cantidad'] ?? 0,
