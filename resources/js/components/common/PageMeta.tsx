@@ -1,13 +1,14 @@
-import { PropsWithChildren } from 'react';
-import { Helmet, HelmetProvider } from 'react-helmet-async';
+interface PageMetaProps {
+    title: string;
+    description: string;
+}
 
-const PageMeta = ({ title, description }: { title: string; description: string }) => (
-    <Helmet>
+const PageMeta = ({ title, description }: PageMetaProps) => (
+    <>
         <title>{title}</title>
         <meta name="description" content={description} />
-    </Helmet>
+        <link rel="author" href="Diego silva" />
+    </>
 );
-
-export const AppWrapper = ({ children }: PropsWithChildren) => <HelmetProvider>{children}</HelmetProvider>;
 
 export default PageMeta;
