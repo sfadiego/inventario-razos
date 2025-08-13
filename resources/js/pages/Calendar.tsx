@@ -6,7 +6,7 @@ import interactionPlugin from "@fullcalendar/interaction";
 import { EventInput, DateSelectArg, EventClickArg } from "@fullcalendar/core";
 import { Modal } from "../components/ui/modal";
 import { useModal } from "../hooks/useModal";
-import PageMeta from "../components/common/PageMeta";
+import  PageMeta  from "../components/common/PageMeta";
 
 interface CalendarEvent extends EventInput {
   extendedProps: {
