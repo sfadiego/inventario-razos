@@ -7,6 +7,7 @@ use App\Http\Requests\Auth\LoginRequest;
 use App\Http\Requests\Auth\RegisterRequest;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
 
 class AuthController extends Controller
@@ -37,5 +38,11 @@ class AuthController extends Controller
         );
 
         return $user ? Response::success($user) : Response::error(__('Credencial no válida.'));
+    }
+
+    public function logout(Request $request): JsonResponse
+    {
+        $request->user()->currentAccessToken()->delete();
+        return Response::success(null, "Se cerro la session correctamente");
     }
 }
