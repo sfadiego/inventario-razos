@@ -21,6 +21,7 @@ abstract class TestCase extends BaseTestCase
             self::$migrated = true;
         }
         // ErrorContainer::resetErrors();
+        $this->withoutVite();
         $this->withoutExceptionHandling();
     }
 
