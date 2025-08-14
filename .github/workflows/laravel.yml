@@ -32,7 +32,7 @@ jobs:
       run: php artisan config:clear
     - name: Clear cache
       run: php artisan cache:clear
-    - name: Execute tests via PHPUnit/Pest
+    - name: Execute tests
       run: php artisan test --env=testing
     - name: Show exit code
       run: echo "Test exit code-> $?"
