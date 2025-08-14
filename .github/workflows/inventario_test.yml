@@ -1,4 +1,4 @@
-name: Laravel
+name: runing-tests
 
 on:
   push:
