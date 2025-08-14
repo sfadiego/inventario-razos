@@ -4,7 +4,6 @@ import { IVentaProductoForm } from '@/models/ventaProducto.interface';
 import { useServiceShowProducto } from '@/Services/productos/useServiceProductos';
 import { useServiceStoreVentaProducto } from '@/Services/ventaProducto/useServiceVentaProducto';
 import { useServiceCountVentaProducto } from '@/Services/ventas/useServiceVenta';
-import { useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';
 import { useParams } from 'react-router';
 import * as Yup from 'yup';

@@ -2,29 +2,80 @@
 
 namespace App\Http\Controllers;
 
-use Inertia\Inertia;
+use App\Enums\StatusVentaEnum;
+use App\Http\Requests\Dashboard\DashboardTotalRequest;
+use App\Models\Venta;
+use App\Models\VentaProducto;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Response;
 
 class DashboardController extends Controller
 {
-    public function index(): \Inertia\Response
+    public function totalVentas(DashboardTotalRequest $param): JsonResponse
     {
-        $widgets = [
-            [
-                'title' => 'Venta del dia',
-                'value' => 1000, // TODO: obtener de la base de datos
-            ],
-            [
-                'title' => 'Producto mas vendidos',
-                'value' => 'Refaccion 1', // TODO: obtener de la base de datos
-            ],
-            [
-                'title' => 'Producto menos vendidos',
-                'value' => 1000, // TODO: obtener de la base de datos
-            ],
-        ];
+        $fecha = $param?->fecha;
+        $ventas = Venta::where('status_venta', StatusVentaEnum::Finalizada)
+            ->when($fecha, function ($q) use ($fecha) {
+                $q->where('created_at', '>=', $fecha);
+            })->sum('venta_total');
 
-        return Inertia::render('template', [
-            'widgets' => $widgets,
+        return Response::success(['total' => $ventas]);
+    }
+
+    public function masVendidos(): JsonResponse
+    {
+        $ventas = VentaProducto::selectRaw('producto_id, SUM(cantidad) as total')
+            ->whereHas('venta', function ($q) {
+                $q->where('status_venta', StatusVentaEnum::Finalizada);
+            })
+            ->with('producto')
+            ->groupBy('producto_id')
+            ->get()
+            ->map(function ($item) {
+                return [
+                    'producto' => $item->producto->nombre,
+                    'cantidad' => intval($item->total),
+                ];
+            })
+            ->sortByDesc('cantidad')
+            ->take(10)
+            ->values();
+
+        return Response::success($ventas);
+    }
+
+    public function ventas(): JsonResponse
+    {
+        $months = collect([
+            'January',
+            'February',
+            'March',
+            'April',
+            'May',
+            'June',
+            'July',
+            'August',
+            'September',
+            'October',
+            'November',
+            'December',
         ]);
+
+        $ventasPorMes = Venta::where('status_venta', StatusVentaEnum::Finalizada)
+            ->whereYear('created_at', now()->year)
+            ->get()
+            ->groupBy(fn ($venta) => $venta->created_at->format('F'))
+            ->map(fn ($ventas) => [
+                'total' => $ventas->sum('venta_total'),
+                'cantidad' => $ventas->count(),
+            ]);
+
+        $resultados = $months->map(fn ($mes) => [
+            'month' => $mes,
+            'total' => $ventasPorMes[$mes]['total'] ?? 0,
+            'cantidad' => $ventasPorMes[$mes]['cantidad'] ?? 0,
+        ]);
+
+        return Response::success($resultados);
     }
 }

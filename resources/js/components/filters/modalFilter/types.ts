@@ -22,7 +22,6 @@ export interface IModalFilterProps<Values> {
     isOpen: boolean;
     close: () => void;
     validationSchema?: any | (() => any);
-    // onSubmit: (props: any) => void | Promise<any>;
     onSubmit: (filterData: IFilterData<Values>, values: Values) => void | Promise<any>;
     children: ((formik: FormikProps<any>) => ReactNode) | ReactNode;
     filters: IFilters<Values>[];

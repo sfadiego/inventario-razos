@@ -1,0 +1,40 @@
+name: runing-tests
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  laravel-tests:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+    - name: Setup PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: 8.4
+        tools: composer:v2
+        coverage: xdebug
+    - name: Create SQLite Database
+      run: |
+        mkdir -p database
+        touch database/database.sqlite
+    - name: Copy .env
+      run: cp .env.testing .env
+    - name: Install Dependencies
+      run: composer install -q --optimize-autoloader --no-interaction --no-scripts --no-progress --prefer-dist
+    - name: Define Base path
+      run: echo "BASE_PATH=$(pwd)" >> $GITHUB_ENV
+    - name: Run migrations (Testing)
+      run: php artisan migrate --env=testing --force
+    - name: Clear config
+      run: php artisan config:clear
+    - name: Clear cache
+      run: php artisan cache:clear
+    - name: Execute tests
+      run: php artisan test --env=testing
