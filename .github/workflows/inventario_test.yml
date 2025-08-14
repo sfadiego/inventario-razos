@@ -33,8 +33,8 @@ jobs:
     #     cat .env | grep DB_DATABASE
     - name: Install Dependencies
       run: composer install -q --optimize-autoloader --no-interaction --no-scripts --no-progress --prefer-dist
-    # - name: linea de prueba
-    #   run: echo "BASE_PATH=$(pwd)" >> $GITHUB_ENV
+    - name: Define Base path
+      run: echo "BASE_PATH=$(pwd)" >> $GITHUB_ENV
     - name: Run migrations (Testing)
       run: php artisan migrate --env=testing --force
     - name: Clear config
