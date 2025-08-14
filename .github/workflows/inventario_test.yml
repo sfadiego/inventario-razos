@@ -27,15 +27,20 @@ jobs:
         ls -l database/
     - name: Copy .env
       run: cp .env.testing .env
+    - name: Debug database file
+      run: |
+        pwd
+        ls -l database/
+        cat .env | grep DB_DATABASE
     - name: Install Dependencies
       run: composer install -q --optimize-autoloader --no-interaction --no-scripts --no-progress --prefer-dist
-    - name: Run migrations
-      run: php artisan migrate
+    - name: Run migrations (Testing)
+      run: php artisan migrate --env=testing --force
     - name: Clear config
       run: php artisan config:clear
     - name: Clear cache
       run: php artisan cache:clear
     - name: Execute tests
-      run: php artisan test --env=testing
+      run: php artisan test --env=testing -v
     - name: Show exit code
       run: echo "Test exit code-> $?"
