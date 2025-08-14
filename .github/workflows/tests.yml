@@ -41,6 +41,9 @@ jobs:
           version: 8
           standalone: true
 
+      - name: Install pnpm manually
+        run: npm install -g pnpm
+
       - name: Install Node Dependencies
         run: pnpm install --frozen-lockfile
 
