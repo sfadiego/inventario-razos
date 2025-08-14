@@ -12,7 +12,6 @@ class AuthenticationTest extends TestCase
     public function test_users_can_authenticate()
     {
         $user = User::factory()->create();
-
         $response = $this->post('/api/auth/login', [
             'email' => $user->email,
             'password' => 'password',
