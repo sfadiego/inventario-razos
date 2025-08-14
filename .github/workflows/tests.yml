@@ -37,6 +37,7 @@ jobs:
   
       - name: Configure SQLite for testing
         run: |
+          echo "" >> .env
           echo "DB_CONNECTION=sqlite" >> .env
           echo "DB_DATABASE=${{ github.workspace }}/database/database.sqlite" >> .env
 
