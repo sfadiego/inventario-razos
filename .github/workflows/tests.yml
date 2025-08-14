@@ -34,6 +34,11 @@ jobs:
 
       - name: Copy Environment File
         run: cp .env.example .env
+  
+      - name: Configure SQLite for testing
+        run: |
+          echo "DB_CONNECTION=sqlite" >> .env
+          echo "DB_DATABASE=${{ github.workspace }}/database/database.sqlite" >> .env
 
       - name: Generate Application Key
         run: php artisan key:generate
@@ -45,10 +50,7 @@ jobs:
         run: |
           mkdir -p database
           touch database/database.sqlite
-      
+
       - name: Execute tests (Unit and Feature tests) via PHPUnit/Pest
-        env:
-          DB_CONNECTION: sqlite
-          DB_DATABASE: database/database.sqlite
         run: php artisan test
      
