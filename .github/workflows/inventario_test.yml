@@ -26,11 +26,6 @@ jobs:
         touch database/database.sqlite
     - name: Copy .env
       run: cp .env.testing .env
-    # - name: Debug database file
-    #   run: |
-    #     pwd
-    #     ls -l database/
-    #     cat .env | grep DB_DATABASE
     - name: Install Dependencies
       run: composer install -q --optimize-autoloader --no-interaction --no-scripts --no-progress --prefer-dist
     - name: Define Base path
