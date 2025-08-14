@@ -28,5 +28,9 @@ jobs:
       run: composer install -q --optimize-autoloader --no-interaction --no-scripts --no-progress --prefer-dist
     - name: Run migrations
       run: php artisan migrate
+    - name: Clear config
+      run: php artisan config:clear
+    - name: Clear cache
+      run: php artisan cache:clear
     - name: Execute tests via PHPUnit/Pest
-      run: php artisan test --env=testing || true
+      run: php artisan test --env=testing --verbose
