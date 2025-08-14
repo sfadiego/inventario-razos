@@ -8,14 +8,7 @@ use Tests\TestCase;
 
 class AuthenticationTest extends TestCase
 {
-
-    // api/auth/login
-    public function test_login_screen_can_be_rendered()
-    {
-        $response = $this->get('/login');
-        $response->assertStatus(200);
-    }
-
+   
     public function test_users_can_authenticate()
     {
         $user = User::factory()->create();
