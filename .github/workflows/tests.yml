@@ -1,17 +1,21 @@
-name: tests
-
+name: Tests
+run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
 on:
   push:
-    branches:
-      - develop
-      - main
+    branches: [ main ]
   pull_request:
-    branches:
-      - develop
-      - main
+    branches: [ main ]
+    paths:
+      - 'app/**'
+      - 'routes/**'
+      - 'tests/**'
+      - 'composer.*'
+      - 'phpunit.xml'
+      - '.env.example'
 
 jobs:
   ci:
+    name: Execute Tests
     runs-on: ubuntu-latest
 
     steps:
