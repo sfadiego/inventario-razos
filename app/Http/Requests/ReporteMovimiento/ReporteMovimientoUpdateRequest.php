@@ -21,7 +21,7 @@ class ReporteMovimientoUpdateRequest extends FormRequest
             'cantidad_anterior' => ['required', 'integer', 'min:0'],
             'cantidad_actual' => ['required', 'integer', 'min:0'],
             'user_id' => ['required', 'exists:users,id'],
-            'fecha_movimiento' => ['required'],
+            'created_at' => ['required'],
         ];
     }
 }

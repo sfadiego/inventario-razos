@@ -144,7 +144,6 @@ class IndexLogic
     {
         $customFilters = $this->customFilters();
         $property = $filter->property;
-
         if (isset($customFilters[$property])) {
             $filterCallback = $customFilters[$property];
             if (! is_callable($filterCallback)) {

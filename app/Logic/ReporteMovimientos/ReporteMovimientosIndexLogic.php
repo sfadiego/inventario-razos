@@ -28,7 +28,7 @@ class ReporteMovimientosIndexLogic extends IndexLogic
             'cantidad_anterior' => 'Cantidad anterior',
             'cantidad_actual' => 'Cantidad actual',
             'user.name' => 'Usuario',
-            'fecha_movimiento' => 'Fecha movimiento',
+            'created_at' => 'Fecha movimiento',
         ];
     }
 

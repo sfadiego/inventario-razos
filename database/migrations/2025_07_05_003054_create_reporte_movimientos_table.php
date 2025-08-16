@@ -17,7 +17,7 @@ return new class extends Migration
             $table->integer('cantidad_anterior');
             $table->integer('cantidad_actual');
             $table->foreignId('user_id')->constrained('users');
-            $table->dateTime('fecha_movimiento');
+            $table->timestamps();
         });
     }
 

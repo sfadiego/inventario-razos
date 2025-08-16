@@ -7,6 +7,7 @@ use App\Enums\TipoCompraEnum;
 use App\Enums\TipoMovimientoEnum;
 use App\Traits\Movimientos;
 use Exception;
+use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -42,7 +43,7 @@ class Venta extends Model
     {
         $lastFolio = Venta::latest()->value('folio');
         $newFolio = $lastFolio ? intval(substr($lastFolio, -4)) + 1 : 1;
-        $folio = 'VENTA-'.date('Ymd').'-'.str_pad($newFolio, 4, '0', STR_PAD_LEFT);
+        $folio = 'VENTA-' .  date('Ymd') . '-' . str_pad($newFolio, 4, '0', STR_PAD_LEFT);
 
         return self::create([
             'venta_total' => $data['venta_total'] ?? 0,
@@ -56,8 +57,10 @@ class Venta extends Model
 
     public function finalizarVenta(): Venta
     {
+
         DB::beginTransaction();
-        $result = collect($this->ventaProductos)->groupBy('producto_id')
+        collect($this->ventaProductos)
+            ->groupBy('producto_id')
             ->map(function ($items, $productoId) {
                 return [
                     'producto_id' => $productoId,
@@ -86,7 +89,7 @@ class Venta extends Model
                 ]);
             });
 
-        $ventaTotal = $this->ventaProductos->sum(fn ($item) => $item->cantidad * $item->precio);
+        $ventaTotal = $this->ventaTotal();
         $this->update([
             'venta_total' => $ventaTotal,
             'status_venta' => StatusVentaEnum::Finalizada->value,
@@ -95,5 +98,16 @@ class Venta extends Model
         DB::commit();
 
         return $this->refresh();
+    }
+
+    public function scopeVentaTotal(): float
+    {
+        return $this->ventaProductos->sum(fn($item) => $item->cantidad * $item->precio);
+    }
+
+    public function scopeSearch(Builder $query, string $search): Builder
+    {
+        return $query->where('nombre_venta', 'like', "%$search%")
+            ->orWhere('folio', 'like', "%$search%");
     }
 }
