@@ -19,7 +19,7 @@ class ReporteMovimientoFactory extends Factory
             'cantidad_anterior' => 0,
             'cantidad_actual' => $this->faker->randomNumber(2),
             'user_id' => User::inRandomOrder()->value('id'),
-            'fecha_movimiento' => now(),
+            'created_at' => now(),
         ];
     }
 }

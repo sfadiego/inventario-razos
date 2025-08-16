@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -22,7 +23,6 @@ class ReporteMovimiento extends Model
         'cantidad_anterior',
         'cantidad_actual',
         'user_id',
-        'fecha_movimiento',
     ];
 
     public function producto(): BelongsTo

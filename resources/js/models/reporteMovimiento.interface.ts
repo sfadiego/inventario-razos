@@ -13,5 +13,5 @@ export interface IReporteMovimiento {
     cantidad_anterior: number;
     cantidad_actual: number;
     user_id: number;
-    fecha_movimiento: string;
+    created_at: string;
 }

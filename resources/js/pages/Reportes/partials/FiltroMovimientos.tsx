@@ -12,7 +12,7 @@ export const FiltroMovimientos = ({ formik }: IFiltrosProductoProps) => {
     return (
         <>
             <div className="col-span-12 mt-4">
-                <DatePicker name="fecha_movimiento" formik={formik} label="Fecha de movimiento" />
+                <DatePicker name="created_at" formik={formik} label="Fecha de movimiento" />
             </div>
             <div className="col-span-12">
                 <SelectTipoMovimiento formik={formik}></SelectTipoMovimiento>

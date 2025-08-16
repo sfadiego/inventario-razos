@@ -36,7 +36,7 @@ class ReporteMovimientoController extends Controller
             'cantidad_anterior' => $stockActual,
             'cantidad_actual' => $nuevoStock,
             'user_id' => auth()->user()->id,
-            'fecha_movimiento' => now(),
+            'created_at' => now(),
         ]);
 
         $reporteMovimiento = ReporteMovimiento::create($params->toArray());
