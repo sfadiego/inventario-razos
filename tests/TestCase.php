@@ -12,7 +12,9 @@ use Laravel\Sanctum\Sanctum;
 abstract class TestCase extends BaseTestCase
 {
     use DatabaseTransactions,  WithFaker;
+
     public static bool $migrated = false;
+
     protected function setUp(): void
     {
         parent::setUp();

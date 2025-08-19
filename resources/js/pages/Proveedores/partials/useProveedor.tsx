@@ -17,13 +17,11 @@ export const useProveedor = (props: IUseProveedorProps) => {
     const { proveedor } = useProveedorStore();
     const initialValues: IProveedor = {
         nombre: proveedor?.nombre ?? '',
-        empresa: proveedor?.empresa ?? '',
         observaciones: proveedor?.observaciones ?? '',
     };
 
     const validationSchema = Yup.object().shape({
         nombre: Yup.string().required('El nombre es obligatorio'),
-        empresa: Yup.string(),
         observaciones: Yup.string(),
     });
 

@@ -14,7 +14,7 @@ class Producto extends Model
 
     protected $table = 'productos';
 
-    protected $fillable = ['nombre', 'proveedor_id', 'categoria_id', 'codigo', 'precio_compra', 'precio_venta', 'stock', 'cantidad_minima', 'compatibilidad', 'ubicacion_id', 'activo'];
+    protected $fillable = ['nombre', 'proveedor_id', 'categoria_id', 'codigo', 'precio_compra', 'precio_venta', 'stock', 'cantidad_minima', 'compatibilidad', 'ubicacion_id', 'activo', 'imagen_id', 'unidad'];
 
     public function proveedor(): BelongsTo
     {
@@ -29,11 +29,6 @@ class Producto extends Model
     public function ubicacion(): BelongsTo
     {
         return $this->belongsTo(Ubicacion::class);
-    }
-
-    public function productoProveedores(): HasMany
-    {
-        return $this->hasMany(ProductoProveedor::class);
     }
 
     public function ventaProductos(): HasMany

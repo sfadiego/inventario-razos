@@ -12,7 +12,7 @@ class Cliente extends Model
 
     protected $table = 'clientes';
 
-    protected $fillable = ['nombre', 'confiable', 'observaciones'];
+    protected $fillable = ['nombre', 'confiable', 'observaciones', 'adeudo'];
 
     public function ventas(): HasMany
     {
