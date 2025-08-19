@@ -1,9 +1,12 @@
 <?php
 
-namespace Tests\Feature\Venta;
+namespace Tests\Feature\Proveedor;
 
+use App\Models\Categoria;
 use App\Models\Proveedor;
-use App\Models\Venta;
+use App\Models\ProveedorCategoria;
+use App\Models\User;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class ProveedorTest extends TestCase
@@ -11,9 +14,12 @@ class ProveedorTest extends TestCase
     public function test_index_proveedor(): void
     {
         $this->loginAdmin();
-        // crear venta
-        Proveedor::factory()->count(10)->create();
-
+        Proveedor::all()->map(function ($item) {
+            ProveedorCategoria::create([
+                'proveedor_id' => $item->id,
+                'categoria_id' => Categoria::first()->id
+            ]);
+        });
         // fetch data
         $response = $this->get('/api/proveedores');
         $response->assertStatus(206);
@@ -24,6 +30,12 @@ class ProveedorTest extends TestCase
                     'nombre',
                     'empresa',
                     'observaciones',
+                    'categoria' => [
+                        '*' => [
+                            'id',
+                            'nombre'
+                        ]
+                    ],
                 ],
             ],
         ]);

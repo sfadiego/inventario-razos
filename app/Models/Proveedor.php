@@ -20,9 +20,9 @@ class Proveedor extends Model
         return $this->hasMany(Producto::class);
     }
 
-    public function productoProveedores(): HasMany
+    public function categorias()
     {
-        return $this->hasMany(ProductoProveedor::class);
+        return $this->belongsToMany(Categoria::class, 'proveedor_categoria', 'proveedor_id', 'categoria_id');
     }
 
     public function scopeSearch(Builder $query, string $search): Builder
