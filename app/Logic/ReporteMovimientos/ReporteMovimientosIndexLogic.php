@@ -41,14 +41,20 @@ class ReporteMovimientosIndexLogic extends IndexLogic
     {
         $this->queryBuilder->where(function ($query) use ($filter) {
             $query->whereHas('producto', function ($qwh) use ($filter) {
-                $qwh->where('nombre', $filter->value);
+                $qwh->where('nombre', 'like', '%'.$filter->value.'%');
             });
         });
+    }
+
+    public function filterDate(Filter $filter): void
+    {
+        $this->queryBuilder->whereDate('created_at', $filter->value);
     }
 
     protected function customFilters(): array
     {
         return [
+            'created_at' => fn (Filter $filter) => $this->filterDate($filter),
             'search' => fn (Filter $filter) => $this->filterProducto($filter),
         ];
     }

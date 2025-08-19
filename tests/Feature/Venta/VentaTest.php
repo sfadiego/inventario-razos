@@ -9,8 +9,6 @@ use App\Models\Proveedor;
 use App\Models\Ubicacion;
 use App\Models\Venta;
 use App\Models\VentaProducto;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class VentaTest extends TestCase
@@ -29,16 +27,16 @@ class VentaTest extends TestCase
         $response->assertStatus(206);
         $response->assertJsonStructure([
             'current_page',
-            "data" => [
+            'data' => [
                 '*' => [
-                    "venta_total",
-                    "nombre_venta",
-                    "folio",
-                    "cliente_id",
-                    "tipo_compra",
-                    "status_venta",
-                ]
-            ]
+                    'venta_total',
+                    'nombre_venta',
+                    'folio',
+                    'cliente_id',
+                    'tipo_compra',
+                    'status_venta',
+                ],
+            ],
         ]);
     }
 
@@ -48,12 +46,12 @@ class VentaTest extends TestCase
 
         // crear venta
         $payload = [
-            "venta_total" => 0,
-            "folio" => "",
-            "nombre_venta" => "",
-            "cliente_id" => Cliente::factory()->create()->id,
-            "tipo_compra" => "contado",
-            "status_venta" => "activa"
+            'venta_total' => 0,
+            'folio' => '',
+            'nombre_venta' => '',
+            'cliente_id' => Cliente::factory()->create()->id,
+            'tipo_compra' => 'contado',
+            'status_venta' => 'activa',
 
         ];
 
@@ -61,15 +59,15 @@ class VentaTest extends TestCase
         $response->assertStatus(200);
 
         $response->assertJson([
-            "status" => "OK",
-            "message" => null,
-            "data" => [
-                "venta_total" => $payload['venta_total'],
-                "nombre_venta" => $payload['nombre_venta'],
-                "cliente_id" => $payload['cliente_id'],
-                "tipo_compra" => $payload['tipo_compra'],
-                "status_venta" => $payload['status_venta'],
-            ]
+            'status' => 'OK',
+            'message' => null,
+            'data' => [
+                'venta_total' => $payload['venta_total'],
+                'nombre_venta' => $payload['nombre_venta'],
+                'cliente_id' => $payload['cliente_id'],
+                'tipo_compra' => $payload['tipo_compra'],
+                'status_venta' => $payload['status_venta'],
+            ],
         ]);
     }
 
@@ -82,20 +80,20 @@ class VentaTest extends TestCase
         $response = $this->get("/api/ventas/{$venta->id}");
         $response->assertStatus(200);
         $response->assertJsonStructure([
-            "status",
-            "message",
-            "data" => [
-                "id",
-                "venta_total",
-                "nombre_venta",
-                "folio",
-                "cliente_id",
-                "tipo_compra",
-                "status_venta",
-                "created_at",
-                "updated_at",
-                "cliente",
-            ]
+            'status',
+            'message',
+            'data' => [
+                'id',
+                'venta_total',
+                'nombre_venta',
+                'folio',
+                'cliente_id',
+                'tipo_compra',
+                'status_venta',
+                'created_at',
+                'updated_at',
+                'cliente',
+            ],
         ]);
     }
 
@@ -115,6 +113,7 @@ class VentaTest extends TestCase
             'cantidad_minima' => $this->faker->numberBetween(1, 10),
             'compatibilidad' => $this->faker->text(50),
             'ubicacion_id' => Ubicacion::factory()->create()->id,
+            'unidad' => $this->faker->randomElement(['pieza', 'metro', 'par']),
             'activo' => $this->faker->boolean,
         ]);
 
@@ -122,25 +121,24 @@ class VentaTest extends TestCase
             'cantidad' => 5,
             'precio' => $producto->precio_venta,
             'producto_id' => $producto->id,
-            'venta_id' => $venta->id
+            'venta_id' => $venta->id,
         ]);
-
 
         $response = $this->put("/api/ventas/{$venta->id}/finalizar-venta");
         $response->assertStatus(200);
         $data = $response->json('data');
         $response->assertJson([
-            "status" => 'OK',
-            "message" => null,
-            "data" => [
-                "id" => $venta['id'],
-                "venta_total" => $venta->ventaTotal(),
-                "nombre_venta" => $venta['nombre_venta'],
-                "folio" => $venta['folio'],
-                "cliente_id" => $venta['cliente_id'],
-                "tipo_compra" => $venta['tipo_compra'],
-                "status_venta" => 'finalizada',
-            ]
+            'status' => 'OK',
+            'message' => null,
+            'data' => [
+                'id' => $venta['id'],
+                'venta_total' => $venta->ventaTotal(),
+                'nombre_venta' => $venta['nombre_venta'],
+                'folio' => $venta['folio'],
+                'cliente_id' => $venta['cliente_id'],
+                'tipo_compra' => $venta['tipo_compra'],
+                'status_venta' => 'finalizada',
+            ],
         ]);
 
         $this->assertEquals($data['venta_total'], $venta->ventaTotal());

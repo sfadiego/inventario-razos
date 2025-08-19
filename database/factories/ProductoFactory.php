@@ -31,6 +31,7 @@ class ProductoFactory extends Factory
             'compatibilidad' => $this->faker->text(50),
             'ubicacion_id' => Ubicacion::inRandomOrder()->value('id'),
             'activo' => $this->faker->boolean,
+            'unidad' => $this->faker->randomElement(['pieza', 'metro', 'par']),
         ];
     }
 }

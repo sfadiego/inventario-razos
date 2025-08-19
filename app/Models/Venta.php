@@ -43,7 +43,7 @@ class Venta extends Model
     {
         $lastFolio = Venta::latest()->value('folio');
         $newFolio = $lastFolio ? intval(substr($lastFolio, -4)) + 1 : 1;
-        $folio = 'VENTA-' .  date('Ymd') . '-' . str_pad($newFolio, 4, '0', STR_PAD_LEFT);
+        $folio = 'VENTA-'.date('Ymd').'-'.str_pad($newFolio, 4, '0', STR_PAD_LEFT);
 
         return self::create([
             'venta_total' => $data['venta_total'] ?? 0,
@@ -102,7 +102,9 @@ class Venta extends Model
 
     public function scopeVentaTotal(): float
     {
-        return $this->ventaProductos->sum(fn($item) => $item->cantidad * $item->precio);
+        $total = $this->ventaProductos->sum(fn ($item) => $item->cantidad * $item->precio);
+
+        return round($total, 2);
     }
 
     public function scopeSearch(Builder $query, string $search): Builder

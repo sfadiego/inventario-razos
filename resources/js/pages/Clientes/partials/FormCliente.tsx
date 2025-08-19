@@ -38,7 +38,7 @@ export const FormCliente = ({ isOpen, closeModal }: IModalClienteProps) => {
                             />
                         </div>
                         <div className="col-span-12 mt-3 flex justify-end gap-2">
-                            <Button className="col-span-12 mb-3 lg:col-span-6" onClick={() => null} size="sm" variant="outline">
+                            <Button className="col-span-12 mb-3 lg:col-span-6" onClick={closeModal} size="sm" variant="outline">
                                 Cerrar
                             </Button>
                             <Button

@@ -48,7 +48,7 @@ class TransactionMiddleware
             }
 
             DB::commit();
-        } catch (\Exception | Throwable $e) {
+        } catch (\Exception|Throwable $e) {
             DB::rollBack();
             logger('rollback error');
             throw $e;

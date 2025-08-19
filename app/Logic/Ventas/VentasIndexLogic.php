@@ -47,7 +47,7 @@ class VentasIndexLogic extends IndexLogic
     protected function customFilters(): array
     {
         return [
-            'search' => fn(Filter $filter) => $this->queryBuilder->search($filter->value),
+            'search' => fn (Filter $filter) => $this->queryBuilder->search($filter->value),
         ];
     }
 
@@ -55,7 +55,6 @@ class VentasIndexLogic extends IndexLogic
     {
         return 'nombre_venta';
     }
-
 
     protected function withResource(): AnonymousResourceCollection
     {
