@@ -9,65 +9,59 @@ import { useEffect, useState } from 'react';
 import { useClienteStore } from './partials/useClienteStore';
 
 export interface IFiltroCliente {
-    nombre: string;
-    confiable?: boolean;
-    observaciones?: string;
+  nombre: string;
+  confiable?: boolean;
+  observaciones?: string;
 }
 export const useClientesPage = () => {
-    const { isOpen, openModal, closeModal } = useModal();
-    const [selected, setSelected] = useState(0);
-    const { isLoading, data } = useServiceShowCliente(selected);
-    const { setSelectedCliente } = useClienteStore();
+  const { isOpen, openModal, closeModal } = useModal();
+  const [selected, setSelected] = useState(0);
+  const { isLoading, data } = useServiceShowCliente(selected);
+  const { setSelectedCliente } = useClienteStore();
 
-    const handleCloseModal = () => {
-        closeModal();
-        setSelected(0);
-        setSelectedCliente(null);
-    };
+  const handleCloseModal = () => {
+    closeModal();
+    setSelected(0);
+    setSelectedCliente(null);
+  };
 
-    const handleOpenModal = () => {
-        openModal();
-        setSelected(0);
-        setSelectedCliente(null);
-    };
+  useEffect(() => {
+    if (!isLoading && data && selected) {
+      setSelectedCliente(data);
+    }
+  }, [isLoading, data, selected, setSelectedCliente]);
 
-    useEffect(() => {
-        if (!isLoading && data && selected) {
-            setSelectedCliente(data);
-        }
-    }, [isLoading, data, selected, setSelectedCliente]);
+  const renderersMap = {
+    confiable: ({ confiable }: ICliente) => (
+      <Badge variant="solid" color={`${!confiable ? 'error' : 'success'}`}>{`${!confiable ? 'No' : 'Si'}`}</Badge>
+    ),
+    actions: ({ id }: ICliente) => (
+      <Button
+        onClick={() => {
+          openModal();
+          setSelected(id!);
+        }}
+        variant="primary"
+        size="sm"
+      >
+        <Edit />
+      </Button>
+    ),
+  };
+  const filters: IFilters<IFiltroCliente>[] = [
+    {
+      property: 'nombre',
+      operator: 'like',
+      initialValue: '',
+    },
+  ];
 
-    const renderersMap = {
-        confiable: ({ confiable }: ICliente) => (
-            <Badge variant="solid" color={`${!confiable ? 'error' : 'success'}`}>{`${!confiable ? 'No' : 'Si'}`}</Badge>
-        ),
-        actions: ({ id }: ICliente) => (
-            <Button
-                onClick={() => {
-                    openModal();
-                    setSelected(id!);
-                }}
-                variant="primary"
-                size="sm"
-            >
-                <Edit />
-            </Button>
-        ),
-    };
-    const filters: IFilters<IFiltroCliente>[] = [
-        {
-            property: 'nombre',
-            operator: 'like',
-            initialValue: '',
-        },
-    ];
-
-    return {
-        useServiceIndexClientes,
-        renderersMap,
-        filters,
-        isOpen,
-        openModal: handleOpenModal,
-        closeModal: handleCloseModal,
-    };
+  return {
+    useServiceIndexClientes,
+    renderersMap,
+    filters,
+    isOpen,
+    openModal,
+    closeModal: handleCloseModal,
+  };
 };

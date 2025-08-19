@@ -21,7 +21,6 @@ class ProveedorIndexLogic extends IndexLogic
         return [
             'id' => __('#'),
             'nombre' => 'Nombre',
-            'empresa' => 'Empresa',
             'observaciones' => 'Observaciones',
             'actions' => '#',
         ];

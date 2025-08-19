@@ -15,8 +15,8 @@ class ProveedorResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
+            'id' => $this->id,
             'nombre' => $this->nombre,
-            'empresa' => $this->empresa,
             'observaciones' => $this->observaciones,
             'categoria' => $this->categorias ? collect($this->categorias)
                 ->map(function ($item) {

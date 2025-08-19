@@ -18,7 +18,6 @@ class ProveedorFactory extends Factory
     {
         return [
             'nombre' => $this->faker->name,
-            'empresa' => $this->faker->company,
             'observaciones' => $this->faker->sentence,
         ];
     }

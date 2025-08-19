@@ -28,7 +28,6 @@ class ProveedorTest extends TestCase
             'data' => [
                 '*' => [
                     'nombre',
-                    'empresa',
                     'observaciones',
                     'categoria' => [
                         '*' => [

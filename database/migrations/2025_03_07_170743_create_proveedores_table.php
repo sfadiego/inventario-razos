@@ -12,7 +12,6 @@ return new class extends Migration
             Schema::create('proveedores', function (Blueprint $table) {
                 $table->id();
                 $table->string('nombre');
-                $table->string('empresa')->nullable(); // TODO: validar o borrar
                 $table->text('observaciones')->nullable();
                 $table->timestamps();
             });

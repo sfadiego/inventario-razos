@@ -25,9 +25,6 @@ export const FormProveedor = ({ isOpen, closeModal }: IFormProveedorProps) => {
                                     <Input<IProveedor> label={`Nombre`} name="nombre" formik={formik} type={InputTypeEnum.Text} />
                                 </div>
                                 <div className="col-span-12 lg:col-span-12">
-                                    <Input<IProveedor> label={`Empresa`} name="empresa" formik={formik} type={InputTypeEnum.Text} />
-                                </div>
-                                <div className="col-span-12 lg:col-span-12">
                                     <Input<IProveedor> label={`Observaciones`} name="observaciones" formik={formik} type={InputTypeEnum.Text} />
                                 </div>
                             </div>
