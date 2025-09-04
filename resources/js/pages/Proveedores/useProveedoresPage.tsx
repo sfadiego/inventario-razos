@@ -1,6 +1,8 @@
 import { IFilters } from '@/components/filters/modalFilter/types';
+import Badge from '@/components/ui/badge/Badge';
 import Button from '@/components/ui/button/Button';
 import { useModal } from '@/hooks/useModal';
+import { ICategoria } from '@/models/categoria.interface';
 import { IProveedor } from '@/models/proveedor.interface';
 import { useServiceIndexProveedor, useServiceShowProveedor } from '@/Services/proveedor/useServiceProveedor';
 import { Edit } from 'lucide-react';
@@ -10,6 +12,7 @@ import { useProveedorStore } from './partials/useProveedorStore';
 export interface IFiltroProveedor {
   nombre: string;
   observaciones?: string;
+  categorias?: ICategoria;
 }
 export const useProveedoresPage = () => {
   const { isOpen, openModal, closeModal } = useModal();
@@ -29,6 +32,19 @@ export const useProveedoresPage = () => {
   }, [isLoading, data, selected, setSelectedProveedor]);
 
   const renderersMap = {
+    categorias: ({ categorias }: IProveedor) => {
+      return categorias && categorias.length > 0 ? (
+        categorias.map((c: ICategoria) => (
+          <Badge color="primary" variant="light" key={c.id}>
+            {c.nombre}
+          </Badge>
+        ))
+      ) : (
+        <Badge variant="light" color="warning">
+          Sin asignar
+        </Badge>
+      );
+    },
     actions: ({ id }: IProveedor) => (
       <Button
         onClick={() => {

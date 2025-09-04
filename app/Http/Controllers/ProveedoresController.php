@@ -20,18 +20,25 @@ class ProveedoresController extends Controller
     public function store(ProveedoresStoreRequest $params): JsonResponse
     {
         $proveedor = Proveedor::create($params->all());
+        if ($params->categorias) {
+            $proveedor->categorias()->sync($params->categorias);
+        }
 
         return Response::success($proveedor);
     }
 
     public function show(Proveedor $proveedor): JsonResponse
     {
+        $proveedor = $proveedor->load('categorias');
         return Response::success($proveedor);
     }
 
     public function update(ProveedoresUpdateRequest $params, Proveedor $proveedor): JsonResponse
     {
         $proveedor->update($params->validated());
+        if ($params->categorias) {
+            $proveedor->categorias()->sync($params->categorias);
+        }
 
         return Response::success($proveedor);
     }

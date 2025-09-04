@@ -91,7 +91,7 @@ Usuario Administrador
     -Descontar del stock
     - Cotizaciones/Cancelar ventas/Guardar venta
     - Generar ticket o reporte -- pendiente
-    - 
+    -
 
 * Widgets
  - Ventas del dia
@@ -109,7 +109,7 @@ REPORTES:
 
 
  ---- TODO ----------
- 
+
 Migraciones
 - crear tabla de venta
   - venta_total
@@ -140,7 +140,7 @@ Apis Faltantes
 
 - Generar Venta:
     - Api store Venta:
-      - Parametros: 
+      - Parametros:
         - nombre_venta: opcional
         - cliente_id: opcional
         - tipo_compra: contado/credito -> default contado
@@ -161,7 +161,7 @@ Apis Faltantes
     - precio
     - producto_id
     - venta_id: requerido
-    
+
 - Api delete Venta Producto
 
 
@@ -191,7 +191,7 @@ observaciones
  - maquina lectora de codigos
 
  venta:
- mostrar en modal total de la venta 
+ mostrar en modal total de la venta
 
  revisar filtros
 
@@ -209,4 +209,4 @@ observaciones
   producto: agregar click para detalle
   - compatibilidad
   - detalles
-  
+

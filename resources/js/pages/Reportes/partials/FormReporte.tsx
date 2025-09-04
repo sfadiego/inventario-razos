@@ -12,12 +12,12 @@ import { Save } from 'lucide-react';
 import { useFormReport } from './useFormReport';
 
 interface IFormReporteProps {
-    isOpen: boolean;
-    closeModal: () => void;
+  isOpen: boolean;
+  closeModal: () => void;
 }
 
 export const FormReporte = ({ isOpen, closeModal }: IFormReporteProps) => {
-    const { formikProps } = useFormReport({ closeModal });
+  const { formikProps } = useFormReport({ closeModal });
 
     return (
         <Modal title="Movimiento" subtitle="Crear movimiento de productos" isOpen={isOpen} onClose={closeModal} className="m-4 max-w-[700px]">

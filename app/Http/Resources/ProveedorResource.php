@@ -18,7 +18,7 @@ class ProveedorResource extends JsonResource
             'id' => $this->id,
             'nombre' => $this->nombre,
             'observaciones' => $this->observaciones,
-            'categoria' => $this->categorias ? collect($this->categorias)
+            'categorias' => $this->categorias ? collect($this->categorias)
                 ->map(function ($item) {
                     return [
                         "id" => $item->id,
