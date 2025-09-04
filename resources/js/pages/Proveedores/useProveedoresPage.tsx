@@ -3,7 +3,7 @@ import Badge from '@/components/ui/badge/Badge';
 import Button from '@/components/ui/button/Button';
 import { useModal } from '@/hooks/useModal';
 import { ICategoria } from '@/models/categoria.interface';
-import { IProveedor } from '@/models/proveedor.interface';
+import { IProveedor, IProveedorFormik } from '@/models/proveedor.interface';
 import { useServiceIndexProveedor, useServiceShowProveedor } from '@/Services/proveedor/useServiceProveedor';
 import { Edit } from 'lucide-react';
 import { useEffect, useState } from 'react';
@@ -58,7 +58,7 @@ export const useProveedoresPage = () => {
       </Button>
     ),
   };
-  const filters: IFilters<IFiltroProveedor>[] = [
+  const filters: IFilters<IProveedorFormik>[] = [
     {
       property: 'nombre',
       operator: 'like',

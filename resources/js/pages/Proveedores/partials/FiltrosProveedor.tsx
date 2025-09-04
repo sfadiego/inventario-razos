@@ -1,22 +1,25 @@
 import { InputTypeEnum } from '@/components/form/input/enum/InputType.enum';
 import Input from '@/components/form/input/InputField';
-import { IProveedor } from '@/models/proveedor.interface';
+import { MultipleSelectCategorias } from '@/components/select/categorias/MultipleSelectCategorias';
+import { IProveedorFormik } from '@/models/proveedor.interface';
 import { FormikProps } from 'formik';
-import { IFiltroProveedor } from '../useProveedoresPage';
 
 interface IFiltrosProductoProps {
-    formik: FormikProps<IFiltroProveedor>;
+  formik: FormikProps<IProveedorFormik>;
 }
 
 export const FiltrosProveedor = ({ formik }: IFiltrosProductoProps) => {
-    return (
-        <>
-            <div className="col-span-12 lg:col-span-12">
-                <Input<IProveedor> label={`Nombre`} name="nombre" formik={formik} type={InputTypeEnum.Text} />
-            </div>
-            <div className="col-span-12 lg:col-span-12">
-                <Input<IProveedor> label={`Observaciones`} name="observaciones" formik={formik} type={InputTypeEnum.Text} />
-            </div>
-        </>
-    );
+  return (
+    <>
+      <div className="col-span-12 lg:col-span-12">
+        <Input<IProveedorFormik> label={`Nombre`} name="nombre" formik={formik} type={InputTypeEnum.Text} />
+      </div>
+      <div className="col-span-12 lg:col-span-12">
+        <Input<IProveedorFormik> label={`Observaciones`} name="observaciones" formik={formik} type={InputTypeEnum.Text} />
+      </div>
+      <div className="col-span-12 lg:col-span-12">
+        <MultipleSelectCategorias<IProveedorFormik> name="categorias" formik={formik}></MultipleSelectCategorias>
+      </div>
+    </>
+  );
 };
