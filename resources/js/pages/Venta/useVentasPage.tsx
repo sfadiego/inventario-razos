@@ -9,71 +9,65 @@ import { useNavigate } from 'react-router';
 import { useVentasStore } from './partials/useVentasStore';
 
 export interface IFiltroVenta {
-    nombre_venta: string;
-    folio: string;
-    cliente_id: number;
-    tipo_compra: string;
-    status_venta: StatusVenta;
+  nombre_venta: string;
+  folio: string;
+  cliente_id: number;
+  tipo_compra: string;
+  status_venta: StatusVenta;
 }
 export const useVentasPage = () => {
-    const { openModal, isOpen, closeModal } = useModal();
-    const [selected, setSelected] = useState(0);
-    const { isLoading, data } = useServiceShowVenta(selected);
-    const { setVenta } = useVentasStore();
-    const navigate = useNavigate();
+  const { openModal, isOpen, closeModal } = useModal();
+  const [selected, setSelected] = useState(0);
+  const { isLoading, data } = useServiceShowVenta(selected);
+  const { setVenta } = useVentasStore();
+  const navigate = useNavigate();
 
-    const handleCloseModal = () => {
-        closeModal();
-        setSelected(0);
-        setVenta(null);
-    };
+  const handleCloseModal = () => {
+    closeModal();
+    setSelected(0);
+    setVenta(null);
+  };
 
-    const handleOpenModal = () => {
-        openModal();
-        setSelected(0);
-        setVenta(null);
-    };
+  useEffect(() => {
+    if (!isLoading && data && selected) {
+      setVenta(data);
+    }
+  }, [isLoading, data, selected, setVenta]);
 
-    useEffect(() => {
-        if (!isLoading && data && selected) {
-            setVenta(data);
-        }
-    }, [isLoading, data, selected, setVenta]);
+  const renderersMap = {
+    actions: ({ id, status_venta }: IVenta) => (
+      <>
+        <Button
+          onClick={() => {
+            openModal();
+            setSelected(id!);
+          }}
+          variant="primary"
+          size="sm"
+        >
+          <Eye />
+        </Button>
+        {status_venta == 'activa' && (
+          <Button className="ml-2" onClick={() => navigate(`/venta/${id}/productos`)} variant="outline" size="sm">
+            <ArrowRight />
+          </Button>
+        )}
+      </>
+    ),
+  };
+  const filters: IFilters<IFiltroVenta>[] = [
+    {
+      property: 'nombre_venta',
+      operator: 'like',
+      initialValue: '',
+    },
+  ];
 
-    const renderersMap = {
-        actions: ({ id, status_venta }: IVenta) => (
-            <>
-                <Button
-                    onClick={() => {
-                        openModal();
-                        setSelected(id!);
-                    }}
-                    variant="primary"
-                    size="sm"
-                >
-                    <Eye />
-                </Button>
-                {status_venta == 'activa' && (
-                    <Button className="ml-2" onClick={() => navigate(`/venta/${id}/productos`)} variant="outline" size="sm">
-                        <ArrowRight />
-                    </Button>
-                )}
-            </>
-        ),
-    };
-    const filters: IFilters<IFiltroVenta>[] = [
-        {
-            property: 'nombre_venta',
-            operator: 'like',
-            initialValue: '',
-        },
-    ];
-
-    return {
-        renderersMap,
-        isOpen,
-        filters,
-        openModal: handleOpenModal,
-        closeModal: handleCloseModal,
-    };
+  return {
+    renderersMap,
+    isOpen,
+    filters,
+    openModal,
+    closeModal: handleCloseModal,
+  };
 };

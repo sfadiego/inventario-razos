@@ -23,8 +23,8 @@ class ProveedoresStoreRequest extends FormRequest
     {
         return [
             'nombre' => ['required', 'string', 'max:255'],
-            'empresa' => ['nullable', 'string', 'max:255'],
             'observaciones' => ['nullable', 'string', 'max:500'],
+            'categorias' => ['required', 'array', 'exists:categorias,id'],
         ];
     }
 }

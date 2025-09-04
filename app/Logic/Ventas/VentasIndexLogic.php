@@ -2,6 +2,7 @@
 
 namespace App\Logic\Ventas;
 
+use App\Core\Classes\Filter;
 use App\Core\Data\IndexData;
 use App\Core\Logic\IndexLogic;
 use App\Enums\StatusVentaEnum;
@@ -41,6 +42,18 @@ class VentasIndexLogic extends IndexLogic
         $data->filters = $data->filters ? $data->filters : [$defaultStatus];
 
         return parent::run($data);
+    }
+
+    protected function customFilters(): array
+    {
+        return [
+            'search' => fn (Filter $filter) => $this->queryBuilder->search($filter->value),
+        ];
+    }
+
+    protected function getColumnSearch(): string
+    {
+        return 'nombre_venta';
     }
 
     protected function withResource(): AnonymousResourceCollection

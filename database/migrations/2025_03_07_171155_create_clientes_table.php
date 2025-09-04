@@ -15,6 +15,7 @@ return new class extends Migration
                 $table->boolean('confiable')->default(true);
                 $table->text('observaciones')
                     ->nullable();
+                $table->float('adeudo')->default(0);
                 $table->timestamps();
             });
         }

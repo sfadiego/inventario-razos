@@ -30,7 +30,7 @@ trait Movimientos
             'cantidad_anterior' => $data['cantidad_anterior'],
             'cantidad_actual' => $data['cantidad_actual'],
             'user_id' => $data['user_id'],
-            'fecha_movimiento' => now(),
+            'created_at' => now(),
         ]);
     }
 }

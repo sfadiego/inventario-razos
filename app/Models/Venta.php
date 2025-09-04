@@ -7,6 +7,7 @@ use App\Enums\TipoCompraEnum;
 use App\Enums\TipoMovimientoEnum;
 use App\Traits\Movimientos;
 use Exception;
+use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -56,8 +57,10 @@ class Venta extends Model
 
     public function finalizarVenta(): Venta
     {
+
         DB::beginTransaction();
-        $result = collect($this->ventaProductos)->groupBy('producto_id')
+        collect($this->ventaProductos)
+            ->groupBy('producto_id')
             ->map(function ($items, $productoId) {
                 return [
                     'producto_id' => $productoId,
@@ -86,7 +89,7 @@ class Venta extends Model
                 ]);
             });
 
-        $ventaTotal = $this->ventaProductos->sum(fn ($item) => $item->cantidad * $item->precio);
+        $ventaTotal = $this->ventaTotal();
         $this->update([
             'venta_total' => $ventaTotal,
             'status_venta' => StatusVentaEnum::Finalizada->value,
@@ -95,5 +98,18 @@ class Venta extends Model
         DB::commit();
 
         return $this->refresh();
+    }
+
+    public function scopeVentaTotal(): float
+    {
+        $total = $this->ventaProductos->sum(fn ($item) => $item->cantidad * $item->precio);
+
+        return round($total, 2);
+    }
+
+    public function scopeSearch(Builder $query, string $search): Builder
+    {
+        return $query->where('nombre_venta', 'like', "%$search%")
+            ->orWhere('folio', 'like', "%$search%");
     }
 }

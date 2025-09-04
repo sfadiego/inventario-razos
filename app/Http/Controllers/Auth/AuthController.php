@@ -43,6 +43,7 @@ class AuthController extends Controller
     public function logout(Request $request): JsonResponse
     {
         $request->user()->currentAccessToken()->delete();
-        return Response::success(null, "Se cerro la session correctamente");
+
+        return Response::success(null, 'Se cerro la session correctamente');
     }
 }

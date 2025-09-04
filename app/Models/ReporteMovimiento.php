@@ -22,7 +22,6 @@ class ReporteMovimiento extends Model
         'cantidad_anterior',
         'cantidad_actual',
         'user_id',
-        'fecha_movimiento',
     ];
 
     public function producto(): BelongsTo
