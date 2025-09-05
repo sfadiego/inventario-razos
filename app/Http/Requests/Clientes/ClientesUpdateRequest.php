@@ -25,6 +25,7 @@ class ClientesUpdateRequest extends FormRequest
             'nombre' => 'required|string|max:255',
             'observaciones' => 'nullable|string|max:500',
             'confiable' => ['boolean'],
+            'adeudo' => 'nullable|numeric',
         ];
     }
 }

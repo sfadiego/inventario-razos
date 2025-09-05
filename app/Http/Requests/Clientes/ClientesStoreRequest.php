@@ -25,6 +25,7 @@ class ClientesStoreRequest extends FormRequest
             'nombre' => 'required|string|max:255',
             'confiable' => ['boolean'],
             'observaciones' => 'nullable|string|max:500',
+            'adeudo' => 'nullable|numeric',
         ];
     }
 }

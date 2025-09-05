@@ -19,12 +19,14 @@ export const useCliente = ({ closeModal }: IUseClienteProps) => {
     nombre: cliente?.nombre ?? '',
     confiable: cliente?.confiable ?? true,
     observaciones: cliente?.observaciones ?? '',
+    adeudo: cliente?.adeudo ?? 0,
   };
 
   const validationSchema = Yup.object().shape({
     nombre: Yup.string().required('El nombre es obligatorio'),
     confiable: Yup.boolean(),
     observaciones: Yup.string(),
+    adeudo: Yup.number(),
   });
   const queryClient = useQueryClient();
   const handleSuccess = (data: ICliente) => {
@@ -49,5 +51,5 @@ export const useCliente = ({ closeModal }: IUseClienteProps) => {
     validationSchema,
     onSubmit,
   };
-  return { formikProps, isPending: mutator.isPending, isCheckedDisabled, setIsCheckedDisabled };
+  return { formikProps, isPending: mutator.isPending, isCheckedDisabled, setIsCheckedDisabled, newClient: cliente?.id === undefined };
 };
