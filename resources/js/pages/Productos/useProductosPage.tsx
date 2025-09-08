@@ -1,4 +1,5 @@
 import { IFilters } from '@/components/filters/modalFilter/types';
+import { ExpansionProductoDetail } from '@/components/productos/ExpansionProductoDetail';
 import { rowTypes } from '@/components/tables/rowTypes';
 import Button from '@/components/ui/button/Button';
 import { useModal } from '@/hooks/useModal';
@@ -30,6 +31,12 @@ export const useProductosPage = () => {
       setSelectedProducto(data);
     }
   }, [isLoading, data, setSelectedProducto, selectedProduct]);
+
+  const rowExpansion = {
+    content: ({ record: { compatibilidad, nombre } }: { record: IProducto }) => (
+      <ExpansionProductoDetail nombre={nombre} compatibilidad={compatibilidad} />
+    ),
+  };
 
   const renderersMap = {
     rowClassName: ({ stock, cantidad_minima }: IProducto): rowTypes | '' => {
@@ -63,5 +70,6 @@ export const useProductosPage = () => {
     closeModal: handleCloseModal,
     useServiceIndexProductos,
     renderersMap,
+    rowExpansion,
   };
 };

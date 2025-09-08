@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\VentaProducto\VentaProductoStoreRequest;
 use App\Http\Requests\VentaProducto\VentaProductoUpdateRequest;
+use App\Models\Venta;
 use App\Models\VentaProducto;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Response;
@@ -40,7 +41,13 @@ class VentaProductoController extends Controller
     public function delete(VentaProducto $ventaProducto): JsonResponse
     {
         $ventaProducto->delete();
+        $ventaTotalItems = VentaProducto::where('venta_id', $ventaProducto->venta_id)->count();
+        $venta = Venta::find($ventaProducto->venta_id);
+        if (!$ventaTotalItems) {
+            $venta->update(['venta_total' => 0]);
+        }
 
+        $venta->update(['venta_total' => $venta->ventaTotal()]);
         return Response::success(null, 'Borrado correctamente');
     }
 }
