@@ -1,5 +1,6 @@
 import { IImagenProducto } from '@/models/imagenProducto.interface';
-import { useServiceShowProductoImagen } from '@/Services/images/useServiceImages';
+import { Image } from '../images/Image';
+import { useGetImagen } from '../images/useGetImage';
 
 interface ExpansionProductoDetailProps {
   nombre: string;
@@ -7,18 +8,8 @@ interface ExpansionProductoDetailProps {
   imagen?: IImagenProducto;
 }
 
-export const getImagen = (imagen: IImagenProducto | null) => {
-  if (!imagen) return null;
-  const { archivo, path } = imagen;
-  const { isLoading, data } = useServiceShowProductoImagen(path, archivo);
-
-  if (isLoading || !data) return null;
-
-  return { image: URL.createObjectURL(data) };
-};
-
 export const ExpansionProductoDetail = ({ nombre, compatibilidad, imagen }: ExpansionProductoDetailProps) => {
-  const result = getImagen(imagen ?? null);
+  const result = useGetImagen(imagen ?? null);
   const image = result?.image;
   return (
     <div className="grid grid-cols-12 px-8 pt-2">
@@ -31,7 +22,7 @@ export const ExpansionProductoDetail = ({ nombre, compatibilidad, imagen }: Expa
       <div className="col-span-12">
         {image && (
           <div className="p-2">
-            <img src={image} alt="Cover" className="w-[100px] rounded-xl border border-gray-200 dark:border-gray-800" />
+            <Image image={image} />
           </div>
         )}
       </div>
