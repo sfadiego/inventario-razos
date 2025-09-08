@@ -30,6 +30,7 @@ class ProveedoresController extends Controller
     public function show(Proveedor $proveedor): JsonResponse
     {
         $proveedor = $proveedor->load('categorias');
+
         return Response::success($proveedor);
     }
 

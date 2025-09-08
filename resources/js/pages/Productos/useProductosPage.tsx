@@ -33,8 +33,8 @@ export const useProductosPage = () => {
   }, [isLoading, data, setSelectedProducto, selectedProduct]);
 
   const rowExpansion = {
-    content: ({ record: { compatibilidad, nombre } }: { record: IProducto }) => (
-      <ExpansionProductoDetail nombre={nombre} compatibilidad={compatibilidad} />
+    content: ({ record: { compatibilidad, nombre, imagen } }: { record: IProducto }) => (
+      <ExpansionProductoDetail nombre={nombre} compatibilidad={compatibilidad} imagen={imagen} />
     ),
   };
 

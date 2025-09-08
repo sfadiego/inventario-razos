@@ -9,6 +9,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Response;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class ResponseMacros
 {
@@ -115,6 +116,18 @@ class ResponseMacros
                     'status' => 'error',
                     'message' => 'Unauthorized',
                 ], 403);
+            }
+        );
+
+        Response::macro(
+            'streamFile',
+            function ($stream, Http $status = Http::Success) {
+                return response()
+                    ->stream(function () use ($stream) {
+                        fpassthru($stream);
+                    }, $status->value, [
+                        'Cache-Control' => 'private, max-age=0, no-store',
+                    ]);
             }
         );
     }

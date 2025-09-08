@@ -5,8 +5,6 @@ namespace Tests\Feature\Proveedor;
 use App\Models\Categoria;
 use App\Models\Proveedor;
 use App\Models\ProveedorCategoria;
-use App\Models\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class ProveedorTest extends TestCase
@@ -17,7 +15,7 @@ class ProveedorTest extends TestCase
         Proveedor::all()->map(function ($item) {
             ProveedorCategoria::create([
                 'proveedor_id' => $item->id,
-                'categoria_id' => Categoria::first()->id
+                'categoria_id' => Categoria::first()->id,
             ]);
         });
         // fetch data
@@ -32,8 +30,8 @@ class ProveedorTest extends TestCase
                     'categorias' => [
                         '*' => [
                             'id',
-                            'nombre'
-                        ]
+                            'nombre',
+                        ],
                     ],
                 ],
             ],

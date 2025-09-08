@@ -10,7 +10,7 @@ interface ProductoVentaDetailProps {
 }
 
 export const ProductoVentaDetail = ({ isOpen, closeModal }: ProductoVentaDetailProps) => {
-  const { dataTableProps, disabled, handleFinalize, ventaTotal } = useProductoVentaDetail({ closeModal });
+  const { dataTableProps, rowExpansion, disabled, handleFinalize, ventaTotal } = useProductoVentaDetail({ closeModal });
   return (
     <Modal title={`Carrito de compras`} subtitle={`Productos de venta`} isOpen={isOpen} onClose={closeModal} className="m-4 max-w-[700px]">
       <div className="grid grid-cols-12">
@@ -18,7 +18,7 @@ export const ProductoVentaDetail = ({ isOpen, closeModal }: ProductoVentaDetailP
           <h1 className="text-xl font-semibold text-gray-800 dark:text-white/90">Total: ${ventaTotal} </h1>
         </div>
         <div className="col-span-12 overflow-auto">
-          <DataTable {...dataTableProps} />
+          <DataTable {...dataTableProps} rowExpansion={rowExpansion} />
         </div>
         <div className="col-span-12 mt-3 flex justify-end gap-2">
           <Button disabled={true} onClick={() => null} size="md" type={ButtonTypeEnum.Button} className="col-span-12 md:col-span-6">

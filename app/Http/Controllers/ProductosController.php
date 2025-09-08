@@ -25,18 +25,27 @@ class ProductosController extends Controller
 
         $producto = Producto::create($params->all());
 
+        if ($params->file('file')) {
+            $image = $producto->handleProductoImage($params->file('file'));
+            $producto->imagen()->associate($image);
+        }
+
         return Response::success($producto);
     }
 
     public function show(Producto $producto): JsonResponse
     {
-        $producto->load(['proveedor', 'ubicacion', 'categoria']);
+        $producto->load(['proveedor', 'ubicacion', 'categoria', 'imagen']);
 
         return Response::success($producto);
     }
 
     public function update(ProductosUpdateRequest $params, Producto $producto): JsonResponse
     {
+        if ($params->file('file')) {
+            $image = $producto->handleProductoImage($params->file('file'));
+            $producto->imagen()->associate($image);
+        }
         $producto->update($params->validated());
 
         return Response::success($producto);

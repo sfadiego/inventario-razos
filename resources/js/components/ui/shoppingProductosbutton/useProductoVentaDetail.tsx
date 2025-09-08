@@ -65,13 +65,12 @@ export const useProductoVentaDetail = ({ closeModal }: { closeModal: () => void 
     onSubmitDelete(null, {});
   }, [onSubmitDelete]);
 
-  // Configuración de DataTable con renderers memoizados
+  const rowExpansion = {
+    content: ({ record }: { record: IVentaProducto }) =>
+      !ventaFinalizada && <ActualizaProductoVenta record={record} refetchDatatable={triggerReload} />,
+  };
   const renderersMap = useMemo(
     () => ({
-      rowExpansion: {
-        content: ({ record }: { record: IVentaProducto }) =>
-          !ventaFinalizada && <ActualizaProductoVenta record={record} refetchDatatable={triggerReload} />,
-      },
       actions: ({ id }: IVentaProducto) =>
         !ventaFinalizada ? (
           <Button
@@ -106,5 +105,5 @@ export const useProductoVentaDetail = ({ closeModal }: { closeModal: () => void 
 
   const disabled = useMemo(() => (dataTableProps?.totalRecords ?? 0) === 0 || ventaFinalizada, [dataTableProps?.totalRecords, ventaFinalizada]);
 
-  return { dataTableProps, handleFinalize, disabled, ventaTotal: venta?.venta_total };
+  return { dataTableProps, rowExpansion, handleFinalize, disabled, ventaTotal: venta?.venta_total };
 };

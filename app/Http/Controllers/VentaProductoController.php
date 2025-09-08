@@ -43,11 +43,12 @@ class VentaProductoController extends Controller
         $ventaProducto->delete();
         $ventaTotalItems = VentaProducto::where('venta_id', $ventaProducto->venta_id)->count();
         $venta = Venta::find($ventaProducto->venta_id);
-        if (!$ventaTotalItems) {
+        if (! $ventaTotalItems) {
             $venta->update(['venta_total' => 0]);
         }
 
         $venta->update(['venta_total' => $venta->ventaTotal()]);
+
         return Response::success(null, 'Borrado correctamente');
     }
 }

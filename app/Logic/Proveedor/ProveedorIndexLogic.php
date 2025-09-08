@@ -27,6 +27,7 @@ class ProveedorIndexLogic extends IndexLogic
             'actions' => '#',
         ];
     }
+
     public function filterCategorias(Filter $filter): void
     {
         $this->queryBuilder->whereHas('categorias', function ($query) use ($filter) {
@@ -37,7 +38,7 @@ class ProveedorIndexLogic extends IndexLogic
     protected function customFilters(): array
     {
         return [
-            'categorias' => fn(Filter $filter) => $this->filterCategorias($filter),
+            'categorias' => fn (Filter $filter) => $this->filterCategorias($filter),
         ];
     }
 
