@@ -9,7 +9,6 @@ use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Response;
-use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class ResponseMacros
 {

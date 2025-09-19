@@ -12,7 +12,7 @@ class VentaFactory extends Factory
         return [
             'venta_total' => $this->faker->randomFloat(2, 0, 1000),
             'nombre_venta' => $this->faker->name,
-            'folio' => strtoupper($this->faker->unique()->bothify('????-#####')),
+            'folio' => strtoupper($this->faker->unique()->bothify('V-######-##')),
             'cliente_id' => Cliente::inRandomOrder()->value('id'),
             'tipo_compra' => $this->faker->randomElement(['credito', 'contado']),
             'status_venta' => $this->faker->randomElement(['activa', 'finalizada']),
