@@ -1,6 +1,6 @@
 import { IImagenProducto } from '@/models/imagenProducto.interface';
 import { Image } from '../images/Image';
-import { useGetImagen } from '../images/useGetImage';
+import { useGetImagen } from '../images/useGetImagen';
 
 interface ExpansionProductoDetailProps {
   nombre: string;

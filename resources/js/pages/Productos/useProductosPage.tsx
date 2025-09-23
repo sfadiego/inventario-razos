@@ -3,9 +3,10 @@ import { ExpansionProductoDetail } from '@/components/productos/ExpansionProduct
 import { rowTypes } from '@/components/tables/rowTypes';
 import Button from '@/components/ui/button/Button';
 import { useModal } from '@/hooks/useModal';
+import { IImagenProducto } from '@/models/imagenProducto.interface';
 import { IProducto } from '@/models/producto.interface';
 import { useServiceIndexProductos, useServiceShowProducto } from '@/Services/productos/useServiceProductos';
-import { Edit } from 'lucide-react';
+import { Camera, Edit } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { useProductoStore } from './partials/useProductoStore';
 
@@ -17,20 +18,32 @@ export interface IFiltroProducto {
 
 export const useProductosPage = () => {
   const { openModal, isOpen, closeModal } = useModal();
-  const [selectedProduct, setselectedProduct] = useState(0);
-  const { isLoading, data } = useServiceShowProducto(selectedProduct);
+  const { openModal: openModalAgregarImagen, isOpen: isOpenAgregarImagen, closeModal: closeModalAgregarImagen } = useModal();
+  const [productId, setProductId] = useState(0);
+  const [productoImagen, setProductoImagen] = useState<IImagenProducto | null>(null);
+  const { isLoading, data } = useServiceShowProducto(productId);
   const { setSelectedProducto } = useProductoStore();
   const handleCloseModal = () => {
     closeModal();
-    setselectedProduct(0);
+    setProductId(0);
     setSelectedProducto(null);
   };
 
+  const handleCloseModalAgregarImagen = () => {
+    closeModalAgregarImagen();
+    setProductoImagen(null);
+  };
+
+  const handleUploadImage = async (imagen?: IImagenProducto) => {
+    if (imagen) setProductoImagen(imagen);
+    openModalAgregarImagen();
+  };
+
   useEffect(() => {
-    if (!isLoading && data && selectedProduct) {
+    if (!isLoading && data && productId) {
       setSelectedProducto(data);
     }
-  }, [isLoading, data, setSelectedProducto, selectedProduct]);
+  }, [isLoading, data, setSelectedProducto, productId]);
 
   const rowExpansion = {
     content: ({ record: { compatibilidad, nombre, imagen } }: { record: IProducto }) => (
@@ -42,17 +55,22 @@ export const useProductosPage = () => {
     rowClassName: ({ stock, cantidad_minima }: IProducto): rowTypes | '' => {
       return cantidad_minima >= stock ? 'redRow' : '';
     },
-    actions: ({ id }: IProducto) => (
-      <Button
-        onClick={() => {
-          openModal();
-          setselectedProduct(id!);
-        }}
-        variant="primary"
-        size="sm"
-      >
-        <Edit />
-      </Button>
+    actions: ({ id, imagen }: IProducto) => (
+      <div className="flex gap-2">
+        <Button
+          onClick={() => {
+            openModal();
+            setProductId(id!);
+          }}
+          variant="primary"
+          size="sm"
+        >
+          <Edit />
+        </Button>
+        <Button onClick={() => handleUploadImage(imagen)} variant="primary" size="sm">
+          <Camera />
+        </Button>
+      </div>
     ),
   };
   const filters: IFilters<IFiltroProducto>[] = [
@@ -71,5 +89,9 @@ export const useProductosPage = () => {
     useServiceIndexProductos,
     renderersMap,
     rowExpansion,
+    openModalAgregarImagen,
+    isOpenAgregarImagen,
+    closeModalAgregarImagen: handleCloseModalAgregarImagen,
+    productoImagen,
   };
 };

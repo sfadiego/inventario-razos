@@ -21,7 +21,7 @@ export interface IFiltroProductoVenta {
 }
 const FILTERS: IFilters<IFiltroProductoVenta>[] = [{ property: 'nombre', operator: 'like', initialValue: '' }];
 
-const useProductModal = () => {
+const useProductoVentaModal = () => {
   const { openModal, closeModal, isOpen } = useModal();
   const [productId, setProductId] = useState<number>(0);
 
@@ -49,8 +49,8 @@ export const useProductosVentaPage = () => {
   const { id } = useParams();
   const ventaId = id ? Number(id) : 0;
 
-  const { data: ventaData, isLoading } = useServiceShowVenta(ventaId); //revisar, se llama 2 veces
-  const productModal = useProductModal();
+  const { data: ventaData, isLoading } = useServiceShowVenta(ventaId);
+  const productoVentaModal = useProductoVentaModal();
 
   const ventaFinalizada = useMemo(() => !isLoading && ventaData?.status_venta === 'finalizada', [isLoading, ventaData]);
   // Breadcrumbs
@@ -75,31 +75,22 @@ export const useProductosVentaPage = () => {
       actions: ({ id, stock }: IProducto) =>
         stock > 0 &&
         !ventaFinalizada && (
-          <Button onClick={() => productModal.show(id!)} variant="primary" size="sm">
+          <Button onClick={() => productoVentaModal.show(id!)} variant="primary" size="sm">
             <Plus />
           </Button>
         ),
     };
-  }, [ventaFinalizada, productModal]);
+  }, [ventaFinalizada, productoVentaModal]);
 
   return {
-    // Modal
-    isOpen: productModal.isOpen,
-    openModal: productModal.show,
-    closeModal: productModal.hide,
-    productId: productModal.productId,
-
-    // Filtros
+    isOpen: productoVentaModal.isOpen,
+    openModal: productoVentaModal.show,
+    closeModal: productoVentaModal.hide,
+    productId: productoVentaModal.productId,
     filters: FILTERS,
-
-    // Servicios
     useServiceIndexProductos,
-
-    // Tabla
     renderersMap,
     rowExpansion,
-
-    // Venta
     venta: isLoading ? null : (ventaData ?? null),
     breadcrumb,
   };
