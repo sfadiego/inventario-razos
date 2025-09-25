@@ -5,11 +5,11 @@ import { useGetImagen } from '../images/useGetImagen';
 interface ExpansionProductoDetailProps {
   nombre: string;
   compatibilidad: string;
-  imagen: IImagenProducto;
+  imagen?: IImagenProducto | null;
 }
 
 export const ExpansionProductoDetail = ({ nombre, compatibilidad, imagen }: ExpansionProductoDetailProps) => {
-  const { image } = useGetImagen(imagen);
+  const { image } = useGetImagen(imagen ?? null);
 
   return (
     <div className="grid grid-cols-12 px-8 pt-2">

@@ -18,7 +18,7 @@ export interface IFiltroProducto {
 export const useProductosPage = () => {
   const { openModal, isOpen, closeModal } = useModal();
   const { openModal: openModalNewImage, isOpen: isOpenNewImage, closeModal: closeModalNewImage } = useModal();
-  const [productId, setProductId] = useState(0);
+  const [productId, setProductId] = useState<number>(0);
   const { isLoading, data } = useServiceShowProducto(productId);
   const { setSelectedProducto } = useProductoStore();
   const handleCloseModal = () => {
@@ -43,7 +43,7 @@ export const useProductosPage = () => {
     rowClassName: ({ stock, cantidad_minima }: IProducto): rowTypes | '' => {
       return cantidad_minima >= stock ? 'redRow' : '';
     },
-    actions: ({ id, imagen }: IProducto) => (
+    actions: ({ id }: IProducto) => (
       <div className="flex gap-2">
         <Button
           onClick={() => {
@@ -55,7 +55,14 @@ export const useProductosPage = () => {
         >
           <Edit />
         </Button>
-        <Button onClick={openModalNewImage} variant="primary" size="sm">
+        <Button
+          onClick={() => {
+            openModalNewImage();
+            setProductId(id!);
+          }}
+          variant="primary"
+          size="sm"
+        >
           <Camera />
         </Button>
       </div>
@@ -77,8 +84,11 @@ export const useProductosPage = () => {
     useServiceIndexProductos,
     renderersMap,
     rowExpansion,
-    openModalNewImage,
     isOpenNewImage,
-    closeModalNewImage,
+    closeModalNewImage: () => {
+      closeModalNewImage();
+      setProductId(0);
+    },
+    productId,
   };
 };

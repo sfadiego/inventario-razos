@@ -63,8 +63,8 @@ export const useProductosVentaPage = () => {
   );
 
   const rowExpansion = {
-    content: ({ record: { compatibilidad, nombre } }: { record: IProducto }) => (
-      <ExpansionProductoDetail nombre={nombre} compatibilidad={compatibilidad} />
+    content: ({ record: { compatibilidad, nombre, imagen } }: { record: IProducto }) => (
+      <ExpansionProductoDetail nombre={nombre} compatibilidad={compatibilidad} imagen={imagen} />
     ),
   };
   // Renderers para la tabla de productos

@@ -18,5 +18,5 @@ export const useServiceIndexProductos = ({ filters = [], search = null, page = 1
 };
 
 export const useServiceShowProducto = (id?: number) => useGET<IProducto>({ url: `${url}/${id}`, enable: !!id });
-export const useServiceUpdateProducto = (id?: number) => usePOST<IProducto>({ url: `${url}/${id}` });
+export const useServiceUpdateProducto = (id?: number, isFile = false) => usePOST<IProducto>({ url: `${url}/${id}`, isFile });
 export const useServiceStoreProducto = () => usePOST<IProducto>({ url });
