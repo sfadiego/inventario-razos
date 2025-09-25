@@ -5,12 +5,12 @@ import { useGetImagen } from '../images/useGetImagen';
 interface ExpansionProductoDetailProps {
   nombre: string;
   compatibilidad: string;
-  imagen?: IImagenProducto;
+  imagen: IImagenProducto;
 }
 
 export const ExpansionProductoDetail = ({ nombre, compatibilidad, imagen }: ExpansionProductoDetailProps) => {
-  const result = useGetImagen(imagen ?? null);
-  const image = result?.image;
+  const { image } = useGetImagen(imagen);
+
   return (
     <div className="grid grid-cols-12 px-8 pt-2">
       <div className="col-span-12">
@@ -19,13 +19,11 @@ export const ExpansionProductoDetail = ({ nombre, compatibilidad, imagen }: Expa
           <span className="font-bold">Compatibilidad:</span> {compatibilidad || ' -- '}
         </p>
       </div>
-      <div className="col-span-12">
-        {image && (
-          <div className="p-2">
-            <Image image={image} />
-          </div>
-        )}
-      </div>
+      {image && (
+        <div className="col-span-12 my-2">
+          <Image image={image} />
+        </div>
+      )}
     </div>
   );
 };

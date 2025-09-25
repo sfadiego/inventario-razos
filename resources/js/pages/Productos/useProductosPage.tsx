@@ -3,7 +3,6 @@ import { ExpansionProductoDetail } from '@/components/productos/ExpansionProduct
 import { rowTypes } from '@/components/tables/rowTypes';
 import Button from '@/components/ui/button/Button';
 import { useModal } from '@/hooks/useModal';
-import { IImagenProducto } from '@/models/imagenProducto.interface';
 import { IProducto } from '@/models/producto.interface';
 import { useServiceIndexProductos, useServiceShowProducto } from '@/Services/productos/useServiceProductos';
 import { Camera, Edit } from 'lucide-react';
@@ -18,25 +17,14 @@ export interface IFiltroProducto {
 
 export const useProductosPage = () => {
   const { openModal, isOpen, closeModal } = useModal();
-  const { openModal: openModalAgregarImagen, isOpen: isOpenAgregarImagen, closeModal: closeModalAgregarImagen } = useModal();
+  const { openModal: openModalNewImage, isOpen: isOpenNewImage, closeModal: closeModalNewImage } = useModal();
   const [productId, setProductId] = useState(0);
-  const [productoImagen, setProductoImagen] = useState<IImagenProducto | null>(null);
   const { isLoading, data } = useServiceShowProducto(productId);
   const { setSelectedProducto } = useProductoStore();
   const handleCloseModal = () => {
     closeModal();
     setProductId(0);
     setSelectedProducto(null);
-  };
-
-  const handleCloseModalAgregarImagen = () => {
-    closeModalAgregarImagen();
-    setProductoImagen(null);
-  };
-
-  const handleUploadImage = async (imagen?: IImagenProducto) => {
-    if (imagen) setProductoImagen(imagen);
-    openModalAgregarImagen();
   };
 
   useEffect(() => {
@@ -67,7 +55,7 @@ export const useProductosPage = () => {
         >
           <Edit />
         </Button>
-        <Button onClick={() => handleUploadImage(imagen)} variant="primary" size="sm">
+        <Button onClick={openModalNewImage} variant="primary" size="sm">
           <Camera />
         </Button>
       </div>
@@ -89,9 +77,8 @@ export const useProductosPage = () => {
     useServiceIndexProductos,
     renderersMap,
     rowExpansion,
-    openModalAgregarImagen,
-    isOpenAgregarImagen,
-    closeModalAgregarImagen: handleCloseModalAgregarImagen,
-    productoImagen,
+    openModalNewImage,
+    isOpenNewImage,
+    closeModalNewImage,
   };
 };

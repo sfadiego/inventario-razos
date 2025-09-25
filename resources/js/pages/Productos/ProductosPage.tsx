@@ -8,18 +8,8 @@ import { FormProducto } from './partials/FormProducto';
 import { useProductosPage } from './useProductosPage';
 
 export default function ProductosPage() {
-  const {
-    filters,
-    openModal,
-    renderersMap,
-    isOpen,
-    closeModal,
-    useServiceIndexProductos,
-    rowExpansion,
-    isOpenAgregarImagen,
-    closeModalAgregarImagen,
-    productoImagen,
-  } = useProductosPage();
+  const { filters, openModal, renderersMap, isOpen, closeModal, useServiceIndexProductos, rowExpansion, isOpenNewImage, closeModalNewImage } =
+    useProductosPage();
   return (
     <>
       <PageWrapper pageTitle="Productos">
@@ -34,7 +24,7 @@ export default function ProductosPage() {
           {(formik) => <FiltrosProductos formik={formik} />}
         </DatatableWithFilter>
         <FormProducto isOpen={isOpen} closeModal={closeModal}></FormProducto>
-        <FormAgregarImagen productoImagen={productoImagen} isOpen={isOpenAgregarImagen} closeModal={closeModalAgregarImagen} />
+        <FormAgregarImagen isOpen={isOpenNewImage} closeModal={closeModalNewImage} />
       </PageWrapper>
     </>
   );
