@@ -32,6 +32,7 @@ export enum ApiRoutes {
     Clientes = '/api/clientes',
     Categorias = '/api/categorias',
     Dashboard = '/api/dashboard',
+    Images = '/api/images',
 }
 
 export const adminRoutes: IRoute[] = [

@@ -21,11 +21,11 @@ class ProveedorResource extends JsonResource
             'categorias' => $this->categorias ? collect($this->categorias)
                 ->map(function ($item) {
                     return [
-                        "id" => $item->id,
-                        "nombre" => $item->nombre
+                        'id' => $item->id,
+                        'nombre' => $item->nombre,
                     ];
                 }) : null,
-            'created_at' => $this->created_at
+            'created_at' => $this->created_at,
         ];
     }
 }

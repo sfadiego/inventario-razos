@@ -117,5 +117,17 @@ class ResponseMacros
                 ], 403);
             }
         );
+
+        Response::macro(
+            'streamFile',
+            function ($stream, Http $status = Http::Success) {
+                return response()
+                    ->stream(function () use ($stream) {
+                        fpassthru($stream);
+                    }, $status->value, [
+                        'Cache-Control' => 'private, max-age=0, no-store',
+                    ]);
+            }
+        );
     }
 }

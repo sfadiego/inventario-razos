@@ -1,5 +1,6 @@
 import { AlertSwal } from '@/components/alertSwal/AlertSwal';
 import { AlertTypeEnum } from '@/enums/AlertTypeEnum';
+import { StatusVentaEnum } from '@/enums/StatusVentaEnum';
 import { useDataTable } from '@/hooks/useDatatable';
 import { useOnSubmit } from '@/hooks/useOnSubmit';
 import { IVentaUpdateProps } from '@/models/venta.interface';
@@ -26,8 +27,7 @@ export const useProductoVentaDetail = ({ closeModal }: { closeModal: () => void 
     setReloadFlag((prev) => !prev);
   }, []);
 
-  const ventaFinalizada = useMemo(() => !isLoading && venta?.status_venta == 'finalizada', [isLoading, venta]);
-  // const { refetch: refetchProducto } = useServiceIndexProductos({});
+  const ventaFinalizada = useMemo(() => !isLoading && venta?.status_venta == StatusVentaEnum.Finalizada, [isLoading, venta]);
   const mutatorDeleteProducto = useServiceDeleteVentaProducto(selectedId);
   const mutatorUpdate = useServiceFinalizarVenta(ventaId);
 
@@ -41,6 +41,7 @@ export const useProductoVentaDetail = ({ closeModal }: { closeModal: () => void 
   }, [onSubmitFinalizarVenta]);
 
   const queryClient = useQueryClient();
+
   const handleSuccessVenta = useCallback(() => {
     closeModal();
     AlertSwal({
@@ -48,7 +49,6 @@ export const useProductoVentaDetail = ({ closeModal }: { closeModal: () => void 
       options: { timer: 2000, timerProgressBar: true },
     });
 
-    refetchVenta(); //revisar, se llama 2 veces, al guardar el store y recargar, igual en useProductoVentaPage
     queryClient.invalidateQueries({ queryKey: [ApiRoutes.Productos] });
   }, [closeModal, queryClient, refetchVenta]);
 
@@ -57,6 +57,7 @@ export const useProductoVentaDetail = ({ closeModal }: { closeModal: () => void 
     onSuccess: async () => {
       triggerReload();
       setSelectedId(0);
+      refetchVenta();
     },
   });
 
@@ -64,13 +65,12 @@ export const useProductoVentaDetail = ({ closeModal }: { closeModal: () => void 
     onSubmitDelete(null, {});
   }, [onSubmitDelete]);
 
-  // Configuración de DataTable con renderers memoizados
+  const rowExpansion = {
+    content: ({ record }: { record: IVentaProducto }) =>
+      !ventaFinalizada && <ActualizaProductoVenta record={record} refetchDatatable={triggerReload} />,
+  };
   const renderersMap = useMemo(
     () => ({
-      rowExpansion: {
-        content: ({ record }: { record: IVentaProducto }) =>
-          !ventaFinalizada && <ActualizaProductoVenta record={record} refetchDatatable={triggerReload} />,
-      },
       actions: ({ id }: IVentaProducto) =>
         !ventaFinalizada ? (
           <Button
@@ -88,6 +88,7 @@ export const useProductoVentaDetail = ({ closeModal }: { closeModal: () => void 
     }),
     [ventaFinalizada, triggerReload, handleDelete],
   );
+
   //TODO: arreglar tipado de renderersMap
   const { dataTableProps, refetch: refetchProductoDetalle } = useDataTable({
     service: useServiceVentaProductoDetalle,
@@ -104,5 +105,5 @@ export const useProductoVentaDetail = ({ closeModal }: { closeModal: () => void 
 
   const disabled = useMemo(() => (dataTableProps?.totalRecords ?? 0) === 0 || ventaFinalizada, [dataTableProps?.totalRecords, ventaFinalizada]);
 
-  return { dataTableProps, handleFinalize, disabled };
+  return { dataTableProps, rowExpansion, handleFinalize, disabled, ventaTotal: venta?.venta_total };
 };

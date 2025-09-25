@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Str;
 
 class Producto extends Model
@@ -48,5 +49,19 @@ class Producto extends Model
         $fecha = now()->format('ymd');
 
         return "{$letras}-{$numeros}-{$fecha}";
+    }
+
+    public function imagen()
+    {
+        return $this->belongsTo(ImagenProducto::class, 'imagen_id', 'id');
+    }
+
+    public function handleProductoImage(UploadedFile $file)
+    {
+        $extension = $file->getClientOriginalExtension();
+        $path = $this->path ?? now()->format('Ymd');
+        $name = $this->name ?? md5(uniqid().microtime()).".{$extension}";
+
+        return ImagenProducto::storeFile($file, $name, $path);
     }
 }

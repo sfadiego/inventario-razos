@@ -2,6 +2,7 @@
 
 namespace App\Logic\Proveedor;
 
+use App\Core\Classes\Filter;
 use App\Core\Data\IndexData;
 use App\Core\Logic\IndexLogic;
 use App\Http\Resources\ProveedorResource;
@@ -24,6 +25,20 @@ class ProveedorIndexLogic extends IndexLogic
             'observaciones' => 'Observaciones',
             'categorias' => 'Categoria',
             'actions' => '#',
+        ];
+    }
+
+    public function filterCategorias(Filter $filter): void
+    {
+        $this->queryBuilder->whereHas('categorias', function ($query) use ($filter) {
+            $query->whereIn('proveedor_categoria.categoria_id', explode('|', $filter->value));
+        });
+    }
+
+    protected function customFilters(): array
+    {
+        return [
+            'categorias' => fn (Filter $filter) => $this->filterCategorias($filter),
         ];
     }
 

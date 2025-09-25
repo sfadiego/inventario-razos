@@ -15,7 +15,7 @@ interface IModalClienteProps {
 }
 
 export const FormCliente = ({ isOpen, closeModal }: IModalClienteProps) => {
-    const { formikProps, isPending, isCheckedDisabled, setIsCheckedDisabled } = useCliente({ closeModal });
+    const { formikProps, isPending, isCheckedDisabled, setIsCheckedDisabled, newClient } = useCliente({ closeModal });
 
     return (
         <Modal title={`Nuevo Cliente`} subtitle={`Crea o actualiza un cliente`} isOpen={isOpen} onClose={closeModal} className="m-4 max-w-[700px]">
@@ -27,6 +27,9 @@ export const FormCliente = ({ isOpen, closeModal }: IModalClienteProps) => {
                         </div>
                         <div className="col-span-12 mb-3 lg:col-span-12">
                             <Input<ICliente> label={`Observaciones`} name="observaciones" formik={formik} type={InputTypeEnum.Text} />
+                        </div>
+                        <div className="col-span-12 mb-3 lg:col-span-12">
+                            <Input<ICliente> disabled={newClient} label={`Adeudo`} name="adeudo" formik={formik} type={InputTypeEnum.Number} />
                         </div>
                         <div className="col-span-12 mb-3 lg:col-span-12">
                             <Checkbox<ICliente>

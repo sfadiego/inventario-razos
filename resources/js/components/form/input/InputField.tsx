@@ -2,7 +2,7 @@ import { Field, FormikProps } from 'formik';
 import Label from '../Label';
 import { InputTypeEnum } from './enum/InputType.enum';
 
-interface InputProps<T> {
+export interface InputProps<T> {
     type?: InputTypeEnum;
     name: Extract<keyof T, string>;
     placeholder?: string;
@@ -15,6 +15,7 @@ interface InputProps<T> {
     label?: string;
     hint?: string;
     readOnly?: boolean;
+    as?: string;
 }
 
 type InputVariant = 'default' | 'disabled' | 'error' | 'success';
@@ -33,7 +34,7 @@ const useInputVariant = (variant: InputVariant): string => {
 };
 
 const Input = <T extends object>(props: InputProps<T>) => {
-    const {  readOnly, type = InputTypeEnum.Text, hint, name, placeholder, disabled = false, success = false, formik, showPassword = false, label = '' } = props;
+    const {  readOnly, type = InputTypeEnum.Text, hint, name, placeholder, disabled = false, success = false, formik, showPassword = false, label = '', as } = props;
 
     const variant = formik.errors[name] ? 'error' : disabled ? 'disabled' : success ? 'success' : 'default';
     const inputClasses = useInputVariant(variant);
@@ -42,7 +43,7 @@ const Input = <T extends object>(props: InputProps<T>) => {
         <>
             {label && type !== InputTypeEnum.Hidden ? <Label>{label}</Label> : ''}
             <Field
-                as={'input'}
+                as={as ?? 'input'}
                 disabled={disabled}
                 name={name}
                 type={type === InputTypeEnum.Password && showPassword ? InputTypeEnum.Text : type}

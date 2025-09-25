@@ -30,6 +30,8 @@ class ProductoResource extends JsonResource
             'ubicacion_id' => $this->ubicacion_id,
             'ubicacion' => $this->ubicacion ? $this->ubicacion : null,
             'activo' => $this->activo,
+            'imagen_id' => $this->imagen_id,
+            'imagen' => $this->imagen ? $this->imagen : null,
         ];
     }
 }

@@ -12,6 +12,7 @@ export interface IVentaProducto {
 
 export interface IVentaProductoForm extends Omit<IVentaProducto, 'id'> {
     producto_nombre?: string;
+    stock?: number;
 }
 
 export interface ICountVentaProducto {

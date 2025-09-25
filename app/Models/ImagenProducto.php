@@ -1,0 +1,23 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\UploadedFile;
+
+class ImagenProducto extends Model
+{
+    protected $table = 'imagen_producto';
+
+    protected $fillable = ['archivo', 'path'];
+
+    public static function storeFile(UploadedFile $file, string $name, string $path): ImagenProducto
+    {
+        $file->storeAs($path, $name);
+
+        return ImagenProducto::create([
+            'archivo' => $name,
+            'path' => $path,
+        ]);
+    }
+}

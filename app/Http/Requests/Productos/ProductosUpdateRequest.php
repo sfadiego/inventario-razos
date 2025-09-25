@@ -33,6 +33,7 @@ class ProductosUpdateRequest extends FormRequest
             'compatibilidad' => ['nullable', 'string', 'max:500'],
             'ubicacion_id' => ['nullable', 'exists:ubicaciones,id'],
             'activo' => ['nullable', 'boolean'],
+            'file' => ['sometimes', 'file', 'mimes:jpeg,jpg,png', 'max:2048'],
         ];
     }
 }

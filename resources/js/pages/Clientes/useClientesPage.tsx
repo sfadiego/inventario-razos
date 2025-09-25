@@ -1,4 +1,5 @@
 import { IFilters } from '@/components/filters/modalFilter/types';
+import { rowTypes } from '@/components/tables/rowTypes';
 import Badge from '@/components/ui/badge/Badge';
 import Button from '@/components/ui/button/Button';
 import { useModal } from '@/hooks/useModal';
@@ -32,6 +33,9 @@ export const useClientesPage = () => {
   }, [isLoading, data, selected, setSelectedCliente]);
 
   const renderersMap = {
+    rowClassName: ({ adeudo }: ICliente): rowTypes | '' => {
+      return adeudo < 0 ? 'redRow' : '';
+    },
     confiable: ({ confiable }: ICliente) => (
       <Badge variant="solid" color={`${!confiable ? 'error' : 'success'}`}>{`${!confiable ? 'No' : 'Si'}`}</Badge>
     ),
