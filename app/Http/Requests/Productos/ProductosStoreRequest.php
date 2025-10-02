@@ -32,6 +32,7 @@ class ProductosStoreRequest extends FormRequest
             'cantidad_minima' => ['required', 'integer', 'min:0'],
             'compatibilidad' => ['nullable', 'string', 'max:500'],
             'ubicacion_id' => ['required', 'exists:ubicaciones,id'],
+            'unidad' => ['required', 'in:pieza,metro,par'],
             'activo' => ['nullable', 'boolean'],
             'file' => ['sometimes', 'file', 'mimes:jpeg,jpg,png', 'max:2048'],
         ];
