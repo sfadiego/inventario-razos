@@ -3,5 +3,5 @@ export enum InputTypeEnum {
   Number = 'number',
   Email = 'email',
   Password = 'password',
-  Hidden = 'hidden'
+  Hidden = 'hidden',
 }

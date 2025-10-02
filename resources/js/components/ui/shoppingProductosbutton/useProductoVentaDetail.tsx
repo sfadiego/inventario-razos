@@ -89,7 +89,6 @@ export const useProductoVentaDetail = ({ closeModal }: { closeModal: () => void 
     [ventaFinalizada, triggerReload, handleDelete],
   );
 
-  //TODO: arreglar tipado de renderersMap
   const { dataTableProps, refetch: refetchProductoDetalle } = useDataTable({
     service: useServiceVentaProductoDetalle,
     payload: {

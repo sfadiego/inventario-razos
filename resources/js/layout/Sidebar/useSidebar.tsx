@@ -1,3 +1,3 @@
 export const useSidebar = () => {
-    return {};
+  return {};
 };

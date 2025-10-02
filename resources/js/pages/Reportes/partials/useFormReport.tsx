@@ -6,60 +6,60 @@ import { IInitialValuesReporteMovimiento } from '@/models/reporteMovimiento.inte
 import { useServiceIndexReporteMovimiento, useServiceStoreReporteMovimiento } from '@/Services/reporteMovimiento/useServiceReporteMovimientos';
 import * as Yup from 'yup';
 interface IuseFormReportProps {
-    closeModal?: () => void;
+  closeModal?: () => void;
 }
 
 export const useFormReport = (props: IuseFormReportProps) => {
-    const { closeModal } = props;
-    const initialValues: IInitialValuesReporteMovimiento = {
-        producto_id: 0,
-        tipo_movimiento_id: 0,
-        motivo: '',
-        cantidad: 0,
-    };
+  const { closeModal } = props;
+  const initialValues: IInitialValuesReporteMovimiento = {
+    producto_id: 0,
+    tipo_movimiento_id: 0,
+    motivo: '',
+    cantidad: 0,
+  };
 
-    const validationSchema = Yup.object().shape({
-        producto_id: Yup.number().required('El producto es obligatorio').min(1, 'Selecciona un producto válido'),
-        tipo_movimiento_id: Yup.number().required('El tipo de movimiento es obligatorio').min(1, 'Selecciona un tipo válido'),
-        motivo: Yup.string().when('tipo_movimiento_id', {
-            is: TipoMovimientoEnum.Ajuste,
-            then: (schema) => schema.required('El motivo es obligatorio'),
-            otherwise: (schema) => schema.optional(),
-        }),
-        cantidad: Yup.number()
-            .required('La cantidad es obligatoria')
-            .when('tipo_movimiento_id', {
-                is: TipoMovimientoEnum.Entrada,
-                then: (schema) => schema.min(1, 'La cantidad debe ser mayor que 0 para entradas'),
-                otherwise: (schema) => schema.nonNullable(),
-            }),
+  const validationSchema = Yup.object().shape({
+    producto_id: Yup.number().required('El producto es obligatorio').min(1, 'Selecciona un producto válido'),
+    tipo_movimiento_id: Yup.number().required('El tipo de movimiento es obligatorio').min(1, 'Selecciona un tipo válido'),
+    motivo: Yup.string().when('tipo_movimiento_id', {
+      is: TipoMovimientoEnum.Ajuste,
+      then: (schema) => schema.required('El motivo es obligatorio'),
+      otherwise: (schema) => schema.optional(),
+    }),
+    cantidad: Yup.number()
+      .required('La cantidad es obligatoria')
+      .when('tipo_movimiento_id', {
+        is: TipoMovimientoEnum.Entrada,
+        then: (schema) => schema.min(1, 'La cantidad debe ser mayor que 0 para entradas'),
+        otherwise: (schema) => schema.nonNullable(),
+      }),
+  });
+  const { refetch } = useServiceIndexReporteMovimiento({});
+  const mutator = useServiceStoreReporteMovimiento();
+  const { onSubmit } = useOnSubmit<IInitialValuesReporteMovimiento>({
+    mutateAsync: mutator.mutateAsync,
+    onSuccess: async () => handleSuccess(),
+  });
+
+  const handleSuccess = () => {
+    if (closeModal) {
+      closeModal();
+    }
+
+    AlertSwal({
+      type: AlertTypeEnum.Success,
+      title: `Exito`,
+      text: `Movimiento guardado correctamente`,
     });
-    const { refetch } = useServiceIndexReporteMovimiento({});
-    const mutator = useServiceStoreReporteMovimiento();
-    const { onSubmit } = useOnSubmit<IInitialValuesReporteMovimiento>({
-        mutateAsync: mutator.mutateAsync,
-        onSuccess: async () => handleSuccess(),
-    });
+    refetch();
+  };
 
-    const handleSuccess = () => {
-        if (closeModal) {
-            closeModal();
-        }
-
-        AlertSwal({
-            type: AlertTypeEnum.Success,
-            title: `Exito`,
-            text: `Movimiento guardado correctamente`,
-        });
-        refetch();
-    };
-
-    const formikProps = {
-        initialValues,
-        validationSchema,
-        onSubmit,
-    };
-    return {
-        formikProps,
-    };
+  const formikProps = {
+    initialValues,
+    validationSchema,
+    onSubmit,
+  };
+  return {
+    formikProps,
+  };
 };

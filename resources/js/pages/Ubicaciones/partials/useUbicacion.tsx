@@ -9,46 +9,46 @@ import * as Yup from 'yup';
 import { useUbicacionStore } from './useUbicacionStore';
 
 export interface IFiltrosUbicacion {
-    nombre: string;
+  nombre: string;
 }
 interface IuseUbicacionProps {
-    closeModal?: () => void;
+  closeModal?: () => void;
 }
 
 export const useUbicacion = ({ closeModal }: IuseUbicacionProps) => {
-    const { ubicacion } = useUbicacionStore();
-    const initialValues: IUbicacion = {
-        nombre: ubicacion?.nombre ?? '',
-    };
+  const { ubicacion } = useUbicacionStore();
+  const initialValues: IUbicacion = {
+    nombre: ubicacion?.nombre ?? '',
+  };
 
-    const validationSchema = Yup.object().shape({
-        nombre: Yup.string().required('La ubicacion es obligatorio'),
+  const validationSchema = Yup.object().shape({
+    nombre: Yup.string().required('La ubicacion es obligatorio'),
+  });
+
+  const queryClient = useQueryClient();
+  const mutator = useServiceStoreUbicacion();
+  const mutatorUpdate = useServiceUpdateUbicacion(ubicacion?.id ?? 0);
+  const { onSubmit } = useOnSubmit<IUbicacion>({
+    mutateAsync: ubicacion?.id ? mutatorUpdate.mutateAsync : mutator.mutateAsync,
+    onSuccess: async () => handleSuccess(),
+  });
+  const handleSuccess = () => {
+    if (closeModal) {
+      closeModal();
+    }
+    AlertSwal({
+      type: AlertTypeEnum.Success,
+      title: `Exito`,
+      text: `Ubicacion guardada correctamente`,
     });
 
-    const queryClient = useQueryClient();
-    const mutator = useServiceStoreUbicacion();
-    const mutatorUpdate = useServiceUpdateUbicacion(ubicacion?.id ?? 0);
-    const { onSubmit } = useOnSubmit<IUbicacion>({
-        mutateAsync: ubicacion?.id ? mutatorUpdate.mutateAsync : mutator.mutateAsync,
-        onSuccess: async () => handleSuccess(),
-    });
-    const handleSuccess = () => {
-        if (closeModal) {
-            closeModal();
-        }
-        AlertSwal({
-            type: AlertTypeEnum.Success,
-            title: `Exito`,
-            text: `Ubicacion guardada correctamente`,
-        });
+    queryClient.invalidateQueries({ queryKey: [ApiRoutes.Ubicaciones] });
+  };
 
-        queryClient.invalidateQueries({ queryKey: [ApiRoutes.Ubicaciones] });
-    };
-
-    const formikProps = {
-        initialValues,
-        validationSchema,
-        onSubmit,
-    };
-    return { formikProps };
+  const formikProps = {
+    initialValues,
+    validationSchema,
+    onSubmit,
+  };
+  return { formikProps };
 };

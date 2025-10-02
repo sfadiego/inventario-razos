@@ -1,10 +1,10 @@
-"use client";
+'use client';
 
-import { useMantineColorScheme } from "@mantine/core";
-import type React from "react";
-import { createContext, useState, useContext, useEffect } from "react";
+import { useMantineColorScheme } from '@mantine/core';
+import type React from 'react';
+import { createContext, useContext, useEffect, useState } from 'react';
 
-type Theme = "light" | "dark";
+type Theme = 'light' | 'dark';
 
 type ThemeContextType = {
   theme: Theme;
@@ -13,17 +13,15 @@ type ThemeContextType = {
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
-export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({
-  children,
-}) => {
-  const [theme, setTheme] = useState<Theme>("light");
+export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const [theme, setTheme] = useState<Theme>('light');
   const [isInitialized, setIsInitialized] = useState(false);
   const { setColorScheme } = useMantineColorScheme();
 
   useEffect(() => {
     // This code will only run on the client side
-    const savedTheme = localStorage.getItem("theme") as Theme | null;
-    const initialTheme = savedTheme || "light"; // Default to light theme
+    const savedTheme = localStorage.getItem('theme') as Theme | null;
+    const initialTheme = savedTheme || 'light'; // Default to light theme
 
     setTheme(initialTheme);
     setIsInitialized(true);
@@ -31,31 +29,27 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({
 
   useEffect(() => {
     if (isInitialized) {
-      localStorage.setItem("theme", theme);
-      setColorScheme(theme)
-      if (theme === "dark") {
-        document.documentElement.classList.add("dark");
+      localStorage.setItem('theme', theme);
+      setColorScheme(theme);
+      if (theme === 'dark') {
+        document.documentElement.classList.add('dark');
       } else {
-        document.documentElement.classList.remove("dark");
+        document.documentElement.classList.remove('dark');
       }
     }
   }, [theme, isInitialized, setColorScheme]);
 
   const toggleTheme = () => {
-    setTheme((prevTheme) => (prevTheme === "light" ? "dark" : "light"));
+    setTheme((prevTheme) => (prevTheme === 'light' ? 'dark' : 'light'));
   };
 
-  return (
-    <ThemeContext.Provider value={{ theme, toggleTheme }}>
-      {children}
-    </ThemeContext.Provider>
-  );
+  return <ThemeContext.Provider value={{ theme, toggleTheme }}>{children}</ThemeContext.Provider>;
 };
 
 export const useTheme = () => {
   const context = useContext(ThemeContext);
   if (context === undefined) {
-    throw new Error("useTheme must be used within a ThemeProvider");
+    throw new Error('useTheme must be used within a ThemeProvider');
   }
   return context;
 };

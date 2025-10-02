@@ -73,6 +73,6 @@ export const useFormVenta = () => {
     redirectNewCliente,
     onChangeValidateCliente,
     isValidClient,
-    adeudo
+    adeudo,
   };
 };

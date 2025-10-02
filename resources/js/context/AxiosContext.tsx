@@ -7,87 +7,87 @@ import { IAuthProviderProps } from './interfaces/IAuthProviderProps';
 export const AxiosContext = createContext<IAuthContextType | undefined>(undefined);
 
 export const AxiosProvider = ({ children }: IAuthProviderProps) => {
-    const [authToken, setAuthToken] = useState<string | null>(localStorage.getItem('authToken'));
-    const [user, setUser] = useState<IUser | null>(localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')!) : null);
+  const [authToken, setAuthToken] = useState<string | null>(localStorage.getItem('authToken'));
+  const [user, setUser] = useState<IUser | null>(localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')!) : null);
 
-    const logout = useCallback(() => {
-        configureAxiosHeaders(null);
-        configUser(null);
-        window.location.replace('/login');
-    }, []);
+  const logout = useCallback(() => {
+    configureAxiosHeaders(null);
+    configUser(null);
+    window.location.replace('/login');
+  }, []);
 
-    useEffect(() => {
-        const responseInterceptor = axiosApi.interceptors.response.use(
-            (response) => {
-                if (response.status === 200 && response.config.responseType != 'blob') {
-                    response.data = response.data.data;
-                }
-                return response;
-            },
-            (error) => {
-                if (error.response && error.response.status === 401) {
-                    logout();
-                }
-                return Promise.reject(error);
-            },
-        );
-
-        return () => {
-            axiosApi.interceptors.response.eject(responseInterceptor);
-        };
-    }, [logout]);
-
-    useEffect(() => {
-        if (authToken) {
-            axiosApi.defaults.headers.common['Authorization'] = `Bearer ${authToken}`;
+  useEffect(() => {
+    const responseInterceptor = axiosApi.interceptors.response.use(
+      (response) => {
+        if (response.status === 200 && response.config.responseType != 'blob') {
+          response.data = response.data.data;
         }
-    }, [authToken]);
-
-    const updateUser = useCallback((user: IUser) => {
-        configUser(user);
-    }, []);
-
-    const configureAxiosHeaders = (token: string | null) => {
-        if (token) {
-            axiosApi.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-            localStorage.setItem('authToken', token);
-        } else {
-            delete axiosApi.defaults.headers.common['Authorization'];
-            localStorage.removeItem('authToken');
+        return response;
+      },
+      (error) => {
+        if (error.response && error.response.status === 401) {
+          logout();
         }
-        setAuthToken(token);
+        return Promise.reject(error);
+      },
+    );
+
+    return () => {
+      axiosApi.interceptors.response.eject(responseInterceptor);
     };
+  }, [logout]);
 
-    const configUser = (user: IUser | null) => {
-        if (user) {
-            localStorage.setItem('user', JSON.stringify(user));
-        } else {
-            localStorage.removeItem('user');
-        }
-        setUser(user);
-    };
+  useEffect(() => {
+    if (authToken) {
+      axiosApi.defaults.headers.common['Authorization'] = `Bearer ${authToken}`;
+    }
+  }, [authToken]);
 
-    const saveAuth = (accessToken: string, user: IUser) => {
-        try {
-            configureAxiosHeaders(accessToken);
-            configUser(user);
-        } catch (error) {
-            console.error('Error de autenticación', error);
-            throw error;
-        }
-    };
+  const updateUser = useCallback((user: IUser) => {
+    configUser(user);
+  }, []);
 
-    const isAuth = !!authToken;
+  const configureAxiosHeaders = (token: string | null) => {
+    if (token) {
+      axiosApi.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+      localStorage.setItem('authToken', token);
+    } else {
+      delete axiosApi.defaults.headers.common['Authorization'];
+      localStorage.removeItem('authToken');
+    }
+    setAuthToken(token);
+  };
 
-    const value = {
-        authToken,
-        user,
-        isAuth,
-        saveAuth,
-        updateUser,
-        logout,
-        axiosApi,
-    };
+  const configUser = (user: IUser | null) => {
+    if (user) {
+      localStorage.setItem('user', JSON.stringify(user));
+    } else {
+      localStorage.removeItem('user');
+    }
+    setUser(user);
+  };
 
-    return <AxiosContext.Provider value={value}>{children}</AxiosContext.Provider>;
+  const saveAuth = (accessToken: string, user: IUser) => {
+    try {
+      configureAxiosHeaders(accessToken);
+      configUser(user);
+    } catch (error) {
+      console.error('Error de autenticación', error);
+      throw error;
+    }
+  };
+
+  const isAuth = !!authToken;
+
+  const value = {
+    authToken,
+    user,
+    isAuth,
+    saveAuth,
+    updateUser,
+    logout,
+    axiosApi,
+  };
+
+  return <AxiosContext.Provider value={value}>{children}</AxiosContext.Provider>;
 };

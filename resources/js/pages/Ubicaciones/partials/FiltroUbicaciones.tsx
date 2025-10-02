@@ -4,14 +4,14 @@ import { FormikProps } from 'formik';
 import { IFiltrosUbicacion } from './useUbicacion';
 
 interface IFiltrosUbicacionesProps {
-    formik: FormikProps<IFiltrosUbicacion>;
+  formik: FormikProps<IFiltrosUbicacion>;
 }
 export const FiltroUbicaciones = ({ formik }: IFiltrosUbicacionesProps) => {
-    return (
-        <>
-            <div className="col-span-12 lg:col-span-12">
-                <Input<IFiltrosUbicacion> label={`Ubicacion`} name="nombre" formik={formik} type={InputTypeEnum.Text} />
-            </div>
-        </>
-    );
+  return (
+    <>
+      <div className="col-span-12 lg:col-span-12">
+        <Input<IFiltrosUbicacion> label={`Ubicacion`} name="nombre" formik={formik} type={InputTypeEnum.Text} />
+      </div>
+    </>
+  );
 };

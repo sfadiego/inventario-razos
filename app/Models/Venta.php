@@ -103,6 +103,7 @@ class Venta extends Model
     public function scopeVentaTotal(): float
     {
         $total = $this->ventaProductos->sum(fn ($item) => $item->cantidad * $item->precio);
+
         return round($total, 2);
     }
 

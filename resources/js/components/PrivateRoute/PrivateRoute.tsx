@@ -6,14 +6,14 @@ import React, { ReactElement } from 'react';
 import { Navigate } from 'react-router';
 
 const PrivateRoute = ({ element, route }: { element: ReactElement; route: IRoute }) => {
-    const { isAuth, user } = useAxios();
-    if (!isAuth) return <Navigate to={AuthRoutes.Login} />;
+  const { isAuth, user } = useAxios();
+  if (!isAuth) return <Navigate to={AuthRoutes.Login} />;
 
-    if (route.hasPermission != undefined && !route.hasPermission(user!)) {
-        return <Navigate to={ErrorRoutes.Forbidden} />;
-    }
+  if (route.hasPermission != undefined && !route.hasPermission(user!)) {
+    return <Navigate to={ErrorRoutes.Forbidden} />;
+  }
 
-    return React.isValidElement(element) ? element : <Navigate to={ErrorRoutes.Forbidden} />;
+  return React.isValidElement(element) ? element : <Navigate to={ErrorRoutes.Forbidden} />;
 };
 
 export default PrivateRoute;

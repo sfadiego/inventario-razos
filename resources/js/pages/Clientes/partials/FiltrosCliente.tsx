@@ -4,18 +4,18 @@ import { FormikProps } from 'formik';
 import { IFiltroCliente } from '../useClientesPage';
 
 interface IFiltrosClienteProps {
-    formik: FormikProps<IFiltroCliente>;
+  formik: FormikProps<IFiltroCliente>;
 }
 
 export const FiltrosCliente = ({ formik }: IFiltrosClienteProps) => {
-    return (
-        <>
-            <div className="col-span-12 lg:col-span-12">
-                <Input<IFiltroCliente> label={`Nombre`} name="nombre" formik={formik} type={InputTypeEnum.Text} />
-            </div>
-            <div className="col-span-12 lg:col-span-12">
-                <Input<IFiltroCliente> label={`Observaciones`} name="observaciones" formik={formik} type={InputTypeEnum.Text} />
-            </div>
-        </>
-    );
+  return (
+    <>
+      <div className="col-span-12 lg:col-span-12">
+        <Input<IFiltroCliente> label={`Nombre`} name="nombre" formik={formik} type={InputTypeEnum.Text} />
+      </div>
+      <div className="col-span-12 lg:col-span-12">
+        <Input<IFiltroCliente> label={`Observaciones`} name="observaciones" formik={formik} type={InputTypeEnum.Text} />
+      </div>
+    </>
+  );
 };
