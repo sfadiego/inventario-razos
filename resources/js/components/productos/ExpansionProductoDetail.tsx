@@ -10,7 +10,6 @@ interface ExpansionProductoDetailProps {
 export const ExpansionProductoDetail = ({ record }: ExpansionProductoDetailProps) => {
   const { nombre, compatibilidad, imagen, unidad, stock } = record;
   const { image } = useGetImagen(imagen ?? null);
-
   return (
     <div className="grid grid-cols-12 px-8 pt-2">
       <div className="col-span-12">

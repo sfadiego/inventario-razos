@@ -7,6 +7,10 @@ export const useGetImagen = (imagen: IImagenProducto | null): { image: string | 
 
   const folder = imagen?.path ?? '';
   const name = imagen?.archivo ?? '';
+  if (imagen?.external || name.startsWith('http')) {
+    setimage(imagen?.archivo ?? null);
+    return { image };
+  }
   const { isLoading, data } = useServiceShowProductoImagen(folder, name);
 
   useEffect(() => {

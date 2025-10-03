@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('archivo');
             $table->string('path');
+            $table->boolean('external')->default(false);
             $table->timestamps();
         });
     }

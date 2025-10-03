@@ -9,7 +9,7 @@ class ImagenProducto extends Model
 {
     protected $table = 'imagen_producto';
 
-    protected $fillable = ['archivo', 'path'];
+    protected $fillable = ['archivo', 'path', 'external'];
 
     public static function storeFile(UploadedFile $file, string $name, string $path): ImagenProducto
     {
@@ -18,6 +18,7 @@ class ImagenProducto extends Model
         return ImagenProducto::create([
             'archivo' => $name,
             'path' => $path,
+            'external' => false,
         ]);
     }
 }
