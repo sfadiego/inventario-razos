@@ -1,5 +1,5 @@
 import { INavItem } from '@/interfaces/INavItem';
-import { BadgeDollarSign, Banknote, BookOpenText, Cog, FolderSearch, Home, ListChecks, UserSearch } from 'lucide-react';
+import { BadgeDollarSign, Banknote, BookOpenText, Cog, File, FolderSearch, Home, ListChecks, UserSearch } from 'lucide-react';
 import { AdminRoutes } from './admin.routes';
 export const adminSidebarRoutes: INavItem[] = [
   {
@@ -27,6 +27,11 @@ export const adminSidebarRoutes: INavItem[] = [
     icon: <BadgeDollarSign />,
     name: 'Proveedores',
     path: AdminRoutes.Proveedores,
+  },
+  {
+    icon: <File />,
+    name: 'Importar',
+    path: AdminRoutes.Importar,
   },
   {
     icon: <UserSearch />,

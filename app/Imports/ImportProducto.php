@@ -2,20 +2,33 @@
 
 namespace App\Imports;
 
+use App\Enums\ProductoUnidadEnum;
 use App\Models\Categoria;
 use App\Models\ImagenProducto;
 use App\Models\Producto;
 use App\Models\Proveedor;
 use App\Models\Ubicacion;
-use Illuminate\Support\Facades\Log;
 use Maatwebsite\Excel\Concerns\ToModel;
+use Maatwebsite\Excel\Concerns\WithCalculatedFormulas;
 use Maatwebsite\Excel\Concerns\WithStartRow;
 
-class ImportProducto implements ToModel, WithStartRow
+class ImportProducto implements ToModel, WithStartRow, WithCalculatedFormulas
 {
+    public array $inserted = [];
+    public array $duplicates = [];
+    public array $errors = [];
+    public array $existingProducts;
     public function startRow(): int
     {
         return 2;
+    }
+
+    public function __construct()
+    {
+        $this->existingProducts = Producto::query()
+            ->pluck('nombre')
+            ->map(fn($n) => mb_strtolower(trim($n)))
+            ->toArray();
     }
 
     /**
@@ -25,36 +38,77 @@ class ImportProducto implements ToModel, WithStartRow
      */
     public function model(array $row)
     {
-
-        if (Producto::where('nombre', $row[0])->exists()) {
-            Log::info("Producto duplicado: " . $row[0]);
+        $nombre = isset($row[0]) ? trim((string)$row[0]) : null;
+        $unidad = isset($row[1]) ? trim($row[1]) : null;
+        if (!ProductoUnidadEnum::tryFrom($unidad)) {
+            $this->errors[] = [
+                'row' => $row,
+                'reason' => 'unidad inválida'
+            ];
             return null;
         }
 
+        $codigo = Producto::createFolio($nombre);
+        $precio_compra = isset($row[3]) ? trim($row[3]) : null;
+        $precio_venta = isset($row[4]) ? trim($row[4]) : null;
+        $stock = isset($row[5]) ? trim($row[5]) : null;
+        $cantidad_minima = isset($row[6]) ? trim($row[6]) : null;
+        $compatibilidad = isset($row[7]) ? trim($row[7]) : null;
+        $proveedor = isset($row[9]) ? trim($row[9]) : null;
+        $categoria = isset($row[10]) ? trim($row[10]) : null;
+        $ubicacion = isset($row[11]) ? trim($row[11]) : null;
+
+        if (empty($nombre)) {
+            $this->duplicates[] = [
+                'row' => $row,
+                'reason' => 'nombre vacío'
+            ];
+            return null;
+        }
+
+        $key = mb_strtolower($nombre);
+        if (in_array($key, $this->existingProducts, true)) {
+            $this->duplicates[] = ['nombre' => $nombre];
+            return null;
+        }
+
+        $imagenId = null;
         if (str_contains($row[8], 'https://')) {
             $imagen = ImagenProducto::create([
                 'archivo' => $row[8],
                 'path' => '',
                 'external' => true,
             ]);
+            $imagenId = $imagen->id;
         }
 
         $currentRow = [
-            'nombre' => $row[0],
-            'unidad' => $row[1],
-            'codigo' => Producto::createFolio($row[0]),
-            'precio_compra' => $row[3],
-            'precio_venta' => $row[4],
-            'stock' => $row[5],
-            'cantidad_minima' => $row[6],
-            'compatibilidad' => $row[7],
+            'nombre' => $nombre,
+            'unidad' => $unidad,
+            'codigo' => $codigo,
+            'precio_compra' => $precio_compra,
+            'precio_venta' => $precio_venta,
+            'stock' => $stock,
+            'cantidad_minima' => $cantidad_minima,
+            'compatibilidad' => $compatibilidad,
             'activo' => true,
-            'imagen_id' => $imagen->id,
-            'proveedor_id' => Proveedor::firstOrCreate(['nombre' => $row[9]])->id,
-            'categoria_id' =>  Categoria::firstOrCreate(['nombre' => $row[10]])->id,
-            'ubicacion_id' => Ubicacion::firstOrCreate(['nombre' => $row[11]])->id,
+            'imagen_id' => $imagenId,
+            'proveedor_id' => Proveedor::firstOrCreate(['nombre' => $proveedor])->id,
+            'categoria_id' =>  Categoria::firstOrCreate(['nombre' => $categoria])->id,
+            'ubicacion_id' => Ubicacion::firstOrCreate(['nombre' => $ubicacion])->id,
         ];
 
+        $this->inserted[] = $nombre;
         return new Producto($currentRow);
+    }
+
+    public function getInserted(): array
+    {
+        return $this->inserted;
+    }
+
+    public function getDuplicates(): array
+    {
+        return $this->duplicates;
     }
 }

@@ -31,7 +31,7 @@ export const DropzoneEmpty = ({ getRootProps, getInputProps, isDragActive }: IDr
         </h4>
 
         <span className="mb-5 block w-full max-w-[290px] text-center text-sm text-gray-700 dark:text-gray-400">
-          Arrastra o selecciona tu imagen PNG, JPG aqui o busca un archivo
+          Arrastra o selecciona tus archivos aqui o busca un archivo
         </span>
 
         <span className="text-theme-sm text-brand-500 font-medium underline">Buscar Archivo</span>

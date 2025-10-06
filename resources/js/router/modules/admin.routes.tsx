@@ -10,6 +10,7 @@ const ReportesPage = lazy(() => import('@/pages/Reportes/ReportesPage'));
 
 const UbicacionesPage = lazy(() => import('@/pages/Ubicaciones/UbicacionesPage'));
 const ClientesPage = lazy(() => import('@/pages/Clientes/ClientesPage'));
+const ImportProductsPage = lazy(() => import('@/pages/Importar/ImportProductsPage'));
 
 export enum AdminRoutes {
   Dashboard = '/',
@@ -20,6 +21,7 @@ export enum AdminRoutes {
   Reportes = '/admin/reportes',
   Ubicaciones = '/admin/ubicaciones',
   Clientes = '/admin/clientes',
+  Importar = '/admin/importar',
 }
 
 export enum ApiRoutes {
@@ -33,6 +35,7 @@ export enum ApiRoutes {
   Categorias = '/api/categorias',
   Dashboard = '/api/dashboard',
   Images = '/api/images',
+  Importar = '/api/imports',
 }
 
 export const adminRoutes: IRoute[] = [
@@ -44,4 +47,5 @@ export const adminRoutes: IRoute[] = [
   { private: true, path: AdminRoutes.Reportes, name: 'Reportes', element: <ReportesPage /> },
   { private: true, path: AdminRoutes.Ubicaciones, name: 'Ubicaciones', element: <UbicacionesPage /> },
   { private: true, path: AdminRoutes.Clientes, name: 'Clientes', element: <ClientesPage /> },
+  { private: true, path: AdminRoutes.Importar, name: 'Importar', element: <ImportProductsPage /> },
 ];
