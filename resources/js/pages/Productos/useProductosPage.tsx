@@ -34,9 +34,7 @@ export const useProductosPage = () => {
   }, [isLoading, data, setSelectedProducto, productId]);
 
   const rowExpansion = {
-    content: ({ record: { compatibilidad, nombre, imagen } }: { record: IProducto }) => (
-      <ExpansionProductoDetail nombre={nombre} compatibilidad={compatibilidad} imagen={imagen} />
-    ),
+    content: ({ record }: { record: IProducto }) => <ExpansionProductoDetail record={record} />,
   };
 
   const renderersMap = {

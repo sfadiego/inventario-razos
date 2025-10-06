@@ -1,25 +1,28 @@
 import { useState } from 'react';
 import { useDropzone } from 'react-dropzone';
-
+import { acceptedFiles, AcceptedTypes } from './DropzoneTypes';
 interface IDropzoneComponentProps {
-  onSubmitFile: (files: File[]) => Promise<void>;
+  acceptedType: AcceptedTypes;
 }
-export const useDropzoneComponent = () => {
-  const [preview, setPreview] = useState<string | null>(null);
-  const [image, setImage] = useState<File | null>(null);
-  const acceptFiles = {
-    'image/png': [],
-    'image/jpeg': [],
-  };
 
+export const useDropzoneComponent = ({ acceptedType = 'images' }: IDropzoneComponentProps) => {
+  const [preview, setPreview] = useState<string | null>(null);
+  const [file, setFile] = useState<File | null>(null);
+  const acceptFiles = acceptedFiles[acceptedType];
+  const resetFile = () => {
+    setFile(null);
+    setPreview(null);
+  };
   const onDrop = async (acceptedFiles: File[]) => {
-    const img = acceptedFiles[0];
-    setPreview(URL.createObjectURL(img));
-    setImage(img);
+    const file = acceptedFiles[0];
+    if (acceptedType === 'images') {
+      setPreview(URL.createObjectURL(file));
+    }
+    setFile(file);
   };
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
     accept: acceptFiles,
   });
-  return { getRootProps, getInputProps, isDragActive, preview, image };
+  return { getRootProps, getInputProps, isDragActive, preview, file, resetFile };
 };

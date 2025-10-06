@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 
 interface TextareaProps {
   placeholder?: string; // Placeholder text
@@ -12,16 +12,15 @@ interface TextareaProps {
 }
 
 const TextAreaOld: React.FC<TextareaProps> = ({
-  placeholder = "Enter your message", // Default placeholder
+  placeholder = 'Enter your message', // Default placeholder
   rows = 3, // Default number of rows
-  value = "", // Default value
+  value = '', // Default value
   onChange, // Callback for changes
-  className = "", // Additional custom styles
+  className = '', // Additional custom styles
   disabled = false, // Disabled state
   error = false, // Error state
-  hint = "", // Default hint text
+  hint = '', // Default hint text
 }) => {
-
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     if (onChange) {
       onChange(e.target.value);
@@ -40,23 +39,8 @@ const TextAreaOld: React.FC<TextareaProps> = ({
 
   return (
     <div className="relative">
-      <textarea
-        placeholder={placeholder}
-        rows={rows}
-        value={value}
-        onChange={handleChange}
-        disabled={disabled}
-        className={textareaClasses}
-      />
-      {hint && (
-        <p
-          className={`mt-2 text-sm ${
-            error ? "text-error-500" : "text-gray-500 dark:text-gray-400"
-          }`}
-        >
-          {hint}
-        </p>
-      )}
+      <textarea placeholder={placeholder} rows={rows} value={value} onChange={handleChange} disabled={disabled} className={textareaClasses} />
+      {hint && <p className={`mt-2 text-sm ${error ? 'text-error-500' : 'text-gray-500 dark:text-gray-400'}`}>{hint}</p>}
     </div>
   );
 };

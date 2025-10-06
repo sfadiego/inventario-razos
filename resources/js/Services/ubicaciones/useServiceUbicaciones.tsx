@@ -6,15 +6,15 @@ import { ApiRoutes } from '@/router/modules/admin.routes';
 
 const url = ApiRoutes.Ubicaciones;
 export const useServiceIndexUbicaciones = ({ filters = [], search = null, page = 1, limit = 10 }: IPaginateServiceProps) => {
-    return useGET<IPaginate<IUbicacion>>({
-        url,
-        filters: {
-            filters,
-            search,
-            page,
-            limit,
-        },
-    });
+  return useGET<IPaginate<IUbicacion>>({
+    url,
+    filters: {
+      filters,
+      search,
+      page,
+      limit,
+    },
+  });
 };
 
 export const useServiceStoreUbicacion = () => usePOST({ url });

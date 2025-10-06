@@ -1,19 +1,51 @@
 import { IImagenProducto } from '@/models/imagenProducto.interface';
 import { useServiceShowProductoImagen } from '@/Services/images/useServiceImages';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
-export const useGetImagen = (imagen: IImagenProducto | null): { image: string | null } => {
-  const [image, setimage] = useState<string | null>(null);
+export const useGetImagen = (imagenObject: IImagenProducto | null): { image: string | null } => {
+  const [image, setImage] = useState<string | null>(null);
+  const objectUrlRef = useRef<string | null>(null);
 
-  const folder = imagen?.path ?? '';
-  const name = imagen?.archivo ?? '';
+  const folder = imagenObject?.path ?? '';
+  const name = imagenObject?.archivo ?? '';
+  const external = imagenObject?.external ?? false;
   const { isLoading, data } = useServiceShowProductoImagen(folder, name);
 
-  useEffect(() => {
-    if (!isLoading && data) {
-      setimage(URL.createObjectURL(data));
+  const cleanupObjectUrl = () => {
+    if (objectUrlRef.current) {
+      URL.revokeObjectURL(objectUrlRef.current);
+      objectUrlRef.current = null;
     }
-  }, [isLoading, data]);
+  };
+
+  useEffect(() => {
+    return () => cleanupObjectUrl();
+  }, []);
+
+  useEffect(() => {
+    if (!imagenObject?.archivo) {
+      cleanupObjectUrl();
+      setImage(null);
+      return;
+    }
+
+    if (imagenObject?.external && /^https?:\/\//i.test(imagenObject.archivo)) {
+      cleanupObjectUrl();
+      setImage(imagenObject.archivo);
+      return;
+    }
+
+    if (data instanceof Blob) {
+      cleanupObjectUrl();
+      const url = URL.createObjectURL(data);
+      objectUrlRef.current = url;
+      setImage(url);
+      return;
+    }
+
+    cleanupObjectUrl();
+    setImage(null);
+  }, [isLoading, data, folder, name, external]);
 
   return { image };
 };

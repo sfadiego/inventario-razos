@@ -1,22 +1,24 @@
-import { IImagenProducto } from '@/models/imagenProducto.interface';
+import { IProducto } from '@/models/producto.interface';
+import { unidadPluralMap } from '@/types/producto/ProductoUnidadTypes';
 import { Image } from '../images/Image';
 import { useGetImagen } from '../images/useGetImagen';
 
 interface ExpansionProductoDetailProps {
-  nombre: string;
-  compatibilidad: string;
-  imagen?: IImagenProducto | null;
+  record: IProducto;
 }
 
-export const ExpansionProductoDetail = ({ nombre, compatibilidad, imagen }: ExpansionProductoDetailProps) => {
+export const ExpansionProductoDetail = ({ record }: ExpansionProductoDetailProps) => {
+  const { nombre, compatibilidad, imagen, unidad, stock } = record;
   const { image } = useGetImagen(imagen ?? null);
-
   return (
     <div className="grid grid-cols-12 px-8 pt-2">
       <div className="col-span-12">
         <h3 className="mb-1 text-lg font-bold">{nombre}</h3>
         <p className="mb-2">
           <span className="font-bold">Compatibilidad:</span> {compatibilidad || ' -- '}
+        </p>
+        <p className="mb-2">
+          {stock} {stock > 1 ? unidadPluralMap(unidad) : unidad}
         </p>
       </div>
       {image && (

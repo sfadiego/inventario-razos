@@ -5,20 +5,20 @@ import { FormUbicacion } from './partials/FormUbicacion';
 import { useUbicacionesPage } from './useUbicacionesPage';
 
 export default function ProovedoresPage() {
-    const { renderersMap, filters, isOpen, closeModal, openModal, useServiceIndexUbicaciones } = useUbicacionesPage();
+  const { renderersMap, filters, isOpen, closeModal, openModal, useServiceIndexUbicaciones } = useUbicacionesPage();
 
-    return (
-        <PageWrapper pageTitle="Ubicaciones">
-            <DatatableWithFilter
-                propertyInputSearch={`nombre`}
-                filters={filters}
-                onClickNew={openModal}
-                renderersMap={renderersMap}
-                service={useServiceIndexUbicaciones}
-            >
-                {(formik) => <FiltroUbicaciones formik={formik} />}
-            </DatatableWithFilter>
-            <FormUbicacion isOpen={isOpen} closeModal={closeModal}></FormUbicacion>
-        </PageWrapper>
-    );
+  return (
+    <PageWrapper pageTitle="Ubicaciones">
+      <DatatableWithFilter
+        propertyInputSearch={`nombre`}
+        filters={filters}
+        onClickNew={openModal}
+        renderersMap={renderersMap}
+        service={useServiceIndexUbicaciones}
+      >
+        {(formik) => <FiltroUbicaciones formik={formik} />}
+      </DatatableWithFilter>
+      <FormUbicacion isOpen={isOpen} closeModal={closeModal}></FormUbicacion>
+    </PageWrapper>
+  );
 }

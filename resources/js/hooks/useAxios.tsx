@@ -1,10 +1,10 @@
-import { AxiosContext } from '@/context/AxiosContext'
-import { useContext } from 'react'
+import { AxiosContext } from '@/context/AxiosContext';
+import { useContext } from 'react';
 
 export const useAxios = () => {
-  const context = useContext(AxiosContext)
+  const context = useContext(AxiosContext);
   if (context === undefined) {
-    throw new Error('useAuth must be used within an AuthProvider')
+    throw new Error('useAuth must be used within an AuthProvider');
   }
-  return context
-}
+  return context;
+};

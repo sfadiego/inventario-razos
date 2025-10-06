@@ -1,5 +1,5 @@
 export interface ICategoria {
-    id: number;
-    nombre: string;
-    activa: boolean;
+  id: number;
+  nombre: string;
+  activa: boolean;
 }

@@ -8,26 +8,26 @@ import { ThemeProvider } from './context/ThemeContext';
 import { router } from './router/routes.routes';
 
 const queryClient = new QueryClient({
-    defaultOptions: {
-        queries: {
-            refetchOnWindowFocus: false,
-        },
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: false,
     },
+  },
 });
 
 export const App = () => {
-    return (
-        <AxiosProvider>
-            <MantineProvider>
-                <ThemeProvider>
-                    <QueryClientProvider client={queryClient}>
-                        <Suspense>
-                            <ToastContainer />
-                            <RouterProvider router={router}></RouterProvider>
-                        </Suspense>
-                    </QueryClientProvider>
-                </ThemeProvider>
-            </MantineProvider>
-        </AxiosProvider>
-    );
+  return (
+    <AxiosProvider>
+      <MantineProvider>
+        <ThemeProvider>
+          <QueryClientProvider client={queryClient}>
+            <Suspense>
+              <ToastContainer />
+              <RouterProvider router={router}></RouterProvider>
+            </Suspense>
+          </QueryClientProvider>
+        </ThemeProvider>
+      </MantineProvider>
+    </AxiosProvider>
+  );
 };

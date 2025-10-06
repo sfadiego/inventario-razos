@@ -13,66 +13,66 @@ import Button from '../ui/button/Button';
 import { ButtonTypeEnum } from '../ui/button/enums/buttonType.enum';
 
 export default function SignInForm() {
-    const title = import.meta.env.VITE_APP_FULL_TITLE;
-    const navigate = useNavigate();
-    const { saveAuth } = useAxios();
-    const initialValues: ISignInForm = {
-        email: '',
-        password: '',
-    };
+  const title = import.meta.env.VITE_APP_FULL_TITLE;
+  const navigate = useNavigate();
+  const { saveAuth } = useAxios();
+  const initialValues: ISignInForm = {
+    email: '',
+    password: '',
+  };
 
-    const validationSchema = Yup.object().shape({
-        email: Yup.string().required('El nombre es obligatorio'),
-        password: Yup.string().required('El password es obligatorio'),
-    });
+  const validationSchema = Yup.object().shape({
+    email: Yup.string().required('El nombre es obligatorio'),
+    password: Yup.string().required('El password es obligatorio'),
+  });
 
-    const handleSuccess = (data: IAuthResponse) => {
-        const { user, access_token } = data;
-        saveAuth(access_token, user);
-        navigate(AdminRoutes.Dashboard);
-    };
-    const mutator = useServiceLogin();
-    const { onSubmit } = useOnSubmit<ISignInForm>({
-        mutateAsync: mutator.mutateAsync,
-        onSuccess: async (data) => handleSuccess(data),
-    });
+  const handleSuccess = (data: IAuthResponse) => {
+    const { user, access_token } = data;
+    saveAuth(access_token, user);
+    navigate(AdminRoutes.Dashboard);
+  };
+  const mutator = useServiceLogin();
+  const { onSubmit } = useOnSubmit<ISignInForm>({
+    mutateAsync: mutator.mutateAsync,
+    onSuccess: async (data) => handleSuccess(data),
+  });
 
-    const formikProps = {
-        initialValues,
-        validationSchema,
-        onSubmit,
-    };
-    return (
-        <div className="flex flex-1 flex-col">
-            <div className="mx-auto flex w-full max-w-md flex-1 flex-col justify-center">
-                <div>
-                    <div className="mb-5 sm:mb-8">
-                        <h1 className="text-title-sm sm:text-title-md mb-2 font-semibold text-gray-800 dark:text-white/90">{title}</h1>
-                        <p className="text-sm text-gray-500 dark:text-gray-400">Ingresa tu correo y contraseña para ingresar!</p>
+  const formikProps = {
+    initialValues,
+    validationSchema,
+    onSubmit,
+  };
+  return (
+    <div className="flex flex-1 flex-col">
+      <div className="mx-auto flex w-full max-w-md flex-1 flex-col justify-center">
+        <div>
+          <div className="mb-5 sm:mb-8">
+            <h1 className="text-title-sm sm:text-title-md mb-2 font-semibold text-gray-800 dark:text-white/90">{title}</h1>
+            <p className="text-sm text-gray-500 dark:text-gray-400">Ingresa tu correo y contraseña para ingresar!</p>
+          </div>
+          <div>
+            <Formik<ISignInForm> enableReinitialize {...formikProps}>
+              {(formik) => (
+                <Form>
+                  <div className="space-y-6">
+                    <div>
+                      <Input<ISignInForm> label={`Email`} name="email" formik={formik} type={InputTypeEnum.Text} />
                     </div>
                     <div>
-                        <Formik<ISignInForm> enableReinitialize {...formikProps}>
-                            {(formik) => (
-                                <Form>
-                                    <div className="space-y-6">
-                                        <div>
-                                            <Input<ISignInForm> label={`Email`} name="email" formik={formik} type={InputTypeEnum.Text} />
-                                        </div>
-                                        <div>
-                                            <Input<ISignInForm> label={`Password`} name="password" formik={formik} type={InputTypeEnum.Password} />
-                                        </div>
-                                        <div>
-                                            <Button type={ButtonTypeEnum.Submit} className="w-full" size="sm">
-                                                <LogIn /> Login
-                                            </Button>
-                                        </div>
-                                    </div>
-                                </Form>
-                            )}
-                        </Formik>
+                      <Input<ISignInForm> label={`Password`} name="password" formik={formik} type={InputTypeEnum.Password} />
                     </div>
-                </div>
-            </div>
+                    <div>
+                      <Button type={ButtonTypeEnum.Submit} className="w-full" size="sm">
+                        <LogIn /> Login
+                      </Button>
+                    </div>
+                  </div>
+                </Form>
+              )}
+            </Formik>
+          </div>
         </div>
-    );
+      </div>
+    </div>
+  );
 }

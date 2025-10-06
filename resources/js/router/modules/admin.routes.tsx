@@ -10,38 +10,42 @@ const ReportesPage = lazy(() => import('@/pages/Reportes/ReportesPage'));
 
 const UbicacionesPage = lazy(() => import('@/pages/Ubicaciones/UbicacionesPage'));
 const ClientesPage = lazy(() => import('@/pages/Clientes/ClientesPage'));
+const ImportProductsPage = lazy(() => import('@/pages/Importar/ImportProductsPage'));
 
 export enum AdminRoutes {
-    Dashboard = '/',
-    Venta = '/venta',
-    VentaProductos = '/venta/:id/productos',
-    Proveedores = '/admin/proveedores',
-    Productos = '/admin/productos',
-    Reportes = '/admin/reportes',
-    Ubicaciones = '/admin/ubicaciones',
-    Clientes = '/admin/clientes',
+  Dashboard = '/',
+  Venta = '/venta',
+  VentaProductos = '/venta/:id/productos',
+  Proveedores = '/admin/proveedores',
+  Productos = '/admin/productos',
+  Reportes = '/admin/reportes',
+  Ubicaciones = '/admin/ubicaciones',
+  Clientes = '/admin/clientes',
+  Importar = '/admin/importar',
 }
 
 export enum ApiRoutes {
-    Venta = '/api/ventas',
-    VentaProductos = '/api/venta-producto',
-    Proveedores = '/api/proveedores',
-    Productos = '/api/productos',
-    Reportes = '/api/reporte-movimientos',
-    Ubicaciones = '/api/ubicaciones',
-    Clientes = '/api/clientes',
-    Categorias = '/api/categorias',
-    Dashboard = '/api/dashboard',
-    Images = '/api/images',
+  Venta = '/api/ventas',
+  VentaProductos = '/api/venta-producto',
+  Proveedores = '/api/proveedores',
+  Productos = '/api/productos',
+  Reportes = '/api/reporte-movimientos',
+  Ubicaciones = '/api/ubicaciones',
+  Clientes = '/api/clientes',
+  Categorias = '/api/categorias',
+  Dashboard = '/api/dashboard',
+  Images = '/api/images',
+  Importar = '/api/imports',
 }
 
 export const adminRoutes: IRoute[] = [
-    { private: true, path: AdminRoutes.Dashboard, name: 'Dashboard', element: <DashboardPage /> },
-    { private: true, path: AdminRoutes.Venta, name: 'Ventas', element: <VentasPage /> },
-    { private: true, path: AdminRoutes.VentaProductos, name: 'Productos de venta', element: <ProductosVentaPage /> },
-    { private: true, path: AdminRoutes.Proveedores, name: 'Provedores', element: <ProveedoresPage /> },
-    { private: true, path: AdminRoutes.Productos, name: 'Productos', element: <ProductosPage /> },
-    { private: true, path: AdminRoutes.Reportes, name: 'Reportes', element: <ReportesPage /> },
-    { private: true, path: AdminRoutes.Ubicaciones, name: 'Ubicaciones', element: <UbicacionesPage /> },
-    { private: true, path: AdminRoutes.Clientes, name: 'Clientes', element: <ClientesPage /> },
+  { private: true, path: AdminRoutes.Dashboard, name: 'Dashboard', element: <DashboardPage /> },
+  { private: true, path: AdminRoutes.Venta, name: 'Ventas', element: <VentasPage /> },
+  { private: true, path: AdminRoutes.VentaProductos, name: 'Productos de venta', element: <ProductosVentaPage /> },
+  { private: true, path: AdminRoutes.Proveedores, name: 'Provedores', element: <ProveedoresPage /> },
+  { private: true, path: AdminRoutes.Productos, name: 'Productos', element: <ProductosPage /> },
+  { private: true, path: AdminRoutes.Reportes, name: 'Reportes', element: <ReportesPage /> },
+  { private: true, path: AdminRoutes.Ubicaciones, name: 'Ubicaciones', element: <UbicacionesPage /> },
+  { private: true, path: AdminRoutes.Clientes, name: 'Clientes', element: <ClientesPage /> },
+  { private: true, path: AdminRoutes.Importar, name: 'Importar', element: <ImportProductsPage /> },
 ];

@@ -7,16 +7,16 @@ import { ApiRoutes } from '@/router/modules/admin.routes';
 
 const url = ApiRoutes.Venta;
 export const useServiceIndexVenta = ({ filters = [], search = null, order = 'desc', page = 1, limit = 10 }: IPaginateServiceProps) => {
-    return useGET<IPaginate<IVenta>>({
-        url,
-        filters: {
-            filters,
-            search,
-            order,
-            page,
-            limit,
-        },
-    });
+  return useGET<IPaginate<IVenta>>({
+    url,
+    filters: {
+      filters,
+      search,
+      order,
+      page,
+      limit,
+    },
+  });
 };
 
 export const useServiceStoreVenta = () => usePOST({ url });

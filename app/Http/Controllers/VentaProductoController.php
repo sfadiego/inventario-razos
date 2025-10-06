@@ -31,6 +31,8 @@ class VentaProductoController extends Controller
             }
 
             $ventaProducto->update($params->validated());
+            $venta = Venta::find($params->venta_id);
+            $venta->update(['venta_total' => $venta->ventaTotal()]);
 
             return Response::success($ventaProducto);
         } catch (\Throwable $th) {

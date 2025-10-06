@@ -5,20 +5,20 @@ import { FormCliente } from './partials/FormCliente';
 import { useClientesPage } from './useClientesPage';
 
 export default function ClientesPage() {
-    const { useServiceIndexClientes, renderersMap, filters, openModal, closeModal, isOpen } = useClientesPage();
+  const { useServiceIndexClientes, renderersMap, filters, openModal, closeModal, isOpen } = useClientesPage();
 
-    return (
-        <PageWrapper pageTitle="Clientes">
-            <DatatableWithFilter
-                propertyInputSearch={`nombre`}
-                renderersMap={renderersMap}
-                filters={filters}
-                onClickNew={openModal}
-                service={useServiceIndexClientes}
-            >
-                {(formik) => <FiltrosCliente formik={formik} />}
-            </DatatableWithFilter>
-            <FormCliente isOpen={isOpen} closeModal={closeModal} />
-        </PageWrapper>
-    );
+  return (
+    <PageWrapper pageTitle="Clientes">
+      <DatatableWithFilter
+        propertyInputSearch={`nombre`}
+        renderersMap={renderersMap}
+        filters={filters}
+        onClickNew={openModal}
+        service={useServiceIndexClientes}
+      >
+        {(formik) => <FiltrosCliente formik={formik} />}
+      </DatatableWithFilter>
+      <FormCliente isOpen={isOpen} closeModal={closeModal} />
+    </PageWrapper>
+  );
 }

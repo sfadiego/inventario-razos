@@ -12,7 +12,7 @@ export const useFormAgregarImagen = ({ productId, closeModal }: { productId: num
 
   const { onSubmit } = useOnSubmit<IUpdateProductImage>({
     mutateAsync: mutator.mutateAsync,
-    onSuccess: async (data) => {
+    onSuccess: async () => {
       queryClient.invalidateQueries({ queryKey: [`${ApiRoutes.Productos}`] });
       closeModal();
     },

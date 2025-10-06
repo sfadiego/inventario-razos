@@ -5,16 +5,16 @@ import { IProveedor } from '@/models/proveedor.interface';
 import { ApiRoutes } from '@/router/modules/admin.routes';
 
 const url = ApiRoutes.Proveedores;
-export const useServiceIndexProveedor = ({ filters = [],  search = null, page = 1, limit = 10 }: IPaginateServiceProps) => {
-    return useGET<IPaginate<IProveedor>>({
-        url,
-        filters: {
-            filters,
-            search,
-            page,
-            limit,
-        },
-    });
+export const useServiceIndexProveedor = ({ filters = [], search = null, page = 1, limit = 10 }: IPaginateServiceProps) => {
+  return useGET<IPaginate<IProveedor>>({
+    url,
+    filters: {
+      filters,
+      search,
+      page,
+      limit,
+    },
+  });
 };
 
 export const useServiceStoreProveedor = () => usePOST({ url });

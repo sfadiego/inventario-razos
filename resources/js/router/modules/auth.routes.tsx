@@ -4,7 +4,7 @@ import { lazy } from 'react';
 const LoginPage = lazy(() => import('@/pages/AuthPages/LoginPage'));
 
 export enum AuthRoutes {
-    Login = '/login',
+  Login = '/login',
 }
 
 export const authRoutes: IRoute[] = [{ path: AuthRoutes.Login, name: 'Login', element: <LoginPage />, layout: 'blank' }];

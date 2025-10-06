@@ -7,11 +7,11 @@ import { authRoutes } from './modules/auth.routes';
 import { errorRoutes } from './modules/error.routes';
 
 const routes: IRoute[] = [...authRoutes, ...adminRoutes, ...errorRoutes].map((route: IRoute) => {
-    const element = route.layout === 'blank' ? route.element : <AppLayout>{route.element}</AppLayout>;
-    return {
-        ...route,
-        element: route?.private ? <PrivateRoute route={route} element={element} /> : element,
-    };
+  const element = route.layout === 'blank' ? route.element : <AppLayout>{route.element}</AppLayout>;
+  return {
+    ...route,
+    element: route?.private ? <PrivateRoute route={route} element={element} /> : element,
+  };
 });
 
 export const router = createBrowserRouter(routes);
