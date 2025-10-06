@@ -11,9 +11,11 @@ use Tests\TestCase;
 
 class VentaProductoTest extends TestCase
 {
-    /**
-     * A basic feature test example.
-     */
+    // test faltantes
+    // test quitar/agregar productos de carrito de compra
+        // validar que el total se actualice
+    // test finalizar venta
+
     public function test_agregar_producto_venta(): void
     {
         $this->loginAdmin();
