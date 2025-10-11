@@ -10,6 +10,6 @@ Route::controller(CategoriasController::class)
         Route::prefix('{categoria}')->group(function () {
             Route::get('', 'show');
             Route::put('', 'update');
-            Route::delete('', 'destroy');
+            Route::delete('', 'delete');
         });
     });
