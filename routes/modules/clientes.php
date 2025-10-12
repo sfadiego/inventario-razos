@@ -10,6 +10,6 @@ Route::controller(ClientesController::class)
         Route::prefix('{cliente}')->group(function () {
             Route::get('', 'show');
             Route::put('', 'update');
-            Route::delete('', 'destroy');
+            Route::delete('', 'delete');
         });
     });
