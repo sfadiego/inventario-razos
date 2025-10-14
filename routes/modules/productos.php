@@ -14,7 +14,7 @@ Route::controller(ProductosController::class)
             })
             ->group(function () {
                 Route::get('', 'show');
-                Route::post('', 'update');
+                Route::put('', 'update');
                 Route::delete('', 'delete');
             });
     });
