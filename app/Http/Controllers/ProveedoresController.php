@@ -24,6 +24,8 @@ class ProveedoresController extends Controller
             $proveedor->categorias()->sync($params->categorias);
         }
 
+        $proveedor->load('categorias');
+
         return Response::success($proveedor);
     }
 

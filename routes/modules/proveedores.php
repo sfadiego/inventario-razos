@@ -10,6 +10,6 @@ Route::controller(ProveedoresController::class)
         Route::prefix('{proveedor}')->group(function () {
             Route::get('', 'show');
             Route::put('', 'update');
-            Route::delete('', 'destroy');
+            Route::delete('', 'delete');
         });
     });
