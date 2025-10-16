@@ -27,6 +27,11 @@ class CategoriaTest extends TestCase
                 ],
             ],
         ]);
+
+        //valida desde bd que si existan los registros y la respuesta
+        //agregar en los inserts
+        $this->assertDatabaseCount('categorias', Categoria::count());
+        $this->assertDatabaseCount('categorias', $response->json('total'));
     }
 
     public function test_store_categoria(): void
@@ -49,6 +54,8 @@ class CategoriaTest extends TestCase
                 'activa' => $payload['activa'],
             ],
         ]);
+
+
     }
 
     public function test_show_categoria(): void
