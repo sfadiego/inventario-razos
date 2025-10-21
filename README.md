@@ -1,5 +1,15 @@
-# inventario-razos
-inventario motopartes razo
+# inventario motopartes razo
 
-#run testing
+
+
+
+# run testing
+```bash
 php artisan test --env=testing
+```
+
+# levantar docker
+```bash
+docker compose up --build -d
+```
+
