@@ -1,0 +1,29 @@
+services:
+  php_test:
+    build:
+      context: .
+    container_name: laravel_php_test
+    working_dir: /var/www/html
+    volumes:
+      - .:/var/www/html:cached
+      - phpunit_tmp:/tmp
+    environment:
+      APP_ENV: testing
+      DB_CONNECTION: sqlite
+      # DB_DATABASE: /tmp/testing.sqlite
+      DB_DATABASE: /var/www/html/database/testing.sqlite
+    entrypoint: ["sh", "-c"]
+    command: >
+      "cp /dev/null /var/www/html/database/testing.sqlite || true &&
+      chmod 666 /var/www/html/database/testing.sqlite || true &&
+      php artisan config:clear &&
+      php artisan cache:clear &&
+      php artisan migrate --env=testing --database=sqlite --force &&
+      vendor/bin/phpunit"
+
+volumes:
+  phpunit_tmp:
+
+networks:
+  default:
+    name: laravel_test
