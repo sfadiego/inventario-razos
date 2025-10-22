@@ -1,0 +1,1 @@
+#!/bin/bash if [ ! -f /var/lib/mysql/public_key.pem ]; then echo "Generando claves RSA para MySQL..." mysql_ssl_rsa_setup --datadir=/var/lib/mysql fi

@@ -1,0 +1,66 @@
+services:
+  php:
+    build:
+      context: .
+    container_name: laravel_php
+    volumes:
+      - .:/var/www/html
+    networks:
+      - laravel
+    depends_on:
+      mysql:
+        condition: service_healthy
+
+  web:
+    image: nginx:alpine
+    container_name: laravel_nginx
+    ports:
+      - "8080:80"
+    volumes:
+      - .:/var/www/html
+      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      mysql:
+        condition: service_healthy
+    networks:
+      - laravel
+    
+  mysql:
+    image: mysql:8.0
+    container_name: laravel_mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_DATABASE: ${DB_DATABASE}
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+    networks:
+      - laravel
+
+  node:
+    image: node:19-alpine
+    container_name: laravel_node
+    working_dir: /app
+    volumes:
+      - .:/app
+    command: sh -c "npm install -g pnpm && pnpm install && pnpm run build"
+    networks:
+      - laravel
+    depends_on:
+      mysql:
+        condition: service_healthy
+    
+
+networks:
+  laravel:
+    driver: bridge
+volumes:
+  mysql_data:
