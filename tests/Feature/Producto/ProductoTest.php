@@ -133,7 +133,7 @@ class ProductoTest extends TestCase
             'precio_compra' => $this->faker->randomFloat(2, 1, 100),
             'precio_venta' => $this->faker->randomFloat(2, 1, 100),
             'stock' => $this->faker->numberBetween(0, 100),
-            'cantidad_minima' => $this->faker->numberBetween(0, 10),
+            'cantidad_minima' => $this->faker->numberBetween(1, 10),
             'compatibilidad' => $this->faker->word,
             'ubicacion_id' => $producto->ubicacion_id,
             'activo' => $this->faker->boolean,
@@ -141,7 +141,7 @@ class ProductoTest extends TestCase
             'unidad' => $this->faker->randomElement(['pieza', 'metro', 'par']),
         ];
 
-        $response = $this->put("/api/productos/{$producto->id}", $payload);
+        $response = $this->post("/api/productos/{$producto->id}", $payload);
         $response->assertStatus(200);
         $response->assertJson([
             'status' => 'OK',

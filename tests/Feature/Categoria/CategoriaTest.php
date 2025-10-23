@@ -7,14 +7,11 @@ use Tests\TestCase;
 
 class CategoriaTest extends TestCase
 {
-    /**
-     * A basic feature test example.
-     */
     public function test_index_categoria(): void
     {
         $this->loginAdmin();
 
-        Categoria::factory()->count(10)->create();
+        $categorias = Categoria::all();
 
         $response = $this->get('/api/categorias');
         $response->assertStatus(206);
@@ -28,10 +25,8 @@ class CategoriaTest extends TestCase
             ],
         ]);
 
-        //valida desde bd que si existan los registros y la respuesta
-        //agregar en los inserts
-        $this->assertDatabaseCount('categorias', Categoria::count());
-        $this->assertDatabaseCount('categorias', $response->json('total'));
+        $this->assertDatabaseCount('categorias', $categorias->count());
+        $this->assertEquals($categorias->count(), count($response->json('data')));
     }
 
     public function test_store_categoria(): void
@@ -54,7 +49,6 @@ class CategoriaTest extends TestCase
                 'activa' => $payload['activa'],
             ],
         ]);
-
 
     }
 

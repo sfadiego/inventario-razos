@@ -9,7 +9,7 @@ Route::controller(ProductosController::class)
         Route::post('', 'store');
         Route::prefix('{producto}')->group(function () {
             Route::get('', 'show');
-            Route::put('', 'update'); // regresa este cambio
+            Route::post('', 'update'); // regresa este cambio
             Route::delete('', 'delete');
         });
     });
