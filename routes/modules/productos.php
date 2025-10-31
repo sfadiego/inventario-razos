@@ -1,15 +1,21 @@
 <?php
 
 use App\Http\Controllers\ProductosController;
+use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Route;
+// use Illuminate\Http\Response;
 
 Route::controller(ProductosController::class)
     ->group(function () {
         Route::get('', 'index');
         Route::post('', 'store');
-        Route::prefix('{producto}')->group(function () {
-            Route::get('', 'show');
-            Route::post('', 'update');
-            Route::delete('', 'destroy');
-        });
+        Route::prefix('{producto}')
+            ->missing(function () {
+                return Response::error('Producto no encontrado');
+            })
+            ->group(function () {
+                Route::get('', 'show');
+                Route::post('', 'update');
+                Route::delete('', 'delete');
+            });
     });
