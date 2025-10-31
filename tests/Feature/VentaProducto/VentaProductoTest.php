@@ -13,7 +13,7 @@ class VentaProductoTest extends TestCase
 {
     // test faltantes
     // test quitar/agregar productos de carrito de compra
-        // validar que el total se actualice
+    // validar que el total se actualice
     // test finalizar venta
 
     public function test_agregar_producto_venta(): void

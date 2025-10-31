@@ -1,12 +1,6 @@
 <?php
 
 namespace Database\Seeders;
-
-use App\Models\Cliente;
-use App\Models\Producto;
-use App\Models\Proveedor;
-use App\Models\ReporteMovimiento;
-use App\Models\Ubicacion;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -19,11 +13,5 @@ class DatabaseSeeder extends Seeder
             CategoriaSeeder::class,
             TipoMovimientoSeeder::class,
         ]);
-
-        Ubicacion::factory(5)->create();
-        Proveedor::factory(15)->create();
-        Cliente::factory(15)->create();
-        Producto::factory(15)->create();
-        ReporteMovimiento::factory(15)->create();
     }
 }

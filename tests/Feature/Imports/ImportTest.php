@@ -3,8 +3,8 @@
 namespace Tests\Feature\Imports;
 
 use App\Models\Producto;
-use Tests\TestCase;
 use Illuminate\Http\UploadedFile;
+use Tests\TestCase;
 
 class ImportTest extends TestCase
 {

@@ -2,14 +2,19 @@
 
 use App\Http\Controllers\ClientesController;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Response;
 
 Route::controller(ClientesController::class)
     ->group(function () {
         Route::get('', 'index');
         Route::post('', 'store');
-        Route::prefix('{cliente}')->group(function () {
-            Route::get('', 'show');
-            Route::put('', 'update');
-            Route::delete('', 'destroy');
-        });
+        Route::prefix('{cliente}')
+            ->missing(function () {
+                return Response::error('Cliente no encontrado');
+            })
+            ->group(function () {
+                Route::get('', 'show');
+                Route::put('', 'update');
+                Route::delete('', 'destroy');
+            });
     });

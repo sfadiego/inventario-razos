@@ -13,15 +13,16 @@ class ImportProductsController extends Controller
 {
     public function store(ImportProductosStoreRequest $param): JsonResponse
     {
-        Log::info("Iniciando importacion");
+        Log::info('Iniciando importacion');
         $file = $param->file('file');
-        $import = new ImportProducto();
+        $import = new ImportProducto;
         Excel::import($import, $file);
         $data = [
             'inserted' => $import->getInserted(),
             'duplicates' => $import->getDuplicates(),
         ];
-        Log::info("Finalizando importacion");
+        Log::info('Finalizando importacion');
+
         return Response::success($data);
     }
 }

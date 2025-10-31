@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Core\Data\IndexData;
+use App\Enums\TipoMovimientoEnum;
 use App\Http\Requests\Productos\ProductosStoreRequest;
 use App\Http\Requests\Productos\ProductosUpdateRequest;
 use App\Logic\Producto\ProductoIndexLogic;
 use App\Models\Producto;
+use App\Models\ReporteMovimiento;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Response;
 
@@ -29,6 +31,16 @@ class ProductosController extends Controller
             $image = $producto->handleProductoImage($params->file('file'));
             $producto->imagen()->associate($image);
         }
+
+        ReporteMovimiento::create([
+            'producto_id' => $producto->id,
+            'tipo_movimiento_id' => TipoMovimientoEnum::ENTRADA->value,
+            'cantidad' => $params->stock,
+            'cantidad_anterior' => 0,
+            'cantidad_actual' => $params->stock,
+            'user_id' => auth()->user()->id,
+            'created_at' => now(),
+        ]);
 
         return Response::success($producto);
     }
@@ -53,6 +65,13 @@ class ProductosController extends Controller
 
     public function delete(Producto $producto): JsonResponse
     {
-        return Response::success($producto->delete());
+        if (!$producto || !$producto->activo) {
+            return Response::error("Producto no encontrado");
+        }
+
+        $producto->update([
+            'activo' => false,
+        ]);
+        return Response::success("","Producto eliminado correctamente");
     }
 }
