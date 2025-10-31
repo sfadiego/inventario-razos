@@ -1,4 +1,4 @@
 export interface IImportResponse {
-    inserted: string[];
-    duplicates: string[];
+  inserted: string[];
+  duplicates: string[];
 }
