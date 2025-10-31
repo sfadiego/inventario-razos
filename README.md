@@ -25,7 +25,10 @@ docker compose down #--volumes
 ```
 
 # Notas
-si ejecutas docker, ajusta la variable VITE_APP_URL con el puerto 8080
+si ejecutas docker, ajusta las variables de entorno
+
 ```bash
 VITE_APP_URL=http://localhost:8080
+DB_HOST=mysql
+DB_PASSWORD=root
 ```
