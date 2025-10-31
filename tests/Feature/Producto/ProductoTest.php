@@ -8,11 +8,17 @@ use App\Models\Proveedor;
 use App\Models\Ubicacion;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
+use App\Enums\TipoMovimientoEnum;
 
 class ProductoTest extends TestCase
 {
     use WithFaker;
-
+    #TODO:
+    /* 
+    * probar crud de productos
+    * al probar con el crud de productos probar verifica que se registren valores en la tabla ReporteMovimiento
+    * ejemplo en index:
+    */
     public function test_index_producto(): void
     {
         $this->loginAdmin();
@@ -117,6 +123,16 @@ class ProductoTest extends TestCase
                 'unidad' => $payload['unidad'],
             ],
         ]);
+
+        //TODO: verificar que se registre un movimiento de entrada, salida y ajuste
+        // entrada == store
+        // salida == al hacer ventas
+        // ajuste al modificar stock
+        
+        // $this->assertDatabaseHas('reporte_movimientos', [
+        //     'producto_id' => $response->json('data.id'),
+        //     'tipo' => TipoMovimientoEnum::fromId(TipoMovimientoEnum::ENTRADA->value),
+        // ]);
     }
 
     public function test_update_producto(): void
