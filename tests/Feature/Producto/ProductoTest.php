@@ -16,9 +16,10 @@ class ProductoTest extends TestCase
     public function test_index_producto(): void
     {
         $this->loginAdmin();
-
+        Proveedor::factory()->create();
+        Categoria::factory()->create();
+        Ubicacion::factory()->create();
         Producto::factory()->count(10)->create();
-
         $response = $this->get('/api/productos');
         $response->assertStatus(206);
         $response->assertJsonStructure([
@@ -46,9 +47,10 @@ class ProductoTest extends TestCase
     public function test_show_producto(): void
     {
         $this->loginAdmin();
-
+        Proveedor::factory()->create();
+        Categoria::factory()->create();
+        Ubicacion::factory()->create();
         $producto = Producto::factory()->create();
-
         $response = $this->get("/api/productos/{$producto->id}");
         $response->assertStatus(200);
         $response->assertJsonStructure([
@@ -76,12 +78,9 @@ class ProductoTest extends TestCase
     public function test_store_producto(): void
     {
         $this->loginAdmin();
-
         $proveedor = Proveedor::factory()->create();
         $categoria = Categoria::factory()->create();
-        $ubicacion = Ubicacion::factory()->create([
-            'nombre' => 'UbicacionTestProducto',
-        ]);
+        $ubicacion = Ubicacion::factory()->create();
 
         $payload = [
             'nombre' => $this->faker->unique()->word,
@@ -123,7 +122,9 @@ class ProductoTest extends TestCase
     public function test_update_producto(): void
     {
         $this->loginAdmin();
-
+        Proveedor::factory()->create();
+        Categoria::factory()->create();
+        Ubicacion::factory()->create();
         $producto = Producto::factory()->create();
 
         $payload = [
@@ -167,7 +168,9 @@ class ProductoTest extends TestCase
     public function test_delete_producto(): void
     {
         $this->loginAdmin();
-
+        Proveedor::factory()->create();
+        Categoria::factory()->create();
+        Ubicacion::factory()->create();
         $producto = Producto::factory()->create();
 
         $response = $this->delete("/api/productos/{$producto->id}");
