@@ -12,12 +12,16 @@ use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithCalculatedFormulas;
 use Maatwebsite\Excel\Concerns\WithStartRow;
 
-class ImportProducto implements ToModel, WithStartRow, WithCalculatedFormulas
+class ImportProducto implements ToModel, WithCalculatedFormulas, WithStartRow
 {
     public array $inserted = [];
+
     public array $duplicates = [];
+
     public array $errors = [];
+
     public array $existingProducts;
+
     public function startRow(): int
     {
         return 2;
@@ -27,24 +31,23 @@ class ImportProducto implements ToModel, WithStartRow, WithCalculatedFormulas
     {
         $this->existingProducts = Producto::query()
             ->pluck('nombre')
-            ->map(fn($n) => mb_strtolower(trim($n)))
+            ->map(fn ($n) => mb_strtolower(trim($n)))
             ->toArray();
     }
 
     /**
-     * @param array $row
-     *
      * @return \Illuminate\Database\Eloquent\Model|null
      */
     public function model(array $row)
     {
-        $nombre = isset($row[0]) ? trim((string)$row[0]) : null;
+        $nombre = isset($row[0]) ? trim((string) $row[0]) : null;
         $unidad = isset($row[1]) ? trim($row[1]) : null;
-        if (!ProductoUnidadEnum::tryFrom($unidad)) {
+        if (! ProductoUnidadEnum::tryFrom($unidad)) {
             $this->errors[] = [
                 'row' => $row,
-                'reason' => 'unidad inválida'
+                'reason' => 'unidad inválida',
             ];
+
             return null;
         }
 
@@ -61,14 +64,16 @@ class ImportProducto implements ToModel, WithStartRow, WithCalculatedFormulas
         if (empty($nombre)) {
             $this->duplicates[] = [
                 'row' => $row,
-                'reason' => 'nombre vacío'
+                'reason' => 'nombre vacío',
             ];
+
             return null;
         }
 
         $key = mb_strtolower($nombre);
         if (in_array($key, $this->existingProducts, true)) {
             $this->duplicates[] = ['nombre' => $nombre];
+
             return null;
         }
 
@@ -94,11 +99,12 @@ class ImportProducto implements ToModel, WithStartRow, WithCalculatedFormulas
             'activo' => true,
             'imagen_id' => $imagenId,
             'proveedor_id' => Proveedor::firstOrCreate(['nombre' => $proveedor])->id,
-            'categoria_id' =>  Categoria::firstOrCreate(['nombre' => $categoria])->id,
+            'categoria_id' => Categoria::firstOrCreate(['nombre' => $categoria])->id,
             'ubicacion_id' => Ubicacion::firstOrCreate(['nombre' => $ubicacion])->id,
         ];
 
         $this->inserted[] = $nombre;
+
         return new Producto($currentRow);
     }
 
