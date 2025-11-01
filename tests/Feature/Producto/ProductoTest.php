@@ -2,19 +2,20 @@
 
 namespace Tests\Feature\Producto;
 
+use App\Enums\TipoMovimientoEnum;
 use App\Models\Categoria;
 use App\Models\Producto;
 use App\Models\Proveedor;
 use App\Models\Ubicacion;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
-use App\Enums\TipoMovimientoEnum;
 
 class ProductoTest extends TestCase
 {
     use WithFaker;
-    #TODO:
-    /* 
+
+    // TODO:
+    /*
     * probar crud de productos
     * al probar con el crud de productos probar verifica que se registren valores en la tabla ReporteMovimiento
     * ejemplo en index:
@@ -124,7 +125,7 @@ class ProductoTest extends TestCase
             ],
         ]);
 
-        //TODO: verificar que se registre un movimiento de entrada, salida y ajuste
+        // TODO: verificar que se registre un movimiento de entrada, salida y ajuste
         // entrada == store
         // salida == al hacer ventas
         // ajuste al modificar stock
@@ -149,7 +150,7 @@ class ProductoTest extends TestCase
             'precio_compra' => $this->faker->randomFloat(2, 1, 100),
             'precio_venta' => $this->faker->randomFloat(2, 1, 100),
             'stock' => $this->faker->numberBetween(0, 100),
-            'cantidad_minima' => $this->faker->numberBetween(0, 10),
+            'cantidad_minima' => $this->faker->numberBetween(1, 10),
             'compatibilidad' => $this->faker->word,
             'ubicacion_id' => $producto->ubicacion_id,
             'activo' => $this->faker->boolean,
