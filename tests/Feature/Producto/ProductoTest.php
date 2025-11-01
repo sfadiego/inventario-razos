@@ -128,11 +128,10 @@ class ProductoTest extends TestCase
         // entrada == store
         // salida == al hacer ventas
         // ajuste al modificar stock
-        
-        // $this->assertDatabaseHas('reporte_movimientos', [
-        //     'producto_id' => $response->json('data.id'),
-        //     'tipo' => TipoMovimientoEnum::fromId(TipoMovimientoEnum::ENTRADA->value),
-        // ]);
+        $this->assertDatabaseHas('reporte_movimientos', [
+            'producto_id' => $response->json('data.id'),
+            'tipo_movimiento_id' => TipoMovimientoEnum::ENTRADA->value,
+        ]);
     }
 
     public function test_update_producto(): void
@@ -158,7 +157,7 @@ class ProductoTest extends TestCase
             'unidad' => $this->faker->randomElement(['pieza', 'metro', 'par']),
         ];
 
-        $response = $this->put("/api/productos/{$producto->id}", $payload);
+        $response = $this->post("/api/productos/{$producto->id}", $payload);
         $response->assertStatus(200);
         $response->assertJson([
             'status' => 'OK',
@@ -183,20 +182,23 @@ class ProductoTest extends TestCase
 
     public function test_delete_producto(): void
     {
-        $this->loginAdmin();
+
         Proveedor::factory()->create();
         Categoria::factory()->create();
-        Ubicacion::factory()->create();
+        Ubicacion::factory()->create(); // revisa el nombre que no se repita, por eso truena aqui
         $producto = Producto::factory()->create();
-
+        $this->loginAdmin();
         $response = $this->delete("/api/productos/{$producto->id}");
         $response->assertStatus(200);
         $response->assertJson([
             'status' => 'OK',
-            'message' => null,
-            'data' => [
-                'id' => $producto->id,
-            ],
+            'message' => 'Producto eliminado correctamente',
+            'data' => false,
+        ]);
+
+        $this->assertDatabaseHas('productos', [
+            'id' => $producto->id,
+            'activo' => false,
         ]);
     }
 }

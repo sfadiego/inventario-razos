@@ -21,7 +21,7 @@ class ProductoFactory extends Factory
     public function definition(): array
     {
         return [
-            'nombre' => $this->faker->word,
+            'nombre' => $this->faker->unique()->word,
             'proveedor_id' => Proveedor::factory()->create()->id,
             'categoria_id' => Categoria::inRandomOrder()->value('id'),
             'codigo' => strtoupper($this->faker->unique()->bothify('????-#####')),
