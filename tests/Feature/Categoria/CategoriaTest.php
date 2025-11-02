@@ -7,31 +7,57 @@ use Tests\TestCase;
 
 class CategoriaTest extends TestCase
 {
-    /**
-     * A basic feature test example.
-     */
     public function test_index_categoria(): void
     {
         $this->loginAdmin();
 
-        Categoria::factory()->count(10)->create();
+        Categoria::factory()->createMany([
+            ['nombre' => 'Luces test', 'activa' => true],
+            ['nombre' => 'Refacciones test', 'activa' => true],
+        ]);
 
-        $response = $this->get('/api/categorias');
+        $response = $this->getJson('/api/categorias');
+
         $response->assertStatus(206);
         $response->assertJsonStructure([
             'current_page',
             'data' => [
                 '*' => [
+                    'id',
                     'nombre',
                     'activa',
+                    'created_at',
+                    'updated_at',
                 ],
+            ],
+            'first_page_url',
+            'from',
+            'last_page',
+            'last_page_url',
+            'links' => [
+                '*' => ['url', 'label', 'page', 'active'],
+            ],
+            'next_page_url',
+            'path',
+            'per_page',
+            'prev_page_url',
+            'to',
+            'total',
+            'columns' => [
+                '*' => ['accessor', 'title'],
             ],
         ]);
 
-        //valida desde bd que si existan los registros y la respuesta
-        //agregar en los inserts
-        $this->assertDatabaseCount('categorias', Categoria::count());
-        $this->assertDatabaseCount('categorias', $response->json('total'));
+        $this->assertDatabaseHas('categorias', [
+            'nombre' => 'Luces test',
+            'activa' => true,
+        ]);
+        $this->assertDatabaseHas('categorias', [
+            'nombre' => 'Refacciones test',
+            'activa' => true,
+        ]);
+
+        $this->assertEquals(Categoria::count(), $response->json('total'));
     }
 
     public function test_store_categoria(): void
@@ -54,7 +80,6 @@ class CategoriaTest extends TestCase
                 'activa' => $payload['activa'],
             ],
         ]);
-
 
     }
 
