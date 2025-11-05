@@ -14,12 +14,6 @@ class ProductoTest extends TestCase
 {
     use WithFaker;
 
-    // TODO:
-    /*
-    * probar crud de productos
-    * al probar con el crud de productos probar verifica que se registren valores en la tabla ReporteMovimiento
-    * ejemplo en index:
-    */
     public function test_index_producto(): void
     {
         $this->loginAdmin();
@@ -48,7 +42,26 @@ class ProductoTest extends TestCase
                     'unidad',
                 ],
             ],
+
+            'first_page_url',
+            'from',
+            'last_page',
+            'last_page_url',
+            'links' => [
+                '*' => ['url', 'label', 'page', 'active'],
+            ],
+            'next_page_url',
+            'path',
+            'per_page',
+            'prev_page_url',
+            'to',
+            'total',
+            'columns' => [
+                '*' => ['accessor', 'title'],
+            ],
         ]);
+
+        $response->assertJsonCount(10, 'data');
     }
 
     public function test_show_producto(): void
@@ -125,23 +138,30 @@ class ProductoTest extends TestCase
             ],
         ]);
 
-        // TODO: verificar que se registre un movimiento de entrada, salida y ajuste
-        // entrada == store
-        // salida == al hacer ventas
-        // ajuste al modificar stock
+        $productoId = $response->json('data.id');
+
         $this->assertDatabaseHas('reporte_movimientos', [
-            'producto_id' => $response->json('data.id'),
+            'producto_id' => $productoId,
             'tipo_movimiento_id' => TipoMovimientoEnum::ENTRADA->value,
+            'cantidad_anterior' => 0,
+            'cantidad_actual' => $payload['stock'],
         ]);
     }
 
-    public function test_update_producto(): void
+    public function test_update_producto_(): void
     {
         $this->loginAdmin();
+
         Proveedor::factory()->create();
         Categoria::factory()->create();
         Ubicacion::factory()->create();
-        $producto = Producto::factory()->create();
+
+        $producto = Producto::factory()->create([
+            'proveedor_id' => Proveedor::first()->id,
+            'categoria_id' => Categoria::first()->id,
+            'ubicacion_id' => Ubicacion::first()->id,
+            'stock' => 10,
+        ]);
 
         $payload = [
             'nombre' => $this->faker->unique()->word,
@@ -159,6 +179,7 @@ class ProductoTest extends TestCase
         ];
 
         $response = $this->post("/api/productos/{$producto->id}", $payload);
+
         $response->assertStatus(200);
         $response->assertJson([
             'status' => 'OK',
@@ -179,6 +200,17 @@ class ProductoTest extends TestCase
                 'unidad' => $payload['unidad'],
             ],
         ]);
+
+        $typeMovimiento = $payload['stock'] > 10
+            ? TipoMovimientoEnum::ENTRADA->value
+            : TipoMovimientoEnum::SALIDA->value;
+
+        $this->assertDatabaseHas('reporte_movimientos', [
+            'producto_id' => $producto->id,
+            'tipo_movimiento_id' => $typeMovimiento,
+            'cantidad_anterior' => 10,
+            'cantidad_actual' => $payload['stock'],
+        ]);
     }
 
     public function test_delete_producto(): void
@@ -186,9 +218,11 @@ class ProductoTest extends TestCase
 
         Proveedor::factory()->create();
         Categoria::factory()->create();
-        Ubicacion::factory()->create(); // revisa el nombre que no se repita, por eso truena aqui
+        Ubicacion::factory()->create();
         $producto = Producto::factory()->create();
+
         $this->loginAdmin();
+
         $response = $this->delete("/api/productos/{$producto->id}");
         $response->assertStatus(200);
         $response->assertJson([
