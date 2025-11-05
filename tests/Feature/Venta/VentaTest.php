@@ -47,8 +47,8 @@ class VentaTest extends TestCase
         // crear venta
         $payload = [
             'venta_total' => 0,
-            'folio' => '',
-            'nombre_venta' => '',
+            'folio' => Producto::createFolio($this->faker->word),
+            'nombre_venta' => $this->faker->word,
             'cliente_id' => Cliente::factory()->create()->id,
             'tipo_compra' => 'contado',
             'status_venta' => 'activa',

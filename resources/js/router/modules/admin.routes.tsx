@@ -22,6 +22,7 @@ export enum AdminRoutes {
   Ubicaciones = '/admin/ubicaciones',
   Clientes = '/admin/clientes',
   Importar = '/admin/importar',
+  Marcas = '/admin/marcas', //TODO: crear
 }
 
 export enum ApiRoutes {
@@ -36,6 +37,7 @@ export enum ApiRoutes {
   Dashboard = '/api/dashboard',
   Images = '/api/images',
   Importar = '/api/imports',
+  Marcas = '/api/marcas',
 }
 
 export const adminRoutes: IRoute[] = [
@@ -48,4 +50,5 @@ export const adminRoutes: IRoute[] = [
   { private: true, path: AdminRoutes.Ubicaciones, name: 'Ubicaciones', element: <UbicacionesPage /> },
   { private: true, path: AdminRoutes.Clientes, name: 'Clientes', element: <ClientesPage /> },
   { private: true, path: AdminRoutes.Importar, name: 'Importar', element: <ImportProductsPage /> },
+  // { private: true, path: AdminRoutes.Marcas, name: 'Marcas', element: <MarcasPage /> },//TODO crear pagina
 ];

@@ -34,7 +34,33 @@ class ProductosUpdateRequest extends FormRequest
             'ubicacion_id' => ['nullable', 'exists:ubicaciones,id'],
             'activo' => ['nullable', 'boolean'],
             'unidad' => ['nullable', 'in:pieza,metro,par'],
+            'marca_id' => ['nullable', 'exists:marcas,id'],
             'file' => ['sometimes', 'file', 'mimes:jpeg,jpg,png', 'max:2048'],
+        ];
+    }
+
+    /**
+     * mensajes personalizados
+     *
+     * @return array<string, string>
+     */
+    public function messages(): array
+    {
+        return [
+            'nombre.required' => 'El nombre es obligatorio.',
+            'nombre.unique' => 'El nombre ya existe en la base de datos.',
+            'proveedor_id.required' => 'El proveedor es obligatorio.',
+            'categoria_id.required' => 'La categoria es obligatoria.',
+            'codigo.unique' => 'El codigo ya existe en la base de datos.',
+            'precio_compra.required' => 'El precio de compra es obligatorio.',
+            'precio_venta.required' => 'El precio de venta es obligatorio.',
+            'stock.required' => 'El stock es obligatorio.',
+            'cantidad_minima.required' => 'La cantidad minima es obligatoria.',
+            'compatibilidad.required' => 'La compatibilidad es obligatoria.',
+            'ubicacion_id.required' => 'La ubicacion es obligatoria.',
+            'unidad.required' => 'La unidad es obligatoria.',
+            'activo.required' => 'El activo es obligatorio.',
+            'marca_id.required' => 'La marca es obligatoria.',
         ];
     }
 }
