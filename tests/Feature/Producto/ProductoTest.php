@@ -160,7 +160,6 @@ class ProductoTest extends TestCase
             'proveedor_id' => Proveedor::first()->id,
             'categoria_id' => Categoria::first()->id,
             'ubicacion_id' => Ubicacion::first()->id,
-            'stock' => 10,
         ]);
 
         $payload = [
@@ -200,16 +199,41 @@ class ProductoTest extends TestCase
                 'unidad' => $payload['unidad'],
             ],
         ]);
+    }
 
-        $typeMovimiento = $payload['stock'] > 10
-            ? TipoMovimientoEnum::ENTRADA->value
-            : TipoMovimientoEnum::SALIDA->value;
+    public function test_update_producto_solo_actualiza_datos()
+    {
+        $this->loginAdmin();
 
-        $this->assertDatabaseHas('reporte_movimientos', [
-            'producto_id' => $producto->id,
-            'tipo_movimiento_id' => $typeMovimiento,
-            'cantidad_anterior' => 10,
-            'cantidad_actual' => $payload['stock'],
+        Proveedor::factory()->create();
+        Categoria::factory()->create();
+        Ubicacion::factory()->create();
+
+        $producto = Producto::factory()->create();
+
+        $data = [
+            'nombre' => 'test nombre',
+        ];
+
+        $response = $this->post("/api/productos/{$producto->id}", $data);
+
+        $response->assertStatus(200)
+            ->assertJson([
+                'status' => 'OK',
+                'data' => [
+                    'nombre' => 'test nombre',
+                    'proveedor_id' => $producto->proveedor_id,
+                    'categoria_id' => $producto->categoria_id,
+                    'precio_compra' => $producto->precio_compra,
+                    'precio_venta' => $producto->precio_venta,
+                ],
+            ]);
+
+        $this->assertDatabaseCount('reporte_movimientos', 0);
+
+        $this->assertDatabaseHas('productos', [
+            'id' => $producto->id,
+            'nombre' => 'test nombre',
         ]);
     }
 

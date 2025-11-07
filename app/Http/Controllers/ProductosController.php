@@ -54,29 +54,11 @@ class ProductosController extends Controller
 
     public function update(ProductosUpdateRequest $params, Producto $producto): JsonResponse
     {
-        $oldStock = $producto->stock;
-
         if ($params->file('file')) {
             $image = $producto->handleProductoImage($params->file('file'));
             $producto->imagen()->associate($image);
         }
         $producto->update($params->validated());
-
-        if ($producto->stock != $oldStock) {
-            $tipoMovimiento = $producto->stock > $oldStock
-                ? TipoMovimientoEnum::ENTRADA->value
-                : TipoMovimientoEnum::SALIDA->value;
-
-            ReporteMovimiento::create([
-                'producto_id' => $producto->id,
-                'tipo_movimiento_id' => $tipoMovimiento,
-                'cantidad' => abs($producto->stock - $oldStock),
-                'cantidad_anterior' => $oldStock,
-                'cantidad_actual' => $producto->stock,
-                'user_id' => auth()->user()->id,
-                'created_at' => now(),
-            ]);
-        }
 
         return Response::success($producto);
     }
