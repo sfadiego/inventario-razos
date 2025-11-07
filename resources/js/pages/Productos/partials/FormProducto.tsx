@@ -12,6 +12,7 @@ import { IProducto } from '@/models/producto.interface';
 import { Form, Formik } from 'formik';
 import { Save } from 'lucide-react';
 import { useFormProducto } from './useFormProducto';
+import { SelectMarcas } from '@/components/select/marcas/SelectMarcas';
 
 interface IModalProductoProps {
   isOpen: boolean;
@@ -26,10 +27,10 @@ export const FormProducto = ({ isOpen, closeModal }: IModalProductoProps) => {
       <Formik enableReinitialize {...formikProps}>
         {(formik) => (
           <Form className={`grid grid-cols-12 gap-3`}>
-            <div className="col-span-12 md:col-span-12">
+            <div className="col-span-12 md:col-span-8">
               <Input<IProducto> label={`Producto`} name="nombre" formik={formik} type={InputTypeEnum.Text} />
             </div>
-            <div className="col-span-12 md:col-span-12">
+            <div className="col-span-12 md:col-span-4">
               <SelectProductoUnidades formik={formik} />
             </div>
             <div className="col-span-12 md:col-span-6">
@@ -50,14 +51,17 @@ export const FormProducto = ({ isOpen, closeModal }: IModalProductoProps) => {
             <div className="col-span-12 md:col-span-6">
               <Input<IProducto> label={`Precio venta`} name="precio_venta" formik={formik} type={InputTypeEnum.Number} />
             </div>
-            <div className="col-span-12 md:col-span-12">
+            <div className="col-span-12 md:col-span-6">
               <SelectProveedores formik={formik}></SelectProveedores>
             </div>
-            <div className="col-span-12 md:col-span-12">
+            <div className="col-span-12 md:col-span-6">
               <SelectCategorias formik={formik}></SelectCategorias>
             </div>
-            <div className="col-span-12 md:col-span-12">
+            <div className="col-span-12 md:col-span-6">
               <SelectUbicaciones formik={formik}></SelectUbicaciones>
+            </div>
+            <div className="col-span-12 md:col-span-6">
+              <SelectMarcas formik={formik}></SelectMarcas>
             </div>
             <div className="col-span-12 md:col-span-12">
               <TextArea<IProducto> label={`Compatibilidad`} name="compatibilidad" formik={formik} />

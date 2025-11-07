@@ -1,4 +1,4 @@
-interface IFilterProps {
+export interface IFilterProps {
   property: string;
   value: string | number;
   operator?: string;

@@ -45,6 +45,7 @@ export const useFormProducto = (props: IUseProductProps) => {
     cantidad_minima: producto?.cantidad_minima ?? 0,
     compatibilidad: producto?.compatibilidad ?? '',
     ubicacion_id: producto?.ubicacion_id ?? 0,
+    marca_id: producto?.marca_id ?? 0,
     activo: true,
     unidad: producto?.unidad ?? 'pieza',
   };
@@ -60,6 +61,7 @@ export const useFormProducto = (props: IUseProductProps) => {
     cantidad_minima: Yup.number().min(1, 'Debe ser mayor o igual a 1').required('La cantidad mínima es obligatoria'),
     compatibilidad: Yup.string(),
     ubicacion_id: Yup.number().min(1, 'Seleccione una ubicación').required('La ubicación es obligatoria'),
+    marca_id: Yup.number().min(1, 'Seleccione una marca').required('La marca es obligatoria'),
     activo: Yup.boolean(),
   });
 
