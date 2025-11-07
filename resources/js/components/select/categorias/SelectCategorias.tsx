@@ -1,17 +1,20 @@
 import InputSelect from '@/components/form/select/InputSelect';
-import { IOptions } from '@/components/form/select/interfaces/IOptions';
+import { useServiceIndexCategorias } from '@/Services/categorias/useServiceCategorias';
 import { FormikProps } from 'formik';
-import { useSelectCategorias } from './useSelectCategorias';
+import { useSelectService } from '../useSelectService';
 
-export const SelectCategorias = ({ formik }: { formik: FormikProps<any> }) => {
-  const { options } = useSelectCategorias();
+interface ISelectCategoriasProps {
+  formik: FormikProps<any>;
+}
+export const SelectCategorias = (props: ISelectCategoriasProps) => {
+  const { formik } = props;
+  const { options, handleInputChange } = useSelectService({
+    useService: useServiceIndexCategorias,
+    filters: [],
+    storeKey: `categoria-${formik.values.categoria_id || 0}`,
+  });
+
   return (
-    <InputSelect<any>
-      setValue={options.filter((option): option is IOptions => option.value === formik.values.categoria_id)}
-      label={`Categoria`}
-      name={`categoria_id`}
-      formik={formik}
-      options={options}
-    />
+    <InputSelect<any> {...props} label={`Categoria`} name={`categoria_id`} formik={formik} options={options} onInputChange={handleInputChange} />
   );
 };
