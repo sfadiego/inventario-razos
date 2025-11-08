@@ -154,7 +154,7 @@ class ProductoTest extends TestCase
     {
         $this->loginAdmin();
 
-        Storage::fake('public');
+        Storage::fake('local');
 
         $proveedor = Proveedor::factory()->create();
         $categoria = Categoria::factory()->create();
@@ -193,6 +193,14 @@ class ProductoTest extends TestCase
                     'updated_at',
                 ],
             ],
+        ]);
+
+        Storage::disk('local')->assertExists(
+            $response->json('data.imagen.path').'/'.$response->json('data.imagen.archivo')
+        );
+
+        $this->assertDatabaseHas('imagen_producto', [
+            'id' => $response->json('data.imagen.id'),
         ]);
     }
 
@@ -282,6 +290,60 @@ class ProductoTest extends TestCase
         $this->assertDatabaseHas('productos', [
             'id' => $producto->id,
             'nombre' => 'test nombre',
+        ]);
+    }
+
+    public function test_update_producto_image(): void
+    {
+        $this->loginAdmin();
+
+        Storage::fake('local');
+
+        Proveedor::factory()->create();
+        Categoria::factory()->create();
+        Ubicacion::factory()->create();
+
+        $producto = Producto::factory()->create([
+            'proveedor_id' => Proveedor::first()->id,
+            'categoria_id' => Categoria::first()->id,
+            'ubicacion_id' => Ubicacion::first()->id,
+        ]);
+
+        $file = UploadedFile::fake()->image('new_image.jpg');
+
+        $payload = [
+            'file' => $file,
+        ];
+
+        $response = $this->post("/api/productos/{$producto->id}", $payload);
+
+        $response->assertStatus(200);
+        $response->assertJsonStructure([
+            'status',
+            'message',
+            'data' => [
+                'imagen' => [
+                    'id',
+                    'archivo',
+                    'path',
+                    'external',
+                    'created_at',
+                    'updated_at',
+                ],
+            ],
+        ]);
+
+        Storage::disk('local')->assertExists(
+            $response->json('data.imagen.path').'/'.$response->json('data.imagen.archivo')
+        );
+
+        $this->assertDatabaseHas('imagen_producto', [
+            'id' => $response->json('data.imagen.id'),
+        ]);
+
+        $this->assertDatabaseHas('productos', [
+            'id' => $producto->id,
+            'imagen_id' => $response->json('data.imagen.id'),
         ]);
     }
 
