@@ -8,6 +8,8 @@ use App\Models\Producto;
 use App\Models\Proveedor;
 use App\Models\Ubicacion;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 
 class ProductoTest extends TestCase
@@ -145,6 +147,52 @@ class ProductoTest extends TestCase
             'tipo_movimiento_id' => TipoMovimientoEnum::ENTRADA->value,
             'cantidad_anterior' => 0,
             'cantidad_actual' => $payload['stock'],
+        ]);
+    }
+
+    public function test_store_producto_image(): void
+    {
+        $this->loginAdmin();
+
+        Storage::fake('public');
+
+        $proveedor = Proveedor::factory()->create();
+        $categoria = Categoria::factory()->create();
+        $ubicacion = Ubicacion::factory()->create();
+
+        $file = UploadedFile::fake()->image('image.jpg');
+
+        $payload = [
+            'nombre' => $this->faker->unique()->word,
+            'proveedor_id' => $proveedor->id,
+            'categoria_id' => $categoria->id,
+            'precio_compra' => $this->faker->randomFloat(2, 1, 100),
+            'precio_venta' => $this->faker->randomFloat(2, 1, 100),
+            'stock' => $this->faker->numberBetween(0, 100),
+            'cantidad_minima' => $this->faker->numberBetween(0, 10),
+            'compatibilidad' => $this->faker->word,
+            'ubicacion_id' => $ubicacion->id,
+            'activo' => $this->faker->boolean,
+            'imagen_id' => null,
+            'unidad' => $this->faker->randomElement(['pieza', 'metro', 'par']),
+            'file' => $file,
+        ];
+
+        $response = $this->post('/api/productos', $payload);
+        $response->assertStatus(200);
+        $response->assertJsonStructure([
+            'status',
+            'message',
+            'data' => [
+                'imagen' => [
+                    'id',
+                    'archivo',
+                    'path',
+                    'external',
+                    'created_at',
+                    'updated_at',
+                ],
+            ],
         ]);
     }
 
