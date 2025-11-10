@@ -2,6 +2,8 @@
 
 namespace Tests\Feature\Venta;
 
+use App\Enums\StatusVentaEnum;
+use App\Enums\TipoCompraEnum;
 use App\Models\Categoria;
 use App\Models\Cliente;
 use App\Models\Producto;
@@ -38,6 +40,14 @@ class VentaTest extends TestCase
                 ],
             ],
         ]);
+
+        $this->assertDatabaseCount('venta', 10);
+        Venta::all()->each(function ($venta) {
+            $this->assertDatabaseHas('venta', [
+                'id' => $venta->id,
+                'folio' => $venta->folio,
+            ]);
+        });
     }
 
     public function test_store_venta(): void
@@ -50,8 +60,8 @@ class VentaTest extends TestCase
             'folio' => Producto::createFolio($this->faker->word),
             'nombre_venta' => $this->faker->word,
             'cliente_id' => Cliente::factory()->create()->id,
-            'tipo_compra' => 'contado',
-            'status_venta' => 'activa',
+            'tipo_compra' => TipoCompraEnum::Contado->value,
+            'status_venta' => StatusVentaEnum::Activa->value,
 
         ];
 
@@ -68,6 +78,11 @@ class VentaTest extends TestCase
                 'tipo_compra' => $payload['tipo_compra'],
                 'status_venta' => $payload['status_venta'],
             ],
+        ]);
+        $response->json('data');
+        $this->assertDatabaseHas('venta', [
+            'id' => $response->json('data.id'),
+            'folio' => $response->json('data.folio'),
         ]);
     }
 
@@ -95,6 +110,8 @@ class VentaTest extends TestCase
                 'cliente',
             ],
         ]);
+
+        $this->assertDatabaseHas('venta', $venta->toArray());
     }
 
     public function test_finalizar_venta(): void
@@ -137,12 +154,16 @@ class VentaTest extends TestCase
                 'folio' => $venta['folio'],
                 'cliente_id' => $venta['cliente_id'],
                 'tipo_compra' => $venta['tipo_compra'],
-                'status_venta' => 'finalizada',
+                'status_venta' => StatusVentaEnum::Finalizada->value,
             ],
         ]);
 
         $this->assertEquals($data['venta_total'], $venta->ventaTotal());
+        $this->assertDatabaseHas('venta', [
+            'id' => $venta->id,
+            'status_venta' => StatusVentaEnum::Finalizada->value,
+            'folio' => $venta->folio,
+        ]);
     }
 
-    // test stock insuficiente
 }

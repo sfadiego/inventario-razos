@@ -64,8 +64,8 @@ const Input = <T extends object>(props: InputProps<T>) => {
         placeholder={placeholder}
         className={inputClasses}
       />
-      {formik.submitCount ? formik.errors[name] ? <span className={`text-error-500 mt-1.5`}>{String(formik.errors[name])}</span> : '' : ''}
-      {hint && <span className="text-sm text-gray-500">{hint}</span>}
+      {formik.submitCount ? formik.errors[name] ? <div className={`text-error-500 mt-1.5`}>{String(formik.errors[name])}</div> : '' : ''}
+      {hint && <div className="text-sm text-gray-500">{hint}</div>}
     </>
   );
 };

@@ -7,16 +7,13 @@ use App\Models\Producto;
 use App\Models\Proveedor;
 use App\Models\Ubicacion;
 use App\Models\Venta;
+use App\Models\VentaProducto;
 use Tests\TestCase;
 
 class VentaProductoTest extends TestCase
 {
-    // test faltantes
-    // test quitar/agregar productos de carrito de compra
-    // validar que el total se actualice
-    // test finalizar venta
 
-    public function test_agregar_producto_venta(): void
+    public function test_agregar_producto_a_venta(): void
     {
         $this->loginAdmin();
         // crear venta
@@ -31,17 +28,22 @@ class VentaProductoTest extends TestCase
             'stock' => 10,
             'cantidad_minima' => $this->faker->numberBetween(1, 10),
             'compatibilidad' => $this->faker->text(50),
-            'ubicacion_id' => Ubicacion::factory()->create()->id,
+            'ubicacion_id' => Ubicacion::firstOrCreate(['nombre' => $this->faker->unique()->word])->id,
             'activo' => $this->faker->boolean,
         ]);
 
         $payload = [
             'cantidad' => 9,
-            'precio' => 100,
+            'precio' => $producto->precio_venta,
             'producto_id' => $producto->id,
             'venta_id' => $venta->id,
         ];
         $response = $this->post('/api/venta-producto', $payload);
+        $total = $producto->precio_venta * $payload['cantidad'];
+        $this->assertDatabaseHas('venta', [
+            'id' => $venta->id,
+            'venta_total' => $total,
+        ]);
         $response->assertStatus(200);
         $response->assertJson([
             'status' => 'OK',
@@ -53,9 +55,20 @@ class VentaProductoTest extends TestCase
                 'venta_id' => $payload['venta_id'],
             ],
         ]);
+
+        $this->assertDatabaseHas('venta_producto', [
+            'venta_id' => $venta->id,
+            'producto_id' => $producto->id,
+            'cantidad' => $payload['cantidad']
+        ]);
+
+        $this->assertDatabaseHas('venta', [
+            'id' => $venta->id,
+            'venta_total' => $producto->precio_venta * $payload['cantidad'],
+        ]);
     }
 
-    public function test_insuficiente_stock(): void
+    public function test_insuficiente_stock_producto(): void
     {
         $this->withExceptionHandling();
         $this->loginAdmin();
@@ -71,7 +84,7 @@ class VentaProductoTest extends TestCase
             'stock' => 10,
             'cantidad_minima' => $this->faker->numberBetween(1, 10),
             'compatibilidad' => $this->faker->text(50),
-            'ubicacion_id' => Ubicacion::factory()->create()->id,
+            'ubicacion_id' => Ubicacion::firstOrCreate(['nombre' => $this->faker->unique()->word])->id,
             'activo' => $this->faker->boolean,
         ]);
 
@@ -91,6 +104,71 @@ class VentaProductoTest extends TestCase
         ]);
     }
 
-    // valida total sea igual a productos agregados
-    // valida listado de productos a venta
+    public function test_restar_producto_carrito(): void
+    {
+        $this->loginAdmin();
+        $venta = Venta::factory()->create();
+        $producto = Producto::factory()->create([
+            'nombre' => $this->faker->unique()->word,
+            'proveedor_id' => Proveedor::factory()->create()->id,
+            'categoria_id' => Categoria::first()->id,
+            'codigo' => strtoupper($this->faker->unique()->bothify('????-#####')),
+            'precio_compra' => $this->faker->randomFloat(2, 10, 100),
+            'precio_venta' => $this->faker->randomFloat(2, 20, 200),
+            'stock' => 10,
+            'cantidad_minima' => $this->faker->numberBetween(1, 10),
+            'compatibilidad' => $this->faker->text(50),
+            'ubicacion_id' => Ubicacion::firstOrCreate(['nombre' => $this->faker->unique()->word])->id,
+            'activo' => $this->faker->boolean,
+        ]);
+
+        $ventaProducto = VentaProducto::factory()->create([
+            'cantidad' => 8,
+            'precio' => $producto->precio_venta,
+            'producto_id' => $producto->id,
+            'venta_id' => $venta->id,
+        ]);
+
+        $this->assertDatabaseHas('venta_producto', [
+            'venta_id' => $venta->id,
+            'producto_id' => $producto->id,
+            'cantidad' => 8,
+        ]);
+
+        $payload = [
+            'cantidad' => 5,
+            'precio' => $producto->precio_venta,
+            'producto_id' => $producto->id
+        ];
+        $response = $this->put("/api/venta-producto/{$ventaProducto->id}", $payload);
+        $response->assertStatus(200);
+        $response->assertJson([
+            'status' => 'OK',
+            'message' => null,
+            'data' => [
+                'cantidad' => $payload['cantidad'],
+                'precio' => $producto->precio_venta,
+                'producto_id' => $producto->id,
+                'venta_id' => $venta->id,
+            ],
+        ]);
+
+        $this->assertDatabaseHas('venta_producto', [
+            'venta_id' => $venta->id,
+            'producto_id' => $producto->id,
+            'cantidad' => $payload['cantidad'],
+        ]);
+
+        $this->assertDatabaseHas('venta', [
+            'id' => $venta->id,
+            'venta_total' => $producto->precio_venta * $payload['cantidad'],
+        ]);
+    }
+
+    // test faltantes
+    //[x] test quitar/agregar productos de carrito de compra
+    //[x] validar que el total se actualice
+    //[x] test finalizar venta
+    //[x] test stock insuficiente
+    //[x] valida total sea igual a productos agregados
 }
