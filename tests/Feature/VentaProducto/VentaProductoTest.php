@@ -164,11 +164,4 @@ class VentaProductoTest extends TestCase
             'venta_total' => $producto->precio_venta * $payload['cantidad'],
         ]);
     }
-
-    // test faltantes
-    //[x] test quitar/agregar productos de carrito de compra
-    //[x] validar que el total se actualice
-    //[x] test finalizar venta
-    //[x] test stock insuficiente
-    //[x] valida total sea igual a productos agregados
 }
