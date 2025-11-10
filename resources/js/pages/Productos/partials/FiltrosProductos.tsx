@@ -1,8 +1,8 @@
 import { SelectCategorias } from '@/components/select/categorias/SelectCategorias';
+import { SelectMarcas } from '@/components/select/marcas/SelectMarcas';
 import { SelectProveedores } from '@/components/select/proveedores/SelectProveedores';
 import { FormikProps } from 'formik';
 import { IFiltroProducto } from '../useProductosPage';
-import { SelectMarcas } from '@/components/select/marcas/SelectMarcas';
 
 interface IFiltrosProductoProps {
   formik: FormikProps<IFiltroProducto>;

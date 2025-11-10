@@ -21,7 +21,7 @@ export const ExpansionProductoDetail = ({ record }: ExpansionProductoDetailProps
           <span className="font-bold">Marca:</span> {marca?.nombre || ' -- '}
         </p>
         <p className="mb-2">
-          <span className="font-bold">Precio venta p/{unidadPluralMap(unidad).toLowerCase() }:</span> {precio_venta || ' -- '}
+          <span className="font-bold">Precio venta p/{unidadPluralMap(unidad).toLowerCase()}:</span> {precio_venta || ' -- '}
         </p>
         <p className="mb-2">
           <span className="font-bold">Stock:</span> {stock} {stock > 1 ? unidadPluralMap(unidad) : unidad}

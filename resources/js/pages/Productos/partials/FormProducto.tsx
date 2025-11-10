@@ -2,6 +2,7 @@ import { InputTypeEnum } from '@/components/form/input/enum/InputType.enum';
 import Input from '@/components/form/input/InputField';
 import TextArea from '@/components/form/input/TextArea';
 import { SelectCategorias } from '@/components/select/categorias/SelectCategorias';
+import { SelectMarcas } from '@/components/select/marcas/SelectMarcas';
 import { SelectProductoUnidades } from '@/components/select/productoUnidades/SelectProductoUnidades';
 import { SelectProveedores } from '@/components/select/proveedores/SelectProveedores';
 import { SelectUbicaciones } from '@/components/select/ubicaciones/SelectUbicaciones';
@@ -12,7 +13,6 @@ import { IProducto } from '@/models/producto.interface';
 import { Form, Formik } from 'formik';
 import { Save } from 'lucide-react';
 import { useFormProducto } from './useFormProducto';
-import { SelectMarcas } from '@/components/select/marcas/SelectMarcas';
 
 interface IModalProductoProps {
   isOpen: boolean;
