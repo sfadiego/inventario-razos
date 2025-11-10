@@ -34,6 +34,7 @@ class ProductosStoreRequest extends FormRequest
             'ubicacion_id' => ['required', 'exists:ubicaciones,id'],
             'unidad' => ['required', 'in:pieza,metro,par'],
             'activo' => ['nullable', 'boolean'],
+            'marca_id' => ['required', 'exists:marcas,id'],
             'file' => ['sometimes', 'file', 'mimes:jpeg,jpg,png', 'max:2048'],
         ];
     }
@@ -49,6 +50,17 @@ class ProductosStoreRequest extends FormRequest
             'nombre.required' => 'El nombre es obligatorio.',
             'nombre.unique' => 'El nombre ya existe en la base de datos.',
             'proveedor_id.required' => 'El proveedor es obligatorio.',
+            'categoria_id.required' => 'La categoria es obligatoria.',
+            'codigo.unique' => 'El codigo ya existe en la base de datos.',
+            'precio_compra.required' => 'El precio de compra es obligatorio.',
+            'precio_venta.required' => 'El precio de venta es obligatorio.',
+            'stock.required' => 'El stock es obligatorio.',
+            'cantidad_minima.required' => 'La cantidad minima es obligatoria.',
+            'compatibilidad.required' => 'La compatibilidad es obligatoria.',
+            'ubicacion_id.required' => 'La ubicacion es obligatoria.',
+            'unidad.required' => 'La unidad es obligatoria.',
+            'activo.required' => 'El activo es obligatorio.',
+            'marca_id.required' => 'La marca es obligatoria.',
         ];
     }
 }

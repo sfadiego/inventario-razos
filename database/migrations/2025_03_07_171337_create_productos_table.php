@@ -33,6 +33,9 @@ return new class extends Migration
                     ->constrained('ubicaciones')
                     ->onDelete('cascade');
                 $table->boolean('activo')->default(true);
+                $table->foreignId('marca_id')
+                    ->constrained('marcas')
+                    ->onDelete('cascade');
                 $table->timestamps();
             });
         }

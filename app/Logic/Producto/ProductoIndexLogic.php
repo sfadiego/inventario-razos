@@ -27,6 +27,7 @@ class ProductoIndexLogic extends IndexLogic
             'codigo' => 'Codigo',
             'precio_venta' => 'Precio Venta',
             'stock' => 'Stock',
+            'marca.nombre' => 'Marca',
             'ubicacion.nombre' => 'Ubicacion',
             'actions' => '#',
         ];

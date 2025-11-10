@@ -1,6 +1,7 @@
 import { ProductoUnidadTypes } from '@/types/producto/ProductoUnidadTypes';
 import { ICategoria } from './categoria.interface';
 import { IImagenProducto } from './imagenProducto.interface';
+import { IMarca } from './marca.interface';
 import { IProveedor } from './proveedor.interface';
 import { IUbicacion } from './ubicacion.interface';
 
@@ -22,5 +23,7 @@ export interface IProducto {
   ubicacion?: IUbicacion;
   imagen_id?: number;
   imagen?: IImagenProducto;
+  marca?: IMarca;
+  marca_id: number;
   unidad: ProductoUnidadTypes;
 }

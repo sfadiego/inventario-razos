@@ -32,6 +32,9 @@ class ProductosByVentaLogic extends ShowLogic
 
     public function run(IndexData $data): JsonResponse
     {
+        if (empty($data->params['venta_id'])) {
+            return Response::error('Faltan parametros en la peticion');
+        }
         $this->queryBuilder = $this->modelo->newQuery();
         $this->pagination = $this->queryBuilder->where('venta_id', $data->params['venta_id'] ?? 0)
             ->paginate($data->limit, ['*'], 'page', $data->page);

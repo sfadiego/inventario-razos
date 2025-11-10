@@ -5,6 +5,7 @@ namespace App\Imports;
 use App\Enums\ProductoUnidadEnum;
 use App\Models\Categoria;
 use App\Models\ImagenProducto;
+use App\Models\Marca;
 use App\Models\Producto;
 use App\Models\Proveedor;
 use App\Models\Ubicacion;
@@ -60,6 +61,7 @@ class ImportProducto implements ToModel, WithCalculatedFormulas, WithStartRow
         $proveedor = isset($row[9]) ? trim($row[9]) : null;
         $categoria = isset($row[10]) ? trim($row[10]) : null;
         $ubicacion = isset($row[11]) ? trim($row[11]) : null;
+        $marca = isset($row[12]) ? trim($row[12]) : null;
 
         if (empty($nombre)) {
             $this->duplicates[] = [
@@ -101,6 +103,7 @@ class ImportProducto implements ToModel, WithCalculatedFormulas, WithStartRow
             'proveedor_id' => Proveedor::firstOrCreate(['nombre' => $proveedor])->id,
             'categoria_id' => Categoria::firstOrCreate(['nombre' => $categoria])->id,
             'ubicacion_id' => Ubicacion::firstOrCreate(['nombre' => $ubicacion])->id,
+            'marca_id' => Marca::firstOrCreate(['nombre' => $marca])->id,
         ];
 
         $this->inserted[] = $nombre;

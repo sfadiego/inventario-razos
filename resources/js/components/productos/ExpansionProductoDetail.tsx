@@ -8,7 +8,7 @@ interface ExpansionProductoDetailProps {
 }
 
 export const ExpansionProductoDetail = ({ record }: ExpansionProductoDetailProps) => {
-  const { nombre, compatibilidad, imagen, unidad, stock } = record;
+  const { nombre, compatibilidad, imagen, unidad, stock, marca, precio_venta } = record;
   const { image } = useGetImagen(imagen ?? null);
   return (
     <div className="grid grid-cols-12 px-8 pt-2">
@@ -18,7 +18,13 @@ export const ExpansionProductoDetail = ({ record }: ExpansionProductoDetailProps
           <span className="font-bold">Compatibilidad:</span> {compatibilidad || ' -- '}
         </p>
         <p className="mb-2">
-          {stock} {stock > 1 ? unidadPluralMap(unidad) : unidad}
+          <span className="font-bold">Marca:</span> {marca?.nombre || ' -- '}
+        </p>
+        <p className="mb-2">
+          <span className="font-bold">Precio venta p/{unidadPluralMap(unidad).toLowerCase()}:</span> {precio_venta || ' -- '}
+        </p>
+        <p className="mb-2">
+          <span className="font-bold">Stock:</span> {stock} {stock > 1 ? unidadPluralMap(unidad) : unidad}
         </p>
       </div>
       {image && (

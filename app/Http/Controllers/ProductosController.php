@@ -65,13 +65,14 @@ class ProductosController extends Controller
 
     public function delete(Producto $producto): JsonResponse
     {
-        if (!$producto || !$producto->activo) {
-            return Response::error("Producto no encontrado");
+        if (! $producto || ! $producto->activo) {
+            return Response::error('Producto no encontrado');
         }
 
         $producto->update([
             'activo' => false,
         ]);
-        return Response::success("","Producto eliminado correctamente");
+
+        return Response::success('', 'Producto eliminado correctamente');
     }
 }
