@@ -165,5 +165,4 @@ class VentaTest extends TestCase
             'folio' => $venta->folio,
         ]);
     }
-
 }

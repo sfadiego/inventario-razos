@@ -16,7 +16,7 @@ class VentaFactory extends Factory
             'folio' => strtoupper($this->faker->unique()->bothify('V-######-##')),
             'cliente_id' => Cliente::inRandomOrder()->value('id'),
             'tipo_compra' => $this->faker->randomElement(['credito', 'contado']),
-            'status_venta' => StatusVentaEnum::Activa->value
+            'status_venta' => StatusVentaEnum::Activa->value,
         ];
     }
 }

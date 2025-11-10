@@ -1,8 +1,8 @@
 <?php
 
 use App\Http\Controllers\UbicacionesController;
-use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Response;
+use Illuminate\Support\Facades\Route;
 
 Route::controller(UbicacionesController::class)
     ->group(function () {
@@ -13,8 +13,8 @@ Route::controller(UbicacionesController::class)
                 return Response::error('Ubicacion no encontrada');
             })
             ->group(function () {
-            Route::get('', 'show');
-            Route::put('', 'update');
-            Route::delete('', 'destroy');
-        });
+                Route::get('', 'show');
+                Route::put('', 'update');
+                Route::delete('', 'destroy');
+            });
     });

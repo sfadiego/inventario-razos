@@ -12,7 +12,6 @@ use Tests\TestCase;
 
 class VentaProductoTest extends TestCase
 {
-
     public function test_agregar_producto_a_venta(): void
     {
         $this->loginAdmin();
@@ -59,7 +58,7 @@ class VentaProductoTest extends TestCase
         $this->assertDatabaseHas('venta_producto', [
             'venta_id' => $venta->id,
             'producto_id' => $producto->id,
-            'cantidad' => $payload['cantidad']
+            'cantidad' => $payload['cantidad'],
         ]);
 
         $this->assertDatabaseHas('venta', [
@@ -138,7 +137,7 @@ class VentaProductoTest extends TestCase
         $payload = [
             'cantidad' => 5,
             'precio' => $producto->precio_venta,
-            'producto_id' => $producto->id
+            'producto_id' => $producto->id,
         ];
         $response = $this->put("/api/venta-producto/{$ventaProducto->id}", $payload);
         $response->assertStatus(200);
