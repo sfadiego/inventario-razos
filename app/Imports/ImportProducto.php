@@ -32,7 +32,7 @@ class ImportProducto implements ToModel, WithCalculatedFormulas, WithStartRow
     {
         $this->existingProducts = Producto::query()
             ->pluck('nombre')
-            ->map(fn($n) => mb_strtolower(trim($n)))
+            ->map(fn ($n) => mb_strtolower(trim($n)))
             ->toArray();
     }
 
@@ -55,10 +55,10 @@ class ImportProducto implements ToModel, WithCalculatedFormulas, WithStartRow
         $categoria = null;
         $ubicacion = null;
 
-
         $key = mb_strtolower($nombre);
         if (in_array($key, $this->existingProducts, true)) {
             $this->duplicates[] = ['nombre' => $nombre];
+
             return null;
         }
 

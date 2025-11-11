@@ -7,13 +7,14 @@ use Illuminate\Database\Eloquent\Model;
 class ErrorReporting extends Model
 {
     protected $table = 'error_reporting';
+
     protected $fillable = [
         'endpoint',
         'method',
         'status_code',
         'error_message',
         'request_payload',
-        'response_body'
+        'response_body',
     ];
 
     protected $casts = [

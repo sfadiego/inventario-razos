@@ -113,7 +113,7 @@ class VentaTest extends TestCase
 
         $this->assertDatabaseHas('venta', [
             'id' => $venta->id,
-            
+
         ]);
     }
 
