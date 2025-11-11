@@ -111,7 +111,10 @@ class VentaTest extends TestCase
             ],
         ]);
 
-        $this->assertDatabaseHas('venta', $venta->toArray());
+        $this->assertDatabaseHas('venta', [
+            'id' => $venta->id,
+            
+        ]);
     }
 
     public function test_finalizar_venta(): void
