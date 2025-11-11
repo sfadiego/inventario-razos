@@ -23,7 +23,6 @@ class ErrorRerpotingIndexLogic extends IndexLogic
             'status_code' => 'Status Code',
             'error_message' => 'Error Message',
             'created_at' => 'Fecha',
-            'actions' => '#',
         ];
     }
 

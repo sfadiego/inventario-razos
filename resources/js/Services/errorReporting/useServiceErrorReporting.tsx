@@ -1,0 +1,20 @@
+import { useGET } from '@/hooks/useApi';
+import { IPaginate } from '@/interfaces/IPaginate';
+import { IPaginateServiceProps } from '@/interfaces/IPaginateServiceProps';
+import { IErrorReporting } from '@/models/errorReporting';
+import { ApiRoutes } from '@/router/modules/admin.routes';
+
+const url = ApiRoutes.ErrorReporting;
+export const useServiceIndexErrorReporting = ({ filters = [], search = null, page = 1, limit = 10 }: IPaginateServiceProps) => {
+  return useGET<IPaginate<IErrorReporting>>({
+    url,
+    filters: {
+      filters,
+      search,
+      page,
+      limit,
+    },
+  });
+};
+
+export const useServiceShowErrorReporting = (id?: number) => useGET<IErrorReporting>({ url: `${url}/${id}`, enable: !!id });

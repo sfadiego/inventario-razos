@@ -1,4 +1,4 @@
 export interface IMarca {
-  id: number;
+  id?: number;
   nombre: string;
 }

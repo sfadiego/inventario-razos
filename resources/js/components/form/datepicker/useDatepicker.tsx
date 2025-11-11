@@ -1,13 +1,5 @@
-import { format } from 'date-fns';
+import { formatDate } from '@/helper/dates';
 import { FormikProps } from 'formik';
-
-// TODO: revisar si hay problema con fechas
-const formatDate = (date: string): string => {
-  if (!date) {
-    return '';
-  }
-  return format(new Date(date), 'yyyy-MM-dd');
-};
 
 export const useDatePicker = () => {
   return {
