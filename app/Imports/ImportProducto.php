@@ -36,9 +36,64 @@ class ImportProducto implements ToModel, WithCalculatedFormulas, WithStartRow
             ->toArray();
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Model|null
-     */
+    // version 2: ajustar excel para poder importarse
+    public function model_v2(array $row)
+    {
+        $codigo = isset($row[0]) ? trim((string) $row[0]) : Producto::createFolio($row[2]);
+        $cantidad = isset($row[1]) ? trim((string) $row[1]) : 0;
+        $nombre = isset($row[2]) ? trim((string) $row[2]) : null;
+        $marca = isset($row[3]) ? trim((string) $row[3]) : null;
+
+        // default values
+        $unidad = ProductoUnidadEnum::PIEZA;
+        $precio_compra = 0;
+        $precio_venta = 0;
+        $stock = $cantidad;
+        $cantidad_minima = 1;
+        $compatibilidad = null;
+        $proveedor = null;
+        $categoria = null;
+        $ubicacion = null;
+
+        $key = mb_strtolower($nombre);
+        if (in_array($key, $this->existingProducts, true)) {
+            $this->duplicates[] = ['nombre' => $nombre];
+
+            return null;
+        }
+
+        $imagenId = null;
+        if (str_contains($row[8], 'https://')) {
+            $imagen = ImagenProducto::create([
+                'archivo' => $row[8],
+                'path' => '',
+                'external' => true,
+            ]);
+            $imagenId = $imagen->id;
+        }
+
+        $currentRow = [
+            'nombre' => $nombre,
+            'unidad' => $unidad,
+            'codigo' => $codigo,
+            'precio_compra' => $precio_compra,
+            'precio_venta' => $precio_venta,
+            'stock' => $stock,
+            'cantidad_minima' => $cantidad_minima,
+            'compatibilidad' => $compatibilidad,
+            'activo' => true,
+            'imagen_id' => $imagenId,
+            'proveedor_id' => $proveedor,
+            'categoria_id' => $categoria,
+            'ubicacion_id' => $ubicacion,
+            'marca_id' => $marca,
+        ];
+
+        $this->inserted[] = $nombre;
+
+        return new Producto($currentRow);
+    }
+
     public function model(array $row)
     {
         $nombre = isset($row[0]) ? trim((string) $row[0]) : null;

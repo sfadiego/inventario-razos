@@ -1,5 +1,5 @@
 import { INavItem } from '@/interfaces/INavItem';
-import { BadgeDollarSign, Banknote, BookOpenText, Cog, File, FolderSearch, Home, ListChecks, UserSearch } from 'lucide-react';
+import { BadgeDollarSign, Banknote, BookOpenText, Cog, File, FileWarning, FolderSearch, Home, ListChecks, UserSearch, Wrench } from 'lucide-react';
 import { AdminRoutes } from './admin.routes';
 export const adminSidebarRoutes: INavItem[] = [
   {
@@ -21,6 +21,11 @@ export const adminSidebarRoutes: INavItem[] = [
         name: 'Ubicaciones',
         path: AdminRoutes.Ubicaciones,
       },
+      {
+        icon: <Wrench />,
+        name: 'Marcas',
+        path: AdminRoutes.Marcas,
+      },
     ],
   },
   {
@@ -37,6 +42,11 @@ export const adminSidebarRoutes: INavItem[] = [
     icon: <UserSearch />,
     name: 'Clientes',
     path: AdminRoutes.Clientes,
+  },
+  {
+    icon: <FileWarning />,
+    name: 'Error Reporting',
+    path: AdminRoutes.ErrorReporting,
   },
 ];
 

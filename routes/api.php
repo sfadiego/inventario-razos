@@ -19,6 +19,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::prefix('reporte-movimientos')->group(base_path('/routes/modules/reporteMovimientos.php'));
     Route::prefix('tipo-movimientos')->group(base_path('/routes/modules/tipoMovimientos.php'));
     Route::prefix('marcas')->group(base_path('/routes/modules/marcas.php'));
+    Route::prefix('error-reporting')->group(base_path('/routes/modules/errorReporting.php'));
 
     Route::prefix('auth')->group(function () {
         Route::controller(AuthController::class)

@@ -8,6 +8,7 @@ use Tests\TestCase;
 
 class ImportTest extends TestCase
 {
+    // ajustar excel para poder importarse
     public function test_import_products_successfully(): void
     {
         $this->loginAdmin();

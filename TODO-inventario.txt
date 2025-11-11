@@ -210,3 +210,5 @@ observaciones
   - compatibilidad
   - detalles
 
+TODO:
+- crear administrador de reporte de errores

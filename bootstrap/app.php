@@ -1,6 +1,7 @@
 <?php
 
 use App\Enums\HttpError;
+use App\Http\Middleware\ErrorReporting;
 use App\Http\Middleware\SetHeaders;
 use App\Http\Middleware\Transactions\TransactionMiddleware;
 use Illuminate\Foundation\Application;
@@ -19,7 +20,7 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
         then: function (Application $app) {
             Route::prefix('/api')
-                ->middleware(['setHeaders', 'api', 'transaction'])
+                ->middleware(['setHeaders', 'api', 'transaction', 'errorReporting'])
                 ->group(base_path('routes/api.php'));
         },
     )
@@ -32,6 +33,7 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->alias([
             'setHeaders' => SetHeaders::class,
             'transaction' => TransactionMiddleware::class,
+            'errorReporting' => ErrorReporting::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
