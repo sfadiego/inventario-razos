@@ -163,4 +163,42 @@ class VentaProductoTest extends TestCase
             'venta_total' => $producto->precio_venta * $payload['cantidad'],
         ]);
     }
+
+    public function test_count_productos_carrito(): void
+    {
+        $this->loginAdmin();
+        $venta = Venta::factory()->create();
+        $producto = Producto::factory()->create([
+            'nombre' => $this->faker->unique()->word,
+            'proveedor_id' => Proveedor::factory()->create()->id,
+            'categoria_id' => Categoria::first()->id,
+            'codigo' => strtoupper($this->faker->unique()->bothify('????-#####')),
+            'precio_compra' => $this->faker->randomFloat(2, 10, 100),
+            'precio_venta' => $this->faker->randomFloat(2, 20, 200),
+            'stock' => 10,
+            'cantidad_minima' => $this->faker->numberBetween(1, 10),
+            'compatibilidad' => $this->faker->text(50),
+            'ubicacion_id' => Ubicacion::firstOrCreate(['nombre' => $this->faker->unique()->word])->id,
+            'activo' => $this->faker->boolean,
+        ]);
+
+        VentaProducto::factory()->create([
+            'cantidad' => 8,
+            'precio' => $producto->precio_venta,
+            'producto_id' => $producto->id,
+            'venta_id' => $venta->id,
+        ]);
+
+        $total = VentaProducto::where('venta_id', $venta->id)->count();
+
+        $response = $this->get("/api/ventas/{$venta->id}/count-productos");
+        $response->assertStatus(200);
+        $response->assertJson([
+            'status' => 'OK',
+            'message' => null,
+            'data' => [
+                'total' => $total,
+            ],
+        ]);
+    }
 }
