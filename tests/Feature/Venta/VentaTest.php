@@ -93,6 +93,7 @@ class VentaTest extends TestCase
         $venta = Venta::factory()->create();
         // fetch venta
         $response = $this->get("/api/ventas/{$venta->id}");
+        // dd($response->json());
         $response->assertStatus(200);
         $response->assertJsonStructure([
             'status',

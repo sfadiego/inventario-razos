@@ -354,13 +354,12 @@ class ProductoTest extends TestCase
 
     public function test_delete_producto(): void
     {
+        $this->loginAdmin();
 
         Proveedor::factory()->create();
         Categoria::factory()->create();
         Ubicacion::factory()->create();
         $producto = Producto::factory()->create();
-
-        $this->loginAdmin();
 
         $response = $this->delete("/api/productos/{$producto->id}");
         $response->assertStatus(200);
