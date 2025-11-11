@@ -4,6 +4,7 @@ namespace Tests\Feature\Producto;
 
 use App\Enums\TipoMovimientoEnum;
 use App\Models\Categoria;
+use App\Models\Marca;
 use App\Models\Producto;
 use App\Models\Proveedor;
 use App\Models\Ubicacion;
@@ -116,6 +117,7 @@ class ProductoTest extends TestCase
             'ubicacion_id' => $ubicacion->id,
             'activo' => $this->faker->boolean,
             'imagen_id' => null,
+            'marca_id' => Marca::factory()->create()->id,
             'unidad' => $this->faker->randomElement(['pieza', 'metro', 'par']),
         ];
 
@@ -174,6 +176,7 @@ class ProductoTest extends TestCase
             'ubicacion_id' => $ubicacion->id,
             'activo' => $this->faker->boolean,
             'imagen_id' => null,
+            'marca_id' => Marca::factory()->create()->id,
             'unidad' => $this->faker->randomElement(['pieza', 'metro', 'par']),
             'file' => $file,
         ];
@@ -230,6 +233,7 @@ class ProductoTest extends TestCase
             'ubicacion_id' => $producto->ubicacion_id,
             'activo' => $this->faker->boolean,
             'imagen_id' => null,
+            'marca_id' => Marca::factory()->create()->id,
             'unidad' => $this->faker->randomElement(['pieza', 'metro', 'par']),
         ];
 
@@ -252,6 +256,7 @@ class ProductoTest extends TestCase
                 'ubicacion_id' => $payload['ubicacion_id'],
                 'activo' => $payload['activo'],
                 'imagen_id' => $payload['imagen_id'],
+                'marca_id' => $payload['marca_id'],
                 'unidad' => $payload['unidad'],
             ],
         ]);
