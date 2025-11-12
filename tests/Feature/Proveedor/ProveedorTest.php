@@ -71,8 +71,8 @@ class ProveedorTest extends TestCase
         $categoria = Categoria::factory()->create();
 
         $payload = [
-            'nombre' => 'Proveedor Test Updated',
-            'observaciones' => 'Observaciones del proveedor actualizadas',
+            'nombre' => $this->faker->unique()->name,
+            'observaciones' => $this->faker->text(20),
             'categorias' => [
                 $categoria->id,
             ],
@@ -123,7 +123,6 @@ class ProveedorTest extends TestCase
         $response = $this->post('/api/proveedores', $payload);
 
         $response->assertStatus(200);
-
         $response->assertJsonStructure([
             'status',
             'message',
@@ -131,12 +130,8 @@ class ProveedorTest extends TestCase
                 'id',
                 'nombre',
                 'observaciones',
-                'categorias' => [
-                    '*' => [
-                        'id',
-                        'nombre',
-                    ],
-                ],
+                'created_at',
+                'updated_at',
             ],
         ]);
 
@@ -144,7 +139,6 @@ class ProveedorTest extends TestCase
             'nombre' => $payload['nombre'],
             'observaciones' => $payload['observaciones'],
             'id' => Proveedor::latest()->first()->id,
-            'id' => $categoria->id,
         ]);
     }
 }

@@ -272,17 +272,17 @@ class ProductoTest extends TestCase
 
         $producto = Producto::factory()->create();
 
-        $data = [
-            'nombre' => 'test nombre',
+        $payload = [
+            'nombre' => $this->faker->unique()->word,
         ];
 
-        $response = $this->post("/api/productos/{$producto->id}", $data);
+        $response = $this->post("/api/productos/{$producto->id}", $payload);
 
         $response->assertStatus(200)
             ->assertJson([
                 'status' => 'OK',
                 'data' => [
-                    'nombre' => 'test nombre',
+                    'nombre' => $payload['nombre'],
                     'proveedor_id' => $producto->proveedor_id,
                     'categoria_id' => $producto->categoria_id,
                     'precio_compra' => $producto->precio_compra,
@@ -294,7 +294,7 @@ class ProductoTest extends TestCase
 
         $this->assertDatabaseHas('productos', [
             'id' => $producto->id,
-            'nombre' => 'test nombre',
+            'nombre' => $payload['nombre'],
         ]);
     }
 
@@ -359,7 +359,9 @@ class ProductoTest extends TestCase
         Proveedor::factory()->create();
         Categoria::factory()->create();
         Ubicacion::factory()->create();
-        $producto = Producto::factory()->create();
+        $producto = Producto::factory()->create([
+            'activo' => true,
+        ]);
 
         $response = $this->delete("/api/productos/{$producto->id}");
         $response->assertStatus(200);

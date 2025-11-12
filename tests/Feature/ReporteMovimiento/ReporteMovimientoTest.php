@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\ReporteMovimiento;
 
+use App\Enums\TipoMovimientoEnum;
 use App\Models\Producto;
 use App\Models\ReporteMovimiento;
 use App\Models\User;
@@ -77,13 +78,17 @@ class ReporteMovimientoTest extends TestCase
         $producto = Producto::factory()->create();
         $user = User::factory()->create();
 
+        $cantidadAnterior = $this->faker->numberBetween(1, $producto->stock);
+        $cantidad = $this->faker->numberBetween(1, 10);
+        $cantidadActual = $cantidadAnterior + $cantidad;
+
         $payload = [
             'producto_id' => $producto->id,
             'user_id' => $user->id,
-            'tipo_movimiento_id' => 1,
-            'cantidad' => 5,
-            'cantidad_anterior' => 10,
-            'cantidad_actual' => 15,
+            'tipo_movimiento_id' => TipoMovimientoEnum::ENTRADA->value,
+            'cantidad' => $cantidad,
+            'cantidad_anterior' => $cantidadAnterior,
+            'cantidad_actual' => $cantidadActual,
         ];
 
         $response = $this->post('/api/reporte-movimientos', $payload);
@@ -99,6 +104,11 @@ class ReporteMovimientoTest extends TestCase
                 'cantidad_actual',
                 'user_id',
             ],
+        ]);
+
+        $this->assertDatabaseHas('reporte_movimientos', [
+            'producto_id' => $producto->id,
+            'tipo_movimiento_id' => 1,
         ]);
     }
 

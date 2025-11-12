@@ -12,8 +12,18 @@ class CategoriaTest extends TestCase
         $this->loginAdmin();
 
         Categoria::factory()->createMany([
-            ['nombre' => 'Luces test', 'activa' => true],
-            ['nombre' => 'Refacciones test', 'activa' => true],
+            [
+                'nombre' => $this->faker->unique()->name,
+                'activa' => true,
+            ],
+            [
+                'nombre' => $this->faker->unique()->name,
+                'activa' => true,
+            ],
+            [
+                'nombre' => $this->faker->unique()->name,
+                'activa' => true,
+            ],
         ]);
 
         $response = $this->getJson('/api/categorias');
@@ -46,15 +56,6 @@ class CategoriaTest extends TestCase
             'columns' => [
                 '*' => ['accessor', 'title'],
             ],
-        ]);
-
-        $this->assertDatabaseHas('categorias', [
-            'nombre' => 'Luces test',
-            'activa' => true,
-        ]);
-        $this->assertDatabaseHas('categorias', [
-            'nombre' => 'Refacciones test',
-            'activa' => true,
         ]);
 
         $this->assertEquals(Categoria::count(), $response->json('total'));

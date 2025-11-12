@@ -7,9 +7,13 @@ Route::controller(ProductosController::class)
     ->group(function () {
         Route::get('', 'index');
         Route::post('', 'store');
-        Route::prefix('{producto}')->group(function () {
-            Route::get('', 'show');
-            Route::post('', 'update');
-            Route::delete('', 'delete');
-        });
+        Route::prefix('{producto}')
+            ->missing(function () {
+                return Response::error('Producto no encontrado');
+            })
+            ->group(function () {
+                Route::get('', 'show');
+                Route::post('', 'update');
+                Route::delete('', 'delete');
+            });
     });
