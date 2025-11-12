@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { Link, useLocation } from 'react-router';
 
-import { EllipsisVertical } from 'lucide-react';
+import { CarFront, EllipsisVertical } from 'lucide-react';
 // Assume these icons are imported from an icon library
 import { INavItem } from '@/interfaces/INavItem';
 import { adminSidebarRoutes, mainSidebarRoutes } from '@/router/modules/sidebar.routes';
@@ -14,6 +14,7 @@ const navItems: INavItem[] = mainSidebarRoutes;
 const othersItems: INavItem[] = adminSidebarRoutes;
 
 const AppSidebar: React.FC = () => {
+  const { VITE_APP_FULL_TITLE } = import.meta.env;
   const { isExpanded, isMobileOpen, isHovered, setIsHovered } = useSidebar();
   const location = useLocation();
 
@@ -21,7 +22,6 @@ const AppSidebar: React.FC = () => {
   const [subMenuHeight, setSubMenuHeight] = useState<Record<string, number>>({});
   const subMenuRefs = useRef<Record<string, HTMLDivElement | null>>({});
 
-  // const isActive = (path: string) => location.pathname === path;
   const isActive = useCallback((path: string) => location.pathname === path, [location.pathname]);
 
   useEffect(() => {
@@ -166,11 +166,15 @@ const AppSidebar: React.FC = () => {
         <Link className="" to="/">
           {isExpanded || isHovered || isMobileOpen ? (
             <>
-              <img className="dark:hidden" src="/images/logo/logo.svg" alt="Logo" width={150} height={40} />
-              <img className="hidden dark:block" src="/images/logo/logo-dark.svg" alt="Logo" width={150} height={40} />
+              <div className="flex p-2">
+                <div className="mr-2 flex-none dark:text-white">
+                  <CarFront />
+                </div>
+                <div className="flex-1 dark:text-white">{VITE_APP_FULL_TITLE || 'SIN TITULO'}</div>
+              </div>
             </>
           ) : (
-            <img src="/images/logo/logo-icon.svg" alt="Logo" width={32} height={32} />
+            <CarFront className="dark:text-white" />
           )}
         </Link>
       </div>
