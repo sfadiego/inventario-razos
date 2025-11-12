@@ -1,9 +1,11 @@
+import { CarFront } from 'lucide-react';
 import { PropsWithChildren } from 'react';
 import { Link } from 'react-router';
 import GridShape from '../../components/common/GridShape';
 import ThemeTogglerTwo from '../../components/common/ThemeTogglerTwo';
 
 export default function AuthLayout({ children }: PropsWithChildren) {
+  const { VITE_APP_FULL_TITLE } = import.meta.env;
   return (
     <div className="relative z-1 bg-white p-6 sm:p-0 dark:bg-gray-900">
       <div className="relative flex h-screen w-full flex-col justify-center sm:p-0 lg:flex-row dark:bg-gray-900">
@@ -14,7 +16,10 @@ export default function AuthLayout({ children }: PropsWithChildren) {
             <GridShape />
             <div className="flex max-w-xs flex-col items-center">
               <Link to="/" className="mb-4 block">
-                <img width={231} height={48} src="/images/logo/auth-logo.svg" alt="Logo" />
+                <div className="flex items-center gap-2">
+                  <CarFront className="h-16 w-16 text-white dark:text-white" />
+                  <p className="text-center text-2xl text-gray-400 dark:text-white/60">{VITE_APP_FULL_TITLE || 'SIN TITULO'}</p>
+                </div>
               </Link>
               <p className="text-center text-gray-400 dark:text-white/60"></p>
             </div>

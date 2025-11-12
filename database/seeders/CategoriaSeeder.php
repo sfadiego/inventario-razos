@@ -15,7 +15,7 @@ class CategoriaSeeder extends Seeder
         ]);
 
         Categoria::create([
-            'nombre' => 'Refacciones',
+            'nombre' => 'Motocicletas',
             'activa' => true,
         ]);
     }

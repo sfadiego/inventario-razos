@@ -43,6 +43,9 @@ wait_for_mysql
 # Ejecutar tareas de arranque solo una vez (o cada inicio según prefieras)
 # Composer install
 if [ -f composer.json ]; then
+  echo "removing vendor files"
+  rm -rf vendor
+  
   echo "Running composer install..."
   # usar --no-interaction --no-progress para no colgar en CI
   composer install --no-interaction --prefer-dist --optimize-autoloader || true

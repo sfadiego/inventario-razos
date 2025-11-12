@@ -5,6 +5,7 @@ import { useState } from 'react';
 import { Link } from 'react-router';
 import { Avatar } from '../avatar/Avatar';
 import { Dropdown } from '../ui/dropdown/Dropdown';
+import Button from '../ui/button/Button';
 
 export default function UserDropdown() {
   const [isOpen, setIsOpen] = useState(false);
@@ -16,7 +17,7 @@ export default function UserDropdown() {
   function closeDropdown() {
     setIsOpen(false);
   }
-  const { user } = useAxios();
+  const { user, logout } = useAxios();
   return (
     <div className="relative">
       <button onClick={toggleDropdown} className="dropdown-toggle flex items-center text-gray-700 dark:text-gray-400">
@@ -34,13 +35,13 @@ export default function UserDropdown() {
           <span className="text-theme-xs mt-0.5 block text-gray-500 dark:text-gray-400">{user?.email}</span>
         </div>
 
-        <Link
-          to={AuthRoutes.Login}
+        <Button
+          onClick={logout}
           className="group text-theme-sm mt-3 flex items-center gap-3 rounded-lg px-3 py-2 font-medium text-gray-700 hover:bg-gray-100 hover:text-gray-700 dark:text-gray-400 dark:hover:bg-white/5 dark:hover:text-gray-300"
         >
           <LogOut width="24" height="24" />
           Cerrar Sesión
-        </Link>
+        </Button>
       </Dropdown>
     </div>
   );

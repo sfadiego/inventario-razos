@@ -19,6 +19,8 @@ class ClienteFactory extends Factory
         return [
             'nombre' => $this->faker->name,
             'observaciones' => $this->faker->sentence,
+            'confiable' => $this->faker->boolean,
+            'adeudo' => $this->faker->numberBetween(0, -1000),
         ];
     }
 }
