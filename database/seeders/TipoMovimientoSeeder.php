@@ -22,7 +22,7 @@ class TipoMovimientoSeeder extends Seeder
             [
                 'id' => 3,
                 'nombre' => TipoMovimientoEnum::fromId(TipoMovimientoEnum::REAJUSTE->value),
-            ]
+            ],
         ];
         TipoMovimiento::insert($data);
     }

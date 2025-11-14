@@ -16,7 +16,7 @@ class RoleSeeder extends Seeder
             ],
             [
                 'role' => RoleEnum::User,
-            ]
+            ],
         ];
         Role::insert($data);
     }

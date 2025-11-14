@@ -25,7 +25,7 @@ class UserSeeder extends Seeder
                 'email' => 'empleado@repamostos.com',
                 'password' => Hash::make('password'),
                 'activo' => true,
-            ]
+            ],
         ];
         User::insert($data);
     }
