@@ -78,7 +78,8 @@ class ReporteMovimientoTest extends TestCase
         $producto = Producto::factory()->create();
         $user = User::factory()->create();
 
-        $cantidadAnterior = $this->faker->numberBetween(1, $producto->stock);
+        $cantidadAnterior = $producto->stock;
+
         $cantidad = $this->faker->numberBetween(1, 10);
         $cantidadActual = $cantidadAnterior + $cantidad;
 
@@ -92,6 +93,7 @@ class ReporteMovimientoTest extends TestCase
         ];
 
         $response = $this->post('/api/reporte-movimientos', $payload);
+
         $response->assertStatus(200);
         $response->assertJsonStructure([
             'status',
@@ -108,7 +110,15 @@ class ReporteMovimientoTest extends TestCase
 
         $this->assertDatabaseHas('reporte_movimientos', [
             'producto_id' => $producto->id,
-            'tipo_movimiento_id' => 1,
+            'tipo_movimiento_id' => TipoMovimientoEnum::ENTRADA->value,
+            'cantidad' => $cantidad,
+            'cantidad_anterior' => $cantidadAnterior,
+            'cantidad_actual' => $cantidadActual,
+        ]);
+
+        $this->assertDatabaseHas('productos', [
+            'id' => $producto->id,
+            'stock' => $cantidadActual,
         ]);
     }
 
@@ -127,7 +137,7 @@ class ReporteMovimientoTest extends TestCase
         $payload = [
             'producto_id' => $producto->id,
             'user_id' => $user->id,
-            'tipo_movimiento_id' => 1,
+            'tipo_movimiento_id' => TipoMovimientoEnum::ENTRADA->value,
             'cantidad' => 5,
             'cantidad_anterior' => 10,
             'cantidad_actual' => 15,
