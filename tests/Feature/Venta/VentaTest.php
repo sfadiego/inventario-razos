@@ -89,9 +89,9 @@ class VentaTest extends TestCase
     public function test_show_venta(): void
     {
         $this->loginAdmin();
-        // crear venta
+
         $venta = Venta::factory()->create();
-        // fetch venta
+
         $response = $this->get("/api/ventas/{$venta->id}");
         $response->assertStatus(200);
         $response->assertJsonStructure([
@@ -120,7 +120,7 @@ class VentaTest extends TestCase
     public function test_finalizar_venta(): void
     {
         $this->loginAdmin();
-        // crear venta
+
         $venta = Venta::factory()->create();
         $producto = Producto::factory()->create([
             'nombre' => $this->faker->word,

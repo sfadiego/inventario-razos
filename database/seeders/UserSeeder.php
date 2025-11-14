@@ -11,20 +11,22 @@ class UserSeeder extends Seeder
 {
     public function run(): void
     {
-        User::create([
-            'name' => 'Diego Silva',
-            'role_id' => RoleEnum::Admin->value,
-            'email' => 'admin@repamotos.com',
-            'password' => Hash::make('password'),
-            'activo' => true,
-        ]);
-
-        User::create([
-            'name' => 'Hugo Vargas',
-            'role_id' => RoleEnum::User->value,
-            'email' => 'empleado@repamostos.com',
-            'password' => Hash::make('password'),
-            'activo' => true,
-        ]);
+        $data = [
+            [
+                'name' => 'Diego Silva',
+                'role_id' => RoleEnum::Admin->value,
+                'email' => 'admin@repamotos.com',
+                'password' => Hash::make('password'),
+                'activo' => true,
+            ],
+            [
+                'name' => 'Hugo Vargas',
+                'role_id' => RoleEnum::User->value,
+                'email' => 'empleado@repamostos.com',
+                'password' => Hash::make('password'),
+                'activo' => true,
+            ]
+        ];
+        User::insert($data);
     }
 }

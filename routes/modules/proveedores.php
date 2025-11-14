@@ -15,6 +15,6 @@ Route::controller(ProveedoresController::class)
             ->group(function () {
                 Route::get('', 'show');
                 Route::put('', 'update');
-                Route::delete('', 'destroy');
+                Route::delete('', 'delete');
             });
     });

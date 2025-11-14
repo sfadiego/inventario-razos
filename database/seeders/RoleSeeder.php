@@ -10,12 +10,14 @@ class RoleSeeder extends Seeder
 {
     public function run(): void
     {
-        Role::create([
-            'role' => RoleEnum::Admin,
-        ]);
-
-        Role::create([
-            'role' => RoleEnum::User,
-        ]);
+        $data = [
+            [
+                'role' => RoleEnum::Admin,
+            ],
+            [
+                'role' => RoleEnum::User,
+            ]
+        ];
+        Role::insert($data);
     }
 }
