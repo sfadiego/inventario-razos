@@ -23,7 +23,7 @@ jobs:
       - name: Install PNPM dependencies
         run: pnpm install
       - name: Run frontend formatter
-        run: pnpm run format
+        run: pnpm run format:check
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
