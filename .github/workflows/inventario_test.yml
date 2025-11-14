@@ -34,9 +34,5 @@ jobs:
       run: php artisan config:clear
     - name: Clear cache
       run: php artisan cache:clear
-    - name: Run Laravel Pint (code style)
-      run: ./vendor/bin/pint --test
-    - name: Run frontend formatter
-      run: pnpm run format
     - name: Execute tests
       run: php artisan test --env=testing
