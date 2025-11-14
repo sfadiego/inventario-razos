@@ -1,11 +1,9 @@
 import { useAxios } from '@/hooks/useAxios';
-import { AuthRoutes } from '@/router/modules/auth.routes';
 import { ChevronDown, ChevronUp, LogOut } from 'lucide-react';
 import { useState } from 'react';
-import { Link } from 'react-router';
 import { Avatar } from '../avatar/Avatar';
-import { Dropdown } from '../ui/dropdown/Dropdown';
 import Button from '../ui/button/Button';
+import { Dropdown } from '../ui/dropdown/Dropdown';
 
 export default function UserDropdown() {
   const [isOpen, setIsOpen] = useState(false);

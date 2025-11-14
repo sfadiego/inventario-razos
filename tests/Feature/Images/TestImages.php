@@ -36,13 +36,13 @@ class TestImages extends TestCase
         $responseImage = $this->get("/api/images/{$imagePath}/{$imageArchivo}", [
             'Content-Type' => 'blob',
         ]);
-        //TODO: hacer que pase el test
+        // TODO: hacer que pase el test
         $responseImage->assertStatus(200);
         $responseImage->assertHeader('Content-Type', 'image/jpeg');
         $this->assertNotEmpty($responseImage->getContent());
         $this->assertIsString($responseImage->getContent());
 
-        // todo: revisar que este en base de datos 
+        // todo: revisar que este en base de datos
         // revisar que este en local storage
 
     }
