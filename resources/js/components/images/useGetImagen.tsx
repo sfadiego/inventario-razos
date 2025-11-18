@@ -45,7 +45,7 @@ export const useGetImagen = (imagenObject: IImagenProducto | null): { image: str
 
     cleanupObjectUrl();
     setImage(null);
-  }, [isLoading, data, folder, name, external]);
+  }, [isLoading, data, folder, name, external, imagenObject]);
 
   return { image };
 };

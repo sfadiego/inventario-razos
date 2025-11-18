@@ -47,10 +47,15 @@ export const useInputSelect = <T extends object>({
         await formik.setFieldValue(name, null);
       }
     }
+
+    if (onChange) {
+      console.log({ onchange: newValue });
+      onChange(newValue);
+    }
   };
 
   return {
     selectedValue,
-    handleOnChange: onChange || handleOnChange,
+    handleOnChange,
   };
 };
