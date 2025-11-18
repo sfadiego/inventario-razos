@@ -4,7 +4,6 @@ namespace Database\Factories;
 
 use App\Enums\StatusVentaEnum;
 use App\Models\Cliente;
-use App\Models\Venta;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class VentaFactory extends Factory
