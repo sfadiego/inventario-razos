@@ -5,9 +5,9 @@ import Button from '@/components/ui/button/Button';
 import { useModal } from '@/hooks/useModal';
 import { IProducto } from '@/models/producto.interface';
 import { useServiceIndexProductos, useServiceShowProducto } from '@/Services/productos/useServiceProductos';
+import { useSelectedItemStore } from '@/store/useSelectedItemStore';
 import { Camera, Edit } from 'lucide-react';
 import { useEffect, useState } from 'react';
-import { useProductoStore } from './partials/useProductoStore';
 
 export interface IFiltroProducto {
   nombre?: string;
@@ -20,18 +20,18 @@ export const useProductosPage = () => {
   const { openModal: openModalNewImage, isOpen: isOpenNewImage, closeModal: closeModalNewImage } = useModal();
   const [productId, setProductId] = useState<number>(0);
   const { isLoading, data } = useServiceShowProducto(productId);
-  const { setSelectedProducto } = useProductoStore();
+  const { setItem, clearItem } = useSelectedItemStore();
   const handleCloseModal = () => {
     closeModal();
     setProductId(0);
-    setSelectedProducto(null);
+    clearItem('producto');
   };
 
   useEffect(() => {
     if (!isLoading && data && productId) {
-      setSelectedProducto(data);
+      setItem('producto', data);
     }
-  }, [isLoading, data, setSelectedProducto, productId]);
+  }, [isLoading, data, productId, setItem]);
 
   const rowExpansion = {
     content: ({ record }: { record: IProducto }) => <ExpansionProductoDetail record={record} />,

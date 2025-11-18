@@ -18,7 +18,7 @@ export const FiltrosProveedor = ({ formik }: IFiltrosProductoProps) => {
         <Input<IProveedorFormik> label={`Observaciones`} name="observaciones" formik={formik} type={InputTypeEnum.Text} />
       </div>
       <div className="col-span-12 lg:col-span-12">
-        <MultipleSelectCategorias<IProveedorFormik> name="categorias" formik={formik}></MultipleSelectCategorias>
+        <MultipleSelectCategorias name="categorias" formik={formik} />
       </div>
     </>
   );

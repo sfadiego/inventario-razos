@@ -27,6 +27,8 @@ class UserSeeder extends Seeder
                 'activo' => true,
             ],
         ];
-        User::insert($data);
+        foreach ($data as $item) {
+            User::updateOrCreate(['email' => $item['email']], $item);
+        }
     }
 }

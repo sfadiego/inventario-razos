@@ -1,13 +1,15 @@
+import { IOptions } from '@/components/form/select/interfaces/IOptions';
 import { useOnSubmit } from '@/hooks/useOnSubmit';
 import { IVenta } from '@/models/venta.interface';
-import { useClienteStore } from '@/pages/Clientes/partials/useClienteStore';
+import { ICliente } from '@/models/cliente.interface';
 import { AdminRoutes } from '@/router/modules/admin.routes';
 import { useServiceShowCliente } from '@/Services/clientes/useServiceClientes';
 import { useServiceStoreVenta } from '@/Services/ventas/useServiceVenta';
-import { useState } from 'react';
+import { useSelectedItemStore } from '@/store/useSelectedItemStore';
+import { useMemo, useState } from 'react';
 import { useNavigate } from 'react-router';
+import { SingleValue } from 'react-select';
 import * as Yup from 'yup';
-import { useVentasStore } from './useVentasStore';
 const validationSchema = Yup.object().shape({
   venta_total: Yup.number(),
   folio: Yup.string(),
@@ -19,11 +21,12 @@ const validationSchema = Yup.object().shape({
 
 export const useFormVenta = () => {
   const navigate = useNavigate();
-  const { venta, setVenta } = useVentasStore();
-  const { cliente } = useClienteStore();
+  const { getItem, setItem, clearItem } = useSelectedItemStore();
+  const venta = getItem('venta') as IVenta;
+  const cliente = getItem('cliente') as ICliente;
   const [nuevocliente, setNuevocliente] = useState(false);
 
-  const [clienteSeleccionado, setClienteSeleccionado] = useState(0);
+  const [clienteSeleccionado, setClienteSeleccionado] = useState<number>(0);
   const toggleClient = () => setNuevocliente(!nuevocliente);
   const title = venta?.id ? `Venta: ${venta.folio}` : 'Crear Venta';
   const total = venta?.venta_total ?? null;
@@ -39,7 +42,7 @@ export const useFormVenta = () => {
   };
   const redirectNewCliente = () => navigate(AdminRoutes.Clientes);
   const handleSuccess = (venta: IVenta) => {
-    setVenta(venta);
+    setItem('venta', venta);
     navigate(`/venta/${venta?.id}/productos`);
   };
   const mutator = useServiceStoreVenta();
@@ -48,12 +51,16 @@ export const useFormVenta = () => {
     onSuccess: async (data: IVenta) => handleSuccess(data),
   });
 
-  const { data, isLoading } = useServiceShowCliente(clienteSeleccionado);
+  const { data, isLoading } = useServiceShowCliente(clienteSeleccionado ?? 0);
   const confiable = data?.confiable;
   const adeudo = data?.adeudo || 0;
 
-  const isValidClient = !isLoading && confiable && adeudo === 0;
-  const onChangeValidateCliente = (clienteId: number) => setClienteSeleccionado(clienteId);
+  const isValidClient = useMemo(() => !isLoading && confiable && adeudo === 0, [isLoading, confiable, adeudo]);
+  const onChangeValidateCliente = (option: SingleValue<IOptions>) => {
+    if (option) {
+      setClienteSeleccionado(option.value as number);
+    }
+  };
 
   const formikProps = {
     initialValues,
@@ -67,7 +74,7 @@ export const useFormVenta = () => {
     title,
     total,
     disabled: !!venta?.id,
-    resetVenta: () => setVenta(null),
+    resetVenta: () => clearItem('venta'),
     nuevocliente,
     toggleClient,
     redirectNewCliente,

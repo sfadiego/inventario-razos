@@ -3,10 +3,10 @@ import Button from '@/components/ui/button/Button';
 import { useModal } from '@/hooks/useModal';
 import { IVenta, StatusVenta } from '@/models/venta.interface';
 import { useServiceShowVenta } from '@/Services/ventas/useServiceVenta';
+import { useSelectedItemStore } from '@/store/useSelectedItemStore';
 import { ArrowRight, Eye } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
-import { useVentasStore } from './partials/useVentasStore';
 
 export interface IFiltroVenta {
   nombre_venta: string;
@@ -19,20 +19,20 @@ export const useVentasPage = () => {
   const { openModal, isOpen, closeModal } = useModal();
   const [selected, setSelected] = useState(0);
   const { isLoading, data } = useServiceShowVenta(selected);
-  const { setVenta } = useVentasStore();
+  const { setItem, clearItem } = useSelectedItemStore();
   const navigate = useNavigate();
 
   const handleCloseModal = () => {
     closeModal();
     setSelected(0);
-    setVenta(null);
+    clearItem('venta');
   };
 
   useEffect(() => {
     if (!isLoading && data && selected) {
-      setVenta(data);
+      setItem('venta', data);
     }
-  }, [isLoading, data, selected, setVenta]);
+  }, [isLoading, data, selected, setItem]);
 
   const renderersMap = {
     actions: ({ id, status_venta }: IVenta) => (

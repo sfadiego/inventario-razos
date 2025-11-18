@@ -52,16 +52,16 @@ export const FormProducto = ({ isOpen, closeModal }: IModalProductoProps) => {
               <Input<IProducto> label={`Precio venta`} name="precio_venta" formik={formik} type={InputTypeEnum.Number} />
             </div>
             <div className="col-span-12 md:col-span-6">
-              <SelectProveedores formik={formik}></SelectProveedores>
+              <SelectProveedores formik={formik} />
             </div>
             <div className="col-span-12 md:col-span-6">
-              <SelectCategorias formik={formik}></SelectCategorias>
+              <SelectCategorias formik={formik} />
             </div>
             <div className="col-span-12 md:col-span-6">
-              <SelectUbicaciones formik={formik}></SelectUbicaciones>
+              <SelectUbicaciones formik={formik} />
             </div>
             <div className="col-span-12 md:col-span-6">
-              <SelectMarcas formik={formik}></SelectMarcas>
+              <SelectMarcas formik={formik} />
             </div>
             <div className="col-span-12 md:col-span-12">
               <TextArea<IProducto> label={`Compatibilidad`} name="compatibilidad" formik={formik} />

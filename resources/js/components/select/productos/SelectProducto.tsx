@@ -1,16 +1,28 @@
 import InputSelect from '@/components/form/select/InputSelect';
-import { ISelectProductoProps, useSelectProducto } from './useSelectProducto';
+import { useServiceIndexProductos } from '@/Services/productos/useServiceProductos';
+import { FormikProps } from 'formik';
+import { useSelectService } from '../useSelectService';
 
-export const SelectProducto = ({ formik, disabled = false }: ISelectProductoProps) => {
-  const { options } = useSelectProducto();
+interface ISelectProductoProps {
+  disabled?: boolean;
+  formik: FormikProps<any>;
+}
+
+export const SelectProducto = (props: ISelectProductoProps) => {
+  const { formik, disabled } = props;
+  const { options, handleInputChange } = useSelectService({
+    useService: useServiceIndexProductos,
+    storeKey: `producto-${formik.values.producto_id || 0}`,
+  });
   return (
     <InputSelect<any>
-      setValue={options.filter((option) => option.value === formik.values.producto_id)}
+      {...props}
       label={`Producto`}
       name={`producto_id`}
       formik={formik}
       disabled={disabled}
       options={options}
+      onInputChange={handleInputChange}
     />
   );
 };

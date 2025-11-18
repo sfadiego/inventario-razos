@@ -1,17 +1,21 @@
 import InputSelect from '@/components/form/select/InputSelect';
-import { ISelectClienteProps, useSelectCliente } from './useSelectCliente';
+import { IOptions } from '@/components/form/select/interfaces/IOptions';
+import { useServiceIndexClientes } from '@/Services/clientes/useServiceClientes';
+import { FormikProps } from 'formik';
+import { MultiValue, SingleValue } from 'react-select';
+import { useSelectService } from '../useSelectService';
 
-export const SelectCliente = ({ formik, disabled = false, onChange }: ISelectClienteProps) => {
-  const { options } = useSelectCliente({ formik, onChange });
+interface ISelectClienteProps {
+  disabled?: boolean;
+  formik: FormikProps<any>;
+  onChange?: (option: SingleValue<IOptions> | MultiValue<IOptions>) => void;
+}
+export const SelectCliente = (props: ISelectClienteProps) => {
+  const { formik } = props;
+  const { options, handleInputChange } = useSelectService({
+    useService: useServiceIndexClientes,
+    storeKey: `cliente-${formik.values.cliente_id || 0}`,
+  });
 
-  return (
-    <InputSelect<any>
-      setValue={options.filter((option) => option.value === formik.values.cliente_id)}
-      label={`Cliente`}
-      name={`cliente_id`}
-      formik={formik}
-      disabled={disabled}
-      options={options}
-    />
-  );
+  return <InputSelect {...props} label={`Cliente`} name={`cliente_id`} options={options} onInputChange={handleInputChange} />;
 };

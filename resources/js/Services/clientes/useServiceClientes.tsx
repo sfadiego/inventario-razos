@@ -18,5 +18,5 @@ export const useServiceIndexClientes = ({ filters = [], search = null, page = 1,
 };
 
 export const useServiceStoreCliente = () => usePOST({ url });
-export const useServiceShowCliente = (id?: number) => useGET<ICliente>({ url: `${url}/${id}`, enable: !!id });
+export const useServiceShowCliente = (id: number) => useGET<ICliente>({ url: `${url}/${id}`, enable: !!id });
 export const useServiceUpdateCliente = (id?: number) => usePUT({ url: `${url}/${id}` });

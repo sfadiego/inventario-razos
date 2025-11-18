@@ -18,6 +18,8 @@ class RoleSeeder extends Seeder
                 'role' => RoleEnum::User,
             ],
         ];
-        Role::insert($data);
+        foreach ($data as $item) {
+            Role::updateOrCreate(['role' => $item['role']], $item);
+        }
     }
 }
