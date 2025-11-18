@@ -14,5 +14,7 @@ export const SelectCategorias = (props: ISelectCategoriasProps) => {
     storeKey: `categoria-${formik.values.categoria_id || 0}`,
   });
 
-  return <InputSelect<any> {...props} label={`Categoria`} name={`categoria_id`} formik={formik} options={options} onInputChange={handleInputChange} />;
+  return (
+    <InputSelect<any> {...props} label={`Categoria`} name={`categoria_id`} formik={formik} options={options} onInputChange={handleInputChange} />
+  );
 };
