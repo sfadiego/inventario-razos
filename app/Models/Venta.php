@@ -42,7 +42,6 @@ class Venta extends Model
 
     public static function createVenta(array $data): Venta
     {
-        // dd(self::createFolio());
         return self::create([
             'venta_total' => $data['venta_total'] ?? 0,
             'nombre_venta' => $data['nombre_venta'] ?? '',
