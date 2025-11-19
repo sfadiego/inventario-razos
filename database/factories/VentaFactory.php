@@ -16,7 +16,7 @@ class VentaFactory extends Factory
         return [
             'venta_total' => $this->faker->randomFloat(2, 0, 1000),
             'nombre_venta' => $this->faker->name,
-            'folio' => $this->faker->unique()->numerify(date('ymdHis') . '##########'),
+            'folio' => $this->faker->unique()->numerify(date('ymdHis').'##########'),
             'cliente_id' => Cliente::firstOrCreate(['nombre' => $this->faker->name])->id,
             'tipo_compra' => $this->faker->randomElement([TipoCompraEnum::Credito->value, TipoCompraEnum::Contado->value]),
             'status_venta' => $this->faker->randomElement([StatusVentaEnum::Activa->value, StatusVentaEnum::Finalizada->value]),
