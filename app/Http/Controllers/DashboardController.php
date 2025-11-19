@@ -72,7 +72,7 @@ class DashboardController extends Controller
 
         $resultados = $months->map(fn ($mes) => [
             'month' => $mes,
-            'total' => $ventasPorMes[$mes]['total'] ?? 0,
+            'total' => round($ventasPorMes[$mes]['total'] ?? 0, 2),
             'cantidad' => $ventasPorMes[$mes]['cantidad'] ?? 0,
         ]);
 
