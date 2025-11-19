@@ -22,7 +22,7 @@ class ProductoFactory extends Factory
     {
         return [
             'nombre' => $this->faker->unique()->word,
-            'proveedor_id' => Proveedor::factory()->create()->id,
+            'proveedor_id' => Proveedor::firstOrCreate(['nombre' => $this->faker->company])->id,
             'categoria_id' => Categoria::inRandomOrder()->value('id'),
             'codigo' => strtoupper($this->faker->unique()->bothify('????-#####')),
             'precio_compra' => $this->faker->randomFloat(2, 10, 100),
@@ -30,8 +30,8 @@ class ProductoFactory extends Factory
             'stock' => $this->faker->numberBetween(1, 100),
             'cantidad_minima' => $this->faker->numberBetween(1, 10),
             'compatibilidad' => $this->faker->text(50),
-            'ubicacion_id' => Ubicacion::factory()->create()->id,
-            'marca_id' => Marca::factory()->create()->id,
+            'ubicacion_id' => Ubicacion::firstOrCreate(['nombre' => $this->faker->word])->id,
+            'marca_id' => Marca::firstOrCreate(['nombre' => $this->faker->word])->id,
             'activo' => $this->faker->boolean,
             'unidad' => $this->faker->randomElement(['pieza', 'metro', 'par']),
         ];
