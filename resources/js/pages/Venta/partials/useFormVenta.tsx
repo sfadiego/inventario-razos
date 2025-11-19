@@ -8,7 +8,7 @@ import { useServiceStoreVenta } from '@/Services/ventas/useServiceVenta';
 import { useSelectedItemStore } from '@/store/useSelectedItemStore';
 import { useMemo, useState } from 'react';
 import { useNavigate } from 'react-router';
-import { SingleValue } from 'react-select';
+import { MultiValue, SingleValue } from 'react-select';
 import * as Yup from 'yup';
 const validationSchema = Yup.object().shape({
   venta_total: Yup.number(),
@@ -56,8 +56,8 @@ export const useFormVenta = () => {
   const adeudo = data?.adeudo || 0;
 
   const isValidClient = useMemo(() => !isLoading && confiable && adeudo === 0, [isLoading, confiable, adeudo]);
-  const onChangeValidateCliente = (option: SingleValue<IOptions>) => {
-    if (option) {
+  const onChangeValidateCliente = (option: SingleValue<IOptions> | MultiValue<IOptions>) => {
+    if (option && !Array.isArray(option) && 'value' in option) {
       setClienteSeleccionado(option.value as number);
     }
   };
