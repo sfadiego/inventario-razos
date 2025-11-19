@@ -41,14 +41,10 @@ class Venta extends Model
 
     public static function createVenta(array $data): Venta
     {
-        $lastFolio = Venta::latest()->value('folio');
-        $newFolio = $lastFolio ? intval(substr($lastFolio, -4)) + 1 : 1;
-        $folio = 'V-'.date('ymd').'-'.$newFolio;
-
         return self::create([
             'venta_total' => $data['venta_total'] ?? 0,
             'nombre_venta' => $data['nombre_venta'] ?? '',
-            'folio' => $folio,
+            'folio' => self::createFolio(),
             'cliente_id' => $data['cliente_id'] ?? null,
             'tipo_compra' => $data['tipo_compra'] ?? TipoCompraEnum::Contado->value,
             'status_venta' => StatusVentaEnum::Activa->value,
@@ -105,6 +101,11 @@ class Venta extends Model
         $total = $this->ventaProductos->sum(fn ($item) => $item->cantidad * $item->precio);
 
         return round($total, 2);
+    }
+
+    public static function createFolio(): string
+    {
+        return date('ymdHis').strtoupper(substr(uniqid('', true), 0, 10));
     }
 
     public function scopeSearch(Builder $query, string $search): Builder

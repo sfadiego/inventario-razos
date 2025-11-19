@@ -5,9 +5,9 @@ import Button from '@/components/ui/button/Button';
 import { useModal } from '@/hooks/useModal';
 import { ICliente } from '@/models/cliente.interface';
 import { useServiceIndexClientes, useServiceShowCliente } from '@/Services/clientes/useServiceClientes';
+import { useSelectedItemStore } from '@/store/useSelectedItemStore';
 import { Edit } from 'lucide-react';
 import { useEffect, useState } from 'react';
-import { useClienteStore } from './partials/useClienteStore';
 
 export interface IFiltroCliente {
   nombre: string;
@@ -18,19 +18,19 @@ export const useClientesPage = () => {
   const { isOpen, openModal, closeModal } = useModal();
   const [selected, setSelected] = useState(0);
   const { isLoading, data } = useServiceShowCliente(selected);
-  const { setSelectedCliente } = useClienteStore();
+  const { setItem, clearItem } = useSelectedItemStore();
 
   const handleCloseModal = () => {
     closeModal();
     setSelected(0);
-    setSelectedCliente(null);
+    clearItem('cliente');
   };
 
   useEffect(() => {
     if (!isLoading && data && selected) {
-      setSelectedCliente(data);
+      setItem('cliente', data);
     }
-  }, [isLoading, data, selected, setSelectedCliente]);
+  }, [isLoading, data, selected, setItem]);
 
   const renderersMap = {
     rowClassName: ({ adeudo }: ICliente): rowTypes | '' => {

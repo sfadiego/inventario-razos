@@ -3,17 +3,18 @@ import { useOnSubmit } from '@/hooks/useOnSubmit';
 import { ICliente } from '@/models/cliente.interface';
 import { ApiRoutes } from '@/router/modules/admin.routes';
 import { useServiceIndexClientes, useServiceStoreCliente, useServiceUpdateCliente } from '@/Services/clientes/useServiceClientes';
+import { useSelectedItemStore } from '@/store/useSelectedItemStore';
 import { useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';
 import * as Yup from 'yup';
-import { useClienteStore } from './useClienteStore';
 
 interface IUseClienteProps {
   closeModal: () => void;
 }
 export const useCliente = ({ closeModal }: IUseClienteProps) => {
-  const { cliente, setSelectedCliente } = useClienteStore();
   const { refetch } = useServiceIndexClientes({ nameQuery: '/api/clientes' });
+  const { setItem, getItem } = useSelectedItemStore();
+  const cliente = getItem('cliente') as ICliente;
   const [isCheckedDisabled, setIsCheckedDisabled] = useState(true);
   const initialValues: ICliente = {
     nombre: cliente?.nombre ?? '',
@@ -26,7 +27,7 @@ export const useCliente = ({ closeModal }: IUseClienteProps) => {
     nombre: Yup.string().required('El nombre es obligatorio'),
     confiable: Yup.boolean(),
     observaciones: Yup.string(),
-    adeudo: Yup.number(),
+    adeudo: Yup.number().max(0, 'El adeudo debe ser negativo o $0'),
   });
   const queryClient = useQueryClient();
   const handleSuccess = (data: ICliente) => {
@@ -36,7 +37,7 @@ export const useCliente = ({ closeModal }: IUseClienteProps) => {
     });
     closeModal();
     refetch();
-    setSelectedCliente(data);
+    setItem('cliente', data);
     queryClient.invalidateQueries({ queryKey: [ApiRoutes.Clientes] });
   };
   const mutator = useServiceStoreCliente();

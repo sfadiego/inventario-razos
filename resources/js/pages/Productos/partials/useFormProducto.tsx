@@ -4,10 +4,10 @@ import { useOnSubmit } from '@/hooks/useOnSubmit';
 import { IProducto } from '@/models/producto.interface';
 import { ApiRoutes } from '@/router/modules/admin.routes';
 import { useServiceStoreProducto, useServiceUpdateProducto } from '@/Services/productos/useServiceProductos';
+import { useSelectedItemStore } from '@/store/useSelectedItemStore';
 import { useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';
 import * as Yup from 'yup';
-import { useProductoStore } from './useProductoStore';
 
 interface IUseProductProps {
   closeModal?: () => void;
@@ -15,7 +15,8 @@ interface IUseProductProps {
 
 export const useFormProducto = (props: IUseProductProps) => {
   const { closeModal } = props;
-  const { producto } = useProductoStore();
+  const { getItem } = useSelectedItemStore();
+  const producto = getItem('producto');
   const [search, setSearch] = useState<string>('');
 
   const queryClient = useQueryClient();

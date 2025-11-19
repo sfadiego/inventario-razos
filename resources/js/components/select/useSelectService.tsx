@@ -45,6 +45,7 @@ export const useSelectService = <T extends Record<string, any>>(props: ISelectSe
     return null;
   }, [data, isLoading, value, label]);
 
+  //TODO: revisar bug de select al precargar elementos despues de una busqueda
   useEffect(() => {
     if (processedOptions && storeKey) {
       setOptions(storeKey, processedOptions);

@@ -5,7 +5,21 @@ import { ISelect } from './interfaces/ISelect';
 import { useInputSelect } from './useInputSelect';
 
 const InputSelect = <T extends object>(props: ISelect<T>) => {
-  const { label = '', name, formik, disabled = false, options = [], isMulti = false, defaultValue = [], onChange, onInputChange } = props;
+  const {
+    label = '',
+    name,
+    formik,
+    disabled = false,
+    options = [],
+    isMulti = false,
+    defaultValue = [],
+    onChange,
+    onInputChange,
+    className = '',
+    isSearchable = true,
+    filterOption = null,
+    isClearable = true,
+  } = props;
 
   const { selectedValue, handleOnChange } = useInputSelect({
     name,
@@ -19,15 +33,17 @@ const InputSelect = <T extends object>(props: ISelect<T>) => {
   return (
     <>
       {label ? <Label>{label}</Label> : ''}
-      <Field disabled={disabled} name={name} id={name}>
+      <Field className={className} disabled={disabled} name={name} id={name}>
         {() => (
           <Select
             value={selectedValue}
             onChange={handleOnChange}
             onInputChange={onInputChange}
             options={options}
-            isSearchable={true}
+            isSearchable={isSearchable}
             isMulti={isMulti}
+            isClearable={isClearable}
+            filterOption={filterOption !== null ? (typeof filterOption === 'function' ? filterOption : () => filterOption as boolean) : undefined}
             isDisabled={disabled}
           />
         )}

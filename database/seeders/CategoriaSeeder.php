@@ -9,12 +9,17 @@ class CategoriaSeeder extends Seeder
 {
     public function run(): void
     {
-        Categoria::create([
+        Categoria::updateOrCreate([
             'nombre' => 'Luces',
             'activa' => true,
         ]);
 
-        Categoria::create([
+        Categoria::updateOrCreate([
+            'nombre' => 'Luces',
+            'activa' => true,
+        ]);
+
+        Categoria::updateOrCreate([
             'nombre' => 'Motocicletas',
             'activa' => true,
         ]);

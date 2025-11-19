@@ -5,7 +5,8 @@ interface ISelectStatusCode {
   disabled?: boolean;
   formik: FormikProps<any>;
 }
-export const SelectStatusCode = ({ formik, disabled = false }: ISelectStatusCode) => {
+
+export const SelectStatusCode = (props: ISelectStatusCode) => {
   const options = [
     { value: '500', label: `internal server error 500` },
     { value: '503', label: `service unavailable 503` },
@@ -17,14 +18,5 @@ export const SelectStatusCode = ({ formik, disabled = false }: ISelectStatusCode
     { value: '409', label: `conflict 409` },
     { value: '422', label: `unprocessable entity 422` },
   ];
-  return (
-    <InputSelect
-      setValue={options.filter((option) => option.value === formik.values.status_code)}
-      label={`Status code`}
-      name={'status_code'}
-      formik={formik}
-      disabled={disabled}
-      options={options}
-    />
-  );
+  return <InputSelect {...props} label={`Status code`} name={'status_code'} options={options} />;
 };

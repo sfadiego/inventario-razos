@@ -27,7 +27,7 @@ export const FormProveedor = ({ isOpen, closeModal }: IFormProveedorProps) => {
               <Input<IProveedorFormik> label={`Observaciones`} name="observaciones" formik={formik} type={InputTypeEnum.Text} />
             </div>
             <div className="col-span-12 lg:col-span-12">
-              <MultipleSelectCategorias name="categorias" formik={formik}></MultipleSelectCategorias>
+              <MultipleSelectCategorias name="categorias" formik={formik} />
             </div>
 
             <div className="col-span-12 mt-3 flex justify-end gap-2">

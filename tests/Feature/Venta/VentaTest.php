@@ -168,4 +168,13 @@ class VentaTest extends TestCase
             'folio' => $venta->folio,
         ]);
     }
+
+    public function test_duplicate_folio(): void
+    {
+        $this->loginAdmin();
+        $ventas = Venta::factory()->count(200)->create();
+        $folios = $ventas->pluck('folio')->toArray();
+        $duplicates = array_diff($folios, array_unique($folios));
+        $this->assertTrue(empty($duplicates));
+    }
 }

@@ -8,10 +8,12 @@ export interface ISelect<T> {
   formik: FormikProps<T>;
   disabled?: boolean;
   options: Array<IOptions>;
-  setValue?: Array<IOptions> | IOptions;
   isMulti?: boolean;
   defaultValue?: Array<IOptions> | IOptions;
   onChange?: (props: SingleValue<IOptions> | MultiValue<IOptions>) => void;
   onInputChange?: (value: string) => void;
   className?: string | undefined;
+  isSearchable?: boolean;
+  filterOption?: boolean | ((option: IOptions, inputValue: string) => boolean);
+  isClearable?: boolean;
 }
