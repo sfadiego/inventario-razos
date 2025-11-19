@@ -13,7 +13,6 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Str;
 
 class Venta extends Model
 {
@@ -99,13 +98,14 @@ class Venta extends Model
 
     public function scopeVentaTotal(): float
     {
-        $total = $this->ventaProductos->sum(fn($item) => $item->cantidad * $item->precio);
+        $total = $this->ventaProductos->sum(fn ($item) => $item->cantidad * $item->precio);
+
         return round($total, 2);
     }
 
     public static function createFolio(): string
     {
-        return date('ymdHis') . strtoupper(substr(uniqid('', true), 0, 10));
+        return date('ymdHis').strtoupper(substr(uniqid('', true), 0, 10));
     }
 
     public function scopeSearch(Builder $query, string $search): Builder
