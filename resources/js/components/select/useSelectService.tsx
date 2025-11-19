@@ -25,7 +25,7 @@ export const useSelectService = <T extends Record<string, any>>(props: ISelectSe
   const effectiveUseCache = typeof useCache === 'boolean' ? useCache : effectiveSearch.length === 0;
   const hasCachedOptions = storeKey ? hasOptions(storeKey) : false;
   const shouldFetchData = !effectiveUseCache || !hasCachedOptions;
-  const { isLoading, data, refetch } = useService({
+  const { isLoading, data } = useService({
     search: effectiveSearch,
     filters,
     enabled: shouldFetchData,
@@ -45,15 +45,12 @@ export const useSelectService = <T extends Record<string, any>>(props: ISelectSe
     return null;
   }, [data, isLoading, value, label]);
 
+  //TODO: revisar bug de select al precargar elementos despues de una busqueda
   useEffect(() => {
     if (processedOptions && storeKey) {
       setOptions(storeKey, processedOptions);
     }
   }, [processedOptions, storeKey, setOptions]);
-
-  // useEffect(() => {
-  //   console.log({ effectiveUseCache });
-  // }, [effectiveUseCache]);
 
   const options: Array<IOptions> = useMemo(() => {
     if (storeKey && effectiveUseCache && hasCachedOptions) {
