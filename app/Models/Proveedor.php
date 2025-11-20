@@ -13,6 +13,8 @@ class Proveedor extends Model
 
     protected $table = 'proveedores';
 
+    const SIN_DEFINIR = 'Sin definir';
+
     protected $fillable = ['nombre', 'observaciones'];
 
     public function productos(): HasMany

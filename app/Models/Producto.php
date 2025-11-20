@@ -44,11 +44,17 @@ class Producto extends Model
 
     public static function createFolio(string $nombre): string
     {
-        $letras = strtoupper(Str::substr(preg_replace('/[^A-Za-z]/', '', $nombre), 0, 4));
-        $numeros = str_pad(random_int(0, 9999), 4, '0', STR_PAD_LEFT);
-        $fecha = now()->format('ymd');
+        $iniciales = collect(explode(' ', $nombre))
+            ->map(function ($p) {
+                $soloLetras = preg_replace('/[^A-Za-zÁÉÍÓÚÑáéíóúñ]/u', '', $p);
 
-        return "{$letras}-{$numeros}-{$fecha}";
+                return $soloLetras !== '' ? Str::substr($soloLetras, 0, 1) : '';
+            })
+            ->implode('');
+        $iniciales = Str::substr($iniciales, 0, 10);
+        $random = md5(uniqid().microtime());
+
+        return "$iniciales-".substr($random, 0, 4);
     }
 
     public function imagen()

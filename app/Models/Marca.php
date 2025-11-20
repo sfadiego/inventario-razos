@@ -13,6 +13,8 @@ class Marca extends Model
 
     protected $fillable = ['nombre'];
 
+    const SIN_DEFINIR = 'Sin definir';
+
     public function productos()
     {
         return $this->hasMany(Producto::class);

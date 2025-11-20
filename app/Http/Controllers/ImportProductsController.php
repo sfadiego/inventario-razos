@@ -20,8 +20,10 @@ class ImportProductsController extends Controller
         $data = [
             'inserted' => $import->getInserted(),
             'duplicates' => $import->getDuplicates(),
+            'importInfo' => $import->getImportInfo(),
         ];
-        Log::info('Finalizando importacion');
+        Log::info('Imported Productos', ['data' => $data]);
+        Log::info('Finalizando importacion - Total inserted: '.count($data['inserted']).', Total duplicates: '.count($data['duplicates']));
 
         return Response::success($data);
     }

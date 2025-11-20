@@ -11,5 +11,7 @@ class Ubicacion extends Model
 
     protected $table = 'ubicaciones';
 
+    const DEFAULT_UBICACION = 'Almacén';
+
     protected $fillable = ['nombre'];
 }
