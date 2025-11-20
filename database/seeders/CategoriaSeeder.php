@@ -15,11 +15,6 @@ class CategoriaSeeder extends Seeder
         ]);
 
         Categoria::updateOrCreate([
-            'nombre' => 'Luces',
-            'activa' => true,
-        ]);
-
-        Categoria::updateOrCreate([
             'nombre' => 'Motocicletas',
             'activa' => true,
         ]);
