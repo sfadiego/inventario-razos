@@ -66,13 +66,13 @@ class DashboardController extends Controller
             ->whereHas('ventaProductos')
             ->whereYear('created_at', now()->year)
             ->get()
-            ->groupBy(fn($venta) => $venta->created_at->format('F'))
-            ->map(fn($ventas) => [
+            ->groupBy(fn ($venta) => $venta->created_at->format('F'))
+            ->map(fn ($ventas) => [
                 'total' => $ventas->sum('venta_total'),
                 'cantidad' => $ventas->count(),
             ]);
 
-        $resultados = $months->map(fn($mes) => [
+        $resultados = $months->map(fn ($mes) => [
             'month' => $mes,
             'total' => round($ventasPorMes[$mes]['total'] ?? 0, 2),
             'cantidad' => $ventasPorMes[$mes]['cantidad'] ?? 0,
