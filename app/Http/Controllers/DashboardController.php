@@ -34,7 +34,7 @@ class DashboardController extends Controller
             ->map(function ($item) {
                 return [
                     'producto' => $item->producto->nombre,
-                    'cantidad' => intval($item->total),
+                    'cantidad' => number_format($item->total, 2),
                 ];
             })
             ->sortByDesc('cantidad')
@@ -77,5 +77,27 @@ class DashboardController extends Controller
         ]);
 
         return Response::success($resultados);
+    }
+
+    public function menosVendidos(): JsonResponse
+    {
+        $ventas = VentaProducto::selectRaw('producto_id, SUM(cantidad) as total')
+            ->whereHas('venta', function ($q) {
+                $q->where('status_venta', StatusVentaEnum::Finalizada);
+            })
+            ->with('producto')
+            ->groupBy('producto_id')
+            ->get()
+            ->map(function ($item) {
+                return [
+                    'producto' => $item->producto->nombre,
+                    'cantidad' => number_format($item->total, 2),
+                ];
+            })
+            ->sortBy('cantidad')
+            ->take(10)
+            ->values();
+
+        return Response::success($ventas);
     }
 }
