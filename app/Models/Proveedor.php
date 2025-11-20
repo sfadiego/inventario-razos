@@ -12,7 +12,9 @@ class Proveedor extends Model
     use HasFactory;
 
     protected $table = 'proveedores';
+
     const SIN_DEFINIR = 'Sin definir';
+
     protected $fillable = ['nombre', 'observaciones'];
 
     public function productos(): HasMany

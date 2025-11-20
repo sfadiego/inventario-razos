@@ -15,7 +15,7 @@ class ImportProductsController extends Controller
     {
         Log::info('Iniciando importacion');
         $file = $param->file('file');
-        $import = new ImportProducto();
+        $import = new ImportProducto;
         Excel::import($import, $file);
         $data = [
             'inserted' => $import->getInserted(),
@@ -23,7 +23,7 @@ class ImportProductsController extends Controller
             'importInfo' => $import->getImportInfo(),
         ];
         Log::info('Imported Productos', ['data' => $data]);
-        Log::info('Finalizando importacion - Total inserted: ' . count($data['inserted']) . ', Total duplicates: ' . count($data['duplicates']));
+        Log::info('Finalizando importacion - Total inserted: '.count($data['inserted']).', Total duplicates: '.count($data['duplicates']));
 
         return Response::success($data);
     }

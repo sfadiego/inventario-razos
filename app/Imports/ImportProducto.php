@@ -13,19 +13,23 @@ use App\Models\Proveedor;
 use App\Models\Subcategoria;
 use App\Models\Ubicacion;
 use App\Traits\Movimientos;
+use Illuminate\Support\Facades\Log;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithCalculatedFormulas;
-use Maatwebsite\Excel\Concerns\WithStartRow;
-use Illuminate\Support\Facades\Log;
-use Maatwebsite\Excel\Events\BeforeSheet;
 use Maatwebsite\Excel\Concerns\WithEvents;
+use Maatwebsite\Excel\Concerns\WithStartRow;
+use Maatwebsite\Excel\Events\BeforeSheet;
 
-class ImportProducto implements ToModel, WithCalculatedFormulas, WithStartRow, WithEvents
+class ImportProducto implements ToModel, WithCalculatedFormulas, WithEvents, WithStartRow
 {
     use Movimientos;
+
     public array $inserted = [];
+
     public array $subcategoria = [];
+
     public string $categoria = '';
+
     public array $importInfo = [];
 
     public array $duplicates = [];
@@ -43,24 +47,26 @@ class ImportProducto implements ToModel, WithCalculatedFormulas, WithStartRow, W
     {
         $this->existingProducts = Producto::query()
             ->pluck('nombre')
-            ->map(fn($n) => mb_strtolower(trim($n)))
+            ->map(fn ($n) => mb_strtolower(trim($n)))
             ->toArray();
     }
 
     public function model(array $row)
     {
-        if (!in_array($this->categoria, [TipoProductoEnum::LUCES->value, TipoProductoEnum::MOTOS->value])) {
+        if (! in_array($this->categoria, [TipoProductoEnum::LUCES->value, TipoProductoEnum::MOTOS->value])) {
             Log::info('Categoria invalida', ['categoria' => $this->categoria]);
             $this->importInfo[] = [
                 'status' => 'skiped',
-                'message' => 'La categoria ' . $this->categoria . ' no es valida'
+                'message' => 'La categoria '.$this->categoria.' no es valida',
             ];
+
             return null;
         }
         $rowSubCategoria = isset($row[0]) && empty($row[1]) && empty($row[2]) && empty($row[3]) && empty($row[4]);
         $emptyRow = empty($row[0]) && empty($row[1]) && empty($row[2]) && empty($row[3]) && empty($row[4]);
         if ($emptyRow) {
             Log::info('Celda vacia', ['row' => $row]);
+
             return null;
         }
 
@@ -69,11 +75,12 @@ class ImportProducto implements ToModel, WithCalculatedFormulas, WithStartRow, W
             $subcategoria = trim((string) $row[0]);
             Subcategoria::firstOrCreate(['nombre' => $subcategoria, 'categoria_id' => $categoria_id]);
             $this->subcategoria[] = $subcategoria;
+
             return null;
         }
 
         $availableCodigo = Producto::where(['codigo' => $row[0]])->count();
-        $codigo = !$availableCodigo ? Producto::createFolio(trim((string) $row[2])) : trim((string) $row[0]);
+        $codigo = ! $availableCodigo ? Producto::createFolio(trim((string) $row[2])) : trim((string) $row[0]);
         $cantidad = isset($row[1]) ? trim((string) $row[1]) : 0;
         $nombre = isset($row[2]) ? trim((string) $row[2]) : null;
         $marca = isset($row[3]) ? trim((string) $row[3]) : Marca::SIN_DEFINIR;
@@ -92,6 +99,7 @@ class ImportProducto implements ToModel, WithCalculatedFormulas, WithStartRow, W
         $key = mb_strtolower($nombre);
         if (in_array($key, $this->existingProducts, true)) {
             $this->duplicates[] = ['nombre' => $nombre];
+
             return null;
         }
 
@@ -132,6 +140,7 @@ class ImportProducto implements ToModel, WithCalculatedFormulas, WithStartRow, W
             'cantidad_actual' => $stock,
             'user_id' => auth()->user()->id,
         ]);
+
         return $producto;
     }
 

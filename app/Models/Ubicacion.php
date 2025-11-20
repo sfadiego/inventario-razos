@@ -10,6 +10,8 @@ class Ubicacion extends Model
     use HasFactory;
 
     protected $table = 'ubicaciones';
+
     const DEFAULT_UBICACION = 'Almacén';
+
     protected $fillable = ['nombre'];
 }

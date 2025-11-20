@@ -2,7 +2,6 @@
 
 namespace App\Http\Requests\Import;
 
-use App\Enums\TipoProductoEnum;
 use Illuminate\Foundation\Http\FormRequest;
 
 class ImportProductosStoreRequest extends FormRequest
