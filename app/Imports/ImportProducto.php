@@ -8,14 +8,18 @@ use App\Models\ImagenProducto;
 use App\Models\Marca;
 use App\Models\Producto;
 use App\Models\Proveedor;
+use App\Models\Subcategoria;
 use App\Models\Ubicacion;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithCalculatedFormulas;
 use Maatwebsite\Excel\Concerns\WithStartRow;
+use Illuminate\Support\Facades\Log;
 
 class ImportProducto implements ToModel, WithCalculatedFormulas, WithStartRow
 {
     public array $inserted = [];
+    public array $subcategoria = [];
+    public string $categoria = '';
 
     public array $duplicates = [];
 
@@ -25,47 +29,62 @@ class ImportProducto implements ToModel, WithCalculatedFormulas, WithStartRow
 
     public function startRow(): int
     {
-        return 2;
+        return 3;
     }
 
-    public function __construct()
+    public function __construct($categoria)
     {
+        $this->categoria = $categoria;
         $this->existingProducts = Producto::query()
             ->pluck('nombre')
-            ->map(fn ($n) => mb_strtolower(trim($n)))
+            ->map(fn($n) => mb_strtolower(trim($n)))
             ->toArray();
     }
 
-    // version 2: ajustar excel para poder importarse
-    public function model_v2(array $row)
+    public function model(array $row)
     {
-        $codigo = isset($row[0]) ? trim((string) $row[0]) : Producto::createFolio($row[2]);
+        $rowSubCategoria = isset($row[0]) && empty($row[1]) && empty($row[2]) && empty($row[3]) && empty($row[4]);
+        $emptyRow = empty($row[0]) && empty($row[1]) && empty($row[2]) && empty($row[3]) && empty($row[4]);
+        if ($emptyRow) {
+            return null;
+        }
+
+        $categoria_id = Categoria::firstOrCreate(['nombre' => $this->categoria])->id;
+        if ($rowSubCategoria) {
+            $subcategoria = trim((string) $row[0]);
+            Subcategoria::firstOrCreate(['nombre' => $subcategoria, 'categoria_id' => $categoria_id]);
+            $this->subcategoria[] = $subcategoria;
+            return null;
+        }
+
+        $availableCodigo = Producto::where(['codigo' => $row[0]])->count();
+        $codigo = !$availableCodigo ? Producto::createFolio(trim((string) $row[2])) : trim((string) $row[0]);
+        Log::info('Processing row', ['row' => $row, 'codigo' => $codigo]);
         $cantidad = isset($row[1]) ? trim((string) $row[1]) : 0;
         $nombre = isset($row[2]) ? trim((string) $row[2]) : null;
-        $marca = isset($row[3]) ? trim((string) $row[3]) : null;
+        $marca = isset($row[3]) ? trim((string) $row[3]) : 'Sin definir';
 
         // default values
-        $unidad = ProductoUnidadEnum::PIEZA;
+        $proveedor_id = null;
         $precio_compra = 0;
         $precio_venta = 0;
         $stock = $cantidad;
-        $cantidad_minima = 1;
-        $compatibilidad = null;
-        $proveedor = null;
-        $categoria = null;
-        $ubicacion = null;
+        $cantidad_minima = 10;
+        $compatibilidad = '';
+        $ubicacion_id = Ubicacion::firstOrCreate(['nombre' => 'Almacén'])->id;
+        $marca_id = Marca::firstOrCreate(['nombre' => $marca])->id;
+        $unidad = ProductoUnidadEnum::PIEZA->value;
 
         $key = mb_strtolower($nombre);
         if (in_array($key, $this->existingProducts, true)) {
             $this->duplicates[] = ['nombre' => $nombre];
-
             return null;
         }
 
         $imagenId = null;
-        if (str_contains($row[8], 'https://')) {
+        if (isset($row[4]) && str_contains($row[4], 'https://')) {
             $imagen = ImagenProducto::create([
-                'archivo' => $row[8],
+                'archivo' => $row[4],
                 'path' => '',
                 'external' => true,
             ]);
@@ -74,19 +93,19 @@ class ImportProducto implements ToModel, WithCalculatedFormulas, WithStartRow
 
         $currentRow = [
             'nombre' => $nombre,
-            'unidad' => $unidad,
+            'proveedor_id' => $proveedor_id,
+            'categoria_id' => $categoria_id,
             'codigo' => $codigo,
             'precio_compra' => $precio_compra,
             'precio_venta' => $precio_venta,
-            'stock' => $stock,
-            'cantidad_minima' => $cantidad_minima,
+            'stock' => intval($stock),
+            'cantidad_minima' => intval($cantidad_minima),
             'compatibilidad' => $compatibilidad,
-            'activo' => true,
+            'ubicacion_id' => $ubicacion_id,
+            'marca_id' => $marca_id,
             'imagen_id' => $imagenId,
-            'proveedor_id' => $proveedor,
-            'categoria_id' => $categoria,
-            'ubicacion_id' => $ubicacion,
-            'marca_id' => $marca,
+            'activo' => true,
+            'unidad' => $unidad,
         ];
 
         $this->inserted[] = $nombre;
@@ -94,7 +113,7 @@ class ImportProducto implements ToModel, WithCalculatedFormulas, WithStartRow
         return new Producto($currentRow);
     }
 
-    public function model(array $row)
+    public function model_v2(array $row)
     {
         $nombre = isset($row[0]) ? trim((string) $row[0]) : null;
         $unidad = isset($row[1]) ? trim($row[1]) : null;

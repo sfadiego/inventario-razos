@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Import;
 
+use App\Enums\TipoProductoEnum;
 use Illuminate\Foundation\Http\FormRequest;
 
 class ImportProductosStoreRequest extends FormRequest
@@ -23,6 +24,7 @@ class ImportProductosStoreRequest extends FormRequest
     {
         return [
             'file' => 'required|file|mimes:xlsx,xls',
+            'tipo_producto' => "required|string|in:" . TipoProductoEnum::MOTOS->value . "," . TipoProductoEnum::LUCES->value,
         ];
     }
 }

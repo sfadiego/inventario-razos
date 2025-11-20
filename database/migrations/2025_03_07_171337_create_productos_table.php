@@ -24,6 +24,7 @@ return new class extends Migration
                     ->constrained('imagen_producto')
                     ->onDelete('cascade');
                 $table->foreignId('proveedor_id')
+                    ->nullable()
                     ->constrained('proveedores')
                     ->onDelete('cascade');
                 $table->foreignId('categoria_id')
@@ -31,6 +32,7 @@ return new class extends Migration
                     ->onDelete('cascade');
                 $table->foreignId('ubicacion_id')
                     ->constrained('ubicaciones')
+                    ->nullable()
                     ->onDelete('cascade');
                 $table->boolean('activo')->default(true);
                 $table->foreignId('marca_id')
