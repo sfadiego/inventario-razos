@@ -15,6 +15,7 @@ class DashboardController extends Controller
     {
         $fecha = $param?->fecha;
         $ventas = Venta::where('status_venta', StatusVentaEnum::Finalizada)
+            ->whereHas('ventaProductos')
             ->when($fecha, function ($q) use ($fecha) {
                 $q->where('created_at', '>=', $fecha);
             })->sum('venta_total');
@@ -30,6 +31,7 @@ class DashboardController extends Controller
             })
             ->with('producto')
             ->groupBy('producto_id')
+            ->orderBy('total', 'desc')
             ->get()
             ->map(function ($item) {
                 return [
@@ -37,7 +39,6 @@ class DashboardController extends Controller
                     'cantidad' => number_format($item->total, 2),
                 ];
             })
-            ->sortByDesc('cantidad')
             ->take(10)
             ->values();
 
@@ -62,15 +63,16 @@ class DashboardController extends Controller
         ]);
 
         $ventasPorMes = Venta::where('status_venta', StatusVentaEnum::Finalizada)
+            ->whereHas('ventaProductos')
             ->whereYear('created_at', now()->year)
             ->get()
-            ->groupBy(fn ($venta) => $venta->created_at->format('F'))
-            ->map(fn ($ventas) => [
+            ->groupBy(fn($venta) => $venta->created_at->format('F'))
+            ->map(fn($ventas) => [
                 'total' => $ventas->sum('venta_total'),
                 'cantidad' => $ventas->count(),
             ]);
 
-        $resultados = $months->map(fn ($mes) => [
+        $resultados = $months->map(fn($mes) => [
             'month' => $mes,
             'total' => round($ventasPorMes[$mes]['total'] ?? 0, 2),
             'cantidad' => $ventasPorMes[$mes]['cantidad'] ?? 0,
@@ -87,6 +89,7 @@ class DashboardController extends Controller
             })
             ->with('producto')
             ->groupBy('producto_id')
+            ->orderBy('total', 'asc')
             ->get()
             ->map(function ($item) {
                 return [
@@ -94,7 +97,6 @@ class DashboardController extends Controller
                     'cantidad' => number_format($item->total, 2),
                 ];
             })
-            ->sortBy('cantidad')
             ->take(10)
             ->values();
 
