@@ -31,6 +31,8 @@ class ImportTest extends TestCase
             'message',
             'data' => [
                 'inserted',
+                'duplicates',
+                'importInfo',
             ],
         ]);
 

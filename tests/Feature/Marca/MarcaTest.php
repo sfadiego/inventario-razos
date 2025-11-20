@@ -10,13 +10,13 @@ class MarcaTest extends TestCase
     public function test_index_marcas(): void
     {
         $this->loginAdmin();
-
-        $marcas = Marca::factory()->count(10)->create();
+        Marca::factory()->count(10)->create();
 
         $response = $this->get('api/marcas');
         $response->assertStatus(206);
         $response->assertJsonStructure([
             'current_page',
+            'total',
             'data' => [
                 '*' => [
                     'id',
@@ -25,7 +25,8 @@ class MarcaTest extends TestCase
             ],
         ]);
 
-        $response->assertJsonCount($marcas->count(), 'data');
+        $total = $response->json('total');
+        $this->assertEquals($total, Marca::all()->count());
     }
 
     public function test_show_marca(): void

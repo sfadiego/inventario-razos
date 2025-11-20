@@ -13,6 +13,9 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             CategoriaSeeder::class,
             TipoMovimientoSeeder::class,
+            MarcaSeeder::class,
+            UbicacionSeeder::class,
+            ProveedorSeeder::class,
         ]);
     }
 }

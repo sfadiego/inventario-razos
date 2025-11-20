@@ -15,12 +15,12 @@ class ImportProductsController extends Controller
     {
         Log::info('Iniciando importacion');
         $file = $param->file('file');
-        $tipo = $param->input('tipo_producto');
-        $import = new ImportProducto($tipo);
+        $import = new ImportProducto();
         Excel::import($import, $file);
         $data = [
             'inserted' => $import->getInserted(),
             'duplicates' => $import->getDuplicates(),
+            'importInfo' => $import->getImportInfo(),
         ];
         Log::info('Imported Productos', ['data' => $data]);
         Log::info('Finalizando importacion - Total inserted: ' . count($data['inserted']) . ', Total duplicates: ' . count($data['duplicates']));

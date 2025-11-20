@@ -24,7 +24,6 @@ class ImportProductosStoreRequest extends FormRequest
     {
         return [
             'file' => 'required|file|mimes:xlsx,xls',
-            'tipo_producto' => "required|string|in:" . TipoProductoEnum::MOTOS->value . "," . TipoProductoEnum::LUCES->value,
         ];
     }
 }
