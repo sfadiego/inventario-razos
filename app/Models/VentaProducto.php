@@ -85,4 +85,24 @@ class VentaProducto extends Model
             })
             ->values();
     }
+
+    public static function masVendidos(int $limit = 10): Collection
+    {
+        return self::selectRaw('producto_id, SUM(cantidad) as total')
+            ->whereHas('venta', function ($q) {
+                $q->where('status_venta', StatusVentaEnum::Finalizada);
+            })
+            ->with('producto')
+            ->groupBy('producto_id')
+            ->orderBy('total', 'desc')
+            ->take($limit)
+            ->get()
+            ->map(function ($item) {
+                return [
+                    'producto' => $item->producto->nombre,
+                    'cantidad' => number_format($item->total, 2),
+                ];
+            })
+            ->values();
+    }
 }

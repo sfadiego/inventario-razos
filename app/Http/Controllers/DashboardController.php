@@ -23,28 +23,6 @@ class DashboardController extends Controller
         return Response::success(['total' => $ventas]);
     }
 
-    public function masVendidos(): JsonResponse
-    {
-        $ventas = VentaProducto::selectRaw('producto_id, SUM(cantidad) as total')
-            ->whereHas('venta', function ($q) {
-                $q->where('status_venta', StatusVentaEnum::Finalizada);
-            })
-            ->with('producto')
-            ->groupBy('producto_id')
-            ->orderBy('total', 'desc')
-            ->get()
-            ->map(function ($item) {
-                return [
-                    'producto' => $item->producto->nombre,
-                    'cantidad' => number_format($item->total, 2),
-                ];
-            })
-            ->take(10)
-            ->values();
-
-        return Response::success($ventas);
-    }
-
     public function ventas(): JsonResponse
     {
         $months = collect([
@@ -84,6 +62,13 @@ class DashboardController extends Controller
     public function menosVendidos(): JsonResponse
     {
         $ventas = VentaProducto::menosVendidos(10);
+
+        return Response::success($ventas);
+    }
+
+    public function masVendidos(): JsonResponse
+    {
+        $ventas = VentaProducto::masVendidos(10);
 
         return Response::success($ventas);
     }
