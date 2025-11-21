@@ -15,6 +15,7 @@ class DashboardController extends Controller
     {
         $fecha = $param?->fecha;
         $ventas = Venta::where('status_venta', StatusVentaEnum::Finalizada)
+            ->whereHas('ventaProductos')
             ->when($fecha, function ($q) use ($fecha) {
                 $q->where('created_at', '>=', $fecha);
             })->sum('venta_total');
@@ -30,14 +31,14 @@ class DashboardController extends Controller
             })
             ->with('producto')
             ->groupBy('producto_id')
+            ->orderBy('total', 'desc')
             ->get()
             ->map(function ($item) {
                 return [
                     'producto' => $item->producto->nombre,
-                    'cantidad' => intval($item->total),
+                    'cantidad' => number_format($item->total, 2),
                 ];
             })
-            ->sortByDesc('cantidad')
             ->take(10)
             ->values();
 
@@ -62,6 +63,7 @@ class DashboardController extends Controller
         ]);
 
         $ventasPorMes = Venta::where('status_venta', StatusVentaEnum::Finalizada)
+            ->whereHas('ventaProductos')
             ->whereYear('created_at', now()->year)
             ->get()
             ->groupBy(fn ($venta) => $venta->created_at->format('F'))
@@ -77,5 +79,12 @@ class DashboardController extends Controller
         ]);
 
         return Response::success($resultados);
+    }
+
+    public function menosVendidos(): JsonResponse
+    {
+        $ventas = VentaProducto::menosVendidos(10);
+
+        return Response::success($ventas);
     }
 }

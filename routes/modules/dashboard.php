@@ -7,5 +7,6 @@ Route::controller(DashboardController::class)
     ->group(function () {
         Route::get('total-ventas', 'totalVentas');
         Route::get('mas-vendidos', 'masVendidos');
+        Route::get('menos-vendidos', 'menosVendidos');
         Route::get('ventas', 'ventas');
     });
