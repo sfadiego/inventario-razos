@@ -2,9 +2,11 @@
 
 namespace App\Models;
 
+use App\Enums\StatusVentaEnum;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Collection;
 
 class VentaProducto extends Model
 {
@@ -62,5 +64,25 @@ class VentaProducto extends Model
         Venta::where('id', $data['venta_id'])->update(['venta_total' => $ventaTotal]);
 
         return $ventaProducto;
+    }
+
+    public static function menosVendidos(int $limit = 10): Collection
+    {
+        return self::selectRaw('producto_id, SUM(cantidad) as total')
+            ->whereHas('venta', function ($q) {
+                $q->where('status_venta', StatusVentaEnum::Finalizada);
+            })
+            ->with('producto')
+            ->groupBy('producto_id')
+            ->orderBy('total', 'asc')
+            ->take($limit)
+            ->get()
+            ->map(function ($item) {
+                return [
+                    'producto' => $item->producto->nombre,
+                    'cantidad' => number_format($item->total, 2),
+                ];
+            })
+            ->values();
     }
 }

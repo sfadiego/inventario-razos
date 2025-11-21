@@ -83,22 +83,7 @@ class DashboardController extends Controller
 
     public function menosVendidos(): JsonResponse
     {
-        $ventas = VentaProducto::selectRaw('producto_id, SUM(cantidad) as total')
-            ->whereHas('venta', function ($q) {
-                $q->where('status_venta', StatusVentaEnum::Finalizada);
-            })
-            ->with('producto')
-            ->groupBy('producto_id')
-            ->orderBy('total', 'asc')
-            ->get()
-            ->map(function ($item) {
-                return [
-                    'producto' => $item->producto->nombre,
-                    'cantidad' => number_format($item->total, 2),
-                ];
-            })
-            ->take(10)
-            ->values();
+        $ventas = VentaProducto::menosVendidos(10);
 
         return Response::success($ventas);
     }
