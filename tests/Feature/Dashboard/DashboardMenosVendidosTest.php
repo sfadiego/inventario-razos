@@ -30,9 +30,9 @@ class DashboardMenosVendidosTest extends TestCase
 
         $this->assertCount(10, $response['data']);
 
-        foreach ($response['data'] as $index => $item) {
-            $this->assertEquals($expected[$index]['producto'], $item['producto']);
-            $this->assertEquals($expected[$index]['cantidad'], $item['cantidad']);
-        }
+        $this->assertEquals(
+            $expected->toArray(),
+            $response->json('data')
+        );
     }
 }
