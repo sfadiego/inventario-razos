@@ -3,6 +3,11 @@ export interface IDashboardMasVendidos {
   cantidad: number;
 }
 
+export interface IDashboardMenosVendidos {
+  producto: string;
+  cantidad: number;
+}
+
 export interface IVentasItem {
   month: string;
   total: number;
