@@ -15,25 +15,30 @@ class DashboardTest extends TestCase
 
         Venta::factory()->count(5)->withProductos(1)->create([
             'status_venta' => StatusVentaEnum::Finalizada->value,
-            'venta_total' => 100,
         ]);
 
-        $expectedTotal = Venta::where('status_venta', StatusVentaEnum::Finalizada)
+        $ventas = Venta::where('status_venta', StatusVentaEnum::Finalizada)
             ->whereHas('ventaProductos')
-            ->sum('venta_total');
+            ->get();
+
+        $expectedTotal = 0;
+        foreach ($ventas as $venta) {
+            $expectedTotal += $venta->ventaTotal();
+        }
 
         $response = $this->getJson('/api/dashboard/total-ventas');
-
         $response->assertStatus(200);
 
-        $this->assertEquals($expectedTotal, $response->json('data.total'));
+        $this->assertEquals(round($expectedTotal, 2), round($response->json('data.total'), 2));
     }
 
     public function test_mas_vendidos()
     {
         $this->loginAdmin();
 
-        Venta::factory()->count(10)->withProductos(10)->create();
+        Venta::factory()->count(10)->withProductos(10)->create([
+            'status_venta' => StatusVentaEnum::Finalizada->value,
+        ]);
 
         $expected = VentaProducto::masVendidos(10);
 
@@ -61,7 +66,9 @@ class DashboardTest extends TestCase
     {
         $this->loginAdmin();
 
-        Venta::factory()->count(10)->withProductos(10)->create();
+        Venta::factory()->count(10)->withProductos(10)->create([
+            'status_venta' => StatusVentaEnum::Finalizada->value,
+        ]);
 
         $expected = VentaProducto::menosVendidos(10);
 
@@ -89,28 +96,30 @@ class DashboardTest extends TestCase
     {
         $this->loginAdmin();
 
-        Venta::factory()->count(5)->create([
+        Venta::factory()->count(5)->withProductos(1)->create([
             'status_venta' => StatusVentaEnum::Finalizada->value,
-            'venta_total' => 100,
             'created_at' => now(),
         ]);
 
         $response = $this->getJson('/api/dashboard/ventas');
-
         $response->assertStatus(200);
 
         $mesActual = now()->format('F');
         $registroMes = collect($response->json('data'))->firstWhere('month', $mesActual);
 
+        $ventasFinalizadas = Venta::where('status_venta', StatusVentaEnum::Finalizada)
+            ->whereHas('ventaProductos')
+            ->whereMonth('created_at', now()->month)
+            ->get();
+
+        $expectedTotal = 0;
+        foreach ($ventasFinalizadas as $venta) {
+            $expectedTotal += $venta->ventaTotal();
+        }
+
         $expected = [
-            'total' => Venta::where('status_venta', StatusVentaEnum::Finalizada)
-                ->whereHas('ventaProductos')
-                ->whereMonth('created_at', now()->month)
-                ->sum('venta_total'),
-            'cantidad' => Venta::where('status_venta', StatusVentaEnum::Finalizada)
-                ->whereHas('ventaProductos')
-                ->whereMonth('created_at', now()->month)
-                ->count(),
+            'total' => round($expectedTotal, 2),
+            'cantidad' => $ventasFinalizadas->count(),
         ];
 
         $this->assertEquals($expected['total'], $registroMes['total']);
