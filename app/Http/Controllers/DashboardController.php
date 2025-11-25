@@ -61,14 +61,14 @@ class DashboardController extends Controller
 
     public function menosVendidos(): JsonResponse
     {
-        $ventas = VentaProducto::menosVendidos(10);
+        $ventas = VentaProducto::menosVendidos();
 
         return Response::success($ventas);
     }
 
     public function masVendidos(): JsonResponse
     {
-        $ventas = VentaProducto::masVendidos(10);
+        $ventas = VentaProducto::masVendidos();
 
         return Response::success($ventas);
     }

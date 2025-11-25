@@ -40,7 +40,7 @@ class DashboardTest extends TestCase
             'status_venta' => StatusVentaEnum::Finalizada->value,
         ]);
 
-        $expected = VentaProducto::masVendidos(10);
+        $expected = VentaProducto::masVendidos();
 
         $response = $this->getJson('/api/dashboard/mas-vendidos');
 
@@ -70,7 +70,7 @@ class DashboardTest extends TestCase
             'status_venta' => StatusVentaEnum::Finalizada->value,
         ]);
 
-        $expected = VentaProducto::menosVendidos(10);
+        $expected = VentaProducto::menosVendidos();
 
         $response = $this->getJson('/api/dashboard/menos-vendidos');
 
@@ -105,24 +105,21 @@ class DashboardTest extends TestCase
         $response->assertStatus(200);
 
         $mesActual = now()->format('F');
-        $registroMes = collect($response->json('data'))->firstWhere('month', $mesActual);
+        $registroMes = collect($response->json('data'))
+            ->firstWhere('month', $mesActual);
 
-        $ventasFinalizadas = Venta::where('status_venta', StatusVentaEnum::Finalizada)
+        $ventasFinalizadas = Venta::query()
+            ->where('status_venta', StatusVentaEnum::Finalizada)
             ->whereHas('ventaProductos')
             ->whereMonth('created_at', now()->month)
             ->get();
 
-        $expectedTotal = 0;
-        foreach ($ventasFinalizadas as $venta) {
-            $expectedTotal += $venta->ventaTotal();
-        }
-
         $expected = [
-            'total' => round($expectedTotal, 2),
+            'total'    => round($ventasFinalizadas->sum(fn($venta) => $venta->ventaTotal()), 2),
             'cantidad' => $ventasFinalizadas->count(),
         ];
 
-        $this->assertEquals($expected['total'], $registroMes['total']);
-        $this->assertEquals($expected['cantidad'], $registroMes['cantidad']);
+        $this->assertEquals($expected['total'], $registroMes['total'], 'El total de ventas no coincide');
+        $this->assertEquals($expected['cantidad'], $registroMes['cantidad'], 'La cantidad de ventas no coincide');
     }
 }
