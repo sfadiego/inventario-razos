@@ -16,11 +16,9 @@ class SubcategoriasController extends Controller
         return Response::success($categoria->subcategorias);
     }
 
-    public function show(Categoria $categoria, Subcategoria $subcategoria): JsonResponse
+    public function show(Categoria $categoria, int $subcategoriaId): JsonResponse
     {
-        if ($subcategoria->categoria_id !== $categoria->id) {
-            return Response::error('La subcategoria no pertenece a esta categoria');
-        }
+        $subcategoria = $categoria->subcategorias()->findOrFail($subcategoriaId);
 
         return Response::success($subcategoria);
     }
