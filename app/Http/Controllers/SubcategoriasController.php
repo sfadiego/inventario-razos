@@ -2,23 +2,26 @@
 
 namespace App\Http\Controllers;
 
-use App\Core\Data\IndexData;
 use App\Http\Requests\Subcategorias\SubcategoriasStoreRequest;
 use App\Http\Requests\Subcategorias\SubcategoriasUpdateRequest;
-use App\Logic\Subcategoria\SubcategoriaIndexLogic;
+use App\Models\Categoria;
 use App\Models\Subcategoria;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Response;
 
 class SubcategoriasController extends Controller
 {
-    public function index(IndexData $data, SubcategoriaIndexLogic $logic): JsonResponse
+    public function index(Categoria $categoria): JsonResponse
     {
-        return $logic->run($data);
+        return Response::success($categoria->subcategorias);
     }
 
-    public function show(Subcategoria $subcategoria): JsonResponse
+    public function show(Categoria $categoria, Subcategoria $subcategoria): JsonResponse
     {
+        if ($subcategoria->categoria_id !== $categoria->id) {
+            return Response::error('La subcategoria no pertenece a esta categoria');
+        }
+
         return Response::success($subcategoria);
     }
 

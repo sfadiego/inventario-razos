@@ -6,14 +6,13 @@ use Illuminate\Support\Facades\Route;
 
 Route::controller(SubcategoriasController::class)
     ->group(function () {
-
+        Route::post('', 'store');
         Route::prefix('{subcategoria}')
             ->missing(function () {
                 return Response::error('Subcategoria no encontrada');
             })
             ->group(function () {
                 Route::put('', 'update');
-                Route::post('subcategorias', 'store');
                 Route::delete('', 'delete');
             });
     });

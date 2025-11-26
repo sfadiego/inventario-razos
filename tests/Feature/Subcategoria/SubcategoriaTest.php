@@ -8,63 +8,54 @@ use Tests\TestCase;
 
 class SubcategoriaTest extends TestCase
 {
-    public function test_index_subcategorias(): void
+    public function test_index_subcategorias_por_categoria(): void
     {
         $this->loginAdmin();
 
-        Subcategoria::factory()->count(5)->create();
-
-        $response = $this->getJson('/api/subcategorias');
-        $response->assertStatus(206);
-        $response->assertJsonStructure([
-            'current_page',
-            'data' => [
-                '*' => [
-                    'id',
-                    'nombre',
-                    'categoria_id',
-                ],
-            ],
-            'first_page_url',
-            'from',
-            'last_page',
-            'last_page_url',
-            'links' => [
-                '*' => ['url', 'label', 'page', 'active'],
-            ],
-            'next_page_url',
-            'path',
-            'per_page',
-            'prev_page_url',
-            'to',
-            'total',
-            'columns' => [
-                '*' => ['accessor', 'title'],
-            ],
+        $categoria = Categoria::factory()->create();
+        Subcategoria::factory()->count(3)->create([
+            'categoria_id' => $categoria->id,
         ]);
 
-        $this->assertEquals(Subcategoria::count(), $response->json('total'));
+        $response = $this->getJson("/api/categorias/{$categoria->id}/subcategorias");
+
+        $response->assertStatus(200);
+        $response->assertJsonCount(3, 'data');
+
+        foreach ($categoria->subcategorias as $subcategoria) {
+            $response->assertJsonFragment([
+                'id' => $subcategoria->id,
+                'nombre' => $subcategoria->nombre,
+                'categoria_id' => $subcategoria->categoria_id,
+            ]);
+        }
     }
 
-    public function test_show_subcategoria(): void
+    public function test_show_subcategoria_de_categoria(): void
     {
         $this->loginAdmin();
 
-        $subcategoria = Subcategoria::factory()->create();
+        $categoria = Categoria::factory()->create();
+        $subcategoria = Subcategoria::factory()->create([
+            'categoria_id' => $categoria->id,
+        ]);
 
-        $response = $this->getJson("/api/subcategorias/{$subcategoria->id}");
+        $response = $this->getJson("/api/categorias/{$categoria->id}/subcategorias/{$subcategoria->id}");
+
         $response->assertStatus(200);
-        $response->assertJsonStructure([
-            'status',
-            'message',
+        $response->assertJson([
             'data' => [
-                'id',
-                'nombre',
-                'categoria_id',
+                'id' => $subcategoria->id,
+                'nombre' => $subcategoria->nombre,
+                'categoria_id' => $categoria->id,
             ],
         ]);
 
-        $this->assertEquals($subcategoria->id, $response->json('data.id'));
+        $this->assertDatabaseHas('subcategoria', [
+            'id' => $subcategoria->id,
+            'nombre' => $subcategoria->nombre,
+            'categoria_id' => $categoria->id,
+        ]);
     }
 
     public function test_store_subcategoria(): void
