@@ -19,7 +19,6 @@ class CategoriaIndexLogic extends IndexLogic
         return [
             'id' => __('#'),
             'nombre' => 'Nombre',
-            'activa' => 'Activa',
             'actions' => '#',
         ];
     }

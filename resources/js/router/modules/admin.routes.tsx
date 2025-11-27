@@ -13,6 +13,8 @@ const ReportesPage = lazy(() => import('@/pages/Reportes/ReportesPage'));
 const UbicacionesPage = lazy(() => import('@/pages/Ubicaciones/UbicacionesPage'));
 const ClientesPage = lazy(() => import('@/pages/Clientes/ClientesPage'));
 const ImportProductsPage = lazy(() => import('@/pages/Importar/ImportProductsPage'));
+const CategoriaPage = lazy(() => import('@/pages/Categoria/CategoriaPage'));
+const SubcategoriaPage = lazy(() => import('@/pages/Subcategoria/SubcategoriaPage'));
 
 export enum AdminRoutes {
   Dashboard = '/',
@@ -25,6 +27,8 @@ export enum AdminRoutes {
   Clientes = '/admin/clientes',
   Importar = '/admin/importar',
   Marcas = '/admin/marcas',
+  Categorias = '/admin/categorias',
+  Subcategorias = '/admin/categorias/:id/subcategorias',
   ErrorReporting = '/admin/manager/error-reporting',
 }
 
@@ -55,5 +59,7 @@ export const adminRoutes: IRoute[] = [
   { private: true, path: AdminRoutes.Clientes, name: 'Clientes', element: <ClientesPage /> },
   { private: true, path: AdminRoutes.Importar, name: 'Importar', element: <ImportProductsPage /> },
   { private: true, path: AdminRoutes.Marcas, name: 'Marcas', element: <MarcaPage /> },
+  { private: true, path: AdminRoutes.Categorias, name: 'Categorias', element: <CategoriaPage /> },
+  { private: true, path: AdminRoutes.Subcategorias, name: 'Subcategorias', element: <SubcategoriaPage /> },
   { private: true, path: AdminRoutes.ErrorReporting, name: 'Error Reporting', element: <ReportingPage /> },
 ];
