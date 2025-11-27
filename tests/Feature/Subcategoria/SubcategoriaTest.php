@@ -31,6 +31,36 @@ class SubcategoriaTest extends TestCase
         }
     }
 
+    public function test_index_subcategorias_categoria_sin_subcategorias(): void
+    {
+        $this->loginAdmin();
+
+        $categoria = Categoria::factory()->create();
+
+        $response = $this->getJson("/api/categorias/{$categoria->id}/subcategorias");
+
+        $response->assertStatus(200);
+        $response->assertJson([
+            'status' => 'OK',
+            'message' => null,
+            'data' => [],
+        ]);
+    }
+
+    public function test_index_subcategorias_categoria_invalida(): void
+    {
+        $this->loginAdmin();
+
+        $response = $this->getJson('/api/categorias/999999/subcategorias');
+
+        $response->assertStatus(422);
+        $response->assertJson([
+            'status' => 'error',
+            'message' => 'Categoria no encontrada',
+            'data' => null,
+        ]);
+    }
+
     public function test_show_subcategoria_de_categoria(): void
     {
         $this->loginAdmin();
@@ -58,6 +88,22 @@ class SubcategoriaTest extends TestCase
             'id' => $subcategoria->id,
             'nombre' => $subcategoria->nombre,
             'categoria_id' => $categoria->id,
+        ]);
+    }
+
+    public function test_show_categoria_sin_subcategorias(): void
+    {
+        $this->loginAdmin();
+
+        $categoria = Categoria::factory()->create();
+
+        $response = $this->getJson("/api/categorias/{$categoria->id}/subcategorias/999999");
+
+        $response->assertStatus(422);
+        $response->assertJson([
+            'status' => 'error',
+            'message' => 'Subcategoria no encontrada',
+            'data' => null,
         ]);
     }
 
