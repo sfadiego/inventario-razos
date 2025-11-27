@@ -51,7 +51,11 @@ class SubcategoriaTest extends TestCase
     {
         $this->loginAdmin();
 
-        $response = $this->getJson('/api/categorias/999999/subcategorias');
+        $this->withExceptionHandling();
+
+        $categoria_invalid = fake()->unique()->randomNumber();
+
+        $response = $this->getJson("/api/categorias/{$categoria_invalid}/subcategorias");
 
         $response->assertStatus(422);
         $response->assertJson([
@@ -95,9 +99,12 @@ class SubcategoriaTest extends TestCase
     {
         $this->loginAdmin();
 
-        $categoria = Categoria::factory()->create();
+        $this->withExceptionHandling();
 
-        $response = $this->getJson("/api/categorias/{$categoria->id}/subcategorias/999999");
+        $categoria = Categoria::factory()->create();
+        $subcategoria_invalid = fake()->unique()->randomNumber();
+
+        $response = $this->getJson("/api/categorias/{$categoria->id}/subcategorias/{$subcategoria_invalid}");
 
         $response->assertStatus(422);
         $response->assertJson([
