@@ -16,11 +16,13 @@ class SubcategoriasController extends Controller
         return Response::success($categoria->subcategorias);
     }
 
-    public function show(Categoria $categoria, int $subcategoriaId): JsonResponse
+    public function show(Categoria $categoria, Subcategoria $subcategoria): JsonResponse
     {
-        $subcategoria = $categoria->subcategorias()->findOrFail($subcategoriaId);
+        $result = $subcategoria->where('id', $subcategoria->id)
+            ->where('categoria_id', $categoria->id)
+            ->get();
 
-        return Response::success($subcategoria);
+        return Response::success($result);
     }
 
     public function store(SubcategoriasStoreRequest $params): JsonResponse
