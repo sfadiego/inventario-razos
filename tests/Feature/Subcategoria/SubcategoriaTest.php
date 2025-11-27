@@ -43,11 +43,14 @@ class SubcategoriaTest extends TestCase
         $response = $this->getJson("/api/categorias/{$categoria->id}/subcategorias/{$subcategoria->id}");
 
         $response->assertStatus(200);
+
         $response->assertJson([
             'data' => [
-                'id' => $subcategoria->id,
-                'nombre' => $subcategoria->nombre,
-                'categoria_id' => $categoria->id,
+                [
+                    'id' => $subcategoria->id,
+                    'nombre' => $subcategoria->nombre,
+                    'categoria_id' => $categoria->id,
+                ],
             ],
         ]);
 
