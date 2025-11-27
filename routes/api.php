@@ -8,6 +8,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::prefix('dashboard')->group(base_path('/routes/modules/dashboard.php'));
     Route::prefix('users')->group(base_path('/routes/modules/users.php'));
     Route::prefix('categorias')->group(base_path('/routes/modules/categorias.php'));
+    Route::prefix('subcategorias')->group(base_path('/routes/modules/subcategorias.php'));
     Route::prefix('clientes')->group(base_path('/routes/modules/clientes.php'));
     Route::prefix('productos')->group(base_path('/routes/modules/productos.php'));
     Route::prefix('imports')->group(base_path('/routes/modules/imports.php'));
