@@ -17,17 +17,21 @@ const PageBreadCrumbArray: React.FC<BreadcrumbProps> = ({ pageTitle, breadcrumbA
         <ol className="flex items-center gap-1.5">
           {breadcrumbArray.map((breadcrumb, index) => (
             <li key={index}>
-              <Link
-                to={breadcrumb.path}
-                className={
-                  index == 0
-                    ? 'inline-flex items-center gap-1.5 text-sm text-gray-500 dark:text-gray-400'
-                    : 'text-sm text-gray-800 dark:text-white/90'
-                }
-              >
-                {breadcrumb.name}
-                {index < breadcrumbArray.length - 1 && <ChevronRight />}
-              </Link>
+              {!breadcrumb.isActive ? (
+                <span className="text-sm text-gray-800 dark:text-white/90">{breadcrumb.name}</span>
+              ) : (
+                <Link
+                  to={breadcrumb.path}
+                  className={
+                    index == 0
+                      ? 'inline-flex items-center gap-1.5 text-sm text-gray-500 dark:text-gray-400'
+                      : 'text-sm text-gray-800 dark:text-white/90'
+                  }
+                >
+                  {breadcrumb.name}
+                  {index < breadcrumbArray.length - 1 && <ChevronRight />}
+                </Link>
+              )}
             </li>
           ))}
         </ol>

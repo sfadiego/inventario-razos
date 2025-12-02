@@ -14,7 +14,7 @@ class SubcategoriasUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'nombre' => ['required', 'string', 'max:255', 'unique:subcategoria,nombre'],
+            'nombre' => ['required', 'string', 'max:255'],
             'categoria_id' => ['required', 'exists:categorias,id'],
         ];
     }

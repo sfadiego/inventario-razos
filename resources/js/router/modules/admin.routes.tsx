@@ -41,6 +41,7 @@ export enum ApiRoutes {
   Ubicaciones = '/api/ubicaciones',
   Clientes = '/api/clientes',
   Categorias = '/api/categorias',
+  Subcategorias = '/api/subcategorias',
   Dashboard = '/api/dashboard',
   Images = '/api/images',
   Importar = '/api/imports',
