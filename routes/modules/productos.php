@@ -9,6 +9,7 @@ Route::controller(ProductosController::class)
         Route::get('', 'index');
         Route::post('', 'store');
         Route::get('pdf/print', 'printCatalog');
+        Route::get('catalogo-pdf', 'catalogoPdf');
         Route::prefix('{producto}')
             ->missing(function () {
                 return Response::error('Producto no encontrado');

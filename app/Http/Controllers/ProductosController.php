@@ -87,4 +87,25 @@ class ProductosController extends Controller
         return $pdf->download('reporte_productos.pdf');
     }
 
+    public function catalogoPdf()
+    {
+        $productos = Producto::with([
+            'marca:id,nombre',
+            'categoria:id,nombre',
+        ])
+            ->select([
+                'codigo',
+                'nombre',
+                'marca_id',
+                'precio_venta',
+            ])
+            ->orderBy('nombre')
+            ->get();
+
+        $pdf = Pdf::loadView('pdf.catalogo', [
+            'productos' => $productos,
+        ])->setPaper('letter');
+
+        return $pdf->download('catalogo_productos.pdf');
+    }
 }
