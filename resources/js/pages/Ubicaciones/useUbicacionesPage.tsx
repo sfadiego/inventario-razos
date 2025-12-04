@@ -26,18 +26,23 @@ export const useUbicacionesPage = () => {
   }, [isLoading, data, selected, setSelectedUbicacion]);
 
   const renderersMap = {
-    actions: ({ id }: IUbicacion) => (
-      <Button
-        onClick={() => {
-          openModal();
-          setSelected(id!);
-        }}
-        variant="primary"
-        size="sm"
-      >
-        <Edit />
-      </Button>
-    ),
+    actions: ({ id, nombre }: IUbicacion) => {
+      if (nombre == 'Almacén') {
+        return null;
+      }
+      return (
+        <Button
+          onClick={() => {
+            openModal();
+            setSelected(id!);
+          }}
+          variant="primary"
+          size="sm"
+        >
+          <Edit />
+        </Button>
+      );
+    },
   };
   const filters: IFilters<IFiltrosUbicacion>[] = [
     {
