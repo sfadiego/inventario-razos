@@ -38,12 +38,17 @@ class MarcaTest extends TestCase
         $response = $this->get("api/marcas/{$marca->id}");
         $response->assertStatus(200);
         $response->assertJsonStructure([
-            'id',
-            'nombre',
+            'data' => [
+                'id',
+                'nombre',
+            ]
         ]);
 
         $response->assertJson([
-            'id' => $marca->id,
+            'data' => [
+                'id' => $marca->id,
+                'nombre' => $marca->nombre,
+            ],
         ]);
     }
 
@@ -120,7 +125,7 @@ class MarcaTest extends TestCase
             'data',
         ]);
 
-        $this->assertDatabaseMissing('marcas', [
+        $this->assertSoftDeleted('marcas', [
             'id' => $marca->id,
         ]);
     }
