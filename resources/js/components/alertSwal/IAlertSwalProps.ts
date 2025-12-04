@@ -5,4 +5,6 @@ export interface IAlertSwalProps {
   title?: string;
   text?: string;
   options?: object;
+  onConfirm?: (res: any) => void;
+  onCancel?: (res: any) => void;
 }

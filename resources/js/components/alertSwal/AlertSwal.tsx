@@ -2,7 +2,7 @@ import { AlertTypeEnum } from '@/enums/AlertTypeEnum';
 import Swal from 'sweetalert2';
 import { IAlertSwalProps } from './IAlertSwalProps';
 
-export const AlertSwal = ({ type = AlertTypeEnum.Success, title, text, options = {} }: IAlertSwalProps) => {
+export const AlertSwal = async ({ type = AlertTypeEnum.Success, title, text, options = {}, onConfirm, onCancel }: IAlertSwalProps) => {
   const optionAlert = {
     success: {
       title: title || 'Bien',
@@ -28,5 +28,12 @@ export const AlertSwal = ({ type = AlertTypeEnum.Success, title, text, options =
       ...options,
     },
   };
-  Swal.fire(optionAlert[type] as import('sweetalert2').SweetAlertOptions);
+  // Swal.fire(optionAlert[type] as import('sweetalert2').SweetAlertOptions);
+  const result = await Swal.fire(optionAlert[type] as import('sweetalert2').SweetAlertOptions);
+  console.log(result);
+  if (result.isConfirmed && onConfirm) {
+    onConfirm(result);
+  } else if (result.isDismissed && onCancel) {
+    onCancel(result);
+  }
 };

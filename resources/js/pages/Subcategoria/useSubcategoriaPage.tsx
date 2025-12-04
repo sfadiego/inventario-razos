@@ -1,6 +1,8 @@
+import { AlertSwal } from '@/components/alertSwal/AlertSwal';
 import { BreadcrumbArrayProps } from '@/components/common/breadcrum';
 import { IFilters } from '@/components/filters/modalFilter/types';
 import Button from '@/components/ui/button/Button';
+import { AlertTypeEnum } from '@/enums/AlertTypeEnum';
 import { useModal } from '@/hooks/useModal';
 import { useOnSubmit } from '@/hooks/useOnSubmit';
 import { ISubcategoria } from '@/models/subcategoria.interface';
@@ -32,18 +34,31 @@ export const useSubcategoriaPage = () => {
     clearItem('subcategoria');
   };
 
+  const queryClient = useQueryClient();
   const { onSubmit: onSubmitDelete } = useOnSubmit({
     mutateAsync: mutatorDelete.mutateAsync,
     onSuccess: async () => {
       setSelected(0);
+      queryClient.invalidateQueries({
+        queryKey: [`${ApiRoutes.Categorias}/${categoriaId}/subcategorias`],
+      });
     },
   });
 
-  const queryClient = useQueryClient();
+  const confirmDelete = () => {
+    AlertSwal({
+      type: AlertTypeEnum.Confirm,
+      onConfirm: (result) => {
+        if (result.isConfirmed) {
+          handleDelete();
+        }
+      },
+    });
+  };
+
   const handleDelete = useCallback(() => {
     onSubmitDelete(null, {});
-    queryClient.invalidateQueries({ queryKey: [`${ApiRoutes.Categorias}/${categoriaId}/subcategorias`] });
-  }, [onSubmitDelete, categoriaId, queryClient]);
+  }, [onSubmitDelete]);
 
   const renderersMap = {
     actions: (item: ISubcategoria) => (
@@ -62,7 +77,7 @@ export const useSubcategoriaPage = () => {
           className="ml-2"
           onClick={() => {
             setSelected(item.id!);
-            handleDelete();
+            confirmDelete();
           }}
           variant="error"
           size="sm"
@@ -93,6 +108,6 @@ export const useSubcategoriaPage = () => {
     isOpen,
     categoriaId,
     closeModal: handleCloseModal,
-    breadcrumbArray
+    breadcrumbArray,
   };
 };
