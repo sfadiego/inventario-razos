@@ -1,4 +1,4 @@
-import { useGET, usePOST, usePUT } from '@/hooks/useApi';
+import { useDELETE, useGET, usePOST, usePUT } from '@/hooks/useApi';
 import { IPaginate } from '@/interfaces/IPaginate';
 import { IPaginateServiceProps } from '@/interfaces/IPaginateServiceProps';
 import { IUbicacion } from '@/models/ubicacion.interface';
@@ -20,3 +20,4 @@ export const useServiceIndexUbicaciones = ({ filters = [], search = null, page =
 export const useServiceStoreUbicacion = () => usePOST({ url });
 export const useServiceShowUbicacion = (id?: number) => useGET<IUbicacion>({ url: `${url}/${id}`, enable: !!id });
 export const useServiceUpdateUbicacion = (id?: number) => usePUT({ url: `${url}/${id}` });
+export const useServiceDeleteUbicacion = (id: number) => useDELETE({ url: `${url}/${id}` });

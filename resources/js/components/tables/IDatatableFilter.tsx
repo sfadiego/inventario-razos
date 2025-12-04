@@ -17,4 +17,5 @@ export interface IDatatableWithFilterProps<Values> {
   //custom
   newButtonText?: string;
   disableNewButton?: boolean;
+  payload?: any;
 }

@@ -4,17 +4,18 @@ import { ICategoria } from '@/models/categoria.interface';
 import { IProveedorFormik } from '@/models/proveedor.interface';
 import { ApiRoutes } from '@/router/modules/admin.routes';
 import { useServiceStoreProveedor, useServiceUpdateProveedor } from '@/Services/proveedor/useServiceProveedor';
+import { useSelectedItemStore } from '@/store/useSelectedItemStore';
 import { useQueryClient } from '@tanstack/react-query';
 import * as Yup from 'yup';
-import { useProveedorStore } from './useProveedorStore';
 
-interface IUseProveedorProps {
+interface IUseProveedorFormProps {
   closeModal?: () => void;
 }
 
-export const useProveedor = (props: IUseProveedorProps) => {
+export const useProveedorForm = (props: IUseProveedorFormProps) => {
   const { closeModal } = props;
-  const { proveedor } = useProveedorStore();
+  const { getItem } = useSelectedItemStore();
+  const proveedor = getItem('proveedor');
 
   const initialValues: IProveedorFormik = {
     nombre: proveedor?.nombre ?? '',

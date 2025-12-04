@@ -3,6 +3,7 @@
 namespace App\Core\Data;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
 
 class IndexData extends Request
 {
@@ -31,7 +32,7 @@ class IndexData extends Request
         $this->orderParam = $request->input('orderParam', 'id');
         $this->order = $request->input('order', 'asc');
         $this->filters = $request->input('filters', []);
-        $this->params = $request->all() ?? [];
+        $this->params = [...$request->all(), ...Route::current()->parameters()] ?? [];
         $this->search = $request->input('search');
     }
 }

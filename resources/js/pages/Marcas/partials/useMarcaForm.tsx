@@ -1,27 +1,44 @@
-import { useServiceStoreMarca } from '@/Services/marcas/useServiceMarcas';
+import { useServiceStoreMarca, useServiceUpdateMarca } from '@/Services/marcas/useServiceMarcas';
+import { AlertSwal } from '@/components/alertSwal/AlertSwal';
 import { useOnSubmit } from '@/hooks/useOnSubmit';
 import { IMarca } from '@/models/marca.interface';
+import { ApiRoutes } from '@/router/modules/admin.routes';
+import { useSelectedItemStore } from '@/store/useSelectedItemStore';
+import { useQueryClient } from '@tanstack/react-query';
 import * as Yup from 'yup';
 
 export const useMarcaForm = ({ closeModal }: { closeModal: () => void }) => {
+  const { getItem } = useSelectedItemStore();
+  const marca = getItem('marca');
   const initialValues: IMarca = {
-    nombre: '',
+    nombre: marca?.nombre ?? '',
   };
 
   const validationSchema = Yup.object().shape({
     nombre: Yup.string().required('El nombre es obligatorio'),
   });
 
-  const handleSuccess = (data: IMarca) => {
-    console.log(data);
+  const queryClient = useQueryClient();
+  const handleSuccess = () => {
+    if (closeModal) {
+      closeModal();
+    }
+
+    AlertSwal({
+      title: `Exito`,
+      text: `${marca?.id ? 'Actualizado' : 'Guardado'} correctamente`,
+    });
+
+    queryClient.invalidateQueries({
+      queryKey: [`${ApiRoutes.Marcas}`],
+    });
   };
 
-  //TODO: revisar update
   const mutator = useServiceStoreMarca();
-  //   const mutatorUpdate = useServiceUpdateMarca(cliente?.id ?? 0);
+  const mutatorUpdate = useServiceUpdateMarca(marca?.id ?? 0);
   const { onSubmit } = useOnSubmit<IMarca>({
-    mutateAsync: mutator.mutateAsync,
-    onSuccess: async (data) => handleSuccess(data),
+    mutateAsync: marca?.id ? mutatorUpdate.mutateAsync : mutator.mutateAsync,
+    onSuccess: async () => handleSuccess(),
   });
 
   const formikProps = {
@@ -30,5 +47,5 @@ export const useMarcaForm = ({ closeModal }: { closeModal: () => void }) => {
     validationSchema,
   };
 
-  return { formikProps, closeModal, isPending: mutator.isPending };
+  return { formikProps, closeModal, isPending: mutator.isPending || mutatorUpdate.isPending };
 };

@@ -4,9 +4,9 @@ import { useOnSubmit } from '@/hooks/useOnSubmit';
 import { IUbicacion } from '@/models/ubicacion.interface';
 import { ApiRoutes } from '@/router/modules/admin.routes';
 import { useServiceStoreUbicacion, useServiceUpdateUbicacion } from '@/Services/ubicaciones/useServiceUbicaciones';
+import { useSelectedItemStore } from '@/store/useSelectedItemStore';
 import { useQueryClient } from '@tanstack/react-query';
 import * as Yup from 'yup';
-import { useUbicacionStore } from './useUbicacionStore';
 
 export interface IFiltrosUbicacion {
   nombre: string;
@@ -16,7 +16,8 @@ interface IuseUbicacionProps {
 }
 
 export const useUbicacion = ({ closeModal }: IuseUbicacionProps) => {
-  const { ubicacion } = useUbicacionStore();
+  const { getItem } = useSelectedItemStore();
+  const ubicacion = getItem('ubicacion');
   const initialValues: IUbicacion = {
     nombre: ubicacion?.nombre ?? '',
   };

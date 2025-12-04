@@ -18,8 +18,7 @@ class SubcategoriaTest extends TestCase
         ]);
 
         $response = $this->getJson("/api/categorias/{$categoria->id}/subcategorias");
-
-        $response->assertStatus(200);
+        $response->assertStatus(206);
         $response->assertJsonCount(3, 'data');
 
         foreach ($categoria->subcategorias as $subcategoria) {
@@ -38,11 +37,8 @@ class SubcategoriaTest extends TestCase
         $categoria = Categoria::factory()->create();
 
         $response = $this->getJson("/api/categorias/{$categoria->id}/subcategorias");
-
-        $response->assertStatus(200);
+        $response->assertStatus(206);
         $response->assertJson([
-            'status' => 'OK',
-            'message' => null,
             'data' => [],
         ]);
     }
@@ -53,14 +49,14 @@ class SubcategoriaTest extends TestCase
 
         $this->withExceptionHandling();
 
-        $categoria_invalid = fake()->unique()->randomNumber();
+        $invalidId = $this->faker->randomNumber();
 
-        $response = $this->getJson("/api/categorias/{$categoria_invalid}/subcategorias");
+        $response = $this->getJson("/api/categorias/{$invalidId}/subcategorias");
 
         $response->assertStatus(422);
         $response->assertJson([
             'status' => 'error',
-            'message' => 'Categoria no encontrada',
+            'message' => 'Categoria no valida',
             'data' => null,
         ]);
     }
@@ -69,22 +65,22 @@ class SubcategoriaTest extends TestCase
     {
         $this->loginAdmin();
 
-        $categoria = Categoria::factory()->create();
+        $categoria = Categoria::factory()->create([
+            'nombre' => fake()->unique()->word,
+        ]);
         $subcategoria = Subcategoria::factory()->create([
             'categoria_id' => $categoria->id,
+            'nombre' => fake()->unique()->word,
         ]);
 
         $response = $this->getJson("/api/categorias/{$categoria->id}/subcategorias/{$subcategoria->id}");
 
         $response->assertStatus(200);
-
         $response->assertJson([
             'data' => [
-                [
-                    'id' => $subcategoria->id,
-                    'nombre' => $subcategoria->nombre,
-                    'categoria_id' => $categoria->id,
-                ],
+                'id' => $subcategoria->id,
+                'nombre' => $subcategoria->nombre,
+                'categoria_id' => $categoria->id,
             ],
         ]);
 

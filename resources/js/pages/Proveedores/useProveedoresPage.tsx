@@ -5,9 +5,9 @@ import { useModal } from '@/hooks/useModal';
 import { ICategoria } from '@/models/categoria.interface';
 import { IProveedor, IProveedorFormik } from '@/models/proveedor.interface';
 import { useServiceIndexProveedor, useServiceShowProveedor } from '@/Services/proveedor/useServiceProveedor';
+import { useSelectedItemStore } from '@/store/useSelectedItemStore';
 import { Edit } from 'lucide-react';
 import { useEffect, useState } from 'react';
-import { useProveedorStore } from './partials/useProveedorStore';
 
 export interface IFiltroProveedor {
   nombre: string;
@@ -18,18 +18,18 @@ export const useProveedoresPage = () => {
   const { isOpen, openModal, closeModal } = useModal();
   const [selected, setSelected] = useState(0);
   const { isLoading, data } = useServiceShowProveedor(selected);
-  const { setSelectedProveedor } = useProveedorStore();
+  const { setItem, clearItem } = useSelectedItemStore();
   const handleCloseModal = () => {
     closeModal();
     setSelected(0);
-    setSelectedProveedor(null);
+    clearItem('proveedor');
   };
 
   useEffect(() => {
     if (!isLoading && data && selected) {
-      setSelectedProveedor(data);
+      setItem('proveedor', data);
     }
-  }, [isLoading, data, selected, setSelectedProveedor]);
+  }, [isLoading, data, selected, setItem]);
 
   const renderersMap = {
     categorias: ({ categorias }: IProveedor) => {
