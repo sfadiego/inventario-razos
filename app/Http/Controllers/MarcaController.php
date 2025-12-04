@@ -38,6 +38,6 @@ class MarcaController extends Controller
 
     public function delete(Marca $marca): JsonResponse
     {
-        return Response::success("Marca eliminada", $marca->delete());
+        return Response::success('Marca eliminada', $marca->delete());
     }
 }

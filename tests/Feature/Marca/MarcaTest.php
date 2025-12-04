@@ -41,7 +41,7 @@ class MarcaTest extends TestCase
             'data' => [
                 'id',
                 'nombre',
-            ]
+            ],
         ]);
 
         $response->assertJson([
