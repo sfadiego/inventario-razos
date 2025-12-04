@@ -18,7 +18,7 @@ export const useDatatableFilters = <Values,>(props: IDatatableWithFilterProps<Va
     payload: {
       ...payload,
       filters: combinedFilters,
-      search: search
+      search: search,
     },
     renderersMap,
   });
