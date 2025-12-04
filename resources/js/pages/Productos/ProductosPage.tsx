@@ -1,7 +1,6 @@
 import { PageWrapper } from '@/components/layout/PageWrapper';
 import { DatatableWithFilter } from '@/components/tables/DatatableWithFilter';
 import Button from '@/components/ui/button/Button';
-import { useServicePdf } from '@/Services/pdf/useServicePdf';
 import '@mantine/core/styles.layer.css';
 import { Printer } from 'lucide-react';
 import 'mantine-datatable/styles.layer.css';
@@ -22,7 +21,7 @@ export default function ProductosPage() {
     rowExpansion,
     isOpenNewImage,
     closeModalNewImage,
-    handlePrint
+    handlePrint,
   } = useProductosPage();
 
   return (
