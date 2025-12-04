@@ -19,7 +19,7 @@ class MarcaController extends Controller
 
     public function show(Marca $marca): JsonResponse
     {
-        return response()->json($marca);
+        return Response::success($marca);
     }
 
     public function store(MarcaStoreRequest $params): JsonResponse
