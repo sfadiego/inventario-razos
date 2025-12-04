@@ -20,10 +20,13 @@ Route::controller(CategoriasController::class)
 
                 Route::controller(SubcategoriasController::class)
                     ->group(function () {
-                        Route::get('subcategorias', 'index');
-                        Route::get('subcategorias/{subcategoria}', 'show')
-                            ->missing(function () {
-                                return Response::error('Subcategoria no encontrada');
+                        Route::prefix('subcategorias')
+                            ->group(function () {
+                                Route::get('', 'index');
+                                Route::get('{subcategoria}', 'show')
+                                    ->missing(function () {
+                                        return Response::error('Subcategoria no encontrada');
+                                    });
                             });
                     });
             });

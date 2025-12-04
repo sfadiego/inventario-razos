@@ -5,6 +5,7 @@ namespace App\Logic\Subcategoria;
 use App\Core\Data\IndexData;
 use App\Core\Logic\IndexLogic;
 use App\Http\Resources\SubcategoriaResource;
+use App\Models\Categoria;
 use App\Models\Subcategoria;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
@@ -29,7 +30,7 @@ class SubcategoriaIndexLogic extends IndexLogic
 
     public function run(IndexData $data): JsonResponse
     {
-        if (empty($data->params['categoria'])) {
+        if (empty($data->params['categoria']) || !Categoria::find($data->params['categoria'])) {
             return Response::error('Categoria no valida');
         }
 
