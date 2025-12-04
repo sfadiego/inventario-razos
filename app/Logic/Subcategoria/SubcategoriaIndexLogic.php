@@ -30,7 +30,7 @@ class SubcategoriaIndexLogic extends IndexLogic
 
     public function run(IndexData $data): JsonResponse
     {
-        if (empty($data->params['categoria']) || !Categoria::find($data->params['categoria'])) {
+        if (empty($data->params['categoria']) || ! Categoria::find($data->params['categoria'])) {
             return Response::error('Categoria no valida');
         }
 

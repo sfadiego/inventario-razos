@@ -77,8 +77,7 @@ class SubcategoriaTest extends TestCase
 
         $response->assertStatus(200);
         $response->assertJson([
-            'data' =>
-            [
+            'data' => [
                 'id' => $subcategoria->id,
                 'nombre' => $subcategoria->nombre,
                 'categoria_id' => $categoria->id,
