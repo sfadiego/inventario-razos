@@ -15,7 +15,7 @@ import { useCallback, useEffect, useState } from 'react';
 export const useMarcaPage = () => {
   const { openModal, closeModal, isOpen } = useModal();
   const [selected, setSelected] = useState<number>(0);
-  const { setItem } = useSelectedItemStore();
+  const { setItem, clearItem } = useSelectedItemStore();
   const { isLoading, data } = useServiceShowMarca(selected);
   const mutatorDelete = useServiceDeleteMarca(selected);
   useEffect(() => {
@@ -48,6 +48,12 @@ export const useMarcaPage = () => {
         }
       },
     });
+  };
+
+  const handleCloseModal = () => {
+    closeModal();
+    setSelected(0);
+    clearItem('marca');
   };
 
   const renderersMap = {
@@ -92,5 +98,5 @@ export const useMarcaPage = () => {
     },
   ];
 
-  return { renderersMap, filters, openModal, closeModal, isOpen };
+  return { renderersMap, filters, openModal, closeModal: handleCloseModal, isOpen };
 };
