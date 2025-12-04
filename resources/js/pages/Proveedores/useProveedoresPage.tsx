@@ -32,7 +32,8 @@ export const useProveedoresPage = () => {
   }, [isLoading, data, selected, setItem]);
 
   const renderersMap = {
-    categorias: ({ categorias }: IProveedor) => {
+    categorias: ({ categorias, nombre }: IProveedor) => {
+      if (nombre == 'Sin definir') return null;
       return categorias && categorias.length > 0 ? (
         categorias.map((c: ICategoria) => (
           <Badge color="primary" variant="light" key={c.id}>
@@ -45,18 +46,21 @@ export const useProveedoresPage = () => {
         </Badge>
       );
     },
-    actions: ({ id }: IProveedor) => (
-      <Button
-        onClick={() => {
-          openModal();
-          setSelected(id!);
-        }}
-        variant="primary"
-        size="sm"
-      >
-        <Edit />
-      </Button>
-    ),
+    actions: ({ id, nombre }: IProveedor) => {
+      if (nombre == 'Sin definir') return null;
+      return (
+        <Button
+          onClick={() => {
+            openModal();
+            setSelected(id!);
+          }}
+          variant="primary"
+          size="sm"
+        >
+          <Edit />
+        </Button>
+      );
+    },
   };
   const filters: IFilters<IProveedorFormik>[] = [
     {
