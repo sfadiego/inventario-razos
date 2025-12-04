@@ -28,9 +28,8 @@ export const AlertSwal = async ({ type = AlertTypeEnum.Success, title, text, opt
       ...options,
     },
   };
-  // Swal.fire(optionAlert[type] as import('sweetalert2').SweetAlertOptions);
+  
   const result = await Swal.fire(optionAlert[type] as import('sweetalert2').SweetAlertOptions);
-  console.log(result);
   if (result.isConfirmed && onConfirm) {
     onConfirm(result);
   } else if (result.isDismissed && onCancel) {
