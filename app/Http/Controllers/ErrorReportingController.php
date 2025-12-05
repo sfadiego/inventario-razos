@@ -26,7 +26,6 @@ class ErrorReportingController extends Controller
     public function downloadDump()
     {
         $dump = $this->createDumpDatabase();
-
         return Response::download($dump['fullPath'], $dump['filename']);
     }
 }
