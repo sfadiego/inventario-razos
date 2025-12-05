@@ -4,7 +4,7 @@ import { rowTypes } from '@/components/tables/rowTypes';
 import Button from '@/components/ui/button/Button';
 import { useModal } from '@/hooks/useModal';
 import { IProducto } from '@/models/producto.interface';
-import { useServicePdf } from '@/Services/pdf/useServicePdf';
+import { useServiceCatalogoProductosPdf } from '@/Services/pdf/useServicePdf';
 import { useServiceIndexProductos, useServiceShowProducto } from '@/Services/productos/useServiceProductos';
 import { useSelectedItemStore } from '@/store/useSelectedItemStore';
 import { Camera, Edit } from 'lucide-react';
@@ -75,7 +75,7 @@ export const useProductosPage = () => {
     },
   ];
 
-  const { isLoading: pdfLoading, data: pdfData } = useServicePdf();
+  const { isLoading: pdfLoading, data: pdfData } = useServiceCatalogoProductosPdf();
   const handlePrint = () => {
     if (!pdfLoading && pdfData) {
       const fileURL = window.URL.createObjectURL(new Blob([pdfData]));

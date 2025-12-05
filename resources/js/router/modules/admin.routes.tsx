@@ -47,6 +47,7 @@ export enum ApiRoutes {
   Importar = '/api/imports',
   Marcas = '/api/marcas',
   ErrorReporting = '/api/error-reporting',
+  PDF = '/api/pdf',
 }
 
 export const adminRoutes: IRoute[] = [
