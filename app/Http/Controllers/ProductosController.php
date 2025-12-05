@@ -9,10 +9,9 @@ use App\Http\Requests\Productos\ProductosUpdateRequest;
 use App\Logic\Producto\ProductoIndexLogic;
 use App\Models\Producto;
 use App\Models\ReporteMovimiento;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Response;
-use Barryvdh\DomPDF\Facade\Pdf;
-use Illuminate\Support\Facades\App;
 
 class ProductosController extends Controller
 {
@@ -80,10 +79,11 @@ class ProductosController extends Controller
 
     public function printCatalog()
     {
-        $data =  [
-            'productos' => Producto::all()
+        $data = [
+            'productos' => Producto::all(),
         ];
         $pdf = Pdf::loadView('pdf.test', $data);
+
         return $pdf->download('reporte_productos.pdf');
     }
 }
