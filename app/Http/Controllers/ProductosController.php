@@ -75,5 +75,4 @@ class ProductosController extends Controller
 
         return Response::success('', 'Producto eliminado correctamente');
     }
-
 }
