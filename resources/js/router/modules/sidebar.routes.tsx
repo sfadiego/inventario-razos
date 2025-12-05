@@ -3,9 +3,9 @@ import {
   BadgeDollarSign,
   Banknote,
   BookCopy,
-  BookOpenText,
+  CalendarSearch,
+  CloudUpload,
   Cog,
-  File,
   FileWarning,
   FolderSearch,
   Home,
@@ -16,13 +16,13 @@ import {
 import { AdminRoutes } from './admin.routes';
 export const adminSidebarRoutes: INavItem[] = [
   {
-    icon: <BookOpenText />,
-    name: 'Reportes',
+    icon: <CalendarSearch />,
+    name: 'Movimientos',
     path: AdminRoutes.Reportes,
   },
   {
     icon: <ListChecks />,
-    name: 'Catalogos',
+    name: 'Catálogos',
     subItems: [
       {
         icon: <Cog width={20} />,
@@ -52,8 +52,8 @@ export const adminSidebarRoutes: INavItem[] = [
     path: AdminRoutes.Proveedores,
   },
   {
-    icon: <File />,
-    name: 'Importar',
+    icon: <CloudUpload />,
+    name: 'Importar Productos',
     path: AdminRoutes.Importar,
   },
   {
@@ -63,7 +63,7 @@ export const adminSidebarRoutes: INavItem[] = [
   },
   {
     icon: <FileWarning />,
-    name: 'Error Reporting',
+    name: 'Reporte de errores',
     path: AdminRoutes.ErrorReporting,
   },
 ];
