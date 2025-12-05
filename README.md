@@ -45,6 +45,7 @@ DB_PASSWORD=root
 comandos para ejecutar formateo de código
 
 Formatea código frontend
+
 ```bash
 pnpm run format
 ```
@@ -59,4 +60,12 @@ formatea código PHP
 
 ```bash
 ./vendor/bin/pint
+```
+
+## Comandos
+
+backup de base de datos en la ruta: `storage/app/backups/`
+
+```bash
+php artisan db:backup
 ```
