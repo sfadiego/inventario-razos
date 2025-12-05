@@ -35,8 +35,8 @@ export const useErrorReporting = () => {
 
   const { isLoading, data, refetch } = useServiceCreateDump();
   const handleReport = () => {
+    refetch();
     if (!isLoading && data) {
-      refetch();
       const fileURL = window.URL.createObjectURL(new Blob([data]));
       window.open(fileURL, 'download');
     }

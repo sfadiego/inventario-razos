@@ -35,7 +35,7 @@ class dbDump extends Command
             $this->info("Carpeta creada: {$backupPath}");
         }
 
-        $filename = $backupPath . '/backup-' . date('Y-m-d_H-i-s') . '.sql';
+        $filename = $backupPath.'/backup-'.date('Y-m-d_H-i-s').'.sql';
 
         MySql::create()
             ->setDbName(env('DB_DATABASE'))
