@@ -1,5 +1,6 @@
 <?php
 
+use App\Console\Commands\dbDump;
 use App\Enums\HttpError;
 use App\Http\Middleware\ErrorReporting;
 use App\Http\Middleware\SetHeaders;
@@ -36,6 +37,9 @@ return Application::configure(basePath: dirname(__DIR__))
             'errorReporting' => ErrorReporting::class,
         ]);
     })
+    ->withCommands([
+        dbDump::class,
+    ])
     ->withExceptions(function (Exceptions $exceptions) {
         if (request()->is('api/*')) {
             $exceptions->render(function (ValidationException $e) {
