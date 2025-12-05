@@ -86,4 +86,5 @@ class ProductosController extends Controller
 
         return $pdf->download('reporte_productos.pdf');
     }
+
 }
