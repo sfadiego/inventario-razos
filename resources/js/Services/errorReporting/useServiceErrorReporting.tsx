@@ -5,7 +5,7 @@ import { IErrorReporting } from '@/models/errorReporting';
 import { ApiRoutes } from '@/router/modules/admin.routes';
 
 const url = ApiRoutes.ErrorReporting;
-export const useServiceIndexErrorReporting = ({ filters = [], search = null, page = 1, limit = 10, order = 'desc'}: IPaginateServiceProps) => {
+export const useServiceIndexErrorReporting = ({ filters = [], search = null, page = 1, limit = 10, order = 'desc' }: IPaginateServiceProps) => {
   return useGET<IPaginate<IErrorReporting>>({
     url,
     filters: {
