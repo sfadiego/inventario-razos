@@ -4,7 +4,7 @@ export interface IFilterProps {
   operator?: string;
 }
 
-type orderBy = 'desc' | 'asct';
+type orderBy = 'desc' | 'asc';
 export interface IPaginateServiceProps {
   filters?: Array<IFilterProps> | null;
   search?: string | null;

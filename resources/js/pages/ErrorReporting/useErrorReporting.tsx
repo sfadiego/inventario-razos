@@ -20,7 +20,7 @@ export const useErrorReporting = () => {
     {
       property: 'status_code',
       operator: 'like',
-      initialValue: '',
+      initialValue: '500',
     },
     {
       property: 'created_at',
