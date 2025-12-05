@@ -35,13 +35,14 @@ class dbDump extends Command
             $this->info("Carpeta creada: {$backupPath}");
         }
 
-        $filename = $backupPath.'/backup-'.date('Y-m-d_H-i-s').'.sql';
+        $filename = $backupPath . '/backup-' . date('Y-m-d_H-i-s') . '.sql';
 
         MySql::create()
             ->setDbName(env('DB_DATABASE'))
             ->setUserName(env('DB_USERNAME'))
             ->setPassword(env('DB_PASSWORD'))
             ->setHost(env('DB_HOST'))
+            ->setDumpBinaryPath('/opt/homebrew/bin')
             ->dumpToFile($filename);
 
         $this->info("Backup creado en: {$filename}");
