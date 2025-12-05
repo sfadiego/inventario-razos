@@ -3,12 +3,16 @@
 namespace App\Http\Middleware;
 
 use App\Models\ErrorReporting as ModelsErrorReporting;
+use App\Traits\BackupDatabase;
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Symfony\Component\HttpFoundation\Response;
 
 class ErrorReporting
 {
+    use BackupDatabase;
+
     /**
      * Handle an incoming request.
      *
@@ -17,6 +21,15 @@ class ErrorReporting
     public function handle(Request $request, Closure $next): Response
     {
         $response = $next($request);
+
+        if ($response->getStatusCode() == 500) {
+            Log::error('Fatal Error', [
+                'endpoint' => $request->path(),
+                'method' => $request->method(),
+                'error_message' => $response->exception?->getMessage() ?? 'Unknown error',
+            ]);
+            $this->createDumpDatabase('error-500');
+        }
 
         if ($response->getStatusCode() >= 400) {
             ModelsErrorReporting::create([

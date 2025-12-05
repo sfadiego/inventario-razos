@@ -19,3 +19,4 @@ export const useServiceIndexErrorReporting = ({ filters = [], search = null, pag
 };
 
 export const useServiceShowErrorReporting = (id?: number) => useGET<IErrorReporting>({ url: `${url}/${id}`, enable: !!id });
+export const useServiceCreateDump = () => useGET<Blob>({ url: `${url}/create-dump`, responseType: 'blob', enable: false });

@@ -42,6 +42,7 @@ class dbDump extends Command
             ->setUserName(env('DB_USERNAME'))
             ->setPassword(env('DB_PASSWORD'))
             ->setHost(env('DB_HOST'))
+            ->setDumpBinaryPath('/opt/homebrew/bin')
             ->dumpToFile($filename);
 
         $this->info("Backup creado en: {$filename}");
