@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
 
     <style>
-        {!! file_get_contents(resource_path('css/pdf/catalogoPdf.css')) !!}
+        {!! file_get_contents(resource_path('css/pdf/catalogo-productos.css')) !!}
     </style>
 </head>
 
@@ -19,18 +19,16 @@
                 <th>Código</th>
                 <th>Producto</th>
                 <th>Marca</th>
-                <th>Precio Venta</th>
             </tr>
         </thead>
 
         <tbody>
             @foreach ($productos as $p)
-                <tr>
-                    <td>{{ $p->codigo }}</td>
-                    <td>{{ $p->nombre }}</td>
-                    <td>{{ optional($p->marca)->nombre ?? 'N/A' }}</td>
-                    <td>${{ number_format($p->precio_venta, 2) }}</td>
-                </tr>
+            <tr>
+                <td>{{ $p->codigo }}</td>
+                <td>{{ $p->nombre }}</td>
+                <td>{{ $p->marca?->nombre ? $p->marca?->nombre : 'N/A' }}</td>
+            </tr>
             @endforeach
         </tbody>
 

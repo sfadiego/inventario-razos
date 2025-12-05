@@ -11,6 +11,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::prefix('subcategorias')->group(base_path('/routes/modules/subcategorias.php'));
     Route::prefix('clientes')->group(base_path('/routes/modules/clientes.php'));
     Route::prefix('productos')->group(base_path('/routes/modules/productos.php'));
+    Route::prefix('pdf')->group(base_path('/routes/modules/pdf.php'));
     Route::prefix('imports')->group(base_path('/routes/modules/imports.php'));
     Route::prefix('images')->group(base_path('/routes/modules/images.php'));
     Route::prefix('proveedores')->group(base_path('/routes/modules/proveedores.php'));
