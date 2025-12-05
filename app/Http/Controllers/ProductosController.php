@@ -9,6 +9,7 @@ use App\Http\Requests\Productos\ProductosUpdateRequest;
 use App\Logic\Producto\ProductoIndexLogic;
 use App\Models\Producto;
 use App\Models\ReporteMovimiento;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Response;
 
@@ -74,5 +75,15 @@ class ProductosController extends Controller
         ]);
 
         return Response::success('', 'Producto eliminado correctamente');
+    }
+
+    public function printCatalog()
+    {
+        $data = [
+            'productos' => Producto::all(),
+        ];
+        $pdf = Pdf::loadView('pdf.test', $data);
+
+        return $pdf->download('reporte_productos.pdf');
     }
 }
