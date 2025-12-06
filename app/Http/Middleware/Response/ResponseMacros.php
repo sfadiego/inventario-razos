@@ -129,5 +129,12 @@ class ResponseMacros
                     ]);
             }
         );
+
+        Response::macro(
+            'image',
+            function ($data, Http $status = Http::Success) {
+                return response($data, $status->value)->header('Content-Type', 'image/png');
+            }
+        );
     }
 }

@@ -52,14 +52,14 @@ export const adminSidebarRoutes: INavItem[] = [
     path: AdminRoutes.Proveedores,
   },
   {
-    icon: <CloudUpload />,
-    name: 'Importar Productos',
-    path: AdminRoutes.Importar,
-  },
-  {
     icon: <UserSearch />,
     name: 'Clientes',
     path: AdminRoutes.Clientes,
+  },
+  {
+    icon: <CloudUpload />,
+    name: 'Importar Productos',
+    path: AdminRoutes.Importar,
   },
   {
     icon: <FileWarning />,

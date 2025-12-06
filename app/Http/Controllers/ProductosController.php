@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Core\Data\IndexData;
+use App\Core\Enums\Http;
 use App\Enums\TipoMovimientoEnum;
 use App\Http\Requests\Productos\ProductosStoreRequest;
 use App\Http\Requests\Productos\ProductosUpdateRequest;
@@ -11,6 +12,7 @@ use App\Models\Producto;
 use App\Models\ReporteMovimiento;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Response;
+use Picqer\Barcode\BarcodeGeneratorPNG;
 
 class ProductosController extends Controller
 {
