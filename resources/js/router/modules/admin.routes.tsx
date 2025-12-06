@@ -48,6 +48,7 @@ export enum ApiRoutes {
   Marcas = '/api/marcas',
   ErrorReporting = '/api/error-reporting',
   PDF = '/api/pdf',
+  Barcode = '/api/barcode',
 }
 
 export const adminRoutes: IRoute[] = [
