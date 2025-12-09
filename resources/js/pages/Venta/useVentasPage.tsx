@@ -2,9 +2,10 @@ import { IFilters } from '@/components/filters/modalFilter/types';
 import Button from '@/components/ui/button/Button';
 import { useModal } from '@/hooks/useModal';
 import { IVenta, StatusVenta } from '@/models/venta.interface';
+import { useServiceReporteVentaPdf } from '@/Services/pdf/useServicePdf';
 import { useServiceShowVenta } from '@/Services/ventas/useServiceVenta';
 import { useSelectedItemStore } from '@/store/useSelectedItemStore';
-import { ArrowRight, Eye } from 'lucide-react';
+import { ArrowRight, Eye, Printer } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
 
@@ -40,6 +41,10 @@ export const useVentasPage = () => {
     }
   }, [isLoading, data, selected, setItem]);
 
+  const printVentaDetail = () => {
+    window.alert('imprimiendo ... ');
+  };
+
   const renderersMap = {
     actions: ({ id, status_venta }: IVenta) => (
       <>
@@ -53,9 +58,12 @@ export const useVentasPage = () => {
         >
           <Eye />
         </Button>
-        {status_venta == 'activa' && (
-          <Button className="ml-2" onClick={() => navigate(`/venta/${id}/productos`)} variant="outline" size="sm">
-            <ArrowRight />
+        <Button className="ml-2" onClick={() => navigate(`/venta/${id}/productos`)} variant="outline" size="sm">
+          <ArrowRight />
+        </Button>
+        {status_venta == 'finalizada' && (
+          <Button className="ml-2" onClick={printVentaDetail} variant="info" size="sm">
+            <Printer />
           </Button>
         )}
       </>
@@ -69,11 +77,21 @@ export const useVentasPage = () => {
     },
   ];
 
+  const { isLoading: pdfLoading, data: pdfData, refetch } = useServiceReporteVentaPdf();
+  const handleReporteVenta = () => {
+    refetch();
+    if (!pdfLoading && pdfData) {
+      const fileURL = window.URL.createObjectURL(new Blob([pdfData]));
+      window.open(fileURL, '_blank');
+    }
+  };
+
   return {
     renderersMap,
     isOpen,
     filters,
     openModal: handleOpenModal,
     closeModal: handleCloseModal,
+    handleReporteVenta,
   };
 };

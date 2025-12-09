@@ -16,6 +16,7 @@ class ReporteVentaRequest extends FormRequest
         return [
             'fecha_inicio' => ['nullable', 'date'],
             'fecha_fin' => ['nullable', 'date'],
+            'order_date' => ['nullable', 'in:asc,desc'],
         ];
     }
 }

@@ -115,8 +115,10 @@ class Venta extends Model
             ->orWhere('folio', 'like', "%$search%");
     }
 
-    public static function reporteVentas($fechaInicio = null, $fechaFin = null): Collection
+    public static function reporteVentas($fechaInicio = null, $fechaFin = null, $orderDate = 'desc'): Collection
     {
+        $fechaInicio = $fechaInicio ?? now()->startOfYear();
+        $fechaFin = $fechaFin ?? now();
         return Venta::where('status_venta', StatusVentaEnum::Finalizada)
             ->when($fechaInicio && $fechaFin, function ($q) use ($fechaInicio, $fechaFin) {
                 $q->whereBetween('created_at', [$fechaInicio, $fechaFin]);
@@ -127,6 +129,7 @@ class Venta extends Model
             ->when(!$fechaInicio && $fechaFin, function ($q) use ($fechaFin) {
                 $q->where('created_at', '<=', $fechaFin);
             })
+            ->orderBy('created_at', $orderDate)
             ->get();
     }
 }

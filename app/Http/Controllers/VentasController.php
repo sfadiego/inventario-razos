@@ -68,7 +68,7 @@ class VentasController extends Controller
 
     public function reporteVentas(ReporteVentaRequest $params): JsonResponse
     {
-        $reporte = Venta::reporteVentas($params?->fecha_inicio, $params?->fecha_fin);
+        $reporte = Venta::reporteVentas($params?->fecha_inicio, $params?->fecha_fin, $params?->order_date ?? 'desc');
         return Response::success($reporte);
     }
 }
