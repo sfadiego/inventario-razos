@@ -28,6 +28,7 @@ class PdfGeneratorController extends Controller
             $generator = new BarcodeGeneratorPNG;
             $barcode = $generator->getBarcode($item->id, $generator::TYPE_CODE_128);
             $item->barcode = base64_encode($barcode);
+
             return $item;
         });
 

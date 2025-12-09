@@ -11,7 +11,6 @@ export default function ProveedoresPage() {
     <PageWrapper pageTitle="Proveedores">
       <DatatableWithFilter
         renderersMap={renderersMap}
-        propertyInputSearch={`nombre`}
         filters={filters}
         onClickNew={openModal}
         service={useServiceIndexProveedor}

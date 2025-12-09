@@ -2,6 +2,7 @@
 
 namespace App\Logic\Producto;
 
+use App\Core\Classes\Filter;
 use App\Core\Data\IndexData;
 use App\Core\Logic\IndexLogic;
 use App\Http\Resources\ProductoResource;
@@ -30,6 +31,20 @@ class ProductoIndexLogic extends IndexLogic
             'marca.nombre' => 'Marca',
             'ubicacion.nombre' => 'Ubicacion',
             'actions' => '#',
+        ];
+    }
+
+    public function filterProducto(Filter $filter): void
+    {
+        $this->queryBuilder->where('id', $filter->value)
+            ->orWhere('nombre', 'like', '%' . $filter->value . '%')
+            ->orWhere('codigo', $filter->value);
+    }
+
+    protected function customFilters(): array
+    {
+        return [
+            'search' => fn(Filter $filter) => $this->filterProducto($filter),
         ];
     }
 

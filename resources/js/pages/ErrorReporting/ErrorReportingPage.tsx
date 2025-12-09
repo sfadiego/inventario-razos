@@ -17,7 +17,6 @@ export default function ErrorReportingPage() {
       </div>
       <DatatableWithFilter
         disableNewButton
-        propertyInputSearch={`nombre`}
         renderersMap={renderersMap}
         filters={filters}
         onClickNew={openModal}

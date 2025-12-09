@@ -10,7 +10,6 @@ export default function MarcaPage() {
   return (
     <PageWrapper pageTitle="Marcas">
       <DatatableWithFilter
-        propertyInputSearch={`nombre`}
         renderersMap={renderersMap}
         filters={filters}
         onClickNew={openModal}

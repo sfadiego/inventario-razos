@@ -10,7 +10,6 @@ export default function ClientesPage() {
   return (
     <PageWrapper pageTitle="Clientes">
       <DatatableWithFilter
-        propertyInputSearch={`nombre`}
         renderersMap={renderersMap}
         filters={filters}
         onClickNew={openModal}

@@ -10,7 +10,6 @@ export default function ProovedoresPage() {
   return (
     <PageWrapper pageTitle="Ubicaciones">
       <DatatableWithFilter
-        propertyInputSearch={`nombre`}
         filters={filters}
         onClickNew={openModal}
         renderersMap={renderersMap}

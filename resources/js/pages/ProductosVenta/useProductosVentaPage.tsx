@@ -1,5 +1,5 @@
 import { Plus } from 'lucide-react';
-import { useCallback, useMemo, useState } from 'react';
+import { useMemo } from 'react';
 
 import { BreadcrumbArrayProps } from '@/components/common/breadcrum';
 import { IFilters } from '@/components/filters/modalFilter/types';
@@ -7,12 +7,12 @@ import { rowTypes } from '@/components/tables/rowTypes';
 import Button from '@/components/ui/button/Button';
 
 import { ExpansionProductoDetail } from '@/components/productos/ExpansionProductoDetail';
-import { useModal } from '@/hooks/useModal';
 import { IProducto } from '@/models/producto.interface';
 import { AdminRoutes } from '@/router/modules/admin.routes';
 import { useServiceIndexProductos } from '@/Services/productos/useServiceProductos';
 import { useServiceShowVenta } from '@/Services/ventas/useServiceVenta';
 import { useParams } from 'react-router';
+import { useProductoVentaModal } from './useProductoVentaModal';
 
 export interface IFiltroProductoVenta {
   nombre?: string;
@@ -20,26 +20,6 @@ export interface IFiltroProductoVenta {
   categoria_id?: number;
 }
 const FILTERS: IFilters<IFiltroProductoVenta>[] = [{ property: 'nombre', operator: 'like', initialValue: '' }];
-
-const useProductoVentaModal = () => {
-  const { openModal, closeModal, isOpen } = useModal();
-  const [productId, setProductId] = useState<number>(0);
-
-  const show = useCallback(
-    (id: number) => {
-      setProductId(id);
-      openModal();
-    },
-    [openModal],
-  );
-
-  const hide = useCallback(() => {
-    setProductId(0);
-    closeModal();
-  }, [closeModal]);
-
-  return { isOpen, productId, show, hide };
-};
 
 export interface useProductosVentaPageProps {
   ventaId?: number;
