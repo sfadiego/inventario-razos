@@ -17,7 +17,7 @@ class CategoriaSeeder extends Seeder
             [
                 'nombre' => 'Motocicletas',
                 'activa' => true,
-            ]
+            ],
         ];
         foreach ($data as $item) {
             Categoria::updateOrCreate(['nombre' => $item['nombre']], $item);

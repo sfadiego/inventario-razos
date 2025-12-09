@@ -1,4 +1,6 @@
+import { downloadBlob } from '@/helper/downloadBlob';
 import { useOnSubmit } from '@/hooks/useOnSubmit';
+import { useServiceTemplateImport } from '@/Services/descargables/useServiceDescargables';
 import { useServiceImportProducts } from '@/Services/importar/useServiceImport';
 import { useState } from 'react';
 
@@ -20,10 +22,18 @@ export const useImportProductosPage = () => {
 
   const onSubmitFile = (file: File) => onSubmit({ file }, {});
 
+  const { isLoading, data, refetch } = useServiceTemplateImport();
+  const handleDonwloadTemplate = () => {
+    refetch();
+    if (!isLoading && data) {
+      downloadBlob(data);
+    }
+  };
   return {
     onSubmitFile,
     inserted,
     duplicates,
     isPending: mutator.isPending,
+    handleDonwloadTemplate,
   };
 };

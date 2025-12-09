@@ -52,9 +52,9 @@ class Producto extends Model
             })
             ->implode('');
         $iniciales = Str::substr($iniciales, 0, 10);
-        $random = md5(uniqid() . microtime());
+        $random = md5(uniqid().microtime());
 
-        return "$iniciales-" . substr($random, 0, 4);
+        return "$iniciales-".substr($random, 0, 4);
     }
 
     public function imagen()
@@ -66,7 +66,7 @@ class Producto extends Model
     {
         $extension = $file->getClientOriginalExtension();
         $path = $this->path ?? now()->format('Ymd');
-        $name = $this->name ?? md5(uniqid() . microtime()) . ".{$extension}";
+        $name = $this->name ?? md5(uniqid().microtime()).".{$extension}";
 
         return ImagenProducto::storeFile($file, $name, $path);
     }

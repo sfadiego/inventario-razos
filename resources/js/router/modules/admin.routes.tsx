@@ -49,6 +49,7 @@ export enum ApiRoutes {
   ErrorReporting = '/api/error-reporting',
   PDF = '/api/pdf',
   Barcode = '/api/barcode',
+  Descargables = '/api/descargables',
 }
 
 export const adminRoutes: IRoute[] = [

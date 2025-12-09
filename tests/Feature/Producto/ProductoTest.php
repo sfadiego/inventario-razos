@@ -25,7 +25,7 @@ class ProductoTest extends TestCase
         $categoria = Categoria::factory()->create();
         Subcategoria::factory()->create([
             'nombre' => $this->faker->word,
-            'categoria_id' => $categoria->id
+            'categoria_id' => $categoria->id,
         ]);
         Ubicacion::factory()->create();
         Producto::factory()->count(10)->create();
@@ -80,7 +80,7 @@ class ProductoTest extends TestCase
         $categoria = Categoria::factory()->create();
         Subcategoria::factory()->create([
             'nombre' => $this->faker->word,
-            'categoria_id' => $categoria->id
+            'categoria_id' => $categoria->id,
         ]);
         Ubicacion::factory()->create();
         $producto = Producto::factory()->create();
@@ -116,7 +116,7 @@ class ProductoTest extends TestCase
         $categoria = Categoria::factory()->create();
         $subcategoria = Subcategoria::factory()->create([
             'nombre' => $this->faker->word,
-            'categoria_id' => $categoria->id
+            'categoria_id' => $categoria->id,
         ]);
         $ubicacion = Ubicacion::factory()->create();
 
@@ -179,7 +179,7 @@ class ProductoTest extends TestCase
         $categoria = Categoria::factory()->create();
         $subcategoria = Subcategoria::factory()->create([
             'nombre' => $this->faker->word,
-            'categoria_id' => $categoria->id
+            'categoria_id' => $categoria->id,
         ]);
         $ubicacion = Ubicacion::factory()->create();
 
@@ -221,7 +221,7 @@ class ProductoTest extends TestCase
         ]);
 
         Storage::disk('local')->assertExists(
-            $response->json('data.imagen.path') . '/' . $response->json('data.imagen.archivo')
+            $response->json('data.imagen.path').'/'.$response->json('data.imagen.archivo')
         );
 
         $this->assertDatabaseHas('imagen_producto', [
@@ -361,7 +361,7 @@ class ProductoTest extends TestCase
         ]);
 
         Storage::disk('local')->assertExists(
-            $response->json('data.imagen.path') . '/' . $response->json('data.imagen.archivo')
+            $response->json('data.imagen.path').'/'.$response->json('data.imagen.archivo')
         );
 
         $this->assertDatabaseHas('imagen_producto', [
