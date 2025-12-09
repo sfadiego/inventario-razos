@@ -9,12 +9,7 @@ export default function ProovedoresPage() {
 
   return (
     <PageWrapper pageTitle="Ubicaciones">
-      <DatatableWithFilter
-        filters={filters}
-        onClickNew={openModal}
-        renderersMap={renderersMap}
-        service={useServiceIndexUbicaciones}
-      >
+      <DatatableWithFilter filters={filters} onClickNew={openModal} renderersMap={renderersMap} service={useServiceIndexUbicaciones}>
         {(formik) => <FiltroUbicaciones formik={formik} />}
       </DatatableWithFilter>
       <FormUbicacion isOpen={isOpen} closeModal={closeModal}></FormUbicacion>

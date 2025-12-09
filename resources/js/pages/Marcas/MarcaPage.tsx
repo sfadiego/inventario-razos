@@ -9,12 +9,7 @@ export default function MarcaPage() {
   const { renderersMap, filters, openModal, isOpen, closeModal } = useMarcaPage();
   return (
     <PageWrapper pageTitle="Marcas">
-      <DatatableWithFilter
-        renderersMap={renderersMap}
-        filters={filters}
-        onClickNew={openModal}
-        service={useServiceIndexMarcas}
-      >
+      <DatatableWithFilter renderersMap={renderersMap} filters={filters} onClickNew={openModal} service={useServiceIndexMarcas}>
         {(formik) => <FiltrosMarca formik={formik} />}
       </DatatableWithFilter>
       <FormMarca isOpen={isOpen} closeModal={closeModal} />

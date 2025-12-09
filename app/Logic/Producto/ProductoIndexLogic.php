@@ -37,14 +37,14 @@ class ProductoIndexLogic extends IndexLogic
     public function filterProducto(Filter $filter): void
     {
         $this->queryBuilder->where('id', $filter->value)
-            ->orWhere('nombre', 'like', '%' . $filter->value . '%')
+            ->orWhere('nombre', 'like', '%'.$filter->value.'%')
             ->orWhere('codigo', $filter->value);
     }
 
     protected function customFilters(): array
     {
         return [
-            'search' => fn(Filter $filter) => $this->filterProducto($filter),
+            'search' => fn (Filter $filter) => $this->filterProducto($filter),
         ];
     }
 

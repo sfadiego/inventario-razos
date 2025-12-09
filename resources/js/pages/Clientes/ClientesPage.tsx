@@ -9,12 +9,7 @@ export default function ClientesPage() {
 
   return (
     <PageWrapper pageTitle="Clientes">
-      <DatatableWithFilter
-        renderersMap={renderersMap}
-        filters={filters}
-        onClickNew={openModal}
-        service={useServiceIndexClientes}
-      >
+      <DatatableWithFilter renderersMap={renderersMap} filters={filters} onClickNew={openModal} service={useServiceIndexClientes}>
         {(formik) => <FiltrosCliente formik={formik} />}
       </DatatableWithFilter>
       <FormCliente isOpen={isOpen} closeModal={closeModal} />
