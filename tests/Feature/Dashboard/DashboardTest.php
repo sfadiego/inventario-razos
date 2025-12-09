@@ -116,7 +116,7 @@ class DashboardTest extends TestCase
             ->get();
 
         $expected = [
-            'total' => round($ventasFinalizadas->sum(fn ($venta) => $venta->ventaTotal()), 2),
+            'total' => round($ventasFinalizadas->sum(fn($venta) => $venta->ventaTotal()), 2),
             'cantidad' => $ventasFinalizadas->count(),
         ];
 
