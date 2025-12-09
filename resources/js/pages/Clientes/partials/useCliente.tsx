@@ -12,7 +12,7 @@ interface IUseClienteProps {
   closeModal: () => void;
 }
 export const useCliente = ({ closeModal }: IUseClienteProps) => {
-  const { refetch } = useServiceIndexClientes({ nameQuery: '/api/clientes' });
+  const { refetch } = useServiceIndexClientes({});
   const { setItem, getItem } = useSelectedItemStore();
   const cliente = getItem('cliente') as ICliente;
   const [isCheckedDisabled, setIsCheckedDisabled] = useState(true);

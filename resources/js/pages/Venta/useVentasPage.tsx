@@ -22,6 +22,12 @@ export const useVentasPage = () => {
   const { setItem, clearItem } = useSelectedItemStore();
   const navigate = useNavigate();
 
+  const handleOpenModal = () => {
+    openModal();
+    setSelected(0);
+    clearItem('venta');
+  };
+
   const handleCloseModal = () => {
     closeModal();
     setSelected(0);
@@ -67,7 +73,7 @@ export const useVentasPage = () => {
     renderersMap,
     isOpen,
     filters,
-    openModal,
+    openModal: handleOpenModal,
     closeModal: handleCloseModal,
   };
 };

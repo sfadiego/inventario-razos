@@ -18,7 +18,7 @@ export default function VentasPage() {
       >
         {(formik) => <FiltrosVenta formik={formik} />}
       </DatatableWithFilter>
-      <FormVenta closeModal={closeModal} isOpen={isOpen}></FormVenta>
+      <FormVenta closeModal={closeModal} isOpen={isOpen} />
     </PageWrapper>
   );
 }

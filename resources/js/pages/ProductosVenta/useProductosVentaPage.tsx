@@ -36,7 +36,7 @@ export const useProductosVentaPage = () => {
   // Breadcrumbs
   const breadcrumb: BreadcrumbArrayProps[] = useMemo(
     () => [
-      { name: 'Ventas', path: AdminRoutes.Venta },
+      { name: 'Ventas', path: AdminRoutes.Venta, isActive: true },
       { name: 'Productos', path: `/venta/${ventaId}/productos` },
     ],
     [ventaId],
