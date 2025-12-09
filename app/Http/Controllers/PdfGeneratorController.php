@@ -2,13 +2,22 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Ventas\ReporteVentaRequest;
 use App\Models\Producto;
+use App\Models\Venta;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Picqer\Barcode\BarcodeGeneratorPNG;
+use Symfony\Component\HttpFoundation\File\Stream;
+use Symfony\Component\HttpFoundation\Response;
+
+use function Symfony\Component\Clock\now;
 
 class PdfGeneratorController extends Controller
 {
-    public function catalogoProductos()
+    /**
+     * @return Stream
+     */
+    public function catalogoProductos(): Response
     {
         $productos = Producto::with([
             'marca:id,nombre',
@@ -37,5 +46,17 @@ class PdfGeneratorController extends Controller
         ])->setPaper('letter');
 
         return $pdf->download('catalogo.pdf');
+    }
+
+    public function reporteVentas(ReporteVentaRequest $params): Response
+    {
+        $reporte = Venta::reporteVentas($params?->fecha_inicio, $params?->fecha_fin, $params?->order_date ?? 'desc');
+        $pdf = Pdf::loadView('pdf.reporte-venta', [
+            'ventas' => $reporte,
+            'total' => number_format($reporte->sum('venta_total'), 2, '.', ''),
+            'fechaReporte' => now()->format('Y-m-d'),
+        ])->setPaper('letter');
+
+        return $pdf->download('reporte-venta.pdf');
     }
 }

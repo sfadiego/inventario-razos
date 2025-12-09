@@ -14,6 +14,8 @@ const VARIANT_CLASSES: Record<buttonVariant, string> = {
   primary: buttonClassEnum.Primary,
   outline: buttonClassEnum.Outline,
   error: buttonClassEnum.Error,
+  warning: buttonClassEnum.Warning,
+  info: buttonClassEnum.Info,
 };
 
 export const useButton = ({ variant = 'primary', size = 'sm', type, className = '', disabled, loading, children }: IUseButtonProps) => {

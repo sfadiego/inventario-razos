@@ -9,6 +9,7 @@ Route::controller(VentasController::class)
         Route::get('', 'index');
         Route::post('', 'store');
         Route::get('productos', 'productoVenta');
+        Route::get('reporte', 'reporteVentas');
         Route::prefix('{venta}')
             ->missing(function () {
                 return Response::error('Venta no encontrada');

@@ -14,7 +14,7 @@ class VentaProductoFactory extends Factory
             'cantidad' => $this->faker->randomNumber(2),
             'precio' => $this->faker->randomFloat(2, 10, 100),
             'producto_id' => Producto::factory(),
-            'venta_id' => Venta::factory(),
+            'venta_id' => Venta::inRandomOrder()->value('id'),
         ];
     }
 }

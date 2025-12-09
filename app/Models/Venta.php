@@ -8,6 +8,7 @@ use App\Enums\TipoMovimientoEnum;
 use App\Traits\Movimientos;
 use Exception;
 use Illuminate\Contracts\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -112,5 +113,24 @@ class Venta extends Model
     {
         return $query->where('nombre_venta', 'like', "%$search%")
             ->orWhere('folio', 'like', "%$search%");
+    }
+
+    public static function reporteVentas($fechaInicio = null, $fechaFin = null, $orderDate = 'desc'): Collection
+    {
+        $fechaInicio = $fechaInicio ?? now()->startOfYear();
+        $fechaFin = $fechaFin ?? now();
+
+        return Venta::where('status_venta', StatusVentaEnum::Finalizada)
+            ->when($fechaInicio && $fechaFin, function ($q) use ($fechaInicio, $fechaFin) {
+                $q->whereBetween('created_at', [$fechaInicio, $fechaFin]);
+            })
+            ->when($fechaInicio && ! $fechaFin, function ($q) use ($fechaInicio) {
+                $q->where('created_at', '>=', $fechaInicio);
+            })
+            ->when(! $fechaInicio && $fechaFin, function ($q) use ($fechaFin) {
+                $q->where('created_at', '<=', $fechaFin);
+            })
+            ->orderBy('created_at', $orderDate)
+            ->get();
     }
 }

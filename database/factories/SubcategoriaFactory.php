@@ -13,8 +13,8 @@ class SubcategoriaFactory extends Factory
     public function definition(): array
     {
         return [
-            'nombre' => $this->faker->unique()->word,
-            'categoria_id' => Categoria::factory()->create()->id,
+            'nombre' => $this->faker->unique()->lexify('subcat-??????'),
+            'categoria_id' => Categoria::factory(),
         ];
     }
 }
