@@ -11,7 +11,6 @@ export default function SubcategoriaPage() {
   return (
     <PageWrapper pageTitle="Sub categorías" breadcrumbArray={breadcrumbArray}>
       <DatatableWithFilter
-        propertyInputSearch={`nombre`}
         renderersMap={renderersMap}
         filters={filters}
         onClickNew={openModal}

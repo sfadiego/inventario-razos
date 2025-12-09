@@ -33,7 +33,6 @@ export default function ProductosPage() {
           </Button>
         </div>
         <DatatableWithFilter
-          propertyInputSearch={`nombre`}
           renderersMap={renderersMap}
           filters={filters}
           onClickNew={openModal}

@@ -18,9 +18,9 @@ export default function ProductosVentaPage() {
         </div>
       </div>
       <DatatableWithFilter
-        propertyInputSearch={`nombre`}
         renderersMap={renderersMap}
         filters={filters}
+        inputPlaceholder="Busca por nombre, código de Barras"
         onClickNew={() => openModal}
         disableNewButton={true}
         service={useServiceIndexProductos}

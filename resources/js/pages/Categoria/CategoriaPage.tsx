@@ -10,7 +10,6 @@ export default function CategoriaPage() {
     <PageWrapper pageTitle="Categorias">
       <DatatableWithFilter
         disableNewButton={true}
-        propertyInputSearch={`nombre`}
         renderersMap={renderersMap}
         filters={filters}
         onClickNew={openModal}

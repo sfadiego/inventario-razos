@@ -8,7 +8,7 @@ import { IDatatableWithFilterProps } from './IDatatableFilter';
 import { useDatatableFilters } from './useDatatableFilters';
 
 export const DatatableWithFilter = <Values extends FormikValues>(props: IDatatableWithFilterProps<Values>) => {
-  const { disableNewButton = false, newButtonText } = props;
+  const { disableNewButton = false, newButtonText, inputPlaceholder = '' } = props;
   const { isOpen, search, filters, dataTableProps, children, openModal, closeModal, onFilter, setSearch, onClickNew, rowExpansion } =
     useDatatableFilters(props);
   return (
@@ -18,7 +18,7 @@ export const DatatableWithFilter = <Values extends FormikValues>(props: IDatatab
           <InputWithIcon
             name={`search`}
             value={search}
-            placeholder={`Buscar ...`}
+            placeholder={`${inputPlaceholder !== '' ? inputPlaceholder : 'Buscar'} ...`}
             inputCallback={(e) => setSearch(e.target.value)}
             IconComponent={() => <Filter className="text-gray-500" onClick={openModal} />}
           />

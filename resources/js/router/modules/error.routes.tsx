@@ -10,13 +10,13 @@ export enum ErrorRoutes {
 export const errorRoutes: IRoute[] = [
   {
     path: '*',
-    name: 'Not found',
+    name: 'No encontrada',
     element: <NotFoundPage />,
     layout: 'blank',
   },
   {
     path: ErrorRoutes.Forbidden,
-    name: 'Not found',
+    name: 'Sin permisos',
     element: <NotFoundPage />,
     layout: 'blank',
   },

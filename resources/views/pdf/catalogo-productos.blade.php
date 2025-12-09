@@ -6,6 +6,11 @@
 
     <style>
         {!! file_get_contents(resource_path('css/pdf/catalogo-productos.css')) !!}
+
+        .barcode {
+            width: 50%;
+        }
+
     </style>
 </head>
 
@@ -16,7 +21,8 @@
     <table>
         <thead>
             <tr>
-                <th>Código</th>
+                <th>Codigo</th>
+                <th>Folio</th>
                 <th>Producto</th>
                 <th>Marca</th>
             </tr>
@@ -25,6 +31,9 @@
         <tbody>
             @foreach ($productos as $p)
             <tr>
+                <td>
+                    <img class="barcode" src="data:image/png;base64,{{ $p->barcode }}" alt="Codigo">
+                </td>
                 <td>{{ $p->codigo }}</td>
                 <td>{{ $p->nombre }}</td>
                 <td>{{ $p->marca?->nombre ? $p->marca?->nombre : 'N/A' }}</td>

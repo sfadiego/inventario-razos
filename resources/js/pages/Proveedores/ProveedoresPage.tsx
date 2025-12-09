@@ -9,13 +9,7 @@ export default function ProveedoresPage() {
 
   return (
     <PageWrapper pageTitle="Proveedores">
-      <DatatableWithFilter
-        renderersMap={renderersMap}
-        propertyInputSearch={`nombre`}
-        filters={filters}
-        onClickNew={openModal}
-        service={useServiceIndexProveedor}
-      >
+      <DatatableWithFilter renderersMap={renderersMap} filters={filters} onClickNew={openModal} service={useServiceIndexProveedor}>
         {(formik) => <FiltrosProveedor formik={formik} />}
       </DatatableWithFilter>
       <FormProveedor isOpen={isOpen} closeModal={closeModal}></FormProveedor>
