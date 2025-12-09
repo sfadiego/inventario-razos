@@ -32,66 +32,65 @@ class DashboardTest extends TestCase
         $this->assertEquals(round($expectedTotal, 2), round($response->json('data.total'), 2));
     }
 
-    // TODO: Arreglar test, no funcionan
-    // public function test_mas_vendidos()
-    // {
-    //     $this->loginAdmin();
+    public function test_mas_vendidos()
+    {
+        $this->loginAdmin();
 
-    //     Venta::factory()->count(10)->withProductos(10)->create([
-    //         'status_venta' => StatusVentaEnum::Finalizada->value,
-    //     ]);
+        Venta::factory()->count(10)->withProductos(10)->create([
+            'status_venta' => StatusVentaEnum::Finalizada->value,
+        ]);
 
-    //     $expected = VentaProducto::masVendidos();
+        $expected = VentaProducto::masVendidos();
 
-    //     $response = $this->getJson('/api/dashboard/mas-vendidos');
+        $response = $this->getJson('/api/dashboard/mas-vendidos');
 
-    //     $response->assertStatus(200);
-    //     $response->assertJsonStructure([
-    //         'data' => [
-    //             '*' => [
-    //                 'producto',
-    //                 'cantidad',
-    //             ],
-    //         ],
-    //     ]);
+        $response->assertStatus(200);
+        $response->assertJsonStructure([
+            'data' => [
+                '*' => [
+                    'producto',
+                    'cantidad',
+                ],
+            ],
+        ]);
 
-    //     $this->assertCount(10, $response['data']);
+        $this->assertCount(10, $response['data']);
 
-    //     $this->assertEquals(
-    //         $expected->toArray(),
-    //         $response->json('data')
-    //     );
-    // }
+        $this->assertEquals(
+            $expected->toArray(),
+            $response->json('data')
+        );
+    }
 
-    // public function test_menos_vendidos()
-    // {
-    //     $this->loginAdmin();
+    public function test_menos_vendidos()
+    {
+        $this->loginAdmin();
 
-    //     Venta::factory()->count(10)->withProductos(10)->create([
-    //         'status_venta' => StatusVentaEnum::Finalizada->value,
-    //     ]);
+        Venta::factory()->count(10)->withProductos(10)->create([
+            'status_venta' => StatusVentaEnum::Finalizada->value,
+        ]);
 
-    //     $expected = VentaProducto::menosVendidos();
+        $expected = VentaProducto::menosVendidos();
 
-    //     $response = $this->getJson('/api/dashboard/menos-vendidos');
+        $response = $this->getJson('/api/dashboard/menos-vendidos');
 
-    //     $response->assertStatus(200);
-    //     $response->assertJsonStructure([
-    //         'data' => [
-    //             '*' => [
-    //                 'producto',
-    //                 'cantidad',
-    //             ],
-    //         ],
-    //     ]);
+        $response->assertStatus(200);
+        $response->assertJsonStructure([
+            'data' => [
+                '*' => [
+                    'producto',
+                    'cantidad',
+                ],
+            ],
+        ]);
 
-    //     $this->assertCount(10, $response['data']);
+        $this->assertCount(10, $response['data']);
 
-    //     $this->assertEquals(
-    //         $expected->toArray(),
-    //         $response->json('data')
-    //     );
-    // }
+        $this->assertEquals(
+            $expected->toArray(),
+            $response->json('data')
+        );
+    }
 
     public function test_ventas_por_mes()
     {

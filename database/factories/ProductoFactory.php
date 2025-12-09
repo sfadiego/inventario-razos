@@ -22,7 +22,7 @@ class ProductoFactory extends Factory
     public function definition(): array
     {
         return [
-            'nombre' => $this->faker->unique()->word,
+            'nombre' => fake()->word().'-'.fake()->lexify('????'),
             'proveedor_id' => Proveedor::firstOrCreate(['nombre' => $this->faker->company])->id,
             'categoria_id' => Categoria::inRandomOrder()->value('id'),
             'subcategoria_id' => Subcategoria::factory()->create()->id,
