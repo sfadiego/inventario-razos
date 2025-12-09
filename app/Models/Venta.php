@@ -99,14 +99,14 @@ class Venta extends Model
 
     public function scopeVentaTotal(): float
     {
-        $total = $this->ventaProductos->sum(fn($item) => $item->cantidad * $item->precio);
+        $total = $this->ventaProductos->sum(fn ($item) => $item->cantidad * $item->precio);
 
         return round($total, 2);
     }
 
     public static function createFolio(): string
     {
-        return date('ymdHis') . strtoupper(substr(uniqid('', true), 0, 10));
+        return date('ymdHis').strtoupper(substr(uniqid('', true), 0, 10));
     }
 
     public function scopeSearch(Builder $query, string $search): Builder
@@ -119,14 +119,15 @@ class Venta extends Model
     {
         $fechaInicio = $fechaInicio ?? now()->startOfYear();
         $fechaFin = $fechaFin ?? now();
+
         return Venta::where('status_venta', StatusVentaEnum::Finalizada)
             ->when($fechaInicio && $fechaFin, function ($q) use ($fechaInicio, $fechaFin) {
                 $q->whereBetween('created_at', [$fechaInicio, $fechaFin]);
             })
-            ->when($fechaInicio && !$fechaFin, function ($q) use ($fechaInicio) {
+            ->when($fechaInicio && ! $fechaFin, function ($q) use ($fechaInicio) {
                 $q->where('created_at', '>=', $fechaInicio);
             })
-            ->when(!$fechaInicio && $fechaFin, function ($q) use ($fechaFin) {
+            ->when(! $fechaInicio && $fechaFin, function ($q) use ($fechaFin) {
                 $q->where('created_at', '<=', $fechaFin);
             })
             ->orderBy('created_at', $orderDate)
