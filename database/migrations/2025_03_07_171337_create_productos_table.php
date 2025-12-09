@@ -30,6 +30,10 @@ return new class extends Migration
                 $table->foreignId('categoria_id')
                     ->constrained('categorias')
                     ->onDelete('cascade');
+                $table->foreignId('subcategoria_id')
+                    ->nullable()
+                    ->constrained('subcategoria')
+                    ->onDelete('cascade');
                 $table->foreignId('ubicacion_id')
                     ->constrained('ubicaciones')
                     ->nullable()

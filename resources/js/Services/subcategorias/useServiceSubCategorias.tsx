@@ -9,6 +9,7 @@ export const useServiceIndexSubCategorias = (params: { categoriaId: number } & I
   const { categoriaId, filters = [], search = null, page = 1, limit = 10 } = params;
   return useGET<IPaginate<ISubcategoria>>({
     url: `${url}/${categoriaId}/subcategorias`,
+    enable: !!categoriaId,
     filters: {
       filters,
       search,

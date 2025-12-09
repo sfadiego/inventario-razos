@@ -5,6 +5,7 @@ import { SelectCategorias } from '@/components/select/categorias/SelectCategoria
 import { SelectMarcas } from '@/components/select/marcas/SelectMarcas';
 import { SelectProductoUnidades } from '@/components/select/productoUnidades/SelectProductoUnidades';
 import { SelectProveedores } from '@/components/select/proveedores/SelectProveedores';
+import { SelectSubCategoria } from '@/components/select/subcategorias/SelectSubCategoria';
 import { SelectUbicaciones } from '@/components/select/ubicaciones/SelectUbicaciones';
 import Button from '@/components/ui/button/Button';
 import { ButtonTypeEnum } from '@/components/ui/button/enums/buttonType.enum';
@@ -42,7 +43,7 @@ export const FormProducto = ({ isOpen, closeModal }: IModalProductoProps) => {
                 name="cantidad_minima"
                 formik={formik}
                 type={InputTypeEnum.Number}
-                hint={`Cantidad minima para alerta de stock minimo`}
+                hint={`Cantidad minima para alerta de stock`}
               />
             </div>
             <div className="col-span-12 md:col-span-6">
@@ -55,13 +56,16 @@ export const FormProducto = ({ isOpen, closeModal }: IModalProductoProps) => {
               <SelectProveedores formik={formik} />
             </div>
             <div className="col-span-12 md:col-span-6">
+              <SelectMarcas formik={formik} />
+            </div>
+            <div className="col-span-12 md:col-span-6">
               <SelectCategorias formik={formik} />
             </div>
             <div className="col-span-12 md:col-span-6">
-              <SelectUbicaciones formik={formik} />
+              <SelectSubCategoria formik={formik} />
             </div>
             <div className="col-span-12 md:col-span-6">
-              <SelectMarcas formik={formik} />
+              <SelectUbicaciones formik={formik} />
             </div>
             <div className="col-span-12 md:col-span-12">
               <TextArea<IProducto> label={`Compatibilidad`} name="compatibilidad" formik={formik} />

@@ -15,6 +15,4 @@ class BarcodeGeneratorController extends Controller
 
         return Response::image($barcode);
     }
-
-    public function readBarcode() {}
 }

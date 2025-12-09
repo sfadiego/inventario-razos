@@ -1,5 +1,5 @@
 import { CircleCheck, Info, OctagonAlert } from 'lucide-react';
-import { Link } from 'react-router';
+import Button from '../button/Button';
 
 interface AlertProps {
   variant: 'success' | 'error' | 'warning' | 'info'; // Alert type
@@ -8,9 +8,10 @@ interface AlertProps {
   showLink?: boolean; // Whether to show the "Learn More" link
   linkHref?: string; // Link URL
   linkText?: string; // Link text
+  onClickEvent?: () => void;
 }
 
-const Alert: React.FC<AlertProps> = ({ variant, title, message, showLink = false, linkHref = '#', linkText = 'Learn more' }) => {
+const Alert: React.FC<AlertProps> = ({ variant, title, message, showLink = false, linkText = 'Learn more', onClickEvent }) => {
   // Tailwind classes for each variant
   const variantClasses = {
     success: {
@@ -50,9 +51,9 @@ const Alert: React.FC<AlertProps> = ({ variant, title, message, showLink = false
           <p className="text-sm text-gray-500 dark:text-gray-400">{message}</p>
 
           {showLink && (
-            <Link to={linkHref} className="mt-3 inline-block text-sm font-medium text-gray-500 underline dark:text-gray-400">
+            <Button onClick={onClickEvent} variant="outline" className="mt-3 inline-block text-sm font-medium">
               {linkText}
-            </Link>
+            </Button>
           )}
         </div>
       </div>

@@ -5,23 +5,26 @@ import { ApiRoutes } from '@/router/modules/admin.routes';
 import { useServiceIndexClientes, useServiceStoreCliente, useServiceUpdateCliente } from '@/Services/clientes/useServiceClientes';
 import { useSelectedItemStore } from '@/store/useSelectedItemStore';
 import { useQueryClient } from '@tanstack/react-query';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import * as Yup from 'yup';
 
 interface IUseClienteProps {
   closeModal: () => void;
 }
 export const useCliente = ({ closeModal }: IUseClienteProps) => {
-  const { refetch } = useServiceIndexClientes({ nameQuery: '/api/clientes' });
+  const { refetch } = useServiceIndexClientes({});
   const { setItem, getItem } = useSelectedItemStore();
   const cliente = getItem('cliente') as ICliente;
   const [isCheckedDisabled, setIsCheckedDisabled] = useState(true);
   const initialValues: ICliente = {
     nombre: cliente?.nombre ?? '',
-    confiable: cliente?.confiable ?? true,
+    confiable: !!cliente?.confiable,
     observaciones: cliente?.observaciones ?? '',
     adeudo: cliente?.adeudo ?? 0,
   };
+  useEffect(() => {
+    setIsCheckedDisabled(!!cliente?.confiable);
+  }, [cliente]);
 
   const validationSchema = Yup.object().shape({
     nombre: Yup.string().required('El nombre es obligatorio'),

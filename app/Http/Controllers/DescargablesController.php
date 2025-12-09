@@ -6,9 +6,9 @@ use Illuminate\Support\Facades\Response;
 
 class DescargablesController extends Controller
 {
-    public function templateImport()
+    public function downloadTemplateImport()
     {
-        $path = storage_path('app/public/templates/imports/productos.xlsx');
+        $path = storage_path('app/public/template/imports/productos.xlsx');
         if (! file_exists($path)) {
             return Response::error('Archivo no encontrado');
         }
