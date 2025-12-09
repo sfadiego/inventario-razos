@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Core\Data\IndexData;
+use App\Http\Requests\Ventas\ReporteVentaRequest;
 use App\Http\Requests\Ventas\VentaStoreRequest;
 use App\Http\Requests\Ventas\VentaUpdateRequest;
 use App\Logic\VentaProductos\ProductosByVentaLogic;
@@ -63,5 +64,11 @@ class VentasController extends Controller
         $venta = $venta->ventaProductos()->count();
 
         return Response::success(['total' => $venta]);
+    }
+
+    public function reporteVentas(ReporteVentaRequest $params): JsonResponse
+    {
+        $reporte = Venta::reporteVentas($params?->fecha_inicio, $params?->fecha_fin);
+        return Response::success($reporte);
     }
 }

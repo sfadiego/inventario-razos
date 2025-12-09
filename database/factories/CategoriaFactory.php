@@ -17,7 +17,7 @@ class CategoriaFactory extends Factory
     public function definition(): array
     {
         return [
-            'nombre' => $this->faker->unique()->word,
+            'nombre' => $this->faker->unique()->sentence(2),
             'activa' => $this->faker->boolean,
         ];
     }

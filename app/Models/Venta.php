@@ -8,6 +8,7 @@ use App\Enums\TipoMovimientoEnum;
 use App\Traits\Movimientos;
 use Exception;
 use Illuminate\Contracts\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -98,19 +99,34 @@ class Venta extends Model
 
     public function scopeVentaTotal(): float
     {
-        $total = $this->ventaProductos->sum(fn ($item) => $item->cantidad * $item->precio);
+        $total = $this->ventaProductos->sum(fn($item) => $item->cantidad * $item->precio);
 
         return round($total, 2);
     }
 
     public static function createFolio(): string
     {
-        return date('ymdHis').strtoupper(substr(uniqid('', true), 0, 10));
+        return date('ymdHis') . strtoupper(substr(uniqid('', true), 0, 10));
     }
 
     public function scopeSearch(Builder $query, string $search): Builder
     {
         return $query->where('nombre_venta', 'like', "%$search%")
             ->orWhere('folio', 'like', "%$search%");
+    }
+
+    public static function reporteVentas($fechaInicio = null, $fechaFin = null): Collection
+    {
+        return Venta::where('status_venta', StatusVentaEnum::Finalizada)
+            ->when($fechaInicio && $fechaFin, function ($q) use ($fechaInicio, $fechaFin) {
+                $q->whereBetween('created_at', [$fechaInicio, $fechaFin]);
+            })
+            ->when($fechaInicio && !$fechaFin, function ($q) use ($fechaInicio) {
+                $q->where('created_at', '>=', $fechaInicio);
+            })
+            ->when(!$fechaInicio && $fechaFin, function ($q) use ($fechaFin) {
+                $q->where('created_at', '<=', $fechaFin);
+            })
+            ->get();
     }
 }
