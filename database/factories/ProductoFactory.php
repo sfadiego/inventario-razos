@@ -5,6 +5,7 @@ namespace Database\Factories;
 use App\Models\Categoria;
 use App\Models\Marca;
 use App\Models\Proveedor;
+use App\Models\Subcategoria;
 use App\Models\Ubicacion;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -24,6 +25,7 @@ class ProductoFactory extends Factory
             'nombre' => $this->faker->unique()->word,
             'proveedor_id' => Proveedor::firstOrCreate(['nombre' => $this->faker->company])->id,
             'categoria_id' => Categoria::inRandomOrder()->value('id'),
+            'subcategoria_id' => Subcategoria::factory()->create()->id,
             'codigo' => strtoupper($this->faker->unique()->bothify('????-#####')),
             'precio_compra' => $this->faker->randomFloat(2, 10, 100),
             'precio_venta' => $this->faker->randomFloat(2, 20, 200),

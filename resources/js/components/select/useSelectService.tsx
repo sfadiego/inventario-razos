@@ -13,12 +13,13 @@ interface ISelectService<T extends Record<string, any>> {
   search?: string;
   filters?: Array<IFilterProps> | null;
   storeKey?: string;
+  payload?: any;
   useCache?: boolean;
   debounceWait?: number;
 }
 
 export const useSelectService = <T extends Record<string, any>>(props: ISelectService<T>) => {
-  const { useService, value = 'id', label = 'nombre', search, filters = [], storeKey, useCache, debounceWait = 400 } = props;
+  const { useService, value = 'id', label = 'nombre', search, filters = [], storeKey, useCache, debounceWait = 400, payload = {} } = props;
   const { setOptions, getOptions, hasOptions } = useSelectOptionsStore();
   const [internalSearch, setInternalSearch] = useState<string>('');
   const effectiveSearch = typeof search === 'string' ? search : internalSearch;
@@ -26,6 +27,7 @@ export const useSelectService = <T extends Record<string, any>>(props: ISelectSe
   const hasCachedOptions = storeKey ? hasOptions(storeKey) : false;
   const shouldFetchData = !effectiveUseCache || !hasCachedOptions;
   const { isLoading, data } = useService({
+    ...payload,
     search: effectiveSearch,
     filters,
     enabled: shouldFetchData,

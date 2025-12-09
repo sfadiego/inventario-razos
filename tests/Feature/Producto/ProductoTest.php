@@ -7,6 +7,7 @@ use App\Models\Categoria;
 use App\Models\Marca;
 use App\Models\Producto;
 use App\Models\Proveedor;
+use App\Models\Subcategoria;
 use App\Models\Ubicacion;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\UploadedFile;
@@ -21,7 +22,11 @@ class ProductoTest extends TestCase
     {
         $this->loginAdmin();
         Proveedor::factory()->create();
-        Categoria::factory()->create();
+        $categoria = Categoria::factory()->create();
+        Subcategoria::factory()->create([
+            'nombre' => $this->faker->word,
+            'categoria_id' => $categoria->id
+        ]);
         Ubicacion::factory()->create();
         Producto::factory()->count(10)->create();
         $response = $this->get('/api/productos');
@@ -33,6 +38,7 @@ class ProductoTest extends TestCase
                     'nombre',
                     'proveedor_id',
                     'categoria_id',
+                    'subcategoria_id',
                     'codigo',
                     'precio_compra',
                     'precio_venta',
@@ -71,7 +77,11 @@ class ProductoTest extends TestCase
     {
         $this->loginAdmin();
         Proveedor::factory()->create();
-        Categoria::factory()->create();
+        $categoria = Categoria::factory()->create();
+        Subcategoria::factory()->create([
+            'nombre' => $this->faker->word,
+            'categoria_id' => $categoria->id
+        ]);
         Ubicacion::factory()->create();
         $producto = Producto::factory()->create();
         $response = $this->get("/api/productos/{$producto->id}");
@@ -84,6 +94,7 @@ class ProductoTest extends TestCase
                 'nombre',
                 'proveedor_id',
                 'categoria_id',
+                'subcategoria_id',
                 'codigo',
                 'precio_compra',
                 'precio_venta',
@@ -103,12 +114,17 @@ class ProductoTest extends TestCase
         $this->loginAdmin();
         $proveedor = Proveedor::factory()->create();
         $categoria = Categoria::factory()->create();
+        $subcategoria = Subcategoria::factory()->create([
+            'nombre' => $this->faker->word,
+            'categoria_id' => $categoria->id
+        ]);
         $ubicacion = Ubicacion::factory()->create();
 
         $payload = [
             'nombre' => $this->faker->unique()->word,
             'proveedor_id' => $proveedor->id,
             'categoria_id' => $categoria->id,
+            'subcategoria_id' => $subcategoria->id,
             'precio_compra' => $this->faker->randomFloat(2, 1, 100),
             'precio_venta' => $this->faker->randomFloat(2, 1, 100),
             'stock' => $this->faker->numberBetween(0, 100),
@@ -130,6 +146,7 @@ class ProductoTest extends TestCase
                 'nombre' => $payload['nombre'],
                 'proveedor_id' => $payload['proveedor_id'],
                 'categoria_id' => $payload['categoria_id'],
+                'subcategoria_id' => $payload['subcategoria_id'],
                 'precio_compra' => $payload['precio_compra'],
                 'precio_venta' => $payload['precio_venta'],
                 'stock' => $payload['stock'],
@@ -160,6 +177,10 @@ class ProductoTest extends TestCase
 
         $proveedor = Proveedor::factory()->create();
         $categoria = Categoria::factory()->create();
+        $subcategoria = Subcategoria::factory()->create([
+            'nombre' => $this->faker->word,
+            'categoria_id' => $categoria->id
+        ]);
         $ubicacion = Ubicacion::factory()->create();
 
         $file = UploadedFile::fake()->image('image.jpg');
@@ -168,6 +189,7 @@ class ProductoTest extends TestCase
             'nombre' => $this->faker->unique()->word,
             'proveedor_id' => $proveedor->id,
             'categoria_id' => $categoria->id,
+            'subcategoria_id' => $subcategoria->id,
             'precio_compra' => $this->faker->randomFloat(2, 1, 100),
             'precio_venta' => $this->faker->randomFloat(2, 1, 100),
             'stock' => $this->faker->numberBetween(0, 100),
@@ -199,7 +221,7 @@ class ProductoTest extends TestCase
         ]);
 
         Storage::disk('local')->assertExists(
-            $response->json('data.imagen.path').'/'.$response->json('data.imagen.archivo')
+            $response->json('data.imagen.path') . '/' . $response->json('data.imagen.archivo')
         );
 
         $this->assertDatabaseHas('imagen_producto', [
@@ -339,7 +361,7 @@ class ProductoTest extends TestCase
         ]);
 
         Storage::disk('local')->assertExists(
-            $response->json('data.imagen.path').'/'.$response->json('data.imagen.archivo')
+            $response->json('data.imagen.path') . '/' . $response->json('data.imagen.archivo')
         );
 
         $this->assertDatabaseHas('imagen_producto', [

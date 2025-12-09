@@ -20,6 +20,7 @@ class ProductoResource extends JsonResource
             'proveedor_id' => $this->proveedor_id,
             'proveedor' => $this->proveedor ? $this->proveedor : null,
             'categoria_id' => $this->categoria_id,
+            'subcategoria_id' => $this->subcategoria_id,
             'categoria' => $this->categoria ? $this->categoria : null,
             'codigo' => $this->codigo,
             'precio_compra' => $this->precio_compra,
