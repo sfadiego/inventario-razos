@@ -20,6 +20,7 @@ export const useProductosPage = () => {
   const { openModal, isOpen, closeModal } = useModal();
   const { openModal: openModalNewImage, isOpen: isOpenNewImage, closeModal: closeModalNewImage } = useModal();
   const [productId, setProductId] = useState<number>(0);
+  const [pdfLoading, setPdfLoading] = useState<boolean>(false);
   const { isLoading, data } = useServiceShowProducto(productId);
   const { setItem, clearItem } = useSelectedItemStore();
   const handleCloseModal = () => {
@@ -75,14 +76,18 @@ export const useProductosPage = () => {
     },
   ];
 
-  const { isLoading: pdfLoading, data: pdfData } = useServiceCatalogoProductosPdf();
-  const handlePrint = () => {
-    if (!pdfLoading && pdfData) {
-      const fileURL = window.URL.createObjectURL(new Blob([pdfData]));
+  const { refetch } = useServiceCatalogoProductosPdf();
+  const handlePrint = async () => {
+    setPdfLoading(true);
+    const { data } = await refetch();
+    if (data) {
+      setPdfLoading(false);
+      const fileURL = window.URL.createObjectURL(new Blob([data]));
       window.open(fileURL, '_blank');
     }
   };
 
+  // console.log('loading', pdfLoading);
   return {
     openModal,
     isOpen,
@@ -98,5 +103,6 @@ export const useProductosPage = () => {
       setProductId(0);
     },
     productId,
+    pdfLoading,
   };
 };

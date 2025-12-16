@@ -5,7 +5,9 @@
     <meta charset="UTF-8">
 
     <style>
-        {!! file_get_contents(resource_path('css/pdf/catalogo-productos.css')) !!}
+        {
+            {!! file_get_contents(resource_path('css/pdf/custom.css')) !!}
+        }
 
         .barcode {
             width: 50%;
