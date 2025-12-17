@@ -11,6 +11,7 @@ interface IImportProduct {
 export const useImportProductosPage = () => {
   const [inserted, setInserted] = useState<string[]>([]);
   const [duplicates, setDuplicates] = useState<string[]>([]);
+  const [plantillaLoading, setPlantillaLoading] = useState<boolean>(false);
   const mutator = useServiceImportProducts();
   const { onSubmit } = useOnSubmit<IImportProduct>({
     mutateAsync: mutator.mutateAsync,
@@ -22,18 +23,22 @@ export const useImportProductosPage = () => {
 
   const onSubmitFile = (file: File) => onSubmit({ file }, {});
 
-  const { isLoading, data, refetch } = useServiceTemplateImport();
-  const handleDonwloadTemplate = () => {
-    refetch();
-    if (!isLoading && data) {
+  const { refetch } = useServiceTemplateImport();
+  const handleDonwloadTemplate = async () => {
+    setPlantillaLoading(true);
+    const { data } = await refetch();
+    if (data) {
+      setPlantillaLoading(false);
       downloadBlob(data);
     }
   };
+
   return {
     onSubmitFile,
     inserted,
     duplicates,
     isPending: mutator.isPending,
+    plantillaLoading,
     handleDonwloadTemplate,
   };
 };

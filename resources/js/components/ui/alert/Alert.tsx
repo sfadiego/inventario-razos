@@ -9,9 +9,18 @@ interface AlertProps {
   linkHref?: string; // Link URL
   linkText?: string; // Link text
   onClickEvent?: () => void;
+  disabledButton?: boolean;
 }
 
-const Alert: React.FC<AlertProps> = ({ variant, title, message, showLink = false, linkText = 'Learn more', onClickEvent }) => {
+const Alert: React.FC<AlertProps> = ({
+  variant,
+  title,
+  message,
+  showLink = false,
+  linkText = 'Learn more',
+  onClickEvent,
+  disabledButton = false,
+}) => {
   // Tailwind classes for each variant
   const variantClasses = {
     success: {
@@ -51,7 +60,7 @@ const Alert: React.FC<AlertProps> = ({ variant, title, message, showLink = false
           <p className="text-sm text-gray-500 dark:text-gray-400">{message}</p>
 
           {showLink && (
-            <Button onClick={onClickEvent} variant="outline" className="mt-3 inline-block text-sm font-medium">
+            <Button onClick={onClickEvent} variant="outline" className="mt-3 inline-block text-sm font-medium" disabled={disabledButton}>
               {linkText}
             </Button>
           )}
