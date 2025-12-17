@@ -65,5 +65,5 @@ export const adminRoutes: IRoute[] = [
   { private: true, path: AdminRoutes.Marcas, name: 'Marcas', element: <MarcaPage /> },
   { private: true, path: AdminRoutes.Categorias, name: 'Categorias', element: <CategoriaPage /> },
   { private: true, path: AdminRoutes.Subcategorias, name: 'Subcategorias', element: <SubcategoriaPage /> },
-  { private: true, path: AdminRoutes.ErrorReporting, name: 'Error Reporting', element: <ReportingPage /> },
+  { private: true, path: AdminRoutes.ErrorReporting, name: 'Reporte de errores', element: <ReportingPage /> },
 ];

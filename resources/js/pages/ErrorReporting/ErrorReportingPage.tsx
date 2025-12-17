@@ -9,7 +9,7 @@ import { FiltrosErrorReporting } from './partials/FiltrosErrorReporting';
 export default function ErrorReportingPage() {
   const { renderersMap, rowExpansion, filters, openModal, handleReport, pdfLoading } = useErrorReporting();
   return (
-    <PageWrapper pageTitle="Error Reporting">
+    <PageWrapper pageTitle="Reporte de errores">
       <div className="flex justify-end">
         <Button variant={'outline'} className="mb-2" onClick={handleReport} disabled={pdfLoading}>
           <Download /> {pdfLoading ? <Loader /> : 'Descargar Backup'}
