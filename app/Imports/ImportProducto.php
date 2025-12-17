@@ -40,7 +40,7 @@ class ImportProducto implements ToModel, WithCalculatedFormulas, WithEvents, Wit
 
     public function startRow(): int
     {
-        return 3;
+        return 2;
     }
 
     public function __construct()
@@ -69,7 +69,6 @@ class ImportProducto implements ToModel, WithCalculatedFormulas, WithEvents, Wit
 
             return null;
         }
-
         $categoria_id = Categoria::firstOrCreate(['nombre' => $this->categoria])->id;
         if ($rowSubCategoria) {
             $subcategoria = trim((string) $row[0]);

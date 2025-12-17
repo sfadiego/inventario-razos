@@ -43,7 +43,7 @@ class PdfGeneratorController extends Controller
 
         $pdf = Pdf::loadView('pdf.catalogo-productos', [
             'productos' => $productos,
-        ])->setPaper('letter');
+        ])->setPaper('letter', 'landscape');
 
         return $pdf->download('catalogo.pdf');
     }

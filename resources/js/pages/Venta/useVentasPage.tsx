@@ -20,6 +20,7 @@ export const useVentasPage = () => {
   const { openModal, isOpen, closeModal } = useModal();
   const [selected, setSelected] = useState(0);
   const { isLoading, data } = useServiceShowVenta(selected);
+  const [pdfLoading, setPdfLoading] = useState<boolean>(false);
   const { setItem, clearItem } = useSelectedItemStore();
   const navigate = useNavigate();
 
@@ -77,11 +78,13 @@ export const useVentasPage = () => {
     },
   ];
 
-  const { isLoading: pdfLoading, data: pdfData, refetch } = useServiceReporteVentaPdf();
-  const handleReporteVenta = () => {
-    refetch();
-    if (!pdfLoading && pdfData) {
-      const fileURL = window.URL.createObjectURL(new Blob([pdfData]));
+  const { refetch } = useServiceReporteVentaPdf();
+  const handleReporteVenta = async () => {
+    setPdfLoading(true);
+    const { data } = await refetch();
+    if (data) {
+      setPdfLoading(false);
+      const fileURL = window.URL.createObjectURL(new Blob([data]));
       window.open(fileURL, '_blank');
     }
   };
@@ -93,5 +96,6 @@ export const useVentasPage = () => {
     openModal: handleOpenModal,
     closeModal: handleCloseModal,
     handleReporteVenta,
+    pdfLoading,
   };
 };
