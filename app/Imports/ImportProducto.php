@@ -47,7 +47,7 @@ class ImportProducto implements ToModel, WithCalculatedFormulas, WithEvents, Wit
     {
         $this->existingProducts = Producto::query()
             ->pluck('nombre')
-            ->map(fn($n) => mb_strtolower(trim($n)))
+            ->map(fn ($n) => mb_strtolower(trim($n)))
             ->toArray();
     }
 
@@ -57,7 +57,7 @@ class ImportProducto implements ToModel, WithCalculatedFormulas, WithEvents, Wit
             Log::info('Categoria invalida', ['categoria' => $this->categoria]);
             $this->importInfo[] = [
                 'status' => 'skiped',
-                'message' => 'La categoria ' . $this->categoria . ' no es valida',
+                'message' => 'La categoria '.$this->categoria.' no es valida',
             ];
 
             return null;
@@ -66,6 +66,7 @@ class ImportProducto implements ToModel, WithCalculatedFormulas, WithEvents, Wit
         $emptyRow = empty($row[0]) && empty($row[1]) && empty($row[2]) && empty($row[3]) && empty($row[4]);
         if ($emptyRow) {
             Log::info('Celda vacia', ['row' => $row]);
+
             return null;
         }
         $categoria_id = Categoria::firstOrCreate(['nombre' => $this->categoria])->id;
