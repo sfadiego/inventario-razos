@@ -9,11 +9,12 @@ interface IInputWithIconProps<T> {
   value?: string;
   wrapperClassName?: string;
   IconComponent?: React.ComponentType;
+  IconClearFilterComponent?: React.ComponentType;
   inputCallback?: (props: any) => void;
 }
 
 export const InputWithIcon = <T extends object>(props: IInputWithIconProps<T>) => {
-  const { label, name, placeholder, disabled = false, inputClassName, wrapperClassName, IconComponent, value, inputCallback } = props;
+  const { label, name, placeholder, disabled = false, inputClassName, wrapperClassName, IconComponent, IconClearFilterComponent, value, inputCallback } = props;
 
   const defaultClass = 'flex items-center border p-2 rounded';
   const defaultInputClass = 'flex-1 outline-none';
@@ -30,6 +31,8 @@ export const InputWithIcon = <T extends object>(props: IInputWithIconProps<T>) =
           className={`${inputClassName ? inputClassName : defaultInputClass}`}
           disabled={disabled}
         />
+
+        {IconClearFilterComponent && <IconClearFilterComponent />}
         {IconComponent && <IconComponent />}
       </div>
     </>
