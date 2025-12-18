@@ -20,7 +20,7 @@ class ReporteMovimientosIndexLogic extends IndexLogic
     public function tableHeaders(): array
     {
         return [
-            'id' => __('#'),
+            'producto.codigo' => 'Codigo',
             'producto.nombre' => 'Producto',
             'tipo_movimiento.nombre' => 'Tipo movimiento',
             'motivo' => 'Motivo',
@@ -41,7 +41,8 @@ class ReporteMovimientosIndexLogic extends IndexLogic
     {
         $this->queryBuilder->where(function ($query) use ($filter) {
             $query->whereHas('producto', function ($qwh) use ($filter) {
-                $qwh->where('nombre', 'like', '%'.$filter->value.'%');
+                $qwh->where('nombre', 'like', '%' . $filter->value . '%');
+                $qwh->orWhere('codigo', $filter->value);
             });
         });
     }
@@ -54,8 +55,8 @@ class ReporteMovimientosIndexLogic extends IndexLogic
     protected function customFilters(): array
     {
         return [
-            'created_at' => fn (Filter $filter) => $this->filterDate($filter),
-            'search' => fn (Filter $filter) => $this->filterProducto($filter),
+            'created_at' => fn(Filter $filter) => $this->filterDate($filter),
+            'search' => fn(Filter $filter) => $this->filterProducto($filter),
         ];
     }
 

@@ -21,16 +21,14 @@ class ProductoIndexLogic extends IndexLogic
     protected function tableHeaders(): array
     {
         return [
-            'id' => __('#'),
-            'nombre' => 'Nombre',
-            'proveedor.nombre' => 'Proveedor',
-            'categoria.nombre' => 'Categoria',
+            'actions' => 'Acciones',
             'codigo' => 'Codigo',
-            'precio_venta' => 'Precio Venta',
+            'nombre' => 'Nombre',
             'stock' => 'Stock',
-            'marca.nombre' => 'Marca',
             'ubicacion.nombre' => 'Ubicacion',
-            'actions' => '#',
+            'categoria.nombre' => 'Categoria',
+            'marca.nombre' => 'Marca',
+            'precio_venta' => 'Precio Venta',
         ];
     }
 
