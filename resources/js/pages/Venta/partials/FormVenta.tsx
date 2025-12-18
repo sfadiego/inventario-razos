@@ -26,7 +26,7 @@ export const FormVenta = ({ isOpen, closeModal }: IFormVentaProps) => {
     total,
     resetVenta,
     ventaActual,
-    nuevocliente,
+    esNuevocliente,
     toggleClient,
     redirectNewCliente,
     onChangeValidateCliente,
@@ -48,7 +48,7 @@ export const FormVenta = ({ isOpen, closeModal }: IFormVentaProps) => {
           <>
             <Form className={`grid grid-cols-12 gap-2 pt-3 pb-5`}>
               <div className="col-span-12 flex justify-end">
-                {!nuevocliente && (
+                {!esNuevocliente && (
                   <Button variant="outline" size="sm" className="mr-2" onClick={redirectNewCliente}>
                     <UserPlus />
                   </Button>
@@ -56,9 +56,9 @@ export const FormVenta = ({ isOpen, closeModal }: IFormVentaProps) => {
 
                 <Switch
                   disabled={disabled}
-                  label={`${!nuevocliente ? '' : 'No'} Asignar cliente`}
-                  defaultChecked={!nuevocliente}
-                  onChange={toggleClient}
+                  label={`${!esNuevocliente ? '' : 'No'} Asignar cliente`}
+                  defaultChecked={!esNuevocliente}
+                  onChange={() => toggleClient(formik)}
                 />
               </div>
               <div className="col-span-12">
@@ -73,7 +73,7 @@ export const FormVenta = ({ isOpen, closeModal }: IFormVentaProps) => {
               <div className="col-span-12">
                 <SelectStatusVenta disabled={true} formik={formik} />
               </div>
-              {!nuevocliente && (
+              {!esNuevocliente && (
                 <>
                   <div className="col-span-12 mt-2">
                     <SelectCliente onChange={onChangeValidateCliente} disabled={disabled} formik={formik} />
@@ -81,7 +81,7 @@ export const FormVenta = ({ isOpen, closeModal }: IFormVentaProps) => {
                 </>
               )}
 
-              {!isValidClient && adeudo < 0 && (
+              {formik.values.cliente_id && !isValidClient && adeudo < 0 && (
                 <div className="col-span-12">
                   <Badge color="error" variant="light">
                     Este cliente tiene un adeudo de ${adeudo}

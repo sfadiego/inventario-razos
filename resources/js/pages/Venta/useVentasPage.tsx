@@ -24,10 +24,10 @@ export const useVentasPage = () => {
   const { setItem, clearItem } = useSelectedItemStore();
   const navigate = useNavigate();
 
-  const handleOpenModal = () => {
-    openModal();
+  const handleNewVentaModal = () => {
     setSelected(0);
     clearItem('venta');
+    openModal();
   };
 
   const handleCloseModal = () => {
@@ -93,7 +93,7 @@ export const useVentasPage = () => {
     renderersMap,
     isOpen,
     filters,
-    openModal: handleOpenModal,
+    openModal: handleNewVentaModal,
     closeModal: handleCloseModal,
     handleReporteVenta,
     pdfLoading,

@@ -49,7 +49,6 @@ export const useInputSelect = <T extends object>({
     }
 
     if (onChange) {
-      console.log({ onchange: newValue });
       onChange(newValue);
     }
   };

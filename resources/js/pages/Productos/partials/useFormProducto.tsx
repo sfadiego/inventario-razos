@@ -37,17 +37,17 @@ export const useFormProducto = (props: IUseProductProps) => {
 
   const initialValues: IProducto = {
     nombre: producto?.nombre ?? '',
-    proveedor_id: producto?.proveedor_id ?? 0,
-    categoria_id: producto?.categoria_id ?? 0,
-    subcategoria_id: producto?.subcategoria_id ?? 0,
+    proveedor_id: producto?.proveedor_id ?? null,
+    categoria_id: producto?.categoria_id ?? null,
+    subcategoria_id: producto?.subcategoria_id ?? null,
     codigo: producto?.codigo ?? '',
     precio_compra: producto?.precio_compra ?? 0,
     precio_venta: producto?.precio_venta ?? 0,
     stock: producto?.stock ?? 0,
     cantidad_minima: producto?.cantidad_minima ?? 0,
     compatibilidad: producto?.compatibilidad ?? '',
-    ubicacion_id: producto?.ubicacion_id ?? 0,
-    marca_id: producto?.marca_id ?? 0,
+    ubicacion_id: producto?.ubicacion_id ?? null,
+    marca_id: producto?.marca_id ?? null,
     activo: true,
     unidad: producto?.unidad ?? 'pieza',
   };

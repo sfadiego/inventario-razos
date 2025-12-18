@@ -42,7 +42,7 @@ export default function ProductosPage() {
         >
           {(formik) => <FiltrosProductos formik={formik} />}
         </DatatableWithFilter>
-        <FormProducto isOpen={isOpen} closeModal={closeModal}></FormProducto>
+        <FormProducto isOpen={isOpen} closeModal={closeModal} />
         <FormAgregarImagen productId={productId} isOpen={isOpenNewImage} closeModal={closeModalNewImage} />
       </PageWrapper>
     </>
