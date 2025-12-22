@@ -4,7 +4,7 @@ import Alert from '@/components/ui/alert/Alert';
 import { useImportProductosPage } from './useImportProductosPage';
 
 export default function ImportProductsPage() {
-  const { inserted, duplicates, isPending, onSubmitFile, handleDonwloadTemplate } = useImportProductosPage();
+  const { inserted, duplicates, isPending, onSubmitFile, handleDonwloadTemplate, plantillaLoading } = useImportProductosPage();
 
   return (
     <PageWrapper pageTitle="Importar Productos">
@@ -15,6 +15,7 @@ export default function ImportProductsPage() {
             variant="info"
             message="El archivo debe tener extension .xlsx o .xls con las columnas: Codigo,	Cantidad,	Descripcion,	Marca,	subcategoria"
             showLink={true}
+            disabledButton={plantillaLoading}
             onClickEvent={handleDonwloadTemplate}
             linkText="Descargar plantilla"
           />

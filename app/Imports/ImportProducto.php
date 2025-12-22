@@ -72,8 +72,8 @@ class ImportProducto implements ToModel, WithCalculatedFormulas, WithEvents, Wit
         $categoria_id = Categoria::firstOrCreate(['nombre' => $this->categoria])->id;
         if ($rowSubCategoria) {
             $subcategoria = trim((string) $row[0]);
-            Subcategoria::firstOrCreate(['nombre' => $subcategoria, 'categoria_id' => $categoria_id]);
-            $this->subcategoria[] = $subcategoria;
+            $subcategoriaId = Subcategoria::firstOrCreate(['nombre' => $subcategoria, 'categoria_id' => $categoria_id])->id;
+            $this->subcategoria[$subcategoria] = $subcategoriaId;
 
             return null;
         }
@@ -83,7 +83,7 @@ class ImportProducto implements ToModel, WithCalculatedFormulas, WithEvents, Wit
         $cantidad = isset($row[1]) ? trim((string) $row[1]) : 0;
         $nombre = isset($row[2]) ? trim((string) $row[2]) : null;
         $marca = isset($row[3]) ? trim((string) $row[3]) : Marca::SIN_DEFINIR;
-
+        $subcategoriaId = $this->subcategoria[$row[4]] ?? null;
         // default values
         $proveedor_id = Proveedor::firstOrCreate(['nombre' => Proveedor::SIN_DEFINIR])->id;
         $precio_compra = 0;
@@ -116,6 +116,7 @@ class ImportProducto implements ToModel, WithCalculatedFormulas, WithEvents, Wit
             'nombre' => $nombre,
             'proveedor_id' => $proveedor_id,
             'categoria_id' => $categoria_id,
+            'subcategoria_id' => $subcategoriaId,
             'codigo' => $codigo,
             'precio_compra' => $precio_compra,
             'precio_venta' => $precio_venta,

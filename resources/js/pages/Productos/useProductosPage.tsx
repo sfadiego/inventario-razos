@@ -87,7 +87,6 @@ export const useProductosPage = () => {
     }
   };
 
-  // console.log('loading', pdfLoading);
   return {
     openModal,
     isOpen,

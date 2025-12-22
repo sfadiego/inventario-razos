@@ -27,6 +27,13 @@ export const useDatatableFilters = <Values,>(props: IDatatableWithFilterProps<Va
     setAppliedFilters(filters.filters);
     refetch();
   };
+
+  const clearFilters = () => {
+    setAppliedFilters([]);
+    setSearch('');
+    refetch();
+  };
+
   return {
     openModal,
     isOpen,
@@ -40,5 +47,6 @@ export const useDatatableFilters = <Values,>(props: IDatatableWithFilterProps<Va
     onFilter,
     setSearch,
     onClickNew,
+    clearFilters,
   };
 };

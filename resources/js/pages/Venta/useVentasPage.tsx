@@ -2,7 +2,6 @@ import { IFilters } from '@/components/filters/modalFilter/types';
 import Button from '@/components/ui/button/Button';
 import { useModal } from '@/hooks/useModal';
 import { IVenta, StatusVenta } from '@/models/venta.interface';
-import { useServiceReporteVentaPdf } from '@/Services/pdf/useServicePdf';
 import { useServiceShowVenta } from '@/Services/ventas/useServiceVenta';
 import { useSelectedItemStore } from '@/store/useSelectedItemStore';
 import { ArrowRight, Eye, Printer } from 'lucide-react';
@@ -20,14 +19,13 @@ export const useVentasPage = () => {
   const { openModal, isOpen, closeModal } = useModal();
   const [selected, setSelected] = useState(0);
   const { isLoading, data } = useServiceShowVenta(selected);
-  const [pdfLoading, setPdfLoading] = useState<boolean>(false);
   const { setItem, clearItem } = useSelectedItemStore();
   const navigate = useNavigate();
 
-  const handleOpenModal = () => {
-    openModal();
+  const handleNewVentaModal = () => {
     setSelected(0);
     clearItem('venta');
+    openModal();
   };
 
   const handleCloseModal = () => {
@@ -78,24 +76,11 @@ export const useVentasPage = () => {
     },
   ];
 
-  const { refetch } = useServiceReporteVentaPdf();
-  const handleReporteVenta = async () => {
-    setPdfLoading(true);
-    const { data } = await refetch();
-    if (data) {
-      setPdfLoading(false);
-      const fileURL = window.URL.createObjectURL(new Blob([data]));
-      window.open(fileURL, '_blank');
-    }
-  };
-
   return {
     renderersMap,
     isOpen,
     filters,
-    openModal: handleOpenModal,
+    openModal: handleNewVentaModal,
     closeModal: handleCloseModal,
-    handleReporteVenta,
-    pdfLoading,
   };
 };

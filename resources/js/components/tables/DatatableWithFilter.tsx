@@ -1,5 +1,5 @@
 import { FormikValues } from 'formik';
-import { Filter, Plus } from 'lucide-react';
+import { Filter, Plus, X } from 'lucide-react';
 import { DataTable } from 'mantine-datatable';
 import { ModalFilter } from '../filters/modalFilter/ModalFilter';
 import { InputWithIcon } from '../form/input/InputWithIcon';
@@ -9,7 +9,7 @@ import { useDatatableFilters } from './useDatatableFilters';
 
 export const DatatableWithFilter = <Values extends FormikValues>(props: IDatatableWithFilterProps<Values>) => {
   const { disableNewButton = false, newButtonText, inputPlaceholder = '' } = props;
-  const { isOpen, search, filters, dataTableProps, children, openModal, closeModal, onFilter, setSearch, onClickNew, rowExpansion } =
+  const { isOpen, search, filters, dataTableProps, children, openModal, closeModal, onFilter, setSearch, onClickNew, rowExpansion, clearFilters } =
     useDatatableFilters(props);
   return (
     <>
@@ -20,7 +20,8 @@ export const DatatableWithFilter = <Values extends FormikValues>(props: IDatatab
             value={search}
             placeholder={`${inputPlaceholder !== '' ? inputPlaceholder : 'Buscar'} ...`}
             inputCallback={(e) => setSearch(e.target.value)}
-            IconComponent={() => <Filter className="text-gray-500" onClick={openModal} />}
+            IconComponent={() => <Filter className="cursor-pointer text-gray-500" onClick={openModal} />}
+            IconClearFilterComponent={() => <X className="mr-2 cursor-pointer text-gray-500" onClick={clearFilters} />}
           />
         </div>
         {!disableNewButton && (

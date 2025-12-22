@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\Ventas\ReporteVentaRequest;
 use App\Models\Producto;
 use App\Models\Venta;
+use App\Models\VentaProducto;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Picqer\Barcode\BarcodeGeneratorPNG;
 use Symfony\Component\HttpFoundation\File\Stream;
@@ -51,10 +52,13 @@ class PdfGeneratorController extends Controller
     public function reporteVentas(ReporteVentaRequest $params): Response
     {
         $reporte = Venta::reporteVentas($params?->fecha_inicio, $params?->fecha_fin, $params?->order_date ?? 'desc');
+        $reportePorCategoria = VentaProducto::reporteVentasPorCategoria($params?->fecha_inicio, $params?->fecha_fin, $params?->order_date ?? 'desc');
         $pdf = Pdf::loadView('pdf.reporte-venta', [
             'ventas' => $reporte,
+            'reportePorCategoria' => $reportePorCategoria,
             'total' => number_format($reporte->sum('venta_total'), 2, '.', ''),
             'fechaReporte' => now()->format('Y-m-d'),
+            'periodo' => $params?->fecha_inicio.' al '.$params?->fecha_fin,
         ])->setPaper('letter');
 
         return $pdf->download('reporte-venta.pdf');

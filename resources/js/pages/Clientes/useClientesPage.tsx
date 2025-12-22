@@ -16,7 +16,7 @@ export interface IFiltroCliente {
 }
 export const useClientesPage = () => {
   const { isOpen, openModal, closeModal } = useModal();
-  const [selected, setSelected] = useState(0);
+  const [selected, setSelected] = useState<number>(0);
   const { isLoading, data } = useServiceShowCliente(selected);
   const { setItem, clearItem } = useSelectedItemStore();
 
@@ -60,12 +60,18 @@ export const useClientesPage = () => {
     },
   ];
 
+  const handleOpen = () => {
+    openModal();
+    clearItem('cliente');
+    setSelected(0);
+  };
+
   return {
     useServiceIndexClientes,
     renderersMap,
     filters,
     isOpen,
-    openModal,
+    openModal: handleOpen,
     closeModal: handleCloseModal,
   };
 };

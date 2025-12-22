@@ -212,3 +212,16 @@ observaciones
 
 TODO:
 - crear administrador de reporte de errores
+
+---------------
+
+clientes
+- arreglar nuevo cliente despues de editar uno
+
+ventas 
+- modificar boton de reporte, ajustar ventas de motos y luces
+
+reporte movimientos
+- agregar busqueda por qr en filtro con lector de codigos
+
+- borrar filtros en busqueda datatable

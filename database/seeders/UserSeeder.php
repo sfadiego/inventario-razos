@@ -13,14 +13,14 @@ class UserSeeder extends Seeder
     {
         $data = [
             [
-                'name' => 'Diego Silva',
+                'name' => 'Administrador',
                 'role_id' => RoleEnum::Admin->value,
                 'email' => 'admin@repamotos.com',
                 'password' => Hash::make('password'),
                 'activo' => true,
             ],
             [
-                'name' => 'Hugo Vargas',
+                'name' => 'Empleado',
                 'role_id' => RoleEnum::User->value,
                 'email' => 'empleado@repamostos.com',
                 'password' => Hash::make('password'),
