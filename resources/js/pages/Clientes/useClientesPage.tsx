@@ -65,7 +65,7 @@ export const useClientesPage = () => {
     clearItem('cliente');
     setSelected(0);
   };
-  
+
   return {
     useServiceIndexClientes,
     renderersMap,

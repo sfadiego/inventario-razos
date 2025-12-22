@@ -3,7 +3,7 @@ import { DatatableWithFilter } from '@/components/tables/DatatableWithFilter';
 import Button from '@/components/ui/button/Button';
 import { useModal } from '@/hooks/useModal';
 import { useServiceIndexVenta } from '@/Services/ventas/useServiceVenta';
-import { Download } from 'lucide-react';
+import { Files } from 'lucide-react';
 import { FiltrosVenta } from './partials/FiltrosVenta';
 import { FormVenta } from './partials/FormVenta';
 import { FormReporteVenta } from './partials/ReporteVenta/FormReporteVenta';
@@ -16,7 +16,7 @@ export default function VentasPage() {
     <PageWrapper pageTitle="Ventas">
       <div className="flex justify-end">
         <Button variant={'outline'} className="mb-2" onClick={openModalReporteVenta}>
-          <Download /> Descarga Reporte
+          <Files /> Generar Reporte
         </Button>
       </div>
       <DatatableWithFilter

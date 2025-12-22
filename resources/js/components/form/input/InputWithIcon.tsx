@@ -14,7 +14,18 @@ interface IInputWithIconProps<T> {
 }
 
 export const InputWithIcon = <T extends object>(props: IInputWithIconProps<T>) => {
-  const { label, name, placeholder, disabled = false, inputClassName, wrapperClassName, IconComponent, IconClearFilterComponent, value, inputCallback } = props;
+  const {
+    label,
+    name,
+    placeholder,
+    disabled = false,
+    inputClassName,
+    wrapperClassName,
+    IconComponent,
+    IconClearFilterComponent,
+    value,
+    inputCallback,
+  } = props;
 
   const defaultClass = 'flex items-center border p-2 rounded';
   const defaultInputClass = 'flex-1 outline-none';

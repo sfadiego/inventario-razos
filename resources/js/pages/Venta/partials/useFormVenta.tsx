@@ -30,17 +30,20 @@ export const useFormVenta = () => {
   const [esNuevocliente, setEsNuevocliente] = useState(true);
   const [clienteSeleccionado, setClienteSeleccionado] = useState<number>(0);
 
-  const toggleClient =  useCallback((formik: any) => {
-    setEsNuevocliente((prev) => {
-      const newValue = !prev;
-      if (!newValue) {
-        clearItem('cliente');
-        setClienteSeleccionado(0);
-        formik.setFieldValue('cliente_id', null);
-      }
-      return newValue;
-    });
-  }, [clearItem]);
+  const toggleClient = useCallback(
+    (formik: any) => {
+      setEsNuevocliente((prev) => {
+        const newValue = !prev;
+        if (!newValue) {
+          clearItem('cliente');
+          setClienteSeleccionado(0);
+          formik.setFieldValue('cliente_id', null);
+        }
+        return newValue;
+      });
+    },
+    [clearItem],
+  );
 
   const resetVenta = useCallback(() => {
     clearItem('venta');
