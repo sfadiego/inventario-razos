@@ -11,7 +11,7 @@ class VentaProductoFactory extends Factory
     public function definition(): array
     {
         return [
-            'cantidad' => $this->faker->randomNumber(2),
+            'cantidad' => $this->faker->numberBetween(1, 10),
             'precio' => $this->faker->randomFloat(2, 10, 100),
             'producto_id' => Producto::factory(),
             'venta_id' => Venta::inRandomOrder()->value('id'),

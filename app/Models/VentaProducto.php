@@ -59,7 +59,7 @@ class VentaProducto extends Model
 
         $ventaTotal = self::where('venta_id', $data['venta_id'])
             ->get()
-            ->sum(fn ($item) => $item->cantidad * $item->precio);
+            ->sum(fn($item) => $item->cantidad * $item->precio);
 
         Venta::where('id', $data['venta_id'])->update(['venta_total' => $ventaTotal]);
 
@@ -104,5 +104,31 @@ class VentaProducto extends Model
                 ];
             })
             ->values();
+    }
+
+    public static function reporteVentasPorCategoria($fecha_inicio, $fecha_fin, $order_date)
+    {
+        return VentaProducto::with('producto.categoria')
+            ->whereHas('venta', function ($q) use ($fecha_inicio, $fecha_fin, $order_date) {
+                $q->where('status_venta', StatusVentaEnum::Finalizada);
+                $q->when($fecha_inicio && $fecha_fin, function ($q) use ($fecha_inicio, $fecha_fin) {
+                    $q->whereBetween('created_at', [$fecha_inicio, $fecha_fin]);
+                })
+                    ->when($fecha_inicio && ! $fecha_fin, function ($q) use ($fecha_inicio) {
+                        $q->where('created_at', '>=', $fecha_inicio);
+                    })
+                    ->when(! $fecha_inicio && $fecha_fin, function ($q) use ($fecha_fin) {
+                        $q->where('created_at', '<=', $fecha_fin);
+                    })
+                    ->orderBy('created_at', $order_date);
+            })
+            ->get()
+            ->groupBy(fn($item) => $item->producto->categoria->nombre)
+            ->map(function ($item, $categoria) {
+                return [
+                    'categoria' => $categoria,
+                    'total' => $item->sum(fn($i) => $i->cantidad * $i->precio),
+                ];
+            })->values();
     }
 }

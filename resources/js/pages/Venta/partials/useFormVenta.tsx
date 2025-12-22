@@ -30,7 +30,6 @@ export const useFormVenta = () => {
   const [esNuevocliente, setEsNuevocliente] = useState(true);
   const [clienteSeleccionado, setClienteSeleccionado] = useState<number>(0);
 
-  /** Helpers */
   const toggleClient =  useCallback((formik: any) => {
     setEsNuevocliente((prev) => {
       const newValue = !prev;
@@ -60,7 +59,6 @@ export const useFormVenta = () => {
     [navigate, setItem],
   );
 
-  /** Valores iniciales */
   const clienteId = venta?.cliente_id && !esNuevocliente ? venta?.cliente_id : null;
   const initialValues: IVenta = {
     id: venta?.id ?? 0,
@@ -72,7 +70,6 @@ export const useFormVenta = () => {
     status_venta: venta?.status_venta ?? 'activa',
   };
 
-  /** Mutación */
   const mutator = useServiceStoreVenta();
   const { onSubmit } = useOnSubmit<IVenta>({
     mutateAsync: mutator.mutateAsync,
@@ -90,7 +87,6 @@ export const useFormVenta = () => {
     }
   }, [data, clienteSeleccionado, setItem, clearItem]);
 
-  /** Validaciones cliente */
   const confiable = cliente?.confiable;
   const adeudo = cliente?.adeudo || 0;
   const msgAdeudo = adeudo === 0 ? '' : ` Este cliente tiene un adeudo de ${adeudo}`;
@@ -103,7 +99,6 @@ export const useFormVenta = () => {
     }
   }, []);
 
-  /** Props para Formik */
   const formikProps = {
     initialValues,
     validationSchema,
