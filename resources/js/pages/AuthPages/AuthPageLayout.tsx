@@ -1,4 +1,4 @@
-import { CarFront } from 'lucide-react';
+import { Truck } from 'lucide-react';
 import { PropsWithChildren } from 'react';
 import { Link } from 'react-router';
 import GridShape from '../../components/common/GridShape';
@@ -16,11 +16,10 @@ export default function AuthLayout({ children }: PropsWithChildren) {
             <div className="flex max-w-xs flex-col items-center">
               <Link to="/" className="mb-4 block">
                 <div className="flex items-center gap-2">
-                  <CarFront className="h-16 w-16 text-white dark:text-white" />
-                  <p className="text-center text-2xl text-gray-400 dark:text-white/60">{VITE_APP_FULL_TITLE || 'SIN TITULO'}</p>
+                  <Truck className="h-16 w-16 text-white dark:text-white" />
+                  <p className="text-center text-2xl text-white/60">{VITE_APP_FULL_TITLE || 'SIN TITULO'}</p>
                 </div>
               </Link>
-              <p className="text-center text-gray-400 dark:text-white/60"></p>
             </div>
           </div>
         </div>
