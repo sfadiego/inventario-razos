@@ -13,7 +13,6 @@ import Button from '../ui/button/Button';
 import { ButtonTypeEnum } from '../ui/button/enums/buttonType.enum';
 
 export default function SignInForm() {
-  const title = import.meta.env.VITE_APP_FULL_TITLE;
   const navigate = useNavigate();
   const { saveAuth } = useAxios();
   const initialValues: ISignInForm = {
@@ -22,8 +21,8 @@ export default function SignInForm() {
   };
 
   const validationSchema = Yup.object().shape({
-    email: Yup.string().required('El nombre es obligatorio'),
-    password: Yup.string().required('El password es obligatorio'),
+    email: Yup.string().required('El correo electrónico es obligatorio'),
+    password: Yup.string().required('La contraseña es obligatoria'),
   });
 
   const handleSuccess = (data: IAuthResponse) => {
@@ -47,8 +46,7 @@ export default function SignInForm() {
       <div className="mx-auto flex w-full max-w-md flex-1 flex-col justify-center">
         <div>
           <div className="mb-5 sm:mb-8">
-            <h1 className="text-title-sm sm:text-title-md mb-2 font-semibold text-gray-800 dark:text-white/90">{title}</h1>
-            <p className="text-sm text-gray-500 dark:text-gray-400">Ingresa tu correo y contraseña para ingresar!</p>
+            <img src="/images/refacciones.png" alt="Logo" className="mx-auto mb-3" />
           </div>
           <div>
             <Formik<ISignInForm> enableReinitialize {...formikProps}>
@@ -56,14 +54,14 @@ export default function SignInForm() {
                 <Form>
                   <div className="space-y-6">
                     <div>
-                      <Input<ISignInForm> label={`Email`} name="email" formik={formik} type={InputTypeEnum.Text} />
+                      <Input<ISignInForm> label={`Correo Electrónico`} name="email" formik={formik} type={InputTypeEnum.Text} />
                     </div>
                     <div>
-                      <Input<ISignInForm> label={`Password`} name="password" formik={formik} type={InputTypeEnum.Password} />
+                      <Input<ISignInForm> label={`Contraseña`} name="password" formik={formik} type={InputTypeEnum.Password} />
                     </div>
                     <div>
                       <Button type={ButtonTypeEnum.Submit} className="w-full" size="sm">
-                        <LogIn /> Login
+                        <LogIn /> Iniciar Sesión
                       </Button>
                     </div>
                   </div>

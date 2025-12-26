@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { Link, useLocation } from 'react-router';
 
-import { CarFront, EllipsisVertical } from 'lucide-react';
+import { EllipsisVertical, Truck } from 'lucide-react';
 // Assume these icons are imported from an icon library
 import { INavItem } from '@/interfaces/INavItem';
 import { adminSidebarRoutes, mainSidebarRoutes } from '@/router/modules/sidebar.routes';
@@ -168,13 +168,13 @@ const AppSidebar: React.FC = () => {
             <>
               <div className="flex p-2">
                 <div className="mr-2 flex-none dark:text-white">
-                  <CarFront />
+                  <Truck />
                 </div>
                 <div className="flex-1 dark:text-white">{VITE_APP_FULL_TITLE || 'SIN TITULO'}</div>
               </div>
             </>
           ) : (
-            <CarFront className="dark:text-white" />
+            <Truck className="dark:text-white" />
           )}
         </Link>
       </div>
