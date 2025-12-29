@@ -1,4 +1,5 @@
 import { formatDate } from '@/helper/dates';
+import { downloadBlob } from '@/helper/downloadBlob';
 import { useServiceReporteVentaPdf } from '@/Services/pdf/useServicePdf';
 
 import { useCallback, useEffect, useState } from 'react';
@@ -25,8 +26,7 @@ export const useFormReporteVenta = () => {
     const { data } = await refetch();
     if (data) {
       setPdfLoading(false);
-      const fileURL = window.URL.createObjectURL(new Blob([data]));
-      window.open(fileURL, '_blank');
+      downloadBlob(data, 'reporte.pdf');
     }
   }, [refetch]);
 

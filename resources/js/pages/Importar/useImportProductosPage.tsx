@@ -29,7 +29,7 @@ export const useImportProductosPage = () => {
     const { data } = await refetch();
     if (data) {
       setPlantillaLoading(false);
-      downloadBlob(data);
+      downloadBlob(data, 'plantilla.xlsx');
     }
   };
 
