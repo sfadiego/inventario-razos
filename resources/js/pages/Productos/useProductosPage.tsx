@@ -2,6 +2,7 @@ import { IFilters } from '@/components/filters/modalFilter/types';
 import { ExpansionProductoDetail } from '@/components/productos/ExpansionProductoDetail';
 import { rowTypes } from '@/components/tables/rowTypes';
 import Button from '@/components/ui/button/Button';
+import { downloadBlob } from '@/helper/downloadBlob';
 import { useModal } from '@/hooks/useModal';
 import { IProducto } from '@/models/producto.interface';
 import { useServiceCatalogoProductosPdf } from '@/Services/pdf/useServicePdf';
@@ -82,8 +83,7 @@ export const useProductosPage = () => {
     const { data } = await refetch();
     if (data) {
       setPdfLoading(false);
-      const fileURL = window.URL.createObjectURL(new Blob([data]));
-      window.open(fileURL, '_blank');
+      downloadBlob(data, 'catalogo.pdf');
     }
   };
 
