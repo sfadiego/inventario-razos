@@ -36,7 +36,7 @@ class PdfGeneratorController extends Controller
 
         $productos->map(function ($item) {
             $generator = new BarcodeGeneratorPNG;
-            $barcode = $generator->getBarcode($item->id, $generator::TYPE_CODE_128);
+            $barcode = $generator->getBarcode($item->codigo, $generator::TYPE_CODE_128);
             $item->barcode = base64_encode($barcode);
 
             return $item;
