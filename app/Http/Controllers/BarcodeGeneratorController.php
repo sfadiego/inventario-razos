@@ -11,8 +11,8 @@ class BarcodeGeneratorController extends Controller
     public function generateBarcode(Producto $producto)
     {
         $generator = new BarcodeGeneratorPNG;
-        $barcode = $generator->getBarcode($producto->id, $generator::TYPE_CODE_128);
+        $barcode = $generator->getBarcode($producto->codigo, $generator::TYPE_CODE_128);
 
-        return Response::image($barcode);
+        return Response::make($barcode, 200, ['Content-Type' => 'image/png']);
     }
 }

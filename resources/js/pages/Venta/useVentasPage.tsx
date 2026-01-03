@@ -1,4 +1,5 @@
 import { IFilters } from '@/components/filters/modalFilter/types';
+import { rowTypes } from '@/components/tables/rowTypes';
 import Button from '@/components/ui/button/Button';
 import { useModal } from '@/hooks/useModal';
 import { IVenta, StatusVenta } from '@/models/venta.interface';
@@ -14,6 +15,7 @@ export interface IFiltroVenta {
   cliente_id: number;
   tipo_compra: string;
   status_venta: StatusVenta;
+  created_at: string;
 }
 export const useVentasPage = () => {
   const { openModal, isOpen, closeModal } = useModal();
@@ -45,6 +47,9 @@ export const useVentasPage = () => {
   };
 
   const renderersMap = {
+    rowClassName: ({ status_venta }: IVenta): rowTypes | '' => {
+      return status_venta == 'finalizada' ? 'redRow' : '';
+    },
     actions: ({ id, status_venta }: IVenta) => (
       <>
         <Button

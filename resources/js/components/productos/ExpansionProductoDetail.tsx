@@ -29,7 +29,7 @@ export const ExpansionProductoDetail = ({ record }: ExpansionProductoDetailProps
         </p>
         {barcode && (
           <p className="mb-2">
-            <Image image={barcode} />
+            <Image disabledWidth image={barcode} />
             <Link to={`#`} onClick={downloadBarcode}>
               Descargar
             </Link>

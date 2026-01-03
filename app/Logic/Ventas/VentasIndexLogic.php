@@ -48,6 +48,7 @@ class VentasIndexLogic extends IndexLogic
     {
         return [
             'search' => fn (Filter $filter) => $this->queryBuilder->search($filter->value),
+            'created_at' => fn (Filter $filter) => $this->queryBuilder->whereDate('created_at', $filter->value),
         ];
     }
 
