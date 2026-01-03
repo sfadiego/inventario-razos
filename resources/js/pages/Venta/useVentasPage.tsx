@@ -14,6 +14,7 @@ export interface IFiltroVenta {
   cliente_id: number;
   tipo_compra: string;
   status_venta: StatusVenta;
+  created_at: string;
 }
 export const useVentasPage = () => {
   const { openModal, isOpen, closeModal } = useModal();
