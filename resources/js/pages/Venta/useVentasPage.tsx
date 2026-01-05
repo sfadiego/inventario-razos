@@ -1,6 +1,7 @@
 import { IFilters } from '@/components/filters/modalFilter/types';
 import { rowTypes } from '@/components/tables/rowTypes';
 import Button from '@/components/ui/button/Button';
+import { StatusVentaEnum } from '@/enums/StatusVentaEnum';
 import { useModal } from '@/hooks/useModal';
 import { IVenta, StatusVenta } from '@/models/venta.interface';
 import { useServiceShowVenta } from '@/Services/ventas/useServiceVenta';
@@ -48,7 +49,7 @@ export const useVentasPage = () => {
 
   const renderersMap = {
     rowClassName: ({ status_venta }: IVenta): rowTypes | '' => {
-      return status_venta == 'finalizada' ? 'redRow' : '';
+      return status_venta == StatusVentaEnum.FINALIZADA ? 'redRow' : '';
     },
     actions: ({ id, status_venta }: IVenta) => (
       <>
@@ -65,7 +66,7 @@ export const useVentasPage = () => {
         <Button className="ml-2" onClick={() => navigate(`/venta/${id}/productos`)} variant="outline" size="sm">
           <ArrowRight />
         </Button>
-        {status_venta == 'finalizada' && (
+        {status_venta == StatusVentaEnum.FINALIZADA && (
           <Button className="ml-2" onClick={printVentaDetail} variant="info" size="sm">
             <Printer />
           </Button>

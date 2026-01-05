@@ -7,6 +7,7 @@ import { rowTypes } from '@/components/tables/rowTypes';
 import Button from '@/components/ui/button/Button';
 
 import { ExpansionProductoDetail } from '@/components/productos/ExpansionProductoDetail';
+import { StatusVentaEnum } from '@/enums/StatusVentaEnum';
 import { IProducto } from '@/models/producto.interface';
 import { AdminRoutes } from '@/router/modules/admin.routes';
 import { useServiceIndexProductos } from '@/Services/productos/useServiceProductos';
@@ -32,7 +33,7 @@ export const useProductosVentaPage = () => {
   const { data: ventaData, isLoading } = useServiceShowVenta(ventaId);
   const productoVentaModal = useProductoVentaModal();
 
-  const ventaFinalizada = useMemo(() => !isLoading && ventaData?.status_venta === 'finalizada', [isLoading, ventaData]);
+  const ventaFinalizada = useMemo(() => !isLoading && ventaData?.status_venta === StatusVentaEnum.FINALIZADA, [isLoading, ventaData]);
   // Breadcrumbs
   const breadcrumb: BreadcrumbArrayProps[] = useMemo(
     () => [

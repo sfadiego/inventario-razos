@@ -1,4 +1,5 @@
 import { IOptions } from '@/components/form/select/interfaces/IOptions';
+import { StatusVentaEnum } from '@/enums/StatusVentaEnum';
 import { useOnSubmit } from '@/hooks/useOnSubmit';
 import { ICliente } from '@/models/cliente.interface';
 import { IVenta } from '@/models/venta.interface';
@@ -6,6 +7,7 @@ import { AdminRoutes } from '@/router/modules/admin.routes';
 import { useServiceShowCliente } from '@/Services/clientes/useServiceClientes';
 import { useServiceStoreVenta } from '@/Services/ventas/useServiceVenta';
 import { useSelectedItemStore } from '@/store/useSelectedItemStore';
+import { TipoVentaEnum } from '@/types/TipoVentaTypes';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router';
 import { MultiValue, SingleValue } from 'react-select';
@@ -16,8 +18,12 @@ const validationSchema = Yup.object().shape({
   folio: Yup.string(),
   nombre_venta: Yup.string().max(100, 'El nombre no puede exceder 100 caracteres'),
   cliente_id: Yup.number().nullable(),
-  tipo_compra: Yup.string().oneOf(['contado', 'credito'], 'Tipo de compra inválido').required('El tipo de compra es obligatorio'),
-  status_venta: Yup.string().oneOf(['activa', 'finalizada'], 'Estatus de compra inválido').required('El estatus de compra es obligatorio'),
+  tipo_compra: Yup.string()
+    .oneOf([TipoVentaEnum.CONTADO, TipoVentaEnum.CREDITO], 'Tipo de compra es inválido')
+    .required('El tipo de compra es obligatorio'),
+  status_venta: Yup.string()
+    .oneOf([StatusVentaEnum.ACTIVA, StatusVentaEnum.FINALIZADA], 'Estatus de compra inválido')
+    .required('El estatus de compra es obligatorio'),
 });
 
 export const useFormVenta = () => {
@@ -69,8 +75,8 @@ export const useFormVenta = () => {
     folio: venta?.folio ?? '',
     nombre_venta: venta?.nombre_venta ?? '',
     cliente_id: clienteId,
-    tipo_compra: venta?.tipo_compra ?? 'contado',
-    status_venta: venta?.status_venta ?? 'activa',
+    tipo_compra: venta?.tipo_compra ?? TipoVentaEnum.CONTADO,
+    status_venta: venta?.status_venta ?? StatusVentaEnum.ACTIVA,
   };
 
   const mutator = useServiceStoreVenta();

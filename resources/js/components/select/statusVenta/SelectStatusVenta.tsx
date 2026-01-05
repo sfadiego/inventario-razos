@@ -1,4 +1,5 @@
 import InputSelect from '@/components/form/select/InputSelect';
+import { StatusVentaEnum } from '@/enums/StatusVentaEnum';
 import { FormikProps } from 'formik';
 interface ISelectStatusVenta {
   disabled?: boolean;
@@ -6,8 +7,8 @@ interface ISelectStatusVenta {
 }
 export const SelectStatusVenta = (props: ISelectStatusVenta) => {
   const options = [
-    { value: 'activa', label: `activa` },
-    { value: 'finalizada', label: `finalizada` },
+    { value: StatusVentaEnum.ACTIVA, label: StatusVentaEnum.ACTIVA },
+    { value: StatusVentaEnum.FINALIZADA, label: StatusVentaEnum.FINALIZADA },
   ];
   return <InputSelect {...props} label={`Estatus de venta`} name={'status_venta'} options={options} />;
 };
