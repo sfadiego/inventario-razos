@@ -1,5 +1,6 @@
 import { Headers } from '@/components/layout/Headers';
 import Badge from '@/components/ui/badge/Badge';
+import { StatusVentaEnum } from '@/enums/StatusVentaEnum';
 import { IVenta } from '@/models/venta.interface';
 
 export const DetalleVenta = ({ venta }: { venta: IVenta }) => {
@@ -21,7 +22,7 @@ export const DetalleVenta = ({ venta }: { venta: IVenta }) => {
       )}
       <Headers size="sm" type={`h3`}>
         Estatus:
-        <Badge color={`${status !== 'finalizada' ? 'info' : 'error'}`} variant="light">
+        <Badge color={`${status !== StatusVentaEnum.FINALIZADA ? 'info' : 'error'}`} variant="light">
           {status}
         </Badge>
       </Headers>

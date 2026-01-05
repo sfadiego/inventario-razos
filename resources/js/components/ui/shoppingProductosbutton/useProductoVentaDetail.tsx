@@ -27,7 +27,7 @@ export const useProductoVentaDetail = ({ closeModal }: { closeModal: () => void 
     setReloadFlag((prev) => !prev);
   }, []);
 
-  const ventaFinalizada = useMemo(() => !isLoading && venta?.status_venta == StatusVentaEnum.Finalizada, [isLoading, venta]);
+  const ventaFinalizada = useMemo(() => !isLoading && venta?.status_venta == StatusVentaEnum.FINALIZADA, [isLoading, venta]);
   const mutatorDeleteProducto = useServiceDeleteVentaProducto(selectedId);
   const mutatorUpdate = useServiceFinalizarVenta(ventaId);
 

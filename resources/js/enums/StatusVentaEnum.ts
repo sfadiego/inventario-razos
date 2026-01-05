@@ -1,4 +1,4 @@
 export enum StatusVentaEnum {
-  Activa = 'activa',
-  Finalizada = 'finalizada',
+  ACTIVA = 'activa',
+  FINALIZADA = 'finalizada',
 }

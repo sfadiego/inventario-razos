@@ -1,7 +1,7 @@
+import { StatusVentaType } from '@/types/statusVentaTypes';
+import { TipoCompraType } from '@/types/TipoVentaTypes';
 import { ICliente } from './cliente.interface';
 
-export type TipoCompraType = 'credito' | 'contado';
-export type StatusVenta = 'activa' | 'finalizada';
 export interface IVenta {
   id: number;
   venta_total: number;
@@ -10,12 +10,12 @@ export interface IVenta {
   cliente_id: number | null;
   cliente?: ICliente;
   tipo_compra: TipoCompraType;
-  status_venta: StatusVenta;
+  status_venta: StatusVentaType;
 }
 
 export interface IVentaUpdateProps {
   nombre_venta?: string;
   cliente_id?: number | null;
   tipo_compra?: TipoCompraType;
-  status_venta?: StatusVenta;
+  status_venta?: StatusVentaType;
 }
