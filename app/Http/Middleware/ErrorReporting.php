@@ -28,7 +28,6 @@ class ErrorReporting
                 'method' => $request->method(),
                 'error_message' => $response->exception?->getMessage() ?? 'Unknown error',
             ]);
-            $this->createDumpDatabase('error-500');
         }
 
         if ($response->getStatusCode() >= 400) {

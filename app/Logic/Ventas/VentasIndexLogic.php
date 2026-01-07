@@ -22,6 +22,7 @@ class VentasIndexLogic extends IndexLogic
     {
         return [
             'id' => __('#'),
+            'created_at' => 'Fecha',
             'nombre_venta' => 'Nombre',
             'folio' => 'folio',
             'cliente.nombre' => 'Cliente',

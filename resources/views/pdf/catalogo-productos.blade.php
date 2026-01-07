@@ -13,6 +13,8 @@
             width: 100%;
         }
 
+        .image {}
+
     </style>
 </head>
 
@@ -23,25 +25,50 @@
     <table>
         <thead>
             <tr>
-                <th>Codigo</th>
-                <th>Folio</th>
+                @if ($print_image)
+                <th>Foto</th>
+                @endif
+                @if ($print_barcode)
+                <th>Código</th>
+                @endif
+                <th>Clave</th>
                 <th>Producto</th>
-                <th>Marca</th>
+                <th>Unidad</th>
+                <th>Precio</th>
             </tr>
         </thead>
 
         <tbody>
-            @foreach ($productos as $p)
+            @foreach ($productos as $categoria => $productos)
             <tr>
-                <td>
-                    <img class="barcode" src="data:image/png;base64,{{ $p->barcode }}" alt="Codigo">
+                <td colspan="6">
+                    {{ $categoria }}
                 </td>
-                <td>{{ $p->codigo }}</td>
-                <td>{{ $p->nombre }}</td>
-                <td>{{ $p->marca?->nombre ? $p->marca?->nombre : 'N/A' }}</td>
+            </tr>
+
+            @foreach ($productos as $item)
+            <tr>
+                @if ($print_image)
+                <td>
+                    @if ($item->encodedimagen)
+                    <img class="image" src="data:image/png;base64,{{ $item->encodedimagen }}" alt="Imagen">
+                    @endif
+                </td>
+                @endif
+                @if ($print_barcode)
+                <td>
+                    <img class="barcode" src="data:image/png;base64,{{ $item->barcode }}" alt="Codigo">
+                </td>
+                @endif
+                <td>{{ $item->codigo }}</td>
+                <td>{{ $item->nombre }}</td>
+                <td>{{ $item->unidad }}</td>
+                <td>{{ $item->precio_venta }}</td>
             </tr>
             @endforeach
+            @endforeach
         </tbody>
+
 
     </table>
 

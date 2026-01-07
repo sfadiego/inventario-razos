@@ -77,16 +77,6 @@ export const useProductosPage = () => {
     },
   ];
 
-  const { refetch } = useServiceCatalogoProductosPdf();
-  const handlePrint = async () => {
-    setPdfLoading(true);
-    const { data } = await refetch();
-    if (data) {
-      setPdfLoading(false);
-      downloadBlob(data, 'catalogo.pdf');
-    }
-  };
-
   return {
     openModal,
     isOpen,
@@ -96,7 +86,6 @@ export const useProductosPage = () => {
     renderersMap,
     rowExpansion,
     isOpenNewImage,
-    handlePrint,
     closeModalNewImage: () => {
       closeModalNewImage();
       setProductId(0);

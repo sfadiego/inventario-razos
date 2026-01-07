@@ -46,6 +46,15 @@ return [
             'throw' => false,
             'report' => false,
         ],
+       
+        'backups' => [
+            'driver' => 'local',
+            'root' => storage_path('app/backups'),
+            'url' => env('APP_URL').'/storage',
+            'visibility' => 'public',
+            'throw' => false,
+            'report' => false,
+        ],
 
         's3' => [
             'driver' => 's3',
@@ -75,6 +84,7 @@ return [
 
     'links' => [
         public_path('storage') => storage_path('app/public'),
+        public_path('backups') => storage_path('app/backups'),
     ],
 
 ];

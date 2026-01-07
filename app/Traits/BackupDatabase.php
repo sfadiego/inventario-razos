@@ -3,7 +3,9 @@
 namespace App\Traits;
 
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 use Spatie\DbDumper\Databases\MySql;
+use Symfony\Component\Process\Process;
 
 trait BackupDatabase
 {
@@ -15,17 +17,30 @@ trait BackupDatabase
             mkdir($backupPath, 0755, true);
         }
 
-        $filename = $customName ? "$customName-" : 'backup-'.date('Y-m-d_H-i-s').'.sql';
+        $filename = $customName ? "$customName-" : 'backup-';
+        $filename = $filename.date('Y-m-d_H-i').'.sql';
         $fullPath = "$backupPath/$filename";
 
-        MySql::create()
-            ->setDbName(env('DB_DATABASE'))
-            ->setUserName(env('DB_USERNAME'))
-            ->setPassword(env('DB_PASSWORD'))
-            ->setHost(env('DB_HOST'))
-            ->setDumpBinaryPath('/opt/homebrew/bin')
-            ->dumpToFile($fullPath);
+        if (! config('customconfig.dump_path')) {
+            Log::info('Path del dump no configurado, omitiendo backup');
 
+            return [
+                'success' => false,
+                'fullPath' => $fullPath,
+                'filename' => $filename,
+            ];
+        }
+
+        $db = config('database.connections.mysql');
+
+        $dump = MySql::create()
+            ->setDbName($db['database'])
+            ->setUserName($db['username'])
+            ->setPassword($db['password'])
+            ->setHost($db['host'])
+            ->setDumpBinaryPath(config('customconfig.dump_path'))
+            ->dumpToFile($fullPath);
+            
         Log::info("Backup creado en: {$fullPath}");
 
         return [

@@ -2,8 +2,9 @@ import { IFilters } from '@/components/filters/modalFilter/types';
 import { rowTypes } from '@/components/tables/rowTypes';
 import Button from '@/components/ui/button/Button';
 import { StatusVentaEnum } from '@/enums/StatusVentaEnum';
+import { formatDate } from '@/helper/dates';
 import { useModal } from '@/hooks/useModal';
-import { IVenta, StatusVenta } from '@/models/venta.interface';
+import { IVenta } from '@/models/venta.interface';
 import { useServiceShowVenta } from '@/Services/ventas/useServiceVenta';
 import { useSelectedItemStore } from '@/store/useSelectedItemStore';
 import { ArrowRight, Eye, Printer } from 'lucide-react';
@@ -15,7 +16,7 @@ export interface IFiltroVenta {
   folio: string;
   cliente_id: number;
   tipo_compra: string;
-  status_venta: StatusVenta;
+  status_venta: StatusVentaEnum;
   created_at: string;
 }
 export const useVentasPage = () => {
@@ -50,6 +51,9 @@ export const useVentasPage = () => {
   const renderersMap = {
     rowClassName: ({ status_venta }: IVenta): rowTypes | '' => {
       return status_venta == StatusVentaEnum.FINALIZADA ? 'redRow' : '';
+    },
+    created_at: ({ created_at }: IVenta) => {
+      return formatDate(created_at, 'letters', ' ');
     },
     actions: ({ id, status_venta }: IVenta) => (
       <>

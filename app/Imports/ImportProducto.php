@@ -47,7 +47,7 @@ class ImportProducto implements ToModel, WithCalculatedFormulas, WithEvents, Wit
     {
         $this->existingProducts = Producto::query()
             ->pluck('nombre')
-            ->map(fn ($n) => mb_strtolower(trim($n)))
+            ->map(fn($n) => mb_strtolower(trim($n)))
             ->toArray();
     }
 
@@ -57,7 +57,7 @@ class ImportProducto implements ToModel, WithCalculatedFormulas, WithEvents, Wit
             Log::info('Categoria invalida', ['categoria' => $this->categoria]);
             $this->importInfo[] = [
                 'status' => 'skiped',
-                'message' => 'La categoria '.$this->categoria.' no es valida',
+                'message' => 'La categoria ' . $this->categoria . ' no es valida',
             ];
 
             return null;
@@ -98,7 +98,13 @@ class ImportProducto implements ToModel, WithCalculatedFormulas, WithEvents, Wit
         $key = mb_strtolower($nombre);
         if (in_array($key, $this->existingProducts, true)) {
             $this->duplicates[] = ['nombre' => $nombre];
-
+            Producto::where('nombre', $nombre)
+                ->update([
+                    'subcategoria_id' => $subcategoriaId,
+                    'marca_id' => $marca_id,
+                    'categoria_id' => $categoria_id,
+                    'updated_at' => now(),
+                ]);
             return null;
         }
 

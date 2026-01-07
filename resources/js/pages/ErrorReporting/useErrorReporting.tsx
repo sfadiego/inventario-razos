@@ -12,7 +12,7 @@ export interface IFiltroErrorReporting {
 
 export const useErrorReporting = () => {
   const renderersMap = {
-    created_at: (item: IErrorReporting) => formatDate(item.created_at),
+    created_at: (item: IErrorReporting) => formatDate(item.created_at, 'dateTime', ' '),
   };
   const rowExpansion = {
     content: ({ record }: { record: IErrorReporting }) => <ExpansionErrorReportingDetail record={record} />,

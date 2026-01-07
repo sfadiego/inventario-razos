@@ -225,3 +225,18 @@ reporte movimientos
 - agregar busqueda por qr en filtro con lector de codigos
 
 - borrar filtros en busqueda datatable
+
+
+-------------
+
+TODO:
+
+- [X] Generar reporte de productos por categoria (luces/refacciones)
+    [X] modal
+    [X] endpoint
+    [X] formato
+
+- [ ] Ajustar formato de reporte por categorias
+- [ ] arreglar busqueda por codigo en selects y tabla
+- [ ] arreglar dump de base de datos
+

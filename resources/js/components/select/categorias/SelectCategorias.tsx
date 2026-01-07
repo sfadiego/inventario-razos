@@ -2,9 +2,12 @@ import InputSelect from '@/components/form/select/InputSelect';
 import { useServiceIndexCategorias } from '@/Services/categorias/useServiceCategorias';
 import { FormikProps } from 'formik';
 import { useSelectService } from '../useSelectService';
+import { IOptions } from '@/components/form/select/interfaces/IOptions';
+import { MultiValue, SingleValue } from 'react-select';
 
 interface ISelectCategoriasProps {
   formik: FormikProps<any>;
+  onChange?: (option: SingleValue<IOptions> | MultiValue<IOptions>) => void;
 }
 export const SelectCategorias = (props: ISelectCategoriasProps) => {
   const { formik } = props;
