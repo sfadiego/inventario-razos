@@ -1,5 +1,9 @@
+import { IImagenProducto } from '@/models/imagenProducto.interface';
+
 export interface IDashboardMasVendidos {
   producto: string;
+  subcategoria: string;
+  image?: IImagenProducto;
   cantidad: number;
 }
 

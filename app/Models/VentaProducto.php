@@ -59,7 +59,7 @@ class VentaProducto extends Model
 
         $ventaTotal = self::where('venta_id', $data['venta_id'])
             ->get()
-            ->sum(fn ($item) => $item->cantidad * $item->precio);
+            ->sum(fn($item) => $item->cantidad * $item->precio);
 
         Venta::where('id', $data['venta_id'])->update(['venta_total' => $ventaTotal]);
 
@@ -99,7 +99,14 @@ class VentaProducto extends Model
             ->get()
             ->map(function ($item) {
                 return [
+                    'image' => $item->producto?->imagen ? [
+                        'id' => $item->producto->imagen->id,
+                        'archivo' => $item->producto->imagen->archivo,
+                        'path' => $item->producto->imagen->path,
+                        'external' => $item->producto->imagen->external,
+                    ] : null,
                     'producto' => $item->producto->nombre,
+                    'subcategoria' => $item->producto->subcategoria->nombre,
                     'cantidad' => number_format($item->total, 2),
                 ];
             })
@@ -123,11 +130,11 @@ class VentaProducto extends Model
                     ->orderBy('created_at', $order_date);
             })
             ->get()
-            ->groupBy(fn ($item) => $item->producto->categoria->nombre)
+            ->groupBy(fn($item) => $item->producto->categoria->nombre)
             ->map(function ($item, $categoria) {
                 return [
                     'categoria' => $categoria,
-                    'total' => $item->sum(fn ($i) => $i->cantidad * $i->precio),
+                    'total' => $item->sum(fn($i) => $i->cantidad * $i->precio),
                 ];
             })->values();
     }

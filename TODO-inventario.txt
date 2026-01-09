@@ -236,7 +236,8 @@ TODO:
     [X] endpoint
     [X] formato
 
-- [ ] Ajustar formato de reporte por categorias
+- [X] Ajustar formato de reporte por categorias
+- [X] agregar boton para borrar venta
 - [ ] arreglar busqueda por codigo en selects y tabla
 - [ ] arreglar dump de base de datos
 

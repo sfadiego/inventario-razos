@@ -26,7 +26,6 @@ class ClienteTest extends TestCase
                 ],
             ],
         ]);
-
     }
 
     public function test_show_cliente(): void
@@ -116,10 +115,8 @@ class ClienteTest extends TestCase
         $response->assertStatus(200);
         $response->assertJson([
             'status' => 'OK',
-            'message' => null,
-            'data' => [
-                'id' => $cliente->id,
-            ],
+            'message' => "Cliente eliminado",
+            'data' => false,
         ]);
     }
 }

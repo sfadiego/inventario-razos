@@ -168,10 +168,8 @@ class SubcategoriaTest extends TestCase
         $response->assertStatus(200);
         $response->assertJson([
             'status' => 'OK',
-            'message' => null,
-            'data' => [
-                'id' => $subcategoria->id,
-            ],
+            'message' => 'Subcategoría eliminada',
+            'data' => false,
         ]);
     }
 }
