@@ -138,7 +138,7 @@ class CategoriaTest extends TestCase
         $response->assertStatus(200);
         $response->assertJson([
             'status' => 'OK',
-            'message' => "Categoría eliminada",
+            'message' => 'Categoría eliminada',
             'data' => false,
         ]);
     }

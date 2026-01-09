@@ -115,7 +115,7 @@ class ClienteTest extends TestCase
         $response->assertStatus(200);
         $response->assertJson([
             'status' => 'OK',
-            'message' => "Cliente eliminado",
+            'message' => 'Cliente eliminado',
             'data' => false,
         ]);
     }

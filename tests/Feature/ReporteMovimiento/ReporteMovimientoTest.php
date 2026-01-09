@@ -176,7 +176,7 @@ class ReporteMovimientoTest extends TestCase
         $response->assertStatus(200);
         $response->assertJson([
             'status' => 'OK',
-            'message' => "Movimiento eliminado",
+            'message' => 'Movimiento eliminado',
             'data' => false,
         ]);
     }
