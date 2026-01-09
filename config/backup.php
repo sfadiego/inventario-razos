@@ -187,7 +187,7 @@ return [
         'retry_delay' => 0,
     ],
 
-    //#testing
+    // #TODO: revisar
     'database_dumpers' => [
         'mysql' => [
             'dump_binary_path' => '/usr/bin', // donde está mysqldump en tu contenedor PHP

@@ -3,14 +3,13 @@
 namespace App\Traits;
 
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Storage;
 use Spatie\DbDumper\Databases\MySql;
-use Symfony\Component\Process\Process;
 
 trait BackupDatabase
 {
     public function createDumpDatabase($customName = null)
     {
+        return false;
         $backupPath = storage_path('app/backups');
 
         if (! is_dir($backupPath)) {
@@ -33,14 +32,15 @@ trait BackupDatabase
 
         $db = config('database.connections.mysql');
 
-        $dump = MySql::create()
+        MySql::create()
             ->setDbName($db['database'])
             ->setUserName($db['username'])
             ->setPassword($db['password'])
             ->setHost($db['host'])
+            // ->addExtraOption('--ssl-mode=DISABLED')
             ->setDumpBinaryPath(config('customconfig.dump_path'))
             ->dumpToFile($fullPath);
-            
+
         Log::info("Backup creado en: {$fullPath}");
 
         return [
