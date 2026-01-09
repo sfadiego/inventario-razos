@@ -69,7 +69,7 @@ export const useVentasPage = () => {
 
   const warningDelete = () =>
     AlertSwal({
-      type: AlertTypeEnum.Error,
+      type: AlertTypeEnum.Confirm,
       title: '¿Estás seguro de eliminar esta venta?',
       text: 'No podrás revertir esta acción',
       onConfirm: (result) => {
