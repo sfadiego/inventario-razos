@@ -16,11 +16,22 @@ interface ISelectService<T extends Record<string, any>> {
   payload?: any;
   useCache?: boolean;
   debounceWait?: number;
-  concatProperty?:string
+  concatProperty?: string;
 }
 
 export const useSelectService = <T extends Record<string, any>>(props: ISelectService<T>) => {
-  const { useService, value = 'id', label = 'nombre', search, filters = [], storeKey, useCache, debounceWait = 400, payload = {}, concatProperty = null } = props;
+  const {
+    useService,
+    value = 'id',
+    label = 'nombre',
+    search,
+    filters = [],
+    storeKey,
+    useCache,
+    debounceWait = 400,
+    payload = {},
+    concatProperty = null,
+  } = props;
   const { setOptions, getOptions, hasOptions } = useSelectOptionsStore();
   const [internalSearch, setInternalSearch] = useState<string>('');
   const effectiveSearch = typeof search === 'string' ? search : internalSearch;
