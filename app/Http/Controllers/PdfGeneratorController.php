@@ -69,8 +69,8 @@ class PdfGeneratorController extends Controller
             'ventas' => $reporte,
             'reportePorCategoria' => $reportePorCategoria,
             'total' => number_format($reporte->sum('venta_total'), 2, '.', ''),
-            'fechaReporte' => now()->format('Y-m-d'),
-            'periodo' => $params?->fecha_inicio . ' al ' . $params?->fecha_fin,
+            'expedido' => now()->format('Y-m-d'),
+            'fechaReporte' => $params?->fecha_inicio,
         ])->setPaper('letter');
 
         return $pdf->download('reporte-venta.pdf');

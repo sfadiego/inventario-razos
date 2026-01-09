@@ -21,7 +21,6 @@ export const useProductosPage = () => {
   const { openModal, isOpen, closeModal } = useModal();
   const { openModal: openModalNewImage, isOpen: isOpenNewImage, closeModal: closeModalNewImage } = useModal();
   const [productId, setProductId] = useState<number>(0);
-  const [pdfLoading, setPdfLoading] = useState<boolean>(false);
   const { isLoading, data } = useServiceShowProducto(productId);
   const { setItem, clearItem } = useSelectedItemStore();
   const handleCloseModal = () => {
@@ -90,7 +89,6 @@ export const useProductosPage = () => {
       closeModalNewImage();
       setProductId(0);
     },
-    productId,
-    pdfLoading,
+    productId
   };
 };

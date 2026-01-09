@@ -2,25 +2,13 @@ import { formatDate } from '@/helper/dates';
 import { downloadBlob } from '@/helper/downloadBlob';
 import { useServiceReporteVentaPdf } from '@/Services/pdf/useServicePdf';
 
-import { useCallback, useEffect, useState } from 'react';
-import * as Yup from 'yup';
+import { useCallback, useState } from 'react';
 
 export const useFormReporteVenta = () => {
   const [pdfLoading, setPdfLoading] = useState<boolean>(false);
-  const [selectedFechaInicio, setSelectedFechaInicio] = useState<string>('');
-  const [selectedFechaFin, setSelectedFechaFin] = useState<string>('');
+  const [selectedDate, setSelectedDate] = useState<string>(formatDate(new Date().toString()));
 
-  const initialValues = {
-    fechaInicio: formatDate(new Date().toString()),
-    fechaFin: formatDate(new Date().toString()),
-  };
-
-  const validationSchema = Yup.object().shape({
-    fechaInicio: Yup.string().required('La fecha es obligatoria'),
-    fechaFin: Yup.string().required('La fecha es obligatoria'),
-  });
-
-  const { refetch } = useServiceReporteVentaPdf(selectedFechaInicio, selectedFechaFin);
+  const { refetch } = useServiceReporteVentaPdf(selectedDate);
 
   const download = useCallback(async () => {
     const { data } = await refetch();
@@ -30,26 +18,9 @@ export const useFormReporteVenta = () => {
     }
   }, [refetch]);
 
-  useEffect(() => {
-    if (selectedFechaFin && selectedFechaInicio) {
-      download();
-    }
-  }, [selectedFechaInicio, selectedFechaFin, download]);
-
-  const onSubmit = async (postData: any) => {
-    const { fechaInicio, fechaFin } = postData;
-    setSelectedFechaInicio(fechaInicio);
-    setSelectedFechaFin(fechaFin);
-  };
-
-  const formikProps = {
-    initialValues,
-    validationSchema,
-    onSubmit,
-  };
-
   return {
-    formikProps,
+    download,
     pdfLoading,
+    setSelectedDate,
   };
 };

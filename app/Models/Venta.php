@@ -112,7 +112,7 @@ class Venta extends Model
     public function scopeSearch(Builder $query, string $search): Builder
     {
         return $query->where('nombre_venta', 'like', "%$search%")
-            ->orWhere('folio', 'like', "%$search%");
+            ->orWhere('folio', $search);
     }
 
     public static function reporteVentas($fechaInicio = null, $fechaFin = null, $orderDate = 'desc'): Collection

@@ -3,7 +3,7 @@ import { DatatableWithFilter } from '@/components/tables/DatatableWithFilter';
 import Button from '@/components/ui/button/Button';
 import { useModal } from '@/hooks/useModal';
 import '@mantine/core/styles.layer.css';
-import { Loader, Printer } from 'lucide-react';
+import { Printer } from 'lucide-react';
 import 'mantine-datatable/styles.layer.css';
 import { FormAgregarImagen } from './partials/AgregarImagen/FormAgregarImagen';
 import { FiltrosProductos } from './partials/FiltrosProductos';
@@ -23,7 +23,6 @@ export default function ProductosPage() {
     rowExpansion,
     isOpenNewImage,
     closeModalNewImage,
-    pdfLoading,
   } = useProductosPage();
 
   const { isOpen: isOpenFormato, openModal: openModalFormato, closeModal: closeModalFormato } = useModal();
@@ -31,8 +30,8 @@ export default function ProductosPage() {
     <>
       <PageWrapper pageTitle="Productos">
         <div className="flex justify-end">
-          <Button variant={'outline'} className="mb-2" disabled={pdfLoading} onClick={openModalFormato}>
-            <Printer /> {pdfLoading ? <Loader /> : 'Generar Reporte'}
+          <Button variant={'outline'} className="mb-2" onClick={openModalFormato}>
+            <Printer /> Generar Reporte
           </Button>
         </div>
         <DatatableWithFilter
