@@ -30,7 +30,7 @@ class ErrorReporting
             ]);
         }
 
-        if ($response->getStatusCode() >= 400) {
+        if ($response->getStatusCode() > 400) {
             ModelsErrorReporting::create([
                 'endpoint' => $request->path(),
                 'method' => $request->method(),
