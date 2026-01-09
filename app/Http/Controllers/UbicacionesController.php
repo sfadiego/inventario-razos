@@ -38,6 +38,8 @@ class UbicacionesController extends Controller
 
     public function delete(Ubicacion $ubicacion): JsonResponse
     {
-        return Response::success($ubicacion->delete());
+        $ubicacion->delete();
+
+        return Response::success('', 'Ubicación eliminada');
     }
 }

@@ -68,5 +68,8 @@ php artisan migrate --force --seed || true
 php artisan cache:clear || true
 php artisan view:clear || true
 
+# crea storage 
+php artisan storage:link || true
+
 # Ejecutar el comando que se pase al contenedor (por defecto php-fpm)
 exec "$@"

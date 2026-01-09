@@ -99,7 +99,14 @@ class VentaProducto extends Model
             ->get()
             ->map(function ($item) {
                 return [
+                    'image' => $item->producto?->imagen ? [
+                        'id' => $item->producto->imagen->id,
+                        'archivo' => $item->producto->imagen->archivo,
+                        'path' => $item->producto->imagen->path,
+                        'external' => $item->producto->imagen->external,
+                    ] : null,
                     'producto' => $item->producto->nombre,
+                    'subcategoria' => $item->producto->subcategoria->nombre,
                     'cantidad' => number_format($item->total, 2),
                 ];
             })

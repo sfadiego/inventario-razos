@@ -43,6 +43,13 @@ class VentasController extends Controller
         return Response::success($venta);
     }
 
+    public function delete(Venta $venta): JsonResponse
+    {
+        $venta->delete();
+
+        return Response::success('', 'Venta eliminada');
+    }
+
     public function productoVenta(IndexData $data, ProductosByVentaLogic $logic): JsonResponse
     {
         return $logic->run($data);

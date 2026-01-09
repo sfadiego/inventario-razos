@@ -6,12 +6,13 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Str;
 
 class Producto extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     protected $table = 'productos';
 
@@ -25,6 +26,11 @@ class Producto extends Model
     public function categoria(): BelongsTo
     {
         return $this->belongsTo(Categoria::class);
+    }
+
+    public function subcategoria(): BelongsTo
+    {
+        return $this->belongsTo(Subcategoria::class, 'subcategoria_id');
     }
 
     public function ubicacion(): BelongsTo

@@ -98,6 +98,13 @@ class ImportProducto implements ToModel, WithCalculatedFormulas, WithEvents, Wit
         $key = mb_strtolower($nombre);
         if (in_array($key, $this->existingProducts, true)) {
             $this->duplicates[] = ['nombre' => $nombre];
+            Producto::where('nombre', $nombre)
+                ->update([
+                    'subcategoria_id' => $subcategoriaId,
+                    'marca_id' => $marca_id,
+                    'categoria_id' => $categoria_id,
+                    'updated_at' => now(),
+                ]);
 
             return null;
         }

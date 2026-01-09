@@ -43,6 +43,7 @@ return new class extends Migration
                     ->constrained('marcas')
                     ->onDelete('cascade');
                 $table->timestamps();
+                $table->softDeletes();
             });
         }
     }

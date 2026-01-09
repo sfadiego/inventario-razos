@@ -21,6 +21,7 @@ return new class extends Migration
             $table->enum('status_venta', ['activa', 'finalizada'])
                 ->default('activa');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

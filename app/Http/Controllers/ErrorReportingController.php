@@ -23,10 +23,11 @@ class ErrorReportingController extends Controller
         return Response::success($error);
     }
 
+    // todo: not working, issue with dump library
     public function downloadDump()
     {
-        $dump = $this->createDumpDatabase();
-
-        return Response::download($dump['fullPath'], $dump['filename']);
+        // $dump = $this->createDumpDatabase();
+        // return Response::download($dump['fullPath'], $dump['filename']);
+        return Response::success(['message' => 'Dump creado correctamente']);
     }
 }

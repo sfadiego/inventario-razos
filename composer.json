@@ -18,6 +18,7 @@
         "maatwebsite/excel": "^3.1.60",
         "picqer/php-barcode-generator": "^3.2",
         "spatie/db-dumper": "^3.8",
+        "spatie/laravel-backup": "^9.3",
         "tightenco/ziggy": "^2.4"
     },
     "require-dev": {

@@ -12,20 +12,19 @@
 <body>
 
     <h1>Reporte de ventas</h1>
+    <h3>Generado el: {{ $expedido }}</h3>
     <table>
         <thead>
             <tr>
                 <th>Total de ventas</th>
-                <th>Periodo</th>
-                <th>Fecha reporte</th>
+                <th>Reporte</th>
             </tr>
         </thead>
 
         <tbody>
             <tr>
-                <td>{{ "$ $total" }}</td>
-                <td>{{ $periodo }}</td>
-                <td>{{ $fechaReporte }}</td>
+                <td width="80%">{{ "$ $total" }}</td>
+                <td width="20%">{{ $fechaReporte }}</td>
             </tr>
         </tbody>
     </table>
@@ -44,6 +43,11 @@
                 <td>{{ "$ " . number_format($item['total'], 2, '.', '') }}</td>
             </tr>
             @endforeach
+            @if(count($reportePorCategoria) === 0)
+            <tr>
+                <td colspan="2">No hay ventas registradas en el período seleccionado</td>
+            </tr>
+            @endif
         </tbody>
     </table>
 
@@ -66,6 +70,11 @@
                 <td>{{ $venta->created_at->format('Y-m-d') }}</td>
             </tr>
             @endforeach
+            @if(count($ventas) === 0)
+            <tr>
+                <td colspan="4">No hay ventas registradas en el período seleccionado</td>
+            </tr>
+            @endif
         </tbody>
 
     </table>

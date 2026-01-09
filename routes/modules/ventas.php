@@ -17,6 +17,7 @@ Route::controller(VentasController::class)
             ->group(function () {
                 Route::put('', 'update');
                 Route::get('', 'show');
+                Route::delete('', 'delete');
                 Route::put('finalizar-venta', 'finalizarVenta');
                 Route::get('count-productos', 'countProductos');
             });

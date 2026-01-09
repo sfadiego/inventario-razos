@@ -43,6 +43,8 @@ class SubcategoriasController extends Controller
 
     public function delete(Subcategoria $subcategoria): JsonResponse
     {
-        return Response::success($subcategoria->delete());
+        $subcategoria->delete();
+
+        return Response::success('', 'Subcategoría eliminada');
     }
 }

@@ -2,6 +2,7 @@ FROM php:8.4-fpm AS php
 # Extensiones básicas
 RUN apt-get update && apt-get install -y \
     default-mysql-client \
+    mariadb-client \
     libzip-dev \
     libonig-dev \
     unzip \

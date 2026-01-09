@@ -47,7 +47,7 @@ class ProductosController extends Controller
 
     public function show(Producto $producto): JsonResponse
     {
-        $producto->load(['proveedor', 'ubicacion', 'categoria.subcategorias', 'imagen']);
+        $producto->load(['proveedor', 'ubicacion', 'categoria', 'subcategoria', 'imagen']);
 
         return Response::success($producto);
     }
@@ -69,9 +69,7 @@ class ProductosController extends Controller
             return Response::error('Producto no encontrado');
         }
 
-        $producto->update([
-            'activo' => false,
-        ]);
+        $producto->delete();
 
         return Response::success('', 'Producto eliminado correctamente');
     }

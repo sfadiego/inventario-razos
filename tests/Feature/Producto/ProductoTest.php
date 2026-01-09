@@ -393,9 +393,8 @@ class ProductoTest extends TestCase
             'data' => false,
         ]);
 
-        $this->assertDatabaseHas('productos', [
+        $this->assertSoftDeleted('productos', [
             'id' => $producto->id,
-            'activo' => false,
         ]);
     }
 }

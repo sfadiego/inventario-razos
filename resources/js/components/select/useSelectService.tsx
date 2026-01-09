@@ -16,10 +16,22 @@ interface ISelectService<T extends Record<string, any>> {
   payload?: any;
   useCache?: boolean;
   debounceWait?: number;
+  concatProperty?: string;
 }
 
 export const useSelectService = <T extends Record<string, any>>(props: ISelectService<T>) => {
-  const { useService, value = 'id', label = 'nombre', search, filters = [], storeKey, useCache, debounceWait = 400, payload = {} } = props;
+  const {
+    useService,
+    value = 'id',
+    label = 'nombre',
+    search,
+    filters = [],
+    storeKey,
+    useCache,
+    debounceWait = 400,
+    payload = {},
+    concatProperty = null,
+  } = props;
   const { setOptions, getOptions, hasOptions } = useSelectOptionsStore();
   const [internalSearch, setInternalSearch] = useState<string>('');
   const effectiveSearch = typeof search === 'string' ? search : internalSearch;
@@ -41,11 +53,11 @@ export const useSelectService = <T extends Record<string, any>>(props: ISelectSe
     if (!isLoading && data) {
       return data.data.map((item) => ({
         value: item[value],
-        label: item[label],
+        label: (concatProperty ? `${item[concatProperty]} | ` : '') + item[label],
       }));
     }
     return null;
-  }, [data, isLoading, value, label]);
+  }, [data, isLoading, value, label, concatProperty]);
 
   //TODO: revisar bug de select al precargar elementos despues de una busqueda
   useEffect(() => {

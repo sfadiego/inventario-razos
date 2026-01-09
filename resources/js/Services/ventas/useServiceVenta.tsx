@@ -1,4 +1,4 @@
-import { useGET, usePOST, usePUT } from '@/hooks/useApi';
+import { useDELETE, useGET, usePOST, usePUT } from '@/hooks/useApi';
 import { IPaginate } from '@/interfaces/IPaginate';
 import { IPaginateServiceProps } from '@/interfaces/IPaginateServiceProps';
 import { IVenta } from '@/models/venta.interface';
@@ -23,5 +23,6 @@ export const useServiceStoreVenta = () => usePOST({ url });
 export const useServiceShowVenta = (id?: number) => useGET<IVenta>({ url: `${url}/${id}`, enable: !!id });
 export const useServiceUpdateVenta = (id?: number) => usePUT({ url: `${url}/${id}` });
 export const useServiceFinalizarVenta = (id?: number) => usePUT({ url: `${url}/${id}/finalizar-venta` });
+export const useServiceDeleteVenta = (id?: number) => useDELETE({ url: `${url}/${id}` });
 
 export const useServiceCountVentaProducto = (id?: number) => useGET<ICountVentaProducto>({ url: `${url}/${id}/count-productos`, enable: !!id });

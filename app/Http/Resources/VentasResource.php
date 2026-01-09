@@ -17,6 +17,7 @@ class VentasResource extends JsonResource
         return [
             'id' => $this->id,
             'venta_total' => $this->venta_total,
+            'created_at' => $this->created_at,
             'nombre_venta' => $this->nombre_venta,
             'folio' => strtoupper($this->folio),
             'cliente_id' => $this->cliente_id,

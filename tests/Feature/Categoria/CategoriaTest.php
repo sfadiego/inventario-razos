@@ -81,7 +81,6 @@ class CategoriaTest extends TestCase
                 'activa' => $payload['activa'],
             ],
         ]);
-
     }
 
     public function test_show_categoria(): void
@@ -139,10 +138,8 @@ class CategoriaTest extends TestCase
         $response->assertStatus(200);
         $response->assertJson([
             'status' => 'OK',
-            'message' => null,
-            'data' => [
-                'id' => $categoria->id,
-            ],
+            'message' => 'Categoría eliminada',
+            'data' => false,
         ]);
     }
 }

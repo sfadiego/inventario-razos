@@ -8,7 +8,7 @@ import { useDatePicker } from './useDatepicker';
 
 interface DatePickerProps {
   name: Extract<keyof T, string>;
-  formik: FormikProps<any>;
+  formik?: FormikProps<any>;
   label?: string;
   disabled?: boolean;
   mode?: 'single' | 'range';
@@ -16,6 +16,7 @@ interface DatePickerProps {
   initialDate?: string;
   className?: string;
   allowEmpty?: boolean;
+  onChange?: (date: any) => void;
 }
 
 export default function DatePicker(props: DatePickerProps) {
@@ -29,6 +30,7 @@ export default function DatePicker(props: DatePickerProps) {
     initialEndDate,
     className = '',
     allowEmpty = false,
+    onChange,
   } = props;
 
   const { handleSetDate, handleChange } = useDatePicker();
@@ -70,18 +72,24 @@ export default function DatePicker(props: DatePickerProps) {
         onChange={(newDateInputValue: Array<any>) => {
           if (newDateInputValue.length === 0 && allowEmpty) {
             setDate(isRangeMode ? [] : null);
-            formik.setFieldValue(name, null);
+            onChange?.(null);
+            formik?.setFieldValue(name, null);
             if (isRangeMode) {
-              formik.setFieldValue(`${name}_end`, null);
+              formik?.setFieldValue(`${name}_end`, null);
             }
             return;
           }
 
           const newDate = handleChange(newDateInputValue, date);
-          setDate(handleSetDate(formik, name, newDate, isRangeMode));
+          if (formik) {
+            setDate(handleSetDate(formik, name, newDate, isRangeMode));
+          } else {
+            setDate(newDate);
+          }
+          onChange?.(newDate);
         }}
       />
-      {formik.submitCount ? formik.errors[name] ? <span className={`text-error-500 mt-1.5`}>{String(formik.errors[name])}</span> : '' : ''}
+      {formik?.submitCount ? formik.errors[name] ? <span className={`text-error-500 mt-1.5`}>{String(formik.errors[name])}</span> : '' : ''}
     </div>
   );
 }
