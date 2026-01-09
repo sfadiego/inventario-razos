@@ -46,7 +46,7 @@ return [
             'throw' => false,
             'report' => false,
         ],
-       
+
         'backups' => [
             'driver' => 'local',
             'root' => storage_path('app/backups'),

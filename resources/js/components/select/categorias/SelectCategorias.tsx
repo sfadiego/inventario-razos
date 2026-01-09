@@ -1,9 +1,9 @@
 import InputSelect from '@/components/form/select/InputSelect';
+import { IOptions } from '@/components/form/select/interfaces/IOptions';
 import { useServiceIndexCategorias } from '@/Services/categorias/useServiceCategorias';
 import { FormikProps } from 'formik';
-import { useSelectService } from '../useSelectService';
-import { IOptions } from '@/components/form/select/interfaces/IOptions';
 import { MultiValue, SingleValue } from 'react-select';
+import { useSelectService } from '../useSelectService';
 
 interface ISelectCategoriasProps {
   formik: FormikProps<any>;

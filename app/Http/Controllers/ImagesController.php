@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Core\Enums\Http;
-use App\Models\ImagenProducto;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Storage;
 

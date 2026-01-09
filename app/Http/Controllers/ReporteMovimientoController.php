@@ -60,6 +60,7 @@ class ReporteMovimientoController extends Controller
     public function delete(ReporteMovimiento $reporteMovimiento): JsonResponse
     {
         $reporteMovimiento->delete();
+
         return Response::success('', 'Movimiento eliminado');
     }
 }

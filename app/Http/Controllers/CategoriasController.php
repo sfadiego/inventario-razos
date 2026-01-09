@@ -39,6 +39,7 @@ class CategoriasController extends Controller
     public function delete(Categoria $categoria): JsonResponse
     {
         $categoria->delete();
-        return Response::success("", "Categoría eliminada");
+
+        return Response::success('', 'Categoría eliminada');
     }
 }

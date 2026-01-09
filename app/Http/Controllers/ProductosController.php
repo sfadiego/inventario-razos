@@ -70,6 +70,7 @@ class ProductosController extends Controller
         }
 
         $producto->delete();
+
         return Response::success('', 'Producto eliminado correctamente');
     }
 }

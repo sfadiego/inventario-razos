@@ -23,10 +23,10 @@ export const FiltrosVenta = ({ formik }: IFiltrosVentaProps) => {
       <div className="col-span-12">
         <DatePicker name="created_at" formik={formik} label="Fecha de venta" />
       </div>
-      <div className="col-span-12 md:col-span-6 mt-2">
+      <div className="col-span-12 mt-2 md:col-span-6">
         <SelectTipoVenta formik={formik} />
       </div>
-      <div className="col-span-12 md:col-span-6 mt-2">
+      <div className="col-span-12 mt-2 md:col-span-6">
         <SelectStatusVenta formik={formik} />
       </div>
       <div className="col-span-12 mt-2">

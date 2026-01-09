@@ -52,6 +52,7 @@ class UserController extends Controller
     public function delete(User $user): JsonResponse
     {
         $user->delete();
+
         return Response::success('', 'Usuario eliminado');
     }
 }

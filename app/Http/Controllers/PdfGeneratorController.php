@@ -28,7 +28,7 @@ class PdfGeneratorController extends Controller
                 'imagen',
                 'marca:id,nombre',
                 'categoria:id,nombre',
-                'subcategoria:id,nombre'
+                'subcategoria:id,nombre',
             ])
             ->where('categoria_id', $param->categoria_id)
             ->orderBy('subcategoria_id', 'asc')
@@ -45,6 +45,7 @@ class PdfGeneratorController extends Controller
                 }
 
                 $item->encodedimagen = $item->imagen ? $image : null;
+
                 return $item;
             });
 

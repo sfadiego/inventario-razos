@@ -46,6 +46,7 @@ class VentasController extends Controller
     public function delete(Venta $venta): JsonResponse
     {
         $venta->delete();
+
         return Response::success('', 'Venta eliminada');
     }
 

@@ -47,6 +47,7 @@ class ProveedoresController extends Controller
     public function delete(Proveedor $proveedor): JsonResponse
     {
         $proveedor->delete();
+
         return Response::success('', 'Proveedor eliminado');
     }
 }

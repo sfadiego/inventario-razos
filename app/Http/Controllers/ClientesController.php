@@ -39,6 +39,7 @@ class ClientesController extends Controller
     public function delete(Cliente $cliente): JsonResponse
     {
         $cliente->delete();
-        return Response::success("", "Cliente eliminado");
+
+        return Response::success('', 'Cliente eliminado');
     }
 }

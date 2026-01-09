@@ -2,10 +2,8 @@ import { IFilters } from '@/components/filters/modalFilter/types';
 import { ExpansionProductoDetail } from '@/components/productos/ExpansionProductoDetail';
 import { rowTypes } from '@/components/tables/rowTypes';
 import Button from '@/components/ui/button/Button';
-import { downloadBlob } from '@/helper/downloadBlob';
 import { useModal } from '@/hooks/useModal';
 import { IProducto } from '@/models/producto.interface';
-import { useServiceCatalogoProductosPdf } from '@/Services/pdf/useServicePdf';
 import { useServiceIndexProductos, useServiceShowProducto } from '@/Services/productos/useServiceProductos';
 import { useSelectedItemStore } from '@/store/useSelectedItemStore';
 import { Camera, Edit } from 'lucide-react';
@@ -89,6 +87,6 @@ export const useProductosPage = () => {
       closeModalNewImage();
       setProductId(0);
     },
-    productId
+    productId,
   };
 };
