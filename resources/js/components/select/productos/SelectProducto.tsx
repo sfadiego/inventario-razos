@@ -13,6 +13,7 @@ export const SelectProducto = (props: ISelectProductoProps) => {
   const { options, handleInputChange } = useSelectService({
     useService: useServiceIndexProductos,
     storeKey: `producto-${formik.values.producto_id || 0}`,
+    concatProperty: 'codigo',
   });
   return (
     <InputSelect<any>
