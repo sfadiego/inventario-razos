@@ -69,10 +69,7 @@ class ProductosController extends Controller
             return Response::error('Producto no encontrado');
         }
 
-        $producto->update([
-            'activo' => false,
-        ]);
-
+        $producto->delete();
         return Response::success('', 'Producto eliminado correctamente');
     }
 }

@@ -38,6 +38,7 @@ class TipoMovimientoController extends Controller
 
     public function delete(TipoMovimiento $tipoMovimiento): JsonResponse
     {
-        return Response::success($tipoMovimiento->delete());
+        $tipoMovimiento->delete();
+        return Response::success('', 'Tipo de movimiento eliminado');
     }
 }
