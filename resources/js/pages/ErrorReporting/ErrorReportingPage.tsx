@@ -11,7 +11,7 @@ export default function ErrorReportingPage() {
   return (
     <PageWrapper pageTitle="Reporte de errores">
       <div className="flex justify-end">
-        <Button variant={'outline'} className="mb-2" onClick={handleReport} disabled={pdfLoading}>
+        <Button variant={'outline'} className="mb-2" onClick={handleReport} disabled={true}>
           <Download /> {pdfLoading ? <Loader /> : 'Descargar Backup'}
         </Button>
       </div>
