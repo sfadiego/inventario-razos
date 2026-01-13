@@ -26,3 +26,6 @@ yarn-error.log
 .pnpm-store/
 inventario
 sqlite
+
+
+!/public/template/products.xlsx

@@ -53,8 +53,8 @@ class Producto extends Model
         $iniciales = collect(explode(' ', $nombre))
             ->map(function ($p) {
                 $soloLetras = preg_replace('/[^A-Za-zÁÉÍÓÚÑáéíóúñ]/u', '', $p);
-
-                return $soloLetras !== '' ? Str::substr($soloLetras, 0, 1) : '';
+                $sinAcentos = Str::ascii($soloLetras);// elimina acentos
+                return $soloLetras !== '' ? Str::substr($sinAcentos, 0, 1) : '';
             })
             ->implode('');
         $iniciales = Str::substr($iniciales, 0, 10);
