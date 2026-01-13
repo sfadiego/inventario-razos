@@ -28,4 +28,5 @@ inventario
 sqlite
 
 
+/public/template/*
 !/public/template/products.xlsx
