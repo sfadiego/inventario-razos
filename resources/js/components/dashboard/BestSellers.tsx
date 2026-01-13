@@ -44,15 +44,13 @@ export default function BestSellers() {
           </TableHeader>
 
           <TableBody className="divide-y divide-gray-100 dark:divide-gray-800">
-            {
-              !isLoading && data?.length == 0 && (
-                <TableRow>
-                  <TableCell className="py-3">
-                    <p className="text-theme-sm font-medium text-gray-800 dark:text-white/90">No hay datos</p>
-                  </TableCell>
-                </TableRow>
-              )
-            }
+            {!isLoading && data?.length == 0 && (
+              <TableRow>
+                <TableCell className="py-3">
+                  <p className="text-theme-sm font-medium text-gray-800 dark:text-white/90">No hay datos</p>
+                </TableCell>
+              </TableRow>
+            )}
             {!isLoading &&
               data &&
               data.map((product, key) => (
