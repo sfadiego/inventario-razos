@@ -44,7 +44,13 @@ class VentaProducto extends Model
 
     public static function createVentaProducto(array $data): VentaProducto
     {
+        $agregado = VentaProducto::where('venta_id', $data['venta_id'])->where('producto_id', $data['producto_id'])->first();
+        if ($agregado) {
+            throw new \Exception('El producto ya fue agregado a la venta.');
+        }
+
         $cantidadRequerida = self::validateVentaProducto($data);
+
         if (! $cantidadRequerida) {
             throw new \Exception('No hay suficiente stock del producto seleccionado.');
         }
