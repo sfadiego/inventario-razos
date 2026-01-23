@@ -86,13 +86,18 @@ class VentaProducto extends Model
             ->values();
     }
 
-    public static function masVendidos(int $limit = 10): Collection
+    public static function masVendidos(int $limit = 10, ?int $categoriaId = null): Collection
     {
         return self::selectRaw('producto_id, SUM(cantidad) as total')
             ->whereHas('venta', function ($q) {
                 $q->where('status_venta', StatusVentaEnum::Finalizada);
             })
             ->with('producto')
+            ->when($categoriaId, function ($q) use ($categoriaId) {
+                $q->whereHas('producto', function ($q) use ($categoriaId) {
+                    $q->where('categoria_id', $categoriaId);
+                });
+            })
             ->groupBy('producto_id')
             ->orderBy('total', 'desc')
             ->take($limit)
@@ -106,6 +111,7 @@ class VentaProducto extends Model
                         'external' => $item->producto->imagen->external,
                     ] : null,
                     'producto' => $item->producto->nombre,
+                    'categoria' => $item->producto->categoria->nombre,
                     'subcategoria' => $item->producto->subcategoria->nombre,
                     'cantidad' => number_format($item->total, 2),
                 ];

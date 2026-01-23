@@ -3,12 +3,12 @@ import { IDashboardMasVendidos, IDashboardMenosVendidos, IDashboardTotalVentas, 
 import { ApiRoutes } from '@/router/modules/admin.routes';
 
 const url = ApiRoutes.Dashboard;
-export const useServiceDashboardMasVendidos = () => {
-  return useGET<IDashboardMasVendidos[]>({ url: `${url}/mas-vendidos` });
+export const useServiceDashboardMasVendidos = (categoriaId?: number) => {
+  return useGET<IDashboardMasVendidos[]>({ url: `${url}/mas-vendidos?${categoriaId ? `categoria_id=${categoriaId}` : ''}` });
 };
 
-export const useServiceDashboardMenosVendidos = () => {
-  return useGET<IDashboardMenosVendidos[]>({ url: `${url}/menos-vendidos` });
+export const useServiceDashboardMenosVendidos = (categoriaId?: number) => {
+  return useGET<IDashboardMenosVendidos[]>({ url: `${url}/menos-vendidos?${categoriaId ? `categoria_id=${categoriaId}` : ''}` });
 };
 
 export const useServiceDashboardVentas = () => {
