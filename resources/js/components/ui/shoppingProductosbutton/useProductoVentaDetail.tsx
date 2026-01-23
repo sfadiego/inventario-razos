@@ -71,6 +71,8 @@ export const useProductoVentaDetail = ({ closeModal }: { closeModal: () => void 
   };
   const renderersMap = useMemo(
     () => ({
+      'producto.nombre': ({ producto }: IVentaProducto) =>
+        `${producto?.nombre && producto.nombre.length > 20 ? producto.nombre.substring(0, 40) + '...' : producto?.nombre}`,
       actions: ({ id }: IVentaProducto) =>
         !ventaFinalizada ? (
           <Button

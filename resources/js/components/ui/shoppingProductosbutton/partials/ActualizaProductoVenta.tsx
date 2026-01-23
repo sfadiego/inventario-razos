@@ -27,17 +27,15 @@ export const ActualizaProductoVenta = (props: ActualizaProductoVentaProps) => {
                   <Alert variant="error" title="Error" message={onErrorMessage} />
                 </div>
               )}
+              <p className="col-span-12 whitespace-pre-wrap font-semibold">{nombreProducto}</p>
               <div className="col-span-12 lg:col-span-12">
-                <h2 className="text-xl font-semibold text-gray-800 dark:text-white/90" x-text="pageName">
-                  {nombreProducto}
-                </h2>
                 <Input<IVentaProducto> label={`Producto`} name="producto_id" formik={formik} type={InputTypeEnum.Hidden} />
                 <Input<IVentaProducto> label={`Venta`} name="venta_id" formik={formik} type={InputTypeEnum.Hidden} />
               </div>
-              <div className="col-span-6 lg:col-span-6">
+              <div className="col-span-12">
                 <Input<IVentaProducto> label={`Precio`} name="precio" formik={formik} type={InputTypeEnum.Text} />
               </div>
-              <div className="col-span-6 lg:col-span-6">
+              <div className="col-span-12">
                 <Input<IVentaProducto> label={`Cantidad`} name="cantidad" formik={formik} type={InputTypeEnum.Text} />
               </div>
               <Button size="md" type={ButtonTypeEnum.Submit} disabled={isPending || formik.isSubmitting} className="col-span-12 md:col-span-6">

@@ -44,7 +44,13 @@ class VentaProducto extends Model
 
     public static function createVentaProducto(array $data): VentaProducto
     {
+        $agregado = VentaProducto::where('venta_id', $data['venta_id'])->where('producto_id', $data['producto_id'])->first();
+        if ($agregado) {
+            throw new \Exception('El producto ya fue agregado a la venta.');
+        }
+
         $cantidadRequerida = self::validateVentaProducto($data);
+
         if (! $cantidadRequerida) {
             throw new \Exception('No hay suficiente stock del producto seleccionado.');
         }
@@ -59,7 +65,7 @@ class VentaProducto extends Model
 
         $ventaTotal = self::where('venta_id', $data['venta_id'])
             ->get()
-            ->sum(fn ($item) => $item->cantidad * $item->precio);
+            ->sum(fn($item) => $item->cantidad * $item->precio);
 
         Venta::where('id', $data['venta_id'])->update(['venta_total' => $ventaTotal]);
 
@@ -136,11 +142,11 @@ class VentaProducto extends Model
                     ->orderBy('created_at', $order_date);
             })
             ->get()
-            ->groupBy(fn ($item) => $item->producto->categoria->nombre)
+            ->groupBy(fn($item) => $item->producto->categoria->nombre)
             ->map(function ($item, $categoria) {
                 return [
                     'categoria' => $categoria,
-                    'total' => $item->sum(fn ($i) => $i->cantidad * $i->precio),
+                    'total' => $item->sum(fn($i) => $i->cantidad * $i->precio),
                 ];
             })->values();
     }
