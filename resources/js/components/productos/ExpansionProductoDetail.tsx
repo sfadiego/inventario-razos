@@ -13,7 +13,7 @@ export const ExpansionProductoDetail = ({ record }: ExpansionProductoDetailProps
   const { image, barcode, downloadBarcode } = useExpansionProductoDetail({ imagen: imagen ?? null, productoId: id || 0 });
   return (
     <div className="grid grid-cols-12 px-8 pt-2">
-      <div className="col-span-12 mb-2 sm:col-span-8">
+      <div className="col-span-12 sm:col-span-6">
         <h3 className="mb-1 text-lg font-bold">{nombre}</h3>
         <p className="mb-2">
           <span className="font-bold">Compatibilidad:</span> {compatibilidad || ' -- '}
@@ -37,7 +37,7 @@ export const ExpansionProductoDetail = ({ record }: ExpansionProductoDetailProps
         )}
       </div>
       {image && (
-        <div className="col-span-12 mb-2 sm:col-span-4 my-2">
+        <div className="col-span-12 mb-2 sm:col-span-6">
           <Image image={image} />
         </div>
       )}
