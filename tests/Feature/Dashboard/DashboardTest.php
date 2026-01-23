@@ -43,7 +43,7 @@ class DashboardTest extends TestCase
 
         $categoriaId = CategoryRepository::findByName('Luces')->id;
         $expected = VentaProducto::masVendidos(categoriaId: $categoriaId);
-        $response = $this->getJson('/api/dashboard/mas-vendidos?categoria_id=' . $categoriaId);
+        $response = $this->getJson('/api/dashboard/mas-vendidos?categoria_id='.$categoriaId);
 
         $response->assertStatus(200);
         $response->assertJsonStructure([
@@ -117,7 +117,7 @@ class DashboardTest extends TestCase
             ->get();
 
         $expected = [
-            'total' => round($ventasFinalizadas->sum(fn($venta) => $venta->ventaTotal()), 2),
+            'total' => round($ventasFinalizadas->sum(fn ($venta) => $venta->ventaTotal()), 2),
             'cantidad' => $ventasFinalizadas->count(),
         ];
 
