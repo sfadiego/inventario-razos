@@ -27,7 +27,7 @@ export const ActualizaProductoVenta = (props: ActualizaProductoVentaProps) => {
                   <Alert variant="error" title="Error" message={onErrorMessage} />
                 </div>
               )}
-              <p className="col-span-12 whitespace-pre-wrap font-semibold">{nombreProducto}</p>
+              <p className="col-span-12 font-semibold whitespace-pre-wrap">{nombreProducto}</p>
               <div className="col-span-12 lg:col-span-12">
                 <Input<IVentaProducto> label={`Producto`} name="producto_id" formik={formik} type={InputTypeEnum.Hidden} />
                 <Input<IVentaProducto> label={`Venta`} name="venta_id" formik={formik} type={InputTypeEnum.Hidden} />
