@@ -5,6 +5,7 @@ namespace Tests\Feature\Dashboard;
 use App\Enums\StatusVentaEnum;
 use App\Models\Venta;
 use App\Models\VentaProducto;
+use App\Repositories\CategoryRepository;
 use Tests\TestCase;
 
 class DashboardTest extends TestCase
@@ -32,7 +33,7 @@ class DashboardTest extends TestCase
         $this->assertEquals(round($expectedTotal, 2), round($response->json('data.total'), 2));
     }
 
-    public function test_mas_vendidos()
+    public function test_mas_vendidos_por_categoria()
     {
         $this->loginAdmin();
 
@@ -40,21 +41,22 @@ class DashboardTest extends TestCase
             'status_venta' => StatusVentaEnum::Finalizada->value,
         ]);
 
-        $expected = VentaProducto::masVendidos();
-
-        $response = $this->getJson('/api/dashboard/mas-vendidos');
+        $categoriaId = CategoryRepository::findByName('Luces')->id;
+        $expected = VentaProducto::masVendidos(categoriaId: $categoriaId);
+        $response = $this->getJson('/api/dashboard/mas-vendidos?categoria_id='.$categoriaId);
 
         $response->assertStatus(200);
         $response->assertJsonStructure([
             'data' => [
                 '*' => [
+                    'image',
                     'producto',
+                    'categoria',
+                    'subcategoria',
                     'cantidad',
                 ],
             ],
         ]);
-
-        $this->assertCount(10, $response['data']);
 
         $this->assertEquals(
             $expected->toArray(),

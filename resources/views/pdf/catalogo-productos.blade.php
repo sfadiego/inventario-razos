@@ -13,7 +13,9 @@
             width: 100%;
         }
 
-        .image {}
+        .image {
+            width: 100%;
+        }
 
     </style>
 </head>
@@ -52,6 +54,8 @@
                 <td>
                     @if ($item->encodedimagen)
                     <img class="image" src="data:image/png;base64,{{ $item->encodedimagen }}" alt="Imagen">
+                    @else
+                     --
                     @endif
                 </td>
                 @endif
