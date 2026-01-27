@@ -1,5 +1,7 @@
 import { IProducto } from '@/models/producto.interface';
 import { unidadPluralMap } from '@/types/producto/ProductoUnidadTypes';
+import Zoom from 'react-medium-image-zoom';
+import 'react-medium-image-zoom/dist/styles.css';
 import { Link } from 'react-router';
 import { Image } from '../images/Image';
 import { useExpansionProductoDetail } from './useExpansionProductoDetail';
@@ -38,7 +40,9 @@ export const ExpansionProductoDetail = ({ record }: ExpansionProductoDetailProps
       </div>
       {image && (
         <div className="col-span-12 mb-2 sm:col-span-6">
-          <Image image={image} />
+          <Zoom>
+            <Image image={image} />
+          </Zoom>
         </div>
       )}
     </div>
