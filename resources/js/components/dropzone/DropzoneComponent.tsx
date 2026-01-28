@@ -21,8 +21,28 @@ const DropzoneComponent = ({ onSubmitFile, acceptedType = 'images', isLoading }:
             <X className="cursor-pointer" onClick={resetFile} />
           </div>
         )}
-        {acceptedType === 'images' && preview && <Image image={preview} />}
-        {acceptedType === 'documents' && file && <DropzoneFile file={file} />}
+        {acceptedType === 'images' && preview && preview?.length > 1 ? (
+          <div className="grid grid-cols-12">
+            {preview.map((image, index) => (
+              <div key={index} className="col-span-12">
+                <Image customClassName="mb-2" image={image} />
+              </div>
+            ))}
+          </div>
+        ) : (
+          preview && preview.length == 1 && <Image image={preview[0]} />
+        )}
+        {acceptedType === 'documents' && file && file.length > 1 ? (
+          <div className="grid grid-cols-12">
+            {file.map((file, index) => (
+              <div key={index} className="col-span-12">
+                <DropzoneFile file={file} />
+              </div>
+            ))}
+          </div>
+        ) : (
+          file?.length == 1 && <DropzoneFile file={file[0]} />
+        )}
         {!file && <DropzoneEmpty getRootProps={getRootProps} getInputProps={getInputProps} isDragActive={isDragActive} />}
       </div>
       <div className="mt-2 flex justify-end">

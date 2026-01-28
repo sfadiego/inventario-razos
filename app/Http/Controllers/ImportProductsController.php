@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Import\ImportImageProductsUpdateRequest;
 use App\Http\Requests\Import\ImportProductosStoreRequest;
+use App\Imports\ImageProductImport;
 use App\Imports\ImportProducto;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Log;
@@ -23,8 +25,21 @@ class ImportProductsController extends Controller
             'importInfo' => $import->getImportInfo(),
         ];
         Log::info('Imported Productos', ['data' => $data]);
-        Log::info('Finalizando importacion - Total inserted: '.count($data['inserted']).', Total duplicates: '.count($data['duplicates']));
+        Log::info('Finalizando importacion - Total inserted: ' . count($data['inserted']) . ', Total duplicates: ' . count($data['duplicates']));
 
         return Response::success($data);
+    }
+
+    public function update(ImportImageProductsUpdateRequest $param)
+    {
+        $files = collect($param->file('file'))->count();
+        $assignedImages = [];
+        if ($files > 1) {
+            $assignedImages = ImageProductImport::handleMultipleFiles($param->file('file'));
+            return Response::success($assignedImages);
+        }
+
+        $assignedImages[] = ImageProductImport::handleSingleImageFile($param->file('file')[0]);
+        return Response::success($assignedImages);
     }
 }

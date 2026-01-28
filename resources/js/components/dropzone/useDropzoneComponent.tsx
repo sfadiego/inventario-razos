@@ -6,17 +6,19 @@ interface IDropzoneComponentProps {
 }
 
 export const useDropzoneComponent = ({ acceptedType = 'images' }: IDropzoneComponentProps) => {
-  const [preview, setPreview] = useState<string | null>(null);
-  const [file, setFile] = useState<File | null>(null);
+  const [preview, setPreview] = useState<string[] | null>(null);
+  const [file, setFile] = useState<File[] | null>(null);
   const acceptFiles = acceptedFiles[acceptedType];
   const resetFile = () => {
     setFile(null);
     setPreview(null);
   };
-  const onDrop = async (acceptedFiles: File[]) => {
-    const file = acceptedFiles[0];
-    if (acceptedType === 'images') {
-      setPreview(URL.createObjectURL(file));
+  const onDrop = async (file: File[]) => {
+    const multiple = file.length > 1;
+    const fileType: AcceptedTypes = acceptedType == 'images' ? 'images' : 'documents';
+    if (multiple && fileType === 'images') {
+      const previews = file.map((file) => URL.createObjectURL(file));
+      setPreview(previews);
     }
     setFile(file);
   };
