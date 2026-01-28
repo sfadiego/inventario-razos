@@ -30,16 +30,29 @@ class ImportProductsController extends Controller
         return Response::success($data);
     }
 
-    public function update(ImportImageProductsUpdateRequest $param)
+    public function storeImages(ImportImageProductsUpdateRequest $param)
     {
         $files = collect($param->file('file'))->count();
-        $assignedImages = [];
-        if ($files > 1) {
-            $assignedImages = ImageProductImport::handleMultipleFiles($param->file('file'));
-            return Response::success($assignedImages);
+
+        if ($files == 0) {
+            return Response::error('No se seleccionaron archivos');
         }
 
-        $assignedImages[] = ImageProductImport::handleSingleImageFile($param->file('file')[0]);
-        return Response::success($assignedImages);
+        if ($files > 1) {
+            $import = new ImageProductImport();
+            $import->handleMultipleFiles($param->file('file'));
+            return Response::success([
+                'assigned' => $import->assignedImages,
+                'invalid' => $import->invalidImages,
+            ]);
+        }
+
+        $import = new ImageProductImport();
+        $import->handleSingleImageFile($param->file('file')[0]);
+
+        return Response::success([
+            'assigned' => $import->assignedImages,
+            'invalid' => $import->invalidImages,
+        ]);
     }
 }

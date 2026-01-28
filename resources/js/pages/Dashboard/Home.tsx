@@ -19,7 +19,7 @@ export default function Home() {
             <BestSellerList title="Mas vendidos (Luces)" categoriaId={CategoriasEnum.Luces} />
           </div>
           <div className="col-span-12 mb-2 sm:col-span-6">
-            <BestSellerList title="Mas vendidos (Refacciones)" categoriaId={CategoriasEnum.Refacciones} />
+            <BestSellerList title="Mas vendidos (Piezas)" categoriaId={CategoriasEnum.Refacciones} />
           </div>
         </div>
       </PageWrapper>

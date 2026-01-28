@@ -7,24 +7,28 @@ use Illuminate\Http\UploadedFile;
 
 class ImageProductImport
 {
-    public static function handleSingleImageFile(UploadedFile $file): string
+    public array $assignedImages = [];
+    public array $invalidImages = [];
+
+    public function handleSingleImageFile(UploadedFile $file): void
     {
         $fileName = $file->getClientOriginalName();
         $codigo = pathinfo($fileName, PATHINFO_FILENAME);
         $producto = Producto::where('codigo', $codigo)->first();
-        $image = $producto->handleProductoImage($file);
-        $producto->imagen()->associate($image);
-        $producto->save();
-        return $fileName;
+        if (!$producto) {
+            $this->invalidImages[] = $fileName;
+        } else {
+            $image = $producto->handleProductoImage($file);
+            $producto->imagen()->associate($image);
+            $producto->save();
+            $this->assignedImages[] = $fileName;
+        }
     }
 
-    public static function handleMultipleFiles(array $files): array
+    public function handleMultipleFiles(array $files): void
     {
-        $assignedImages = [];
         foreach ($files as $file) {
-            $assignedImages[] = ImageProductImport::handleSingleImageFile($file);
+            $this->handleSingleImageFile($file);
         }
-
-        return $assignedImages;
     }
 }

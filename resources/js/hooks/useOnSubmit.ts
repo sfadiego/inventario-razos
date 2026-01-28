@@ -16,7 +16,7 @@ export const useOnSubmit = <Request = any, Response = any>({
       const res = await mutateAsync(data);
       onSuccess(res.data);
     } catch (error: any) {
-      if (error.response?.data?.data != null) {
+      if (setErrors && error.response?.data?.data != null) {
         setErrors(error.response.data.data);
       }
 
