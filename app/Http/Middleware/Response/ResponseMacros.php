@@ -48,22 +48,7 @@ class ResponseMacros
                 ], Http::PartialContent->value);
             }
         );
-
-        // TODO:revisar si se necesita
-        Response::macro(
-            'successPagination',
-            function (
-                ?LengthAwarePaginator $data,
-                $message = null
-            ): JsonResponse {
-                return Response::json([
-                    'status' => 'OK',
-                    'message' => $message,
-                    'data' => $data,
-                ], 206);
-            }
-        );
-
+        
         Response::macro(
             'successDataTable',
             function (
