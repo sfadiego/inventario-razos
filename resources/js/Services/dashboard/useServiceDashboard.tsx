@@ -8,7 +8,10 @@ export const useServiceDashboardMasVendidos = (categoriaId?: number) => {
 };
 
 export const useServiceDashboardMenosVendidos = (categoriaId?: number) => {
-  return useGET<IDashboardMenosVendidos[]>({ url: `${url}/menos-vendidos?${categoriaId ? `categoria_id=${categoriaId}` : ''}`, enable: !!categoriaId });
+  return useGET<IDashboardMenosVendidos[]>({
+    url: `${url}/menos-vendidos?${categoriaId ? `categoria_id=${categoriaId}` : ''}`,
+    enable: !!categoriaId,
+  });
 };
 
 export const useServiceDashboardVentas = () => {

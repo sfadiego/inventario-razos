@@ -25,7 +25,7 @@ class ImportProductsController extends Controller
             'importInfo' => $import->getImportInfo(),
         ];
         Log::info('Imported Productos', ['data' => $data]);
-        Log::info('Finalizando importacion - Total inserted: ' . count($data['inserted']) . ', Total duplicates: ' . count($data['duplicates']));
+        Log::info('Finalizando importacion - Total inserted: '.count($data['inserted']).', Total duplicates: '.count($data['duplicates']));
 
         return Response::success($data);
     }
@@ -39,15 +39,16 @@ class ImportProductsController extends Controller
         }
 
         if ($files > 1) {
-            $import = new ImageProductImport();
+            $import = new ImageProductImport;
             $import->handleMultipleFiles($param->file('file'));
+
             return Response::success([
                 'assigned' => $import->assignedImages,
                 'invalid' => $import->invalidImages,
             ]);
         }
 
-        $import = new ImageProductImport();
+        $import = new ImageProductImport;
         $import->handleSingleImageFile($param->file('file')[0]);
 
         return Response::success([
