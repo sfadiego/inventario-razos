@@ -9,6 +9,7 @@ import {
   FileWarning,
   FolderSearch,
   Home,
+  Image,
   ListChecks,
   UserSearch,
   Wrench,
@@ -58,8 +59,19 @@ export const adminSidebarRoutes: INavItem[] = [
   },
   {
     icon: <CloudUpload />,
-    name: 'Importar Productos',
-    path: AdminRoutes.Importar,
+    name: 'Importar',
+    subItems: [
+      {
+        icon: <Cog width={20} />,
+        name: 'Importar Productos',
+        path: AdminRoutes.Importar,
+      },
+      {
+        icon: <Image width={20} />,
+        name: 'Importar Imagenes',
+        path: AdminRoutes.ImportarImagenes,
+      },
+    ],
   },
   {
     icon: <FileWarning />,

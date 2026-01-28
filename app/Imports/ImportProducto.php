@@ -97,7 +97,7 @@ class ImportProducto implements ToModel, WithCalculatedFormulas, WithEvents, Wit
 
         $key = mb_strtolower($nombre);
         if (in_array($key, $this->existingProducts, true)) {
-            $this->duplicates[] = ['nombre' => $nombre];
+            $this->duplicates[] = $nombre;
             Producto::where('nombre', $nombre)
                 ->update([
                     'subcategoria_id' => $subcategoriaId,

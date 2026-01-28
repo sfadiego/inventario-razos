@@ -8,3 +8,15 @@ export const DropzoneFile = ({ file }: { file: File }) => {
     </div>
   );
 };
+
+export const DropZoneHandleFiles = ({ items, colSpan = 12 }: { items: File[]; colSpan?: number }) => {
+  return (
+    <>
+      {items.map((file, index) => (
+        <div key={index} className={`col-span-${colSpan}`}>
+          <DropzoneFile file={file} />
+        </div>
+      ))}
+    </>
+  );
+};

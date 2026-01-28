@@ -4,11 +4,14 @@ import { ApiRoutes } from '@/router/modules/admin.routes';
 
 const url = ApiRoutes.Dashboard;
 export const useServiceDashboardMasVendidos = (categoriaId?: number) => {
-  return useGET<IDashboardMasVendidos[]>({ url: `${url}/mas-vendidos?${categoriaId ? `categoria_id=${categoriaId}` : ''}` });
+  return useGET<IDashboardMasVendidos[]>({ url: `${url}/mas-vendidos?${categoriaId ? `categoria_id=${categoriaId}` : ''}`, enable: !!categoriaId });
 };
 
 export const useServiceDashboardMenosVendidos = (categoriaId?: number) => {
-  return useGET<IDashboardMenosVendidos[]>({ url: `${url}/menos-vendidos?${categoriaId ? `categoria_id=${categoriaId}` : ''}` });
+  return useGET<IDashboardMenosVendidos[]>({
+    url: `${url}/menos-vendidos?${categoriaId ? `categoria_id=${categoriaId}` : ''}`,
+    enable: !!categoriaId,
+  });
 };
 
 export const useServiceDashboardVentas = () => {
