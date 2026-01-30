@@ -13,8 +13,9 @@ RUN apt-get update && apt-get install -y \
     libfreetype6-dev \
     sqlite3 \
     libsqlite3-dev \
+    libicu-dev \    
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
-    && docker-php-ext-install pdo pdo_mysql mbstring zip gd \
+    && docker-php-ext-install pdo pdo_mysql mbstring zip gd intl \
     && rm -rf /var/lib/apt/lists/*
     
 # Composer
