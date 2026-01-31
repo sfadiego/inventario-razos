@@ -5,7 +5,7 @@ import { IFilterData, IFilterItem } from '../filters/modalFilter/types';
 import { IDatatableWithFilterProps } from './IDatatableFilter';
 
 export const useDatatableFilters = <Values,>(props: IDatatableWithFilterProps<Values>) => {
-  const { onClickNew, renderersMap, rowExpansion, service, children, filters, payload } = props;
+  const { onClickNew, renderersMap, rowExpansion, service, children, filters, payload, columnProperties } = props;
   const [search, setSearch] = useState<string>('');
   const [appliedFilters, setAppliedFilters] = useState<IFilterItem<Values>[]>([]);
   const { openModal, isOpen, closeModal } = useModal(false);
@@ -21,6 +21,7 @@ export const useDatatableFilters = <Values,>(props: IDatatableWithFilterProps<Va
       search: search,
     },
     renderersMap,
+    columnProperties,
   });
 
   const onFilter = (filters: IFilterData<Values>) => {

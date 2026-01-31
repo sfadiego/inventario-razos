@@ -23,8 +23,8 @@ export default function ProductosPage() {
     rowExpansion,
     isOpenNewImage,
     closeModalNewImage,
+    columnProperties,
   } = useProductosPage();
-
   const { isOpen: isOpenFormato, openModal: openModalFormato, closeModal: closeModalFormato } = useModal();
   return (
     <>
@@ -36,6 +36,7 @@ export default function ProductosPage() {
         </div>
         <DatatableWithFilter
           renderersMap={renderersMap}
+          columnProperties={columnProperties}
           filters={filters}
           onClickNew={openModal}
           service={useServiceIndexProductos}

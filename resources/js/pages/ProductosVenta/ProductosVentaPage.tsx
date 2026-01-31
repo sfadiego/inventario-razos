@@ -7,8 +7,19 @@ import { AgregarProductoVenta } from './partials/AgregarProductoVenta';
 import { useProductosVentaPage } from './useProductosVentaPage';
 
 export default function ProductosVentaPage() {
-  const { filters, openModal, isOpen, closeModal, productId, renderersMap, useServiceIndexProductos, venta, breadcrumb, rowExpansion } =
-    useProductosVentaPage();
+  const {
+    filters,
+    openModal,
+    isOpen,
+    closeModal,
+    productId,
+    renderersMap,
+    useServiceIndexProductos,
+    venta,
+    breadcrumb,
+    rowExpansion,
+    columnProperties,
+  } = useProductosVentaPage();
   return (
     <PageWrapper breadcrumbArray={breadcrumb} pageTitle="Listado de productos para venta">
       <div className="mb-3 grid grid-cols-12">
@@ -25,6 +36,7 @@ export default function ProductosVentaPage() {
         disableNewButton={true}
         service={useServiceIndexProductos}
         rowExpansion={rowExpansion}
+        columnProperties={columnProperties}
       >
         {(formik) => <FiltrosProductos formik={formik} />}
       </DatatableWithFilter>

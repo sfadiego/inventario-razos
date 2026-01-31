@@ -7,6 +7,7 @@ import { rowTypes } from '@/components/tables/rowTypes';
 import Button from '@/components/ui/button/Button';
 
 import { ExpansionProductoDetail } from '@/components/productos/ExpansionProductoDetail';
+import { ColumnProperties } from '@/components/tables/columnProperties';
 import { StatusVentaEnum } from '@/enums/StatusVentaEnum';
 import { IProducto } from '@/models/producto.interface';
 import { AdminRoutes } from '@/router/modules/admin.routes';
@@ -43,6 +44,12 @@ export const useProductosVentaPage = () => {
     [ventaId],
   );
 
+  const columnProperties: ColumnProperties<any> = {
+    nombre: {
+      width: 300,
+      ellipsis: true,
+    },
+  };
   const rowExpansion = {
     content: ({ record }: { record: IProducto }) => <ExpansionProductoDetail record={record} />,
   };
@@ -72,5 +79,6 @@ export const useProductosVentaPage = () => {
     rowExpansion,
     venta: isLoading ? null : (ventaData ?? null),
     breadcrumb,
+    columnProperties,
   };
 };

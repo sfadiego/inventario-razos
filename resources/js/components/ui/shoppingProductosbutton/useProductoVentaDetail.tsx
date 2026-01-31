@@ -50,7 +50,7 @@ export const useProductoVentaDetail = ({ closeModal }: { closeModal: () => void 
     });
 
     queryClient.invalidateQueries({ queryKey: [ApiRoutes.Productos] });
-  }, [closeModal, queryClient, refetchVenta]);
+  }, [closeModal, queryClient]); //TODO: revisar si es necesario refetchVenta
 
   const { onSubmit: onSubmitDelete } = useOnSubmit({
     mutateAsync: mutatorDeleteProducto.mutateAsync,
@@ -88,7 +88,7 @@ export const useProductoVentaDetail = ({ closeModal }: { closeModal: () => void 
           </Button>
         ) : null,
     }),
-    [ventaFinalizada, triggerReload, handleDelete],
+    [ventaFinalizada, triggerReload, handleDelete], //TODO: revisar si es necesario triggerReload
   );
 
   const { dataTableProps, refetch: refetchProductoDetalle } = useDataTable({

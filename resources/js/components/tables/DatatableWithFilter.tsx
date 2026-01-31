@@ -1,3 +1,4 @@
+import React from 'react';
 import { FormikValues } from 'formik';
 import { Filter, Plus, X } from 'lucide-react';
 import { DataTable } from 'mantine-datatable';
