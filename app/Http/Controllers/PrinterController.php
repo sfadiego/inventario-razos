@@ -19,8 +19,7 @@ class PrinterController extends Controller
             $printerService = new PrinterService($connector, $formatter);
             $ticketData = new VentaTicketData($venta);
             $printerService->printTicket($ticketData);
-
-            return Response::success('Impresión enviada');
+            return Response::success('', 'Impresión enviada');
         } catch (\Throwable $th) {
             return Response::error($th->getMessage());
         }

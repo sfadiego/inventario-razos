@@ -15,8 +15,8 @@ class VentaFormatter implements TicketFormatterInterface
         // $lines = [];
         // $lines[] = env('APP_FULL_NAME');
         // $lines[] = "";
-
-        $output = "fb & ig: @chantico.cafe\n\n\n";
+        
+        $output = "fb & ig: @" . env('APP_FULL_NAME') . "\n\n\n";
 
         return $output;
     }
