@@ -8,10 +8,12 @@ use App\Printer\Dto\TicketDataInterface;
 class VentaTicketData implements TicketDataInterface
 {
     private $venta;
+
     public function __construct(Venta $venta)
     {
         $this->venta = $venta;
     }
+
     public function getType(): string
     {
         return 'venta';
@@ -27,6 +29,7 @@ class VentaTicketData implements TicketDataInterface
         $tipo_compra = $this->venta->tipo_compra;
         $status_venta = $this->venta->status_venta;
         $created_at = $this->venta->created_at;
+
         return [
             'venta_total' => $venta_total,
             'nombre_venta' => $nombre_venta,

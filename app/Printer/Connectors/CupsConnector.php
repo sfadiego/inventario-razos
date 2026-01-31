@@ -9,15 +9,19 @@ use Mike42\Escpos\Printer;
 class CupsConnector implements PrinterConnectorInterface
 {
     protected $connector;
+
     protected $printer;
+
     protected $printerName;
+
     public function __construct()
     {
         $this->printerName = env('PRINTER_NAME');
     }
+
     public function init(): void
     {
-        $this->connector = new CupsPrintConnector($this->printerName); // verificar que el printer esté configurado 
+        $this->connector = new CupsPrintConnector($this->printerName); // verificar que el printer esté configurado
         $this->printer = new Printer($this->connector);
     }
 

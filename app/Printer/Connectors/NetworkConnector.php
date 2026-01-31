@@ -9,12 +9,16 @@ use Mike42\Escpos\Printer;
 class NetworkConnector implements PrinterConnectorInterface
 {
     protected $connector;
+
     protected $printer;
+
     protected $printerName;
+
     public function __construct()
     {
         $this->printerName = env('PRINTER_NAME');
     }
+
     public function init(): void
     {
         $this->connector = new NetworkPrintConnector(env('PRINTER_IP', '192.168.1.100'), env('PRINTER_PORT', 9100)); // ip de la impresora y puerto

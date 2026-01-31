@@ -9,6 +9,7 @@ use App\Printer\Interface\TicketFormatterInterface;
 class PrinterService
 {
     protected PrinterConnectorInterface $connector;
+
     protected TicketFormatterInterface $formatter;
 
     public function __construct(PrinterConnectorInterface $connector, TicketFormatterInterface $formatter)

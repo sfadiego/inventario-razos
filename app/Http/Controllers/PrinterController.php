@@ -15,10 +15,11 @@ class PrinterController extends Controller
     {
         try {
             $connector = ConnectorFactory::make();
-            $formatter = new VentaFormatter();
+            $formatter = new VentaFormatter;
             $printerService = new PrinterService($connector, $formatter);
             $ticketData = new VentaTicketData($venta);
             $printerService->printTicket($ticketData);
+
             return Response::success('Impresión enviada');
         } catch (\Throwable $th) {
             return Response::error($th->getMessage());

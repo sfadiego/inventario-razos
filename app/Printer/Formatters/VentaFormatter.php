@@ -2,8 +2,8 @@
 
 namespace App\Printer\Formatters;
 
-use App\Printer\Interface\TicketFormatterInterface;
 use App\Printer\Dto\TicketDataInterface;
+use App\Printer\Interface\TicketFormatterInterface;
 use Mike42\Escpos\Printer;
 
 class VentaFormatter implements TicketFormatterInterface

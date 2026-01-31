@@ -9,12 +9,16 @@ use Mike42\Escpos\Printer;
 class WindowsConnector implements PrinterConnectorInterface
 {
     protected $connector;
+
     protected $printer;
+
     protected $printerName;
+
     public function __construct()
     {
         $this->printerName = env('PRINTER_NAME');
     }
+
     public function init(): void
     {
         $this->connector = new WindowsPrintConnector($this->printerName);

@@ -48,7 +48,7 @@ class ResponseMacros
                 ], Http::PartialContent->value);
             }
         );
-        
+
         Response::macro(
             'successDataTable',
             function (
