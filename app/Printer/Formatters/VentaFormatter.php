@@ -27,21 +27,21 @@ class VentaFormatter implements TicketFormatterInterface
         $connector->text('Vendido a:');
         $connector->text($venta_nombre !== '' ? $venta_nombre : ' sin nombre ');
         $connector->feed(1);
-        $connector->text('Folio: ' . $venta_folio);
+        $connector->text('Folio: '.$venta_folio);
         $connector->feed(1);
-        $connector->text('Tipo de compra: ' . $venta_tipo_compra);
+        $connector->text('Tipo de compra: '.$venta_tipo_compra);
         $connector->feed(1);
-        $connector->text('Fecha: ' . $venta_created_at);
+        $connector->text('Fecha: '.$venta_created_at);
         $connector->feed(1);
-        $connector->text('Total: $' . $venta_total);
+        $connector->text('Total: $'.$venta_total);
         $connector->feed(2);
 
         $connector->text('precio | cantidad | producto | codigo');
         $connector->feed(1);
         collect($venta_items)
             ->each(function ($item) use ($connector) {
-                $connector->text('$' . $item['precio'] . ' x ' . $item['cantidad'] . 'pzas - ' . $item['producto_nombre']);
-                $connector->text(' - ' . $item['codigo'] . "\n");
+                $connector->text('$'.$item['precio'].' x '.$item['cantidad'].'pzas - '.$item['producto_nombre']);
+                $connector->text(' - '.$item['codigo']."\n");
                 $connector->feed(1);
             });
 
