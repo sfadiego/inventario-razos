@@ -12,12 +12,9 @@ class VentaFormatter implements TicketFormatterInterface
     {
         $payload = $data->toArray();
         $connector->initialize();
-        $connector->setTextSize(1, 1);
-        $connector->setEmphasis(true);
         $connector->setJustification(Printer::JUSTIFY_CENTER);
         $connector->text(env('APP_FULL_NAME', ''));
-        $connector->setEmphasis(false);
-        $connector->feed(1);
+        $connector->feed(2);
 
         $venta_total = $payload['venta_total'];
         $venta_nombre = $payload['nombre_venta'];
@@ -30,27 +27,27 @@ class VentaFormatter implements TicketFormatterInterface
         $connector->text('Vendido a:');
         $connector->text($venta_nombre !== '' ? $venta_nombre : ' sin nombre ');
         $connector->feed(1);
-        $connector->text('Folio: '.$venta_folio);
+        $connector->text('Folio: ' . $venta_folio);
         $connector->feed(1);
-        $connector->text('Tipo de compra: '.$venta_tipo_compra);
+        $connector->text('Tipo de compra: ' . $venta_tipo_compra);
         $connector->feed(1);
-        $connector->text('Fecha: '.$venta_created_at);
+        $connector->text('Fecha: ' . $venta_created_at);
         $connector->feed(1);
-        $connector->text('Total: $'.$venta_total);
+        $connector->text('Total: $' . $venta_total);
         $connector->feed(2);
 
         $connector->text('precio | cantidad | producto | codigo');
         $connector->feed(1);
         collect($venta_items)
             ->each(function ($item) use ($connector) {
-                $connector->text('$'.$item['precio'].' x '.$item['cantidad'].'pzas - '.$item['producto_nombre']);
-                $connector->text(' - '.$item['codigo']."\n");
+                $connector->text('$' . $item['precio'] . ' x ' . $item['cantidad'] . 'pzas - ' . $item['producto_nombre']);
+                $connector->text(' - ' . $item['codigo'] . "\n");
                 $connector->feed(1);
             });
 
-        $connector->feed(2);
+        $connector->feed(1);
         $connector->setJustification(Printer::JUSTIFY_CENTER);
         $connector->text('Gracias por su compra');
-        $connector->feed(2);
+        $connector->feed(1);
     }
 }
