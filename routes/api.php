@@ -24,6 +24,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::prefix('pdf')->group(base_path('/routes/modules/pdf.php'));
     Route::prefix('barcode')->group(base_path('/routes/modules/barcode.php'));
     Route::prefix('descargables')->group(base_path('/routes/modules/descargables.php'));
+    Route::prefix('printer')->group(base_path('/routes/modules/printer.php'));
 
     Route::prefix('auth')->group(function () {
         Route::controller(AuthController::class)

@@ -1,5 +1,6 @@
 import { IFilters } from '@/components/filters/modalFilter/types';
 import { ExpansionProductoDetail } from '@/components/productos/ExpansionProductoDetail';
+import { ColumnProperties } from '@/components/tables/columnProperties';
 import { rowTypes } from '@/components/tables/rowTypes';
 import Button from '@/components/ui/button/Button';
 import { useModal } from '@/hooks/useModal';
@@ -35,6 +36,13 @@ export const useProductosPage = () => {
 
   const rowExpansion = {
     content: ({ record }: { record: IProducto }) => <ExpansionProductoDetail record={record} />,
+  };
+
+  const columnProperties: ColumnProperties<any> = {
+    nombre: {
+      width: 300,
+      ellipsis: true,
+    },
   };
 
   const renderersMap = {
@@ -82,6 +90,7 @@ export const useProductosPage = () => {
     useServiceIndexProductos,
     renderersMap,
     rowExpansion,
+    columnProperties,
     isOpenNewImage,
     closeModalNewImage: () => {
       closeModalNewImage();

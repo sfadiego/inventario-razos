@@ -13,6 +13,7 @@ use Maatwebsite\Excel\Facades\Excel;
 
 class ImportProductsController extends Controller
 {
+    // todo: ajustar test para validar respuesta correcta, se modifico el response de la api
     public function store(ImportProductosStoreRequest $param): JsonResponse
     {
         Log::info('Iniciando importacion');
@@ -30,6 +31,7 @@ class ImportProductsController extends Controller
         return Response::success($data);
     }
 
+    // TODO: crear test para esta api
     public function storeImages(ImportImageProductsUpdateRequest $param)
     {
         $files = collect($param->file('file'))->count();

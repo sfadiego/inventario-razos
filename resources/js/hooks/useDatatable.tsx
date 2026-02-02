@@ -1,45 +1,45 @@
-import { DataTableColumn } from 'mantine-datatable';
+import { ColumnProperties } from '@/components/tables/columnProperties';
+import { DataTableColumn, DataTableProps } from 'mantine-datatable';
 import { useState } from 'react';
 
-export interface DataTableRenderersMap {
-  [key: string]: (record: any) => React.ReactNode;
-}
+export type DataTableRenderersMap = {
+  [key: string]: (record: any) => any;
+} & {
+  rowClassName?: (record: any) => string | undefined;
+};
 
-interface UseDataTableParams {
+interface UseDataTableParams<T = any> {
   service: (params: any) => any;
   payload?: any;
-  dataTableProps?: (props: any) => any;
+  columnProperties?: ColumnProperties<T>;
   renderersMap?: DataTableRenderersMap;
 }
-export const useDataTable = ({ service, payload = {}, renderersMap = {}, dataTableProps }: UseDataTableParams) => {
+export const useDataTable = ({ service, payload = {}, renderersMap = {}, columnProperties = {} as ColumnProperties<any> }: UseDataTableParams) => {
   const [page, setPage] = useState(1);
   const pageSize = [10, 20, 30, 50, 100];
   const [limit, setLimit] = useState(pageSize[0]);
   const { data, isLoading, refetch } = service({ page, limit, ...payload });
-  const applyRenderers = (columns: DataTableColumn<any>[]) => {
+
+  const applyRenderers = <T,>(columns: DataTableColumn<T>[], columnProperties: ColumnProperties<T> = {}): DataTableColumn<T>[] => {
     return columns.map((column) => {
       const accessor = column.accessor as string;
-      if (accessor && renderersMap[accessor]) {
-        return {
-          ...column,
-          render: renderersMap[accessor],
-        };
-      }
-
-      return column;
+      const props = columnProperties[accessor] || {};
+      return {
+        ...column,
+        ...props,
+        render: accessor && renderersMap[accessor] ? renderersMap[accessor] : undefined,
+      } as DataTableColumn<T>;
     });
   };
 
-  const rowExpansion = renderersMap?.rowExpansion || undefined;
-  const defaultDataTableProps = {
+  const defaultDataTableProps: DataTableProps<any> = {
     page,
     recordsPerPage: data?.per_page ?? limit,
     totalRecords: data?.total || 0,
     onPageChange: setPage,
     records: data?.data || [],
-    columns: data?.columns ? applyRenderers(data.columns) : [],
-    rowClassName: renderersMap.rowClassName ? renderersMap.rowClassName : '',
-    rowExpansion: rowExpansion,
+    columns: data?.columns ? applyRenderers<any>(data.columns, columnProperties) : [],
+    rowClassName: renderersMap.rowClassName ? renderersMap.rowClassName : undefined,
     onRecordsPerPageChange: setLimit,
     recordsPerPageOptions: pageSize,
     noRecordsText: 'No se encontraron resultados que coincidan con tu búsqueda',
@@ -53,8 +53,6 @@ export const useDataTable = ({ service, payload = {}, renderersMap = {}, dataTab
       `Mostrando del ${from} al ${to} de ${totalRecords} registros`,
   };
 
-  const finalDataTableProps = dataTableProps ? dataTableProps(defaultDataTableProps) : defaultDataTableProps;
-
   return {
     page,
     setPage,
@@ -64,6 +62,6 @@ export const useDataTable = ({ service, payload = {}, renderersMap = {}, dataTab
     data,
     isLoading,
     refetch,
-    dataTableProps: finalDataTableProps,
+    dataTableProps: defaultDataTableProps,
   };
 };
