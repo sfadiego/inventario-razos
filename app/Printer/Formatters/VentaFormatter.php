@@ -48,6 +48,6 @@ class VentaFormatter implements TicketFormatterInterface
         $connector->feed(1);
         $connector->setJustification(Printer::JUSTIFY_CENTER);
         $connector->text('Gracias por su compra');
-        $connector->feed(1);
+        $connector->feed(3);
     }
 }
