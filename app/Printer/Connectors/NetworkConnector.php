@@ -25,6 +25,11 @@ class NetworkConnector implements PrinterConnectorInterface
         $this->printer = new Printer($this->connector);
     }
 
+    public function initialize(): void
+    {
+        $this->printer->initialize();
+    }
+
     public function write(string $data): void
     {
         $this->printer->text($data);

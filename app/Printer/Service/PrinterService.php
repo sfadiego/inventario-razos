@@ -22,10 +22,9 @@ class PrinterService
     {
         $this->connector->init();
         $printer = $this->connector->getPrinter();
-        $content = $this->formatter->format($ticketData, $printer);
-        $this->connector->write($content);
+        $this->connector->initialize();
+        $this->formatter->format($ticketData, $printer);
         $this->connector->cut();
-        $this->connector->pulse();
         $this->connector->close();
     }
 }

@@ -9,5 +9,5 @@ use Mike42\Escpos\Printer;
 interface TicketFormatterInterface
 {
     /** Recibe un DTO que representa cualquier tipo de ticket */
-    public function format(TicketDataInterface $data, Printer $connector): string;
+    public function format(TicketDataInterface $data, Printer $connector): void;
 }

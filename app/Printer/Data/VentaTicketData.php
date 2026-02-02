@@ -44,6 +44,9 @@ class VentaTicketData implements TicketDataInterface
                     'precio' => $item->precio,
                     'descuento' => $item->descuento,
                     'producto_id' => $item->producto_id,
+                    'producto_nombre' => $item->producto->nombre,
+                    'producto_precio' => $item->producto->precio,
+                    'codigo' => $item->producto->codigo,
                     'venta_id' => $item->venta_id,
                 ];
             }),

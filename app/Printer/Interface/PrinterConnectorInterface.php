@@ -9,6 +9,8 @@ interface PrinterConnectorInterface
     // inicia la conexion con la impresora
     public function init(): void;
 
+    public function initialize(): void;
+
     public function write(string $data): void;
 
     // cortar papel (verificar si se usa)
