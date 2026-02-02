@@ -26,39 +26,35 @@ export interface IFiltroVenta {
 }
 export const useVentasPage = () => {
   const { openModal, isOpen, closeModal } = useModal();
-  const [selected, setSelected] = useState(0);
-  const { isLoading, data } = useServiceShowVenta(selected);
-  const mutatorDelete = useServiceDeleteVenta(selected);
+  const [ventaId, setVentaId] = useState(0);
+  const { isLoading, data } = useServiceShowVenta(ventaId);
+  const mutatorDelete = useServiceDeleteVenta(ventaId);
   const { setItem, clearItem } = useSelectedItemStore();
   const navigate = useNavigate();
 
   const handleNewVentaModal = () => {
-    setSelected(0);
+    setVentaId(0);
     clearItem('venta');
     openModal();
   };
 
   const handleCloseModal = () => {
     closeModal();
-    setSelected(0);
+    setVentaId(0);
     clearItem('venta');
   };
 
   useEffect(() => {
-    if (!isLoading && data && selected) {
+    if (!isLoading && data && ventaId) {
       setItem('venta', data);
     }
-  }, [isLoading, data, selected, setItem]);
-
-  const printVentaDetail = () => {
-    window.alert('imprimiendo ... ');
-  };
+  }, [isLoading, data, ventaId, setItem]);
 
   const queryClient = useQueryClient();
   const { onSubmit: onSubmitDelete } = useOnSubmit({
     mutateAsync: mutatorDelete.mutateAsync,
     onSuccess: async () => {
-      setSelected(0);
+      setVentaId(0);
       queryClient.invalidateQueries({ queryKey: [`${ApiRoutes.Venta}`] });
     },
   });
@@ -91,7 +87,7 @@ export const useVentasPage = () => {
         <Button
           onClick={() => {
             openModal();
-            setSelected(id!);
+            setVentaId(id!);
           }}
           variant="primary"
           size="sm"
@@ -102,7 +98,7 @@ export const useVentasPage = () => {
         <Button
           disabled={status_venta !== StatusVentaEnum.ACTIVA}
           onClick={() => {
-            setSelected(id!);
+            setVentaId(id!);
             warningDelete();
           }}
           variant="error"
@@ -114,11 +110,6 @@ export const useVentasPage = () => {
         <Button className="ml-2" onClick={() => navigate(`/venta/${id}/productos`)} variant="outline" size="sm">
           <ArrowRight />
         </Button>
-        {status_venta == StatusVentaEnum.FINALIZADA && (
-          <Button className="ml-2" onClick={printVentaDetail} variant="info" size="sm">
-            <Printer />
-          </Button>
-        )}
       </>
     ),
   };

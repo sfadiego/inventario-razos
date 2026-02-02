@@ -3,6 +3,7 @@ import { AlertTypeEnum } from '@/enums/AlertTypeEnum';
 import { StatusVentaEnum } from '@/enums/StatusVentaEnum';
 import { useDataTable } from '@/hooks/useDatatable';
 import { useOnSubmit } from '@/hooks/useOnSubmit';
+import { usePrinter } from '@/hooks/usePrinter';
 import { IVentaUpdateProps } from '@/models/venta.interface';
 import { IVentaProducto } from '@/models/ventaProducto.interface';
 import { ApiRoutes } from '@/router/modules/admin.routes';
@@ -10,6 +11,7 @@ import { useServiceDeleteVentaProducto, useServiceVentaProductoDetalle } from '@
 import { useServiceFinalizarVenta, useServiceShowVenta } from '@/Services/ventas/useServiceVenta';
 import { useQueryClient } from '@tanstack/react-query';
 import { Trash } from 'lucide-react';
+import { DataTableProps } from 'mantine-datatable';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useParams } from 'react-router';
 import Button from '../button/Button';
@@ -36,6 +38,8 @@ export const useProductoVentaDetail = ({ closeModal }: { closeModal: () => void 
     onSuccess: async () => handleSuccessVenta(),
   });
 
+  const { printing, handleTicket } = usePrinter(ventaId);
+
   const handleFinalize = useCallback(() => {
     onSubmitFinalizarVenta({}, {});
   }, [onSubmitFinalizarVenta]);
@@ -48,9 +52,9 @@ export const useProductoVentaDetail = ({ closeModal }: { closeModal: () => void 
       type: AlertTypeEnum.Success,
       options: { timer: 2000, timerProgressBar: true },
     });
-
     queryClient.invalidateQueries({ queryKey: [ApiRoutes.Productos] });
-  }, [closeModal, queryClient]); //TODO: revisar si es necesario refetchVenta
+    handleTicket();
+  }, [closeModal, queryClient, handleTicket]);
 
   const { onSubmit: onSubmitDelete } = useOnSubmit({
     mutateAsync: mutatorDeleteProducto.mutateAsync,
@@ -65,9 +69,9 @@ export const useProductoVentaDetail = ({ closeModal }: { closeModal: () => void 
     onSubmitDelete(null, {});
   }, [onSubmitDelete]);
 
-  const rowExpansion = {
+  const rowExpansion: DataTableProps<IVentaProducto>['rowExpansion'] = {
     content: ({ record }: { record: IVentaProducto }) =>
-      !ventaFinalizada && <ActualizaProductoVenta record={record} refetchDatatable={triggerReload} />,
+      !ventaFinalizada ? <ActualizaProductoVenta record={record} refetchDatatable={triggerReload} /> : null,
   };
   const renderersMap = useMemo(
     () => ({
@@ -106,5 +110,5 @@ export const useProductoVentaDetail = ({ closeModal }: { closeModal: () => void 
 
   const disabled = useMemo(() => (dataTableProps?.totalRecords ?? 0) === 0 || ventaFinalizada, [dataTableProps?.totalRecords, ventaFinalizada]);
 
-  return { dataTableProps, rowExpansion, handleFinalize, disabled, ventaTotal: venta?.venta_total };
+  return { dataTableProps, rowExpansion, handleFinalize, disabled, ventaTotal: venta?.venta_total, printing, handleTicket };
 };

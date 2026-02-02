@@ -1,3 +1,4 @@
+import { IVentaProducto } from '@/models/ventaProducto.interface';
 import { Printer, ShoppingCart } from 'lucide-react';
 import { DataTable } from 'mantine-datatable';
 import Button from '../button/Button';
@@ -10,7 +11,7 @@ interface ProductoVentaDetailProps {
 }
 
 export const ProductoVentaDetail = ({ isOpen, closeModal }: ProductoVentaDetailProps) => {
-  const { dataTableProps, rowExpansion, disabled, handleFinalize, ventaTotal } = useProductoVentaDetail({ closeModal });
+  const { dataTableProps, rowExpansion, disabled, handleFinalize, ventaTotal, printing, handleTicket } = useProductoVentaDetail({ closeModal });
   return (
     <Modal title={`Carrito de compras`} subtitle={`Productos de venta`} isOpen={isOpen} onClose={closeModal} className="m-4 max-w-[700px]">
       <div className="grid grid-cols-12">
@@ -18,10 +19,10 @@ export const ProductoVentaDetail = ({ isOpen, closeModal }: ProductoVentaDetailP
           <h1 className="text-xl font-semibold text-gray-800 dark:text-white/90">Total: ${ventaTotal} </h1>
         </div>
         <div className="col-span-12 overflow-auto">
-          <DataTable {...dataTableProps} rowExpansion={rowExpansion} />
+          <DataTable<IVentaProducto> {...dataTableProps} rowExpansion={rowExpansion} idAccessor="id" />
         </div>
         <div className="col-span-12 mt-3 flex justify-end gap-2">
-          <Button disabled={true} onClick={() => null} size="md" type={ButtonTypeEnum.Button} className="col-span-12 md:col-span-6">
+          <Button onClick={handleTicket} size="md" type={ButtonTypeEnum.Button} className="col-span-12 md:col-span-6" disabled={printing}>
             <Printer />
             Imprimir Ticket
           </Button>
