@@ -21,7 +21,7 @@ class CupsConnector implements PrinterConnectorInterface
 
     public function init(): void
     {
-        $this->connector = new CupsPrintConnector($this->printerName); // verificar que el printer esté configurado
+        $this->connector = new CupsPrintConnector($this->printerName);
         $this->printer = new Printer($this->connector);
     }
 

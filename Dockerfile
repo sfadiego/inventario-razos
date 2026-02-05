@@ -13,7 +13,9 @@ RUN apt-get update && apt-get install -y \
     libfreetype6-dev \
     sqlite3 \
     libsqlite3-dev \
-    libicu-dev \    
+    libicu-dev \
+    cups \
+    cups-client \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install pdo pdo_mysql mbstring zip gd intl \
     && rm -rf /var/lib/apt/lists/*
@@ -22,8 +24,11 @@ RUN apt-get update && apt-get install -y \
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
     
 # copia entrypoint y dale permiso de ejecución
+COPY docker/php/mysql_setup.sh /usr/local/bin/mysql_setup.sh
+COPY docker/php/laravel_setup.sh /usr/local/bin/laravel_setup.sh
 COPY docker/php/entrypoint.sh /usr/local/bin/entrypoint.sh
-RUN chmod +x /usr/local/bin/entrypoint.sh
+# permiso de ejecución
+RUN chmod +x /usr/local/bin/entrypoint.sh /usr/local/bin/mysql_setup.sh /usr/local/bin/laravel_setup.sh 
 
 # Copia el código del proyecto Laravel
 WORKDIR /var/www/html
