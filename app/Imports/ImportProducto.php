@@ -84,16 +84,17 @@ class ImportProducto implements ToModel, WithCalculatedFormulas, WithEvents, Wit
         $nombre = isset($row[2]) ? trim((string) $row[2]) : null;
         $marca = isset($row[3]) ? trim((string) $row[3]) : Marca::SIN_DEFINIR;
         $subcategoriaId = $this->subcategoria[$row[4]] ?? null;
+        $precioVenta = isset($row[5]) ? preg_replace('/[^0-9.]/', '', $row[5]) : 0;
+        $unidad = isset($row[6]) ? trim((string) $row[6]) : ProductoUnidadEnum::PIEZA->value;
         // default values
         $proveedor_id = Proveedor::firstOrCreate(['nombre' => Proveedor::SIN_DEFINIR])->id;
         $precio_compra = 0;
-        $precio_venta = 0;
+        $precio_venta = $precioVenta;
         $stock = $cantidad;
         $cantidad_minima = 10;
         $compatibilidad = '';
         $ubicacion_id = Ubicacion::firstOrCreate(['nombre' => Ubicacion::DEFAULT_UBICACION])->id;
         $marca_id = Marca::firstOrCreate(['nombre' => $marca])->id;
-        $unidad = ProductoUnidadEnum::PIEZA->value;
 
         $key = mb_strtolower($nombre);
         if (in_array($key, $this->existingProducts, true)) {
