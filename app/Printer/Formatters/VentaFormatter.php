@@ -32,11 +32,9 @@ class VentaFormatter implements TicketFormatterInterface
         $connector->text('Tipo de compra: '.$venta_tipo_compra);
         $connector->feed(1);
         $connector->text('Fecha: '.$venta_created_at);
-        $connector->feed(1);
-        $connector->text('Total: $'.$venta_total);
         $connector->feed(2);
 
-        $connector->text('precio | cantidad | producto | codigo');
+        $connector->text('Precio | Cantidad | Producto | Codigo');
         $connector->feed(1);
         collect($venta_items)
             ->each(function ($item) use ($connector) {
@@ -45,7 +43,8 @@ class VentaFormatter implements TicketFormatterInterface
                 $connector->feed(1);
             });
 
-        $connector->feed(1);
+        $connector->text('Total: $'.$venta_total);
+        $connector->feed(2);
         $connector->setJustification(Printer::JUSTIFY_CENTER);
         $connector->text('Gracias por su compra');
         $connector->feed(3);

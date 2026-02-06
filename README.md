@@ -69,3 +69,27 @@ backup de base de datos en la ruta: `storage/app/backups/`
 ```bash
 php artisan db:backup
 ```
+
+# Configuracion CUps (Windows/MacOs)
+
+- listado dispositivos: 
+```bash
+lpinfo -v
+```
+
+- Habilitar acceso remoto y compartir impresoras en CUPS
+```bash
+sudo cupsctl --remote-any --remote-admin --share-printers
+sudo cupsctl WebInterface=yes
+```
+
+- agregar dispositivo a cups:
+```bash 
+lpadmin -p POS80_Series_POS80_Printer_USB -E -v usb://POS80_Series/POS80_Printer_USB -m raw
+lpadmin -p ${PRINTER_NAME} -E -v usb://POS80_Series/POS80_Printer_USB -m raw
+```
+
+- estado de impresora:
+```bash
+lpstat -a
+```

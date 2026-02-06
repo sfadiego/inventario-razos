@@ -47,6 +47,7 @@ export enum ApiRoutes {
   Dashboard = '/api/dashboard',
   Images = '/api/images',
   Importar = '/api/imports',
+  Printer = '/api/printer',
   ImportarImagenes = '/api/imports/images',
   Marcas = '/api/marcas',
   ErrorReporting = '/api/error-reporting',

@@ -21,7 +21,7 @@ class NetworkConnector implements PrinterConnectorInterface
 
     public function init(): void
     {
-        $this->connector = new NetworkPrintConnector(env('PRINTER_IP', '192.168.1.100'), env('PRINTER_PORT', 9100)); // ip de la impresora y puerto
+        $this->connector = new NetworkPrintConnector(env('PRINTER_IP'), env('PORT_PRINTER', 9100));
         $this->printer = new Printer($this->connector);
     }
 
