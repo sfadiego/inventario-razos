@@ -12,7 +12,7 @@ import { ApiRoutes } from '@/router/modules/admin.routes';
 import { useServiceDeleteVenta, useServiceShowVenta } from '@/Services/ventas/useServiceVenta';
 import { useSelectedItemStore } from '@/store/useSelectedItemStore';
 import { useQueryClient } from '@tanstack/react-query';
-import { ArrowRight, Eye, Printer, Trash2 } from 'lucide-react';
+import { ArrowRight, Eye, Trash2 } from 'lucide-react';
 import { useCallback, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
 

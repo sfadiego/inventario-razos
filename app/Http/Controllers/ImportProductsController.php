@@ -27,11 +27,12 @@ class ImportProductsController extends Controller
                 'importInfo' => $import->getImportInfo(),
             ];
             Log::info('Imported Productos', ['data' => $data]);
-            Log::info('Finalizando importacion - Total inserted: ' . count($data['inserted']) . ', Total duplicates: ' . count($data['duplicates']));
+            Log::info('Finalizando importacion - Total inserted: '.count($data['inserted']).', Total duplicates: '.count($data['duplicates']));
 
             return Response::success($data);
         } catch (\Throwable $th) {
             Log::error('Error al importar productos', ['error' => $th->getMessage()]);
+
             return Response::error($th->getMessage());
         }
     }

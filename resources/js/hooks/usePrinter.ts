@@ -11,6 +11,6 @@ export const usePrinter = (ventaId: number) => {
       setPrinting(false);
     }
   }, [refetch]);
-  
+
   return { printing, setPrinting, handleTicket };
 };

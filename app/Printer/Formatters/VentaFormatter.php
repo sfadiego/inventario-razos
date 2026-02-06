@@ -43,7 +43,6 @@ class VentaFormatter implements TicketFormatterInterface
                 $connector->feed(1);
             });
 
-
         $connector->text('Total: $'.$venta_total);
         $connector->feed(2);
         $connector->setJustification(Printer::JUSTIFY_CENTER);

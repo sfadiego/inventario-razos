@@ -140,6 +140,7 @@ class ImportProducto implements ToModel, WithCalculatedFormulas, WithEvents, Wit
 
         if ($currentRow['nombre'] == '' || $currentRow['nombre'] == null) {
             Log::info('Celda invalida', ['row' => $row, 'insertRow' => $currentRow]);
+
             return null;
         }
 
