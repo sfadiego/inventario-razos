@@ -1,3 +1,4 @@
+import { AlertSwal } from '@/components/alertSwal/AlertSwal';
 import { useOnSubmit } from '@/hooks/useOnSubmit';
 import { ApiRoutes } from '@/router/modules/admin.routes';
 import { useServiceUpdateProducto } from '@/Services/productos/useServiceProductos';
@@ -12,13 +13,25 @@ export const useFormAgregarImagen = ({ productId, closeModal }: { productId: num
 
   const { onSubmit } = useOnSubmit<IUpdateProductImage>({
     mutateAsync: mutator.mutateAsync,
+    onError: () =>
+      AlertSwal({
+        title: 'Error',
+        text: 'Error al actualizar imagen',
+      }),
     onSuccess: async () => {
       queryClient.invalidateQueries({ queryKey: [`${ApiRoutes.Productos}`] });
       closeModal();
+      AlertSwal({
+        title: 'Success',
+        text: 'Imagen actualizada correctamente',
+      });
     },
   });
 
-  const onSubmitFile = (file: File) => onSubmit({ file }, {});
+  const onSubmitFile = (file: File) => {
+    const fileToSubmit = Array.isArray(file) ? file[0] : file;
+    return onSubmit({ file: fileToSubmit }, {});
+  };
 
   return {
     onSubmit: onSubmitFile,
