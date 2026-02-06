@@ -63,7 +63,7 @@ class ImportProducto implements ToModel, WithCalculatedFormulas, WithEvents, Wit
             return null;
         }
         $rowSubCategoria = isset($row[0]) && empty($row[1]) && empty($row[2]) && empty($row[3]) && empty($row[4]);
-        $emptyRow = empty($row[0]) && empty($row[1]) && empty($row[2]) && empty($row[3]) && empty($row[4]);
+        $emptyRow = (empty($row[0]) || $row[0] == '') && empty($row[1]) && empty($row[2]) && empty($row[3]) && empty($row[4]);
         if ($emptyRow) {
             Log::info('Celda vacia', ['row' => $row]);
 
@@ -137,6 +137,12 @@ class ImportProducto implements ToModel, WithCalculatedFormulas, WithEvents, Wit
             'activo' => true,
             'unidad' => $unidad,
         ];
+
+        if ($currentRow['nombre'] == '' || $currentRow['nombre'] == null) {
+            Log::info('Celda invalida', ['row' => $row, 'insertRow' => $currentRow]);
+            return null;
+        }
+
         $this->inserted[] = $nombre;
         $producto = Producto::create($currentRow);
         $this->nuevoMovimiento([

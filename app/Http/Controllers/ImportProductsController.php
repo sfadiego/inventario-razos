@@ -16,19 +16,24 @@ class ImportProductsController extends Controller
     // todo: ajustar test para validar respuesta correcta, se modifico el response de la api
     public function store(ImportProductosStoreRequest $param): JsonResponse
     {
-        Log::info('Iniciando importacion');
-        $file = $param->file('file');
-        $import = new ImportProducto;
-        Excel::import($import, $file);
-        $data = [
-            'inserted' => $import->getInserted(),
-            'duplicates' => $import->getDuplicates(),
-            'importInfo' => $import->getImportInfo(),
-        ];
-        Log::info('Imported Productos', ['data' => $data]);
-        Log::info('Finalizando importacion - Total inserted: '.count($data['inserted']).', Total duplicates: '.count($data['duplicates']));
+        try {
+            Log::info('Iniciando importacion');
+            $file = $param->file('file');
+            $import = new ImportProducto;
+            Excel::import($import, $file);
+            $data = [
+                'inserted' => $import->getInserted(),
+                'duplicates' => $import->getDuplicates(),
+                'importInfo' => $import->getImportInfo(),
+            ];
+            Log::info('Imported Productos', ['data' => $data]);
+            Log::info('Finalizando importacion - Total inserted: ' . count($data['inserted']) . ', Total duplicates: ' . count($data['duplicates']));
 
-        return Response::success($data);
+            return Response::success($data);
+        } catch (\Throwable $th) {
+            Log::error('Error al importar productos', ['error' => $th->getMessage()]);
+            return Response::error($th->getMessage());
+        }
     }
 
     // TODO: crear test para esta api
