@@ -14,7 +14,7 @@ RUN apt-get update && apt-get install -y \
     sqlite3 \
     libsqlite3-dev \
     libicu-dev \
-    cups smbclient cifs-utils netcat iproute2 procps \
+    cups smbclient cifs-utils netcat-openbsd iproute2 procps \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install pdo pdo_mysql mbstring zip gd intl \
     && rm -rf /var/lib/apt/lists/*
