@@ -22,7 +22,7 @@ class ConnectorFactory
                 return new CupsConnector(env('PRINTER_NAME'));
             case 'windows':
             default:
-                return new WindowsConnector(env('PRINTER_NAME'));
+                return new WindowsConnector(env('PRINTER_NAME') );
         }
     }
 }

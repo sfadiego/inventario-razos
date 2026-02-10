@@ -7,6 +7,7 @@ services:
     volumes:
       - .:/var/www/html
       - ./scripts:/scripts:ro
+      - ./samba-cache:/var/www/.cache/samba #revisar si es necesario
     networks:
       - laravel
     depends_on:

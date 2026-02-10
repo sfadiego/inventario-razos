@@ -5,6 +5,9 @@ APP_DIR="/var/www/html"
 
 # setup mysql
 /usr/local/bin/mysql_setup.sh || true
+# setup cups
+/usr/local/bin/cups_setup.sh || true
+# setup laravel
 /usr/local/bin/laravel_setup.sh || true
 
 # --- inicio ---
