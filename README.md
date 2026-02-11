@@ -93,3 +93,13 @@ lpadmin -p ${PRINTER_NAME} -E -v usb://POS80_Series/POS80_Printer_USB -m raw
 ```bash
 lpstat -a
 ```
+
+
+## Errores conocidos
+
+- windows:
+error en puertos:
+```bash
+netstat -ano | findstr :3307
+taskkill /PID ${PID} /F
+```
