@@ -25,10 +25,9 @@ COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 # copia entrypoint y dale permiso de ejecución
 COPY docker/php/mysql_setup.sh /usr/local/bin/mysql_setup.sh
 COPY docker/php/laravel_setup.sh /usr/local/bin/laravel_setup.sh
-COPY docker/php/cups_setup.sh /usr/local/bin/cups_setup.sh
 COPY docker/php/entrypoint.sh /usr/local/bin/entrypoint.sh
 # permiso de ejecución
-RUN chmod +x /usr/local/bin/entrypoint.sh /usr/local/bin/mysql_setup.sh /usr/local/bin/laravel_setup.sh /usr/local/bin/cups_setup.sh 
+RUN chmod +x /usr/local/bin/entrypoint.sh /usr/local/bin/mysql_setup.sh /usr/local/bin/laravel_setup.sh 
 
 # Copia el código del proyecto Laravel
 WORKDIR /var/www/html

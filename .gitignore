@@ -30,3 +30,5 @@ sqlite
 
 /public/template/*
 !/public/template/products.xlsx
+
+/public/backups

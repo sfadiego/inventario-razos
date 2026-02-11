@@ -15,7 +15,7 @@ class ConnectorFactory
         $driver = env('PRINTER_DRIVER', 'windows');
         switch ($driver) {
             case 'network':
-                return new NetworkConnector(env('CUPS_SERVER'));
+                return new NetworkConnector(env('NETWORK_CONNECTOR'));
             case 'linux':
             case 'macos':
             case 'cups': // CUPS (Common Unix Printing System), que es el sistema de impresión nativo de macOS y Linux.
