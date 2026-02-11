@@ -21,7 +21,9 @@ class WindowsConnector implements PrinterConnectorInterface
 
     public function init(): void
     {
-        $this->connector = new WindowsPrintConnector($this->printerName);
+        $host = 'host.docker.internal';
+        // $this->connector = new WindowsPrintConnector($host, $this->printerName);
+        $this->connector = new WindowsPrintConnector("//{$host}/{$this->printerName}");
         $this->printer = new Printer($this->connector);
     }
 

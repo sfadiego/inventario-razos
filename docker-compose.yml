@@ -4,6 +4,8 @@ services:
       context: .
     env_file: .env
     container_name: laravel_php
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     volumes:
       - .:/var/www/html
       - ./scripts:/scripts:ro
