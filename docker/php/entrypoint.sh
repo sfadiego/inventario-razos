@@ -4,12 +4,9 @@ set -e
 APP_DIR="/var/www/html"
 
 # setup mysql
-/usr/local/bin/mysql_setup.sh || true
+/usr/local/bin/mysql_setup.sh || echo "Aviso: Falló el setup de MySQL"
 # setup laravel
-/usr/local/bin/laravel_setup.sh || true
-
-# --- inicio ---
-cd "$APP_DIR" || exit 1
+/usr/local/bin/laravel_setup.sh || echo "Aviso: Falló el setup de Laravel"
 
 # Ejecutar el comando que se pase al contenedor (por defecto php-fpm)
 exec "$@"

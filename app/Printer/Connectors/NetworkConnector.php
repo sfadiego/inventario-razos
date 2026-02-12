@@ -14,14 +14,17 @@ class NetworkConnector implements PrinterConnectorInterface
 
     protected $printerName;
 
+    protected $printerHost;
+
     public function __construct()
     {
         $this->printerName = env('PRINTER_NAME');
+        $this->printerHost = env('PRINTER_HOST');
     }
 
     public function init(): void
     {
-        $this->connector = new NetworkPrintConnector(env('PRINTER_HOST'));
+        $this->connector = new NetworkPrintConnector($this->printerHost);
         $this->printer = new Printer($this->connector);
     }
 

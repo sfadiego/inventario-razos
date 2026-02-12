@@ -21,18 +21,18 @@ RUN apt-get update && apt-get install -y \
     && docker-php-ext-install pdo pdo_mysql mbstring zip gd intl \
     && rm -rf /var/lib/apt/lists/*
     
+
+RUN usermod -u 1000 www-data && groupmod -g 1000 www-data
 # Composer
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
-    
-# copia entrypoint y dale permiso de ejecución
-COPY docker/php/mysql_setup.sh /usr/local/bin/mysql_setup.sh
-COPY docker/php/laravel_setup.sh /usr/local/bin/laravel_setup.sh
-COPY docker/php/entrypoint.sh /usr/local/bin/entrypoint.sh
-# permiso de ejecución
-RUN chmod +x /usr/local/bin/entrypoint.sh /usr/local/bin/mysql_setup.sh /usr/local/bin/laravel_setup.sh 
-RUN chown -R www-data:www-data /var/www/html
+
+COPY docker/php/*.sh /usr/local/bin/
+RUN chmod +x /usr/local/bin/*.sh
+
 # Copia el código del proyecto Laravel
 WORKDIR /var/www/html
+
+RUN mkdir -p /var/www/.cache && chown -R www-data:www-data /var/www/html /var/www/.cache
 
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
 CMD ["php-fpm"]
