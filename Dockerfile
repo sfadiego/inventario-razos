@@ -14,7 +14,9 @@ RUN apt-get update && apt-get install -y \
     sqlite3 \
     libsqlite3-dev \
     libicu-dev \
-    cups smbclient cifs-utils netcat-openbsd iproute2 procps \
+    cups \
+    cups-client \
+    smbclient cifs-utils netcat-openbsd iproute2 procps \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install pdo pdo_mysql mbstring zip gd intl \
     && rm -rf /var/lib/apt/lists/*
@@ -28,7 +30,7 @@ COPY docker/php/laravel_setup.sh /usr/local/bin/laravel_setup.sh
 COPY docker/php/entrypoint.sh /usr/local/bin/entrypoint.sh
 # permiso de ejecución
 RUN chmod +x /usr/local/bin/entrypoint.sh /usr/local/bin/mysql_setup.sh /usr/local/bin/laravel_setup.sh 
-
+RUN chown -R www-data:www-data /var/www/html
 # Copia el código del proyecto Laravel
 WORKDIR /var/www/html
 
