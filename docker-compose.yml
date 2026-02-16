@@ -8,7 +8,6 @@ services:
       - "host.docker.internal:host-gateway"
     volumes:
       - .:/var/www/html
-      # Estos deben ir debajo del punto anterior para "tapar" las carpetas locales
       - /var/www/html/storage
       - /var/www/html/bootstrap/cache
       - /var/www/html/vendor

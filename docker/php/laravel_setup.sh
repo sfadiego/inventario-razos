@@ -12,10 +12,22 @@ mkdir -p storage/framework/sessions storage/framework/views storage/framework/ca
 chmod -R 777 storage bootstrap/cache
 
 # 2. Composer install (Solo si falta vendor o en cambios)
-if [ -f composer.json ]; then
-  echo "Verificando dependencias..."
-  composer install --no-interaction --prefer-dist --optimize-autoloader || echo "Error en composer install"
+# if [ -f composer.json ]; then
+#   echo "Verificando dependencias..."
+#   composer install --no-interaction --prefer-dist --optimize-autoloader || echo "Error en composer install"
+# fi
+if [ -f "vendor/autoload.php" ]; then
+    echo "Dependencias (vendor) ya detectadas. Saltando instalación..."
+else
+    echo "Instalando dependencias..."
+    composer install --no-interaction --prefer-dist --optimize-autoloader || echo "Error en composer install"
+    # Validar si el comando anterior tuvo éxito
+    if [ $? -ne 0 ]; then
+        echo "Error crítico: Falló composer install"
+        exit 1
+    fi
 fi
+
 
 # Generar key si no existe APP_KEY
 # 3. Generar APP_KEY si falta
