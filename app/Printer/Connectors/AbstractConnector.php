@@ -8,12 +8,12 @@ use Mike42\Escpos\Printer;
 abstract class AbstractConnector implements PrinterConnectorInterface
 {
     protected $connector;
+
     protected $printer;
 
     abstract public function init(): void;
 
     public function initialize(): void {}
-
 
     public function write(string $data): void
     {
@@ -40,4 +40,3 @@ abstract class AbstractConnector implements PrinterConnectorInterface
         return $this->printer;
     }
 }
-    

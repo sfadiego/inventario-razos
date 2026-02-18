@@ -8,12 +8,14 @@ use Mike42\Escpos\Printer;
 
 class FileConnector extends AbstractConnector implements PrinterConnectorInterface
 {
-
     protected $fileName;
 
     protected $connector;
+
     protected $printer;
+
     protected $tempFile = null;
+
     protected $host;
 
     public function __construct()

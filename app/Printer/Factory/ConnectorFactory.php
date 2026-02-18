@@ -14,14 +14,15 @@ class ConnectorFactory
     public static function make(): PrinterConnectorInterface
     {
         $driver = env('PRINTER_DRIVER', 'windows');
+
         return match ($driver) {
-            'smbclient' => new SmbclientConnector(),
-            'network' => new NetworkConnector(),
-            'file' => new FileConnector(),
-            'linux' => new CupsConnector(),
-            'macos' => new CupsConnector(),
-            'cups' => new CupsConnector(),
-            'windows' => new WindowsConnector()
+            'smbclient' => new SmbclientConnector,
+            'network' => new NetworkConnector,
+            'file' => new FileConnector,
+            'linux' => new CupsConnector,
+            'macos' => new CupsConnector,
+            'cups' => new CupsConnector,
+            'windows' => new WindowsConnector
         };
     }
 }
