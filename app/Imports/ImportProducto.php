@@ -51,6 +51,18 @@ class ImportProducto implements ToModel, WithCalculatedFormulas, WithEvents, Wit
             ->toArray();
     }
 
+    public function prepareUnidad(string $unidad)
+    {
+        return match (trim($unidad)) {
+            'pieza' => ProductoUnidadEnum::PIEZA->value,
+            'PIEZA' => ProductoUnidadEnum::PIEZA->value,
+            'PZA' => ProductoUnidadEnum::PIEZA->value,
+            'PAR' => ProductoUnidadEnum::PAR->value,
+            'par' => ProductoUnidadEnum::PAR->value,
+            default => ProductoUnidadEnum::PIEZA->value,
+        };
+    }
+
     public function model(array $row)
     {
         if (! in_array($this->categoria, [TipoProductoEnum::LUCES->value, TipoProductoEnum::MOTOS->value])) {
@@ -85,7 +97,7 @@ class ImportProducto implements ToModel, WithCalculatedFormulas, WithEvents, Wit
         $marca = isset($row[3]) ? trim((string) $row[3]) : Marca::SIN_DEFINIR;
         $subcategoriaId = $this->subcategoria[$row[4]] ?? null;
         $precioVenta = isset($row[5]) ? preg_replace('/[^0-9.]/', '', $row[5]) : 0;
-        $unidad = isset($row[6]) ? trim((string) $row[6]) : ProductoUnidadEnum::PIEZA->value;
+        $unidad = isset($row[6]) ? $this->prepareUnidad(trim((string) $row[6])) : ProductoUnidadEnum::PIEZA->value;
         // default values
         $proveedor_id = Proveedor::firstOrCreate(['nombre' => Proveedor::SIN_DEFINIR])->id;
         $precio_compra = 0;

@@ -3,35 +3,17 @@
 namespace App\Printer\Connectors;
 
 use App\Printer\Interface\PrinterConnectorInterface;
-use Mike42\Escpos\PrintConnectors\NetworkPrintConnector;
 use Mike42\Escpos\Printer;
 
-class NetworkConnector implements PrinterConnectorInterface
+abstract class AbstractConnector implements PrinterConnectorInterface
 {
     protected $connector;
 
     protected $printer;
 
-    protected $printerName;
+    abstract public function init(): void;
 
-    protected $printerHost;
-
-    public function __construct()
-    {
-        $this->printerName = env('PRINTER_NAME');
-        $this->printerHost = env('PRINTER_HOST');
-    }
-
-    public function init(): void
-    {
-        $this->connector = new NetworkPrintConnector($this->printerHost);
-        $this->printer = new Printer($this->connector);
-    }
-
-    public function initialize(): void
-    {
-        $this->printer->initialize();
-    }
+    public function initialize(): void {}
 
     public function write(string $data): void
     {

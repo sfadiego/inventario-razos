@@ -11,7 +11,6 @@ class VentaFormatter implements TicketFormatterInterface
     public function format(TicketDataInterface $data, Printer $connector): void
     {
         $payload = $data->toArray();
-        $connector->initialize();
         $connector->setJustification(Printer::JUSTIFY_CENTER);
         $connector->text(env('APP_FULL_NAME', ''));
         $connector->feed(2);
