@@ -48,20 +48,22 @@ class Producto extends Model
         return $this->hasMany(TipoMovimiento::class);
     }
 
-    public static function createFolio(string $nombre): string
+    public static function createFolio(string $nombre): ?string
     {
         $iniciales = collect(explode(' ', $nombre))
-            ->map(function ($p) {
-                $soloLetras = preg_replace('/[^A-Za-zÁÉÍÓÚÑáéíóúñ]/u', '', $p);
-                $sinAcentos = Str::ascii($soloLetras); // elimina acentos
-
-                return $soloLetras !== '' ? Str::substr($sinAcentos, 0, 1) : '';
-            })
+            ->map(fn($p) => Str::upper(Str::substr(preg_replace('/[^A-Za-z]/', '', Str::ascii($p)), 0, 1)))
+            ->filter()
             ->implode('');
-        $iniciales = Str::substr($iniciales, 0, 10);
-        $random = md5(uniqid().microtime());
 
-        return "$iniciales-".substr($random, 0, 4);
+        $prefijo = Str::substr($iniciales ?: 'PRD', 0, 10);
+        $codigosExistentes = Producto::pluck('codigo')->toArray();
+        do {
+            // 10 (prefijo) + 1 (-) + 6 (random) = 17 caracteres (cumple < 18)
+            $random = Str::upper(Str::random(6));
+            $codigo = "{$prefijo}-{$random}";
+        } while (isset($codigosExistentes[$codigo]));
+
+        return $codigo;
     }
 
     public function imagen()
@@ -73,7 +75,7 @@ class Producto extends Model
     {
         $extension = $file->getClientOriginalExtension();
         $path = $this->path ?? now()->format('Ymd');
-        $name = $this->name ?? md5(uniqid().microtime()).".{$extension}";
+        $name = $this->name ?? md5(uniqid() . microtime()) . ".{$extension}";
 
         return ImagenProducto::storeFile($file, $name, $path);
     }

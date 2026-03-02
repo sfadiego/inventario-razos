@@ -14,6 +14,7 @@ use App\Models\Subcategoria;
 use App\Models\Ubicacion;
 use App\Traits\Movimientos;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Str;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithCalculatedFormulas;
 use Maatwebsite\Excel\Concerns\WithEvents;
@@ -25,6 +26,7 @@ class ImportProducto implements ToModel, WithCalculatedFormulas, WithEvents, Wit
     use Movimientos;
 
     public array $inserted = [];
+    public bool $validateDuplicateProduct = false;
 
     public array $subcategoria = [];
 
@@ -47,7 +49,7 @@ class ImportProducto implements ToModel, WithCalculatedFormulas, WithEvents, Wit
     {
         $this->existingProducts = Producto::query()
             ->pluck('nombre')
-            ->map(fn ($n) => mb_strtolower(trim($n)))
+            ->map(fn($n) => mb_strtolower(trim($n)))
             ->toArray();
     }
 
@@ -69,7 +71,7 @@ class ImportProducto implements ToModel, WithCalculatedFormulas, WithEvents, Wit
             Log::info('Categoria invalida', ['categoria' => $this->categoria]);
             $this->importInfo[] = [
                 'status' => 'skiped',
-                'message' => 'La categoria '.$this->categoria.' no es valida',
+                'message' => 'La categoria ' . $this->categoria . ' no es valida',
             ];
 
             return null;
@@ -77,8 +79,6 @@ class ImportProducto implements ToModel, WithCalculatedFormulas, WithEvents, Wit
         $rowSubCategoria = isset($row[0]) && empty($row[1]) && empty($row[2]) && empty($row[3]) && empty($row[4]);
         $emptyRow = (empty($row[0]) || $row[0] == '') && empty($row[1]) && empty($row[2]) && empty($row[3]) && empty($row[4]);
         if ($emptyRow) {
-            Log::info('Celda vacia', ['row' => $row]);
-
             return null;
         }
         $categoria_id = Categoria::firstOrCreate(['nombre' => $this->categoria])->id;
@@ -90,8 +90,16 @@ class ImportProducto implements ToModel, WithCalculatedFormulas, WithEvents, Wit
             return null;
         }
 
-        $availableCodigo = Producto::where(['codigo' => $row[0]])->count();
-        $codigo = ! $availableCodigo ? Producto::createFolio(trim((string) $row[2])) : trim((string) $row[0]);
+
+        $codigo = trim((string) ($row[0] ?? ''));
+        if ($codigo === '') {
+            $nombreParaFolio = isset($row[2]) ? trim((string) $row[2]) : 'PROD';
+            $codigo = $this->generateUniqueFolio($nombreParaFolio);
+        } else {
+            $codigo = $codigo;
+        }
+
+
         $cantidad = isset($row[1]) ? trim((string) $row[1]) : 0;
         $nombre = isset($row[2]) ? trim((string) $row[2]) : null;
         $marca = isset($row[3]) ? trim((string) $row[3]) : Marca::SIN_DEFINIR;
@@ -109,7 +117,7 @@ class ImportProducto implements ToModel, WithCalculatedFormulas, WithEvents, Wit
         $marca_id = Marca::firstOrCreate(['nombre' => $marca])->id;
 
         $key = mb_strtolower($nombre);
-        if (in_array($key, $this->existingProducts, true)) {
+        if ($this->validateDuplicateProduct && in_array($key, $this->existingProducts, true)) {
             $this->duplicates[] = $nombre;
             Producto::where('nombre', $nombre)
                 ->update([
@@ -150,13 +158,17 @@ class ImportProducto implements ToModel, WithCalculatedFormulas, WithEvents, Wit
             'unidad' => $unidad,
         ];
 
-        if ($currentRow['nombre'] == '' || $currentRow['nombre'] == null) {
-            Log::info('Celda invalida', ['row' => $row, 'insertRow' => $currentRow]);
 
+        if ($currentRow['nombre'] == '' || $currentRow['nombre'] == null || $currentRow['codigo'] == '') {
+            Log::info('Row invalido', ['row' => $row, 'insertRow' => $currentRow]);
             return null;
         }
 
-        $this->inserted[] = $nombre;
+        if (strlen($codigo) > 18) {
+            Log::info('Codigo de producto muy largo', ['codigo' => $codigo]);
+            return null;
+        }
+
         $producto = Producto::create($currentRow);
         $this->nuevoMovimiento([
             'producto_id' => $producto->id,
@@ -168,6 +180,8 @@ class ImportProducto implements ToModel, WithCalculatedFormulas, WithEvents, Wit
             'user_id' => auth()->user()->id,
         ]);
 
+        $this->inserted[] = $nombre;
+        $this->existingProducts[] = $nombre;
         return $producto;
     }
 
@@ -193,5 +207,21 @@ class ImportProducto implements ToModel, WithCalculatedFormulas, WithEvents, Wit
                 $this->categoria = $event->getSheet()->getDelegate()->getTitle();
             },
         ];
+    }
+
+
+    private function generateUniqueFolio(string $nombre): string
+    {
+        $iniciales = collect(explode(' ', $nombre))
+            ->map(fn($p) => Str::upper(Str::substr(preg_replace('/[^A-Za-z]/', '', Str::ascii($p)), 0, 1)))
+            ->filter()
+            ->implode('');
+
+        $prefijo = Str::substr($iniciales ?: 'PRD', 0, 10);
+
+        $random = Str::upper(Str::random(6));
+        $codigo = "{$prefijo}-{$random}";
+
+        return $codigo;
     }
 }

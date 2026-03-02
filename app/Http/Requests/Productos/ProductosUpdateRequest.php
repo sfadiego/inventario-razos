@@ -25,7 +25,7 @@ class ProductosUpdateRequest extends FormRequest
             'nombre' => ['nullable', 'string', 'max:255'],
             'proveedor_id' => ['nullable', 'exists:proveedores,id'],
             'categoria_id' => ['nullable', 'exists:categorias,id'],
-            'codigo' => ['nullable', 'string'],
+            'codigo' => ['nullable', 'string', 'max:18'],
             'precio_compra' => ['nullable', 'numeric', 'min:1'],
             'precio_venta' => ['nullable', 'numeric', 'min:1'],
             'stock' => ['nullable', 'integer', 'min:0'],

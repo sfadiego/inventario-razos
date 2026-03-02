@@ -13,7 +13,7 @@ return new class extends Migration
                 $table->id();
                 $table->string('nombre');
                 $table->enum('unidad', ['pieza', 'metro', 'par']);
-                $table->string('codigo', 18)->unique();
+                $table->string('codigo', 18);
                 $table->decimal('precio_compra', 10, 2);
                 $table->decimal('precio_venta', 10, 2);
                 $table->integer('stock');

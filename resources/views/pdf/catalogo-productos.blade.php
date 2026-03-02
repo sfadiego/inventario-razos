@@ -52,22 +52,26 @@
             <tr>
                 @if ($print_image)
                 <td>
-                    @if ($item->encodedimagen)
-                    <img class="image" src="data:image/png;base64,{{ $item->encodedimagen }}" alt="Imagen">
-                    @else
-                     --
+                    @if($print_image && $item['image_path'] && file_exists($item['image_path']))
+                        <td>
+                            <img src="data:image/png;base64,{{ base64_encode(file_get_contents($item['image_path'])) }}" width="60">
+                        </td>
                     @endif
                 </td>
                 @endif
-                @if ($print_barcode)
+
+                @if ($print_barcode && isset($item['codigo']))
                 <td>
-                    <img class="barcode" src="data:image/png;base64,{{ $item->barcode }}" alt="Codigo">
+                    @php
+                    $codigo = $item['codigo'];
+                    @endphp
+                    <img class="barcode" src="data:image/png;base64,{{ base64_encode($generator->getBarcode($codigo, $generator::TYPE_CODE_128)) }}">
                 </td>
                 @endif
-                <td>{{ $item->codigo }}</td>
-                <td>{{ $item->nombre }}</td>
-                <td>{{ $item->unidad }}</td>
-                <td>{{ $item->precio_venta }}</td>
+                <td>{{ $item['codigo'] }}</td>
+                <td>{{ $item['nombre'] }}</td>
+                <td>{{ $item['unidad'] }}</td>
+                <td>{{ $item['precio_venta'] }}</td>
             </tr>
             @endforeach
             @endforeach
@@ -77,5 +81,7 @@
     </table>
 
 </body>
+
+</html>
 
 </html>
