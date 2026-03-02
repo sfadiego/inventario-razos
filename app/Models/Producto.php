@@ -51,7 +51,7 @@ class Producto extends Model
     public static function createFolio(string $nombre): ?string
     {
         $iniciales = collect(explode(' ', $nombre))
-            ->map(fn($p) => Str::upper(Str::substr(preg_replace('/[^A-Za-z]/', '', Str::ascii($p)), 0, 1)))
+            ->map(fn ($p) => Str::upper(Str::substr(preg_replace('/[^A-Za-z]/', '', Str::ascii($p)), 0, 1)))
             ->filter()
             ->implode('');
 
@@ -75,7 +75,7 @@ class Producto extends Model
     {
         $extension = $file->getClientOriginalExtension();
         $path = $this->path ?? now()->format('Ymd');
-        $name = $this->name ?? md5(uniqid() . microtime()) . ".{$extension}";
+        $name = $this->name ?? md5(uniqid().microtime()).".{$extension}";
 
         return ImagenProducto::storeFile($file, $name, $path);
     }

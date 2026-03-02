@@ -26,6 +26,7 @@ class ImportProducto implements ToModel, WithCalculatedFormulas, WithEvents, Wit
     use Movimientos;
 
     public array $inserted = [];
+
     public bool $validateDuplicateProduct = false;
 
     public array $subcategoria = [];
@@ -49,7 +50,7 @@ class ImportProducto implements ToModel, WithCalculatedFormulas, WithEvents, Wit
     {
         $this->existingProducts = Producto::query()
             ->pluck('nombre')
-            ->map(fn($n) => mb_strtolower(trim($n)))
+            ->map(fn ($n) => mb_strtolower(trim($n)))
             ->toArray();
     }
 
@@ -71,7 +72,7 @@ class ImportProducto implements ToModel, WithCalculatedFormulas, WithEvents, Wit
             Log::info('Categoria invalida', ['categoria' => $this->categoria]);
             $this->importInfo[] = [
                 'status' => 'skiped',
-                'message' => 'La categoria ' . $this->categoria . ' no es valida',
+                'message' => 'La categoria '.$this->categoria.' no es valida',
             ];
 
             return null;
@@ -90,7 +91,6 @@ class ImportProducto implements ToModel, WithCalculatedFormulas, WithEvents, Wit
             return null;
         }
 
-
         $codigo = trim((string) ($row[0] ?? ''));
         if ($codigo === '') {
             $nombreParaFolio = isset($row[2]) ? trim((string) $row[2]) : 'PROD';
@@ -98,7 +98,6 @@ class ImportProducto implements ToModel, WithCalculatedFormulas, WithEvents, Wit
         } else {
             $codigo = $codigo;
         }
-
 
         $cantidad = isset($row[1]) ? trim((string) $row[1]) : 0;
         $nombre = isset($row[2]) ? trim((string) $row[2]) : null;
@@ -158,14 +157,15 @@ class ImportProducto implements ToModel, WithCalculatedFormulas, WithEvents, Wit
             'unidad' => $unidad,
         ];
 
-
         if ($currentRow['nombre'] == '' || $currentRow['nombre'] == null || $currentRow['codigo'] == '') {
             Log::info('Row invalido', ['row' => $row, 'insertRow' => $currentRow]);
+
             return null;
         }
 
         if (strlen($codigo) > 18) {
             Log::info('Codigo de producto muy largo', ['codigo' => $codigo]);
+
             return null;
         }
 
@@ -182,6 +182,7 @@ class ImportProducto implements ToModel, WithCalculatedFormulas, WithEvents, Wit
 
         $this->inserted[] = $nombre;
         $this->existingProducts[] = $nombre;
+
         return $producto;
     }
 
@@ -209,11 +210,10 @@ class ImportProducto implements ToModel, WithCalculatedFormulas, WithEvents, Wit
         ];
     }
 
-
     private function generateUniqueFolio(string $nombre): string
     {
         $iniciales = collect(explode(' ', $nombre))
-            ->map(fn($p) => Str::upper(Str::substr(preg_replace('/[^A-Za-z]/', '', Str::ascii($p)), 0, 1)))
+            ->map(fn ($p) => Str::upper(Str::substr(preg_replace('/[^A-Za-z]/', '', Str::ascii($p)), 0, 1)))
             ->filter()
             ->implode('');
 

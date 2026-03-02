@@ -8,7 +8,6 @@ use App\Models\Producto;
 use App\Models\Venta;
 use App\Models\VentaProducto;
 use Barryvdh\DomPDF\Facade\Pdf;
-use Illuminate\Support\Facades\Storage;
 use Picqer\Barcode\BarcodeGeneratorPNG;
 use Symfony\Component\HttpFoundation\File\Stream;
 use Symfony\Component\HttpFoundation\Response;
@@ -23,7 +22,7 @@ class PdfGeneratorController extends Controller
     public function catalogoProductos(CatalogoProductosRequest $param): Response
     {
         $productosAgrupados = [];
-        $generator = new BarcodeGeneratorPNG();
+        $generator = new BarcodeGeneratorPNG;
 
         // Usamos chunkById para no cargar todo de golpe
         Producto::query()
@@ -35,7 +34,7 @@ class PdfGeneratorController extends Controller
                 'precio_venta',
                 'stock',
                 'subcategoria_id',
-                'imagen_id'
+                'imagen_id',
             ])
             ->with([
                 'imagen:id,path,archivo',
@@ -51,12 +50,12 @@ class PdfGeneratorController extends Controller
                     // Guardamos solo los datos estrictamente necesarios en formato array
                     // Esto es mucho más ligero que un objeto Eloquent
                     $productosAgrupados[$subName][] = [
-                        'codigo'       => $item->codigo,
-                        'nombre'       => $item->nombre,
-                        'unidad'       => $item->unidad,
+                        'codigo' => $item->codigo,
+                        'nombre' => $item->nombre,
+                        'unidad' => $item->unidad,
                         'precio_venta' => $item->precio_venta,
-                        'stock'        => $item->stock,
-                        'image_path'   => $item->imagen
+                        'stock' => $item->stock,
+                        'image_path' => $item->imagen
                             ? storage_path("app/{$item->imagen->path}/{$item->imagen->archivo}")
                             : null,
                     ];
@@ -65,10 +64,10 @@ class PdfGeneratorController extends Controller
 
         // dd($productosAgrupados);
         $pdf = Pdf::loadView('pdf.catalogo-productos', [
-            'productos'     => $productosAgrupados,
+            'productos' => $productosAgrupados,
             'print_barcode' => $param->print_barcode,
-            'print_image'   => $param->print_image,
-            'generator'     => $generator,
+            'print_image' => $param->print_image,
+            'generator' => $generator,
         ])->setPaper('letter', 'landscape');
 
         return $pdf->download('catalogo.pdf');
