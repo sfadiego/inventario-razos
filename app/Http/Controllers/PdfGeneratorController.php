@@ -24,7 +24,6 @@ class PdfGeneratorController extends Controller
         $productosAgrupados = [];
         $generator = new BarcodeGeneratorPNG;
 
-        // Usamos chunkById para no cargar todo de golpe
         Producto::query()
             ->select([
                 'id',
@@ -62,7 +61,6 @@ class PdfGeneratorController extends Controller
                 }
             });
 
-        // dd($productosAgrupados);
         $pdf = Pdf::loadView('pdf.catalogo-productos', [
             'productos' => $productosAgrupados,
             'print_barcode' => $param->print_barcode,
