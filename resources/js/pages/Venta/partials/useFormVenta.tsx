@@ -98,17 +98,25 @@ export const useFormVenta = () => {
     }
   }, [data, clienteSeleccionado, setItem, clearItem]);
 
-  const confiable = cliente?.confiable;
+  const confiable = cliente?.id !== undefined ? Number(cliente.confiable) === 1 : true;
   const adeudo = cliente?.adeudo || 0;
   const msgAdeudo = adeudo === 0 ? '' : ` Este cliente tiene un adeudo de ${adeudo}`;
 
   const isValidClient = useMemo(() => (!isLoading && confiable && adeudo === 0) || esNuevocliente, [isLoading, confiable, adeudo, esNuevocliente]);
 
-  const onChangeValidateCliente = useCallback((option: SingleValue<IOptions> | MultiValue<IOptions>) => {
-    if (option && !Array.isArray(option) && 'value' in option) {
-      setClienteSeleccionado(option.value as number);
-    }
-  }, []);
+  const onChangeValidateCliente = useCallback(
+    (option: SingleValue<IOptions> | MultiValue<IOptions>) => {
+      if (!option) {
+        clearItem('cliente');
+        setClienteSeleccionado(0);
+      }
+
+      if (option && !Array.isArray(option) && 'value' in option) {
+        setClienteSeleccionado(option.value as number);
+      }
+    },
+    [clearItem],
+  );
 
   const formikProps = {
     initialValues,
@@ -131,5 +139,6 @@ export const useFormVenta = () => {
     isValidClient,
     adeudo,
     msgAdeudo,
+    confiable,
   };
 };
