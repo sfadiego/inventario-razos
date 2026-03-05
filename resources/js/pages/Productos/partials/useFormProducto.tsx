@@ -58,7 +58,7 @@ export const useFormProducto = (props: IUseProductProps) => {
     categoria_id: Yup.number().min(1, 'Seleccione una categoría').required('La categoría es obligatoria'),
     subcategoria_id: Yup.number().min(1, 'Seleccione una subcategoría'),
     codigo: Yup.string(),
-    precio_compra: Yup.number().min(1, 'Debe ser mayor o igual a $1').required('El precio de compra es obligatorio'),
+    precio_compra: Yup.number().min(1, 'Debe ser mayor o igual a $1'),
     precio_venta: Yup.number().min(1, 'Debe ser mayor o igual a $1').required('El precio de venta es obligatorio'),
     stock: Yup.number().min(0, 'Debe ser mayor o igual a 1').required('El stock es obligatorio'),
     cantidad_minima: Yup.number().min(1, 'Debe ser mayor o igual a 1').required('La cantidad mínima es obligatoria'),
