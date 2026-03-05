@@ -16,6 +16,7 @@ class NetworkConnector implements PrinterConnectorInterface
     protected $printerName;
 
     protected $printerHost;
+
     protected $socketConection;
 
     public function __construct()
@@ -26,7 +27,7 @@ class NetworkConnector implements PrinterConnectorInterface
 
     public function init(): void
     {
-        if (!$this->isActiveConnection()) {
+        if (! $this->isActiveConnection()) {
             return;
         }
         $this->connector = new NetworkPrintConnector($this->printerHost);
@@ -69,10 +70,12 @@ class NetworkConnector implements PrinterConnectorInterface
     public function isActiveConnection(): bool
     {
         $this->socketConection = @fsockopen($this->printerHost, 9100, $errno, $errstr, 1.5);
-        if (!$this->socketConection) {
+        if (! $this->socketConection) {
             Log::info('Impresora no conectada');
+
             return false;
         }
+
         return true;
     }
 }

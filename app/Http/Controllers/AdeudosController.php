@@ -2,18 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Enums\StatusVentaEnum;
-use App\Enums\TipoCompraEnum;
-use App\Http\Requests\Clientes\AdeudosUpdateRequest;
 use App\Models\Cliente;
 use App\Models\HistorialAdeudo;
-use App\Models\Venta;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Response;
 
 class AdeudosController extends Controller
 {
-
     public function liquidarAdeudos(Cliente $cliente): JsonResponse
     {
         $adeudos = HistorialAdeudo::where(['cliente_id' => $cliente->id, 'pagado' => false])->get();

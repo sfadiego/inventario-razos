@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class HistorialAdeudo extends Model
 {
     protected $table = 'historial_adeudo_cliente';
+
     protected $fillable = [
         'pagado',
         'total_adeudo',

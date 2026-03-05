@@ -15,7 +15,7 @@ class PrinterController extends Controller
     {
         try {
             $connector = ConnectorFactory::make();
-            if (!$connector->isActiveConnection()) {
+            if (! $connector->isActiveConnection()) {
                 return Response::error('Impresora no conectada');
             }
             $formatter = new VentaFormatter;

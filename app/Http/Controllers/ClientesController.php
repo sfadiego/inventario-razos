@@ -3,14 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Core\Data\IndexData;
-use App\Enums\StatusVentaEnum;
-use App\Enums\TipoCompraEnum;
 use App\Http\Requests\Clientes\ClientesStoreRequest;
 use App\Http\Requests\Clientes\ClientesUpdateRequest;
 use App\Logic\Cliente\ClienteIndexLogic;
 use App\Models\Cliente;
 use App\Models\HistorialAdeudo;
-use App\Models\Venta;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Response;
 
@@ -44,6 +41,7 @@ class ClientesController extends Controller
             })
             ->select('id', 'total_adeudo', 'venta_id', 'created_at')
             ->get();
+
         return Response::success($adeudos);
     }
 

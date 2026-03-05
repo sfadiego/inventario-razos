@@ -30,6 +30,7 @@ class VentasController extends Controller
         }
 
         $venta = Venta::createVenta($params->all());
+
         return Response::success($venta);
     }
 
