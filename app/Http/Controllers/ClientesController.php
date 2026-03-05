@@ -30,7 +30,7 @@ class ClientesController extends Controller
         return Response::success($cliente);
     }
 
-    //TODO: crear test
+    // TODO: crear test
     public function showAdeudo(Cliente $cliente): JsonResponse
     {
         $adeudos = HistorialAdeudo::where([
