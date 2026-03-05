@@ -6,7 +6,6 @@ use App\Enums\StatusVentaEnum;
 use App\Enums\TipoCompraEnum;
 use App\Enums\TipoMovimientoEnum;
 use App\Traits\Movimientos;
-use Exception;
 use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -72,7 +71,7 @@ class Venta extends Model
                 $stockActual = $producto->stock - $cantidadDescontar;
                 if ($stockActual < 0) {
                     DB::rollBack();
-                    throw new Exception('No se puede descontar, stock insuficiente');
+                    throw new \Exception('No se puede descontar, stock insuficiente');
                 }
                 $producto->stock = $stockActual;
                 $producto->update();
@@ -88,6 +87,22 @@ class Venta extends Model
             });
 
         $ventaTotal = $this->ventaTotal();
+
+        if ($this->tipo_compra === TipoCompraEnum::Credito->value && $this->cliente_id) {
+            $cliente = Cliente::find($this->cliente_id);
+            $adeudoActual = $cliente->adeudo;
+            $adeudoTotal = $adeudoActual + (-$ventaTotal);
+            $cliente->adeudo = $adeudoTotal;
+            $cliente->update();
+
+            HistorialAdeudo::create([
+                'cliente_id' => $this->cliente_id,
+                'venta_id' => $this->id,
+                'total_adeudo' => (-$ventaTotal),
+                'created_at' => now(),
+            ]);
+        }
+
         $this->update([
             'venta_total' => $ventaTotal,
             'status_venta' => StatusVentaEnum::Finalizada->value,

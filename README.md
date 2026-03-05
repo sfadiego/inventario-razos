@@ -70,6 +70,12 @@ backup de base de datos en la ruta: `storage/app/backups/`
 php artisan db:backup
 ```
 
+Formateo de proyecto
+
+```bash
+composer format
+```
+
 # Configuracion CUps (Windows/MacOs)
 
 - listado dispositivos: 

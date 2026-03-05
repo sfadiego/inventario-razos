@@ -18,4 +18,9 @@ class Cliente extends Model
     {
         return $this->hasMany(Venta::class);
     }
+
+    public function historialAdeudo(): HasMany
+    {
+        return $this->hasMany(HistorialAdeudo::class);
+    }
 }

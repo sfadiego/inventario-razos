@@ -11,7 +11,7 @@ export interface IVenta {
   cliente?: ICliente;
   tipo_compra: TipoVentaType;
   status_venta: StatusVentaType;
-  created_at: string;
+  created_at?: string;
 }
 
 export interface IVentaUpdateProps {

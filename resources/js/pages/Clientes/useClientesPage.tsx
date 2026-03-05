@@ -7,7 +7,7 @@ import { ICliente } from '@/models/cliente.interface';
 import { useServiceIndexClientes, useServiceShowCliente } from '@/Services/clientes/useServiceClientes';
 import { useSelectedItemStore } from '@/store/useSelectedItemStore';
 import { Edit } from 'lucide-react';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 export interface IFiltroCliente {
   nombre: string;
@@ -32,26 +32,29 @@ export const useClientesPage = () => {
     }
   }, [isLoading, data, selected, setItem]);
 
-  const renderersMap = {
-    rowClassName: ({ adeudo }: ICliente): rowTypes | '' => {
-      return adeudo < 0 ? 'redRow' : '';
-    },
-    confiable: ({ confiable }: ICliente) => (
-      <Badge variant="solid" color={`${!confiable ? 'error' : 'success'}`}>{`${!confiable ? 'No' : 'Si'}`}</Badge>
-    ),
-    actions: ({ id }: ICliente) => (
-      <Button
-        onClick={() => {
-          openModal();
-          setSelected(id!);
-        }}
-        variant="primary"
-        size="sm"
-      >
-        <Edit />
-      </Button>
-    ),
-  };
+  const renderersMap = useMemo(() => {
+    return {
+      rowClassName: ({ adeudo }: ICliente): rowTypes | '' => {
+        return adeudo < 0 ? 'redRow' : '';
+      },
+      confiable: ({ confiable }: ICliente) => (
+        <Badge variant="solid" color={`${!confiable ? 'error' : 'success'}`}>{`${!confiable ? 'No' : 'Si'}`}</Badge>
+      ),
+      actions: ({ id }: ICliente) => (
+        <Button
+          onClick={() => {
+            openModal();
+            setSelected(id!);
+          }}
+          variant="primary"
+          size="sm"
+        >
+          <Edit />
+        </Button>
+      ),
+    };
+  }, [openModal]);
+
   const filters: IFilters<IFiltroCliente>[] = [
     {
       property: 'nombre',
