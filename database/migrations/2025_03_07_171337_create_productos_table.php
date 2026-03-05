@@ -14,10 +14,10 @@ return new class extends Migration
                 $table->string('nombre');
                 $table->enum('unidad', ['pieza', 'metro', 'par']);
                 $table->string('codigo', 18);
-                $table->decimal('precio_compra', 10, 2);
-                $table->decimal('precio_venta', 10, 2);
-                $table->integer('stock');
-                $table->integer('cantidad_minima');
+                $table->decimal('precio_compra', 10, 2)->default(0);
+                $table->decimal('precio_venta', 10, 2)->default(0);
+                $table->integer('stock')->default(0);
+                $table->integer('cantidad_minima')->default(0);
                 $table->text('compatibilidad')->nullable();
                 $table->foreignId('imagen_id')
                     ->nullable()
