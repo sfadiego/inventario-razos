@@ -34,6 +34,7 @@ export const FormVenta = ({ isOpen, closeModal }: IFormVentaProps) => {
     onChangeValidateCliente,
     isValidClient,
     adeudo,
+    confiable,
   } = useFormVenta();
 
   return (
@@ -73,7 +74,7 @@ export const FormVenta = ({ isOpen, closeModal }: IFormVentaProps) => {
                 <SelectTipoVenta disabled={disabled} formik={formik} />
               </div>
 
-              {formik.values.tipo_compra == 'credito' && !formik.values.cliente_id && (
+              {formik.values.tipo_compra == 'credito' && !formik.values.cliente_id && !ventaActual?.id && (
                 <div className="col-span-12">
                   <Badge color="warning" variant="light">
                     Debe seleccionar un cliente para ventas a crédito
@@ -87,6 +88,13 @@ export const FormVenta = ({ isOpen, closeModal }: IFormVentaProps) => {
                 <>
                   <div className="col-span-12 mt-2">
                     <SelectCliente onChange={onChangeValidateCliente} disabled={disabled} formik={formik} />
+                    {!confiable && (
+                      <div className="col-span-12">
+                        <Badge color="warning" variant="light">
+                          Cliente marcado como no confiable
+                        </Badge>
+                      </div>
+                    )}
                   </div>
                 </>
               )}
