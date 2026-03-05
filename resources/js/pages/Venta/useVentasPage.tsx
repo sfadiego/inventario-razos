@@ -1,6 +1,7 @@
 import { AlertSwal } from '@/components/alertSwal/AlertSwal';
 import { IFilters } from '@/components/filters/modalFilter/types';
 import { rowTypes } from '@/components/tables/rowTypes';
+import Badge from '@/components/ui/badge/Badge';
 import Button from '@/components/ui/button/Button';
 import { AlertTypeEnum } from '@/enums/AlertTypeEnum';
 import { StatusVentaEnum } from '@/enums/StatusVentaEnum';
@@ -11,6 +12,7 @@ import { IVenta } from '@/models/venta.interface';
 import { ApiRoutes } from '@/router/modules/admin.routes';
 import { useServiceDeleteVenta, useServiceShowVenta } from '@/Services/ventas/useServiceVenta';
 import { useSelectedItemStore } from '@/store/useSelectedItemStore';
+import { TipoVentaEnum } from '@/types/TipoVentaTypes';
 import { useQueryClient } from '@tanstack/react-query';
 import { ArrowRight, Eye, Trash2 } from 'lucide-react';
 import { useCallback, useEffect, useState } from 'react';
@@ -76,6 +78,15 @@ export const useVentasPage = () => {
     });
 
   const renderersMap = {
+    tipo_compra: ({ tipo_compra }: IVenta) => {
+      return tipo_compra == TipoVentaEnum.CREDITO ? (
+        <Badge variant="light" color="warning">
+          Crédito
+        </Badge>
+      ) : (
+        'Contado'
+      );
+    },
     rowClassName: ({ status_venta }: IVenta): rowTypes | '' => {
       return status_venta == StatusVentaEnum.FINALIZADA ? 'redRow' : '';
     },
