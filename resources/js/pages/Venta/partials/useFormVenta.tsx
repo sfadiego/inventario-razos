@@ -17,10 +17,14 @@ const validationSchema = Yup.object().shape({
   venta_total: Yup.number(),
   folio: Yup.string(),
   nombre_venta: Yup.string().max(100, 'El nombre no puede exceder 100 caracteres'),
-  cliente_id: Yup.number().nullable(),
   tipo_compra: Yup.string()
     .oneOf([TipoVentaEnum.CONTADO, TipoVentaEnum.CREDITO], 'Tipo de compra es inválido')
     .required('El tipo de compra es obligatorio'),
+  cliente_id: Yup.number().when('tipo_compra', {
+    is: (tipoCompra: string) => tipoCompra === TipoVentaEnum.CREDITO,
+    then: (schema) => schema.required('El cliente es obligatorio'),
+    otherwise: (schema) => schema.nullable(),
+  }),
   status_venta: Yup.string()
     .oneOf([StatusVentaEnum.ACTIVA, StatusVentaEnum.FINALIZADA], 'Estatus de compra inválido')
     .required('El estatus de compra es obligatorio'),
@@ -33,22 +37,20 @@ export const useFormVenta = () => {
   const venta = getItem('venta') as IVenta;
   const cliente = getItem('cliente') as ICliente;
 
-  const [esNuevocliente, setEsNuevocliente] = useState(true);
+  const [esNuevocliente, setEsNuevocliente] = useState<boolean>(true);
   const [clienteSeleccionado, setClienteSeleccionado] = useState<number>(0);
 
   const toggleClient = useCallback(
     (formik: any) => {
-      setEsNuevocliente((prev) => {
-        const newValue = !prev;
-        if (!newValue) {
-          clearItem('cliente');
-          setClienteSeleccionado(0);
-          formik.setFieldValue('cliente_id', null);
-        }
-        return newValue;
-      });
+      const nextValue = !esNuevocliente;
+      setEsNuevocliente(nextValue);
+      if (!nextValue) {
+        clearItem('cliente');
+        setClienteSeleccionado(0);
+        formik.setFieldValue('cliente_id', null);
+      }
     },
-    [clearItem],
+    [clearItem, esNuevocliente],
   );
 
   const resetVenta = useCallback(() => {

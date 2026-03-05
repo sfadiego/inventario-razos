@@ -47,7 +47,7 @@ class SmbclientConnector extends AbstractConnector implements PrinterConnectorIn
                 $this->printViaSmb($data);
             }
         } catch (\Exception $e) {
-            throw new \Exception('Error de impresión: '.$e->getMessage());
+            throw new \Exception('Error de impresión: ' . $e->getMessage());
         }
 
         $this->connector->finalize();
@@ -60,7 +60,7 @@ class SmbclientConnector extends AbstractConnector implements PrinterConnectorIn
             'smbclient //%s/%s -U %s -m SMB2 -c "print -"',
             $host,
             escapeshellarg($this->printerName),
-            escapeshellarg(env('PRINTER_SMB_USER').'%'.env('PRINTER_SMB_PASS'))
+            escapeshellarg(env('PRINTER_SMB_USER') . '%' . env('PRINTER_SMB_PASS'))
         );
 
         $handle = popen($command, 'w');

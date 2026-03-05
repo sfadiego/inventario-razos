@@ -14,6 +14,7 @@ Route::controller(ClientesController::class)
             })
             ->group(function () {
                 Route::get('', 'show');
+                Route::get('adeudo', 'showAdeudo');
                 Route::put('', 'update');
                 Route::delete('', 'delete');
             });

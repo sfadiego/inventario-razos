@@ -1,12 +1,15 @@
 import Checkbox from '@/components/form/input/Checkbox';
 import { InputTypeEnum } from '@/components/form/input/enum/InputType.enum';
 import Input from '@/components/form/input/InputField';
+import TextArea from '@/components/form/input/TextArea';
+import Label from '@/components/form/Label';
 import Button from '@/components/ui/button/Button';
 import { ButtonTypeEnum } from '@/components/ui/button/enums/buttonType.enum';
 import { Modal } from '@/components/ui/modal';
 import { ICliente } from '@/models/cliente.interface';
 import { Form, Formik } from 'formik';
 import { Save } from 'lucide-react';
+import { ListaAdeudoCliente } from './Adeudos/ListaAdeudoCliente';
 import { useCliente } from './useCliente';
 
 interface IModalClienteProps {
@@ -16,9 +19,14 @@ interface IModalClienteProps {
 
 export const FormCliente = ({ isOpen, closeModal }: IModalClienteProps) => {
   const { formikProps, isPending, isCheckedDisabled, setIsCheckedDisabled, newClient } = useCliente({ closeModal });
-
   return (
-    <Modal title={`Nuevo Cliente`} subtitle={`Crea o actualiza un cliente`} isOpen={isOpen} onClose={closeModal} className="m-4 max-w-[700px]">
+    <Modal
+      title={`${newClient ? 'Nuevo Cliente' : 'Actualiza Cliente'}`}
+      subtitle={`Crea o actualiza un cliente`}
+      isOpen={isOpen}
+      onClose={closeModal}
+      className="m-4 max-w-[700px]"
+    >
       <Formik enableReinitialize {...formikProps}>
         {(formik) => (
           <Form className={`grid grid-cols-12 gap-2 pb-5`}>
@@ -26,13 +34,17 @@ export const FormCliente = ({ isOpen, closeModal }: IModalClienteProps) => {
               <Input<ICliente> label={`Nombre`} name="nombre" formik={formik} type={InputTypeEnum.Text} />
             </div>
             <div className="col-span-12 mb-3 lg:col-span-12">
-              <Input<ICliente> label={`Observaciones`} name="observaciones" formik={formik} type={InputTypeEnum.Text} />
-            </div>
-            <div className="col-span-12 mb-3 lg:col-span-12">
-              <Input<ICliente> disabled={newClient} label={`Adeudo`} name="adeudo" formik={formik} type={InputTypeEnum.Number} />
+              <Input<ICliente> disabled={true} label={`Adeudo`} name="adeudo" formik={formik} type={InputTypeEnum.Number} />
             </div>
             <div className="col-span-12 mb-3 lg:col-span-12">
               <Checkbox<ICliente> formik={formik} id="confiable" checked={isCheckedDisabled} onChange={setIsCheckedDisabled} label="Confiable" />
+            </div>
+            <div className="col-span-12 mb-3 lg:col-span-12">
+              <Label>Observaciones</Label>
+              <TextArea<ICliente> name="observaciones" formik={formik} />
+            </div>
+            <div className="col-span-12 mb-3 lg:col-span-12">
+              <ListaAdeudoCliente closeModal={closeModal} />
             </div>
             <div className="col-span-12 mt-3 flex justify-end gap-2">
               <Button className="col-span-12 mb-3 lg:col-span-6" onClick={closeModal} size="sm" variant="outline">

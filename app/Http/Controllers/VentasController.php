@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Core\Data\IndexData;
+use App\Enums\TipoCompraEnum;
 use App\Http\Requests\Ventas\ReporteVentaRequest;
 use App\Http\Requests\Ventas\VentaStoreRequest;
 use App\Http\Requests\Ventas\VentaUpdateRequest;
@@ -24,8 +25,11 @@ class VentasController extends Controller
 
     public function store(VentaStoreRequest $params): JsonResponse
     {
-        $venta = Venta::createVenta($params->all());
+        if ($params->tipo_compra === TipoCompraEnum::Credito->value && empty($params->cliente_id)) {
+            return Response::error('Cliente es requerido para ventas de crédito');
+        }
 
+        $venta = Venta::createVenta($params->all());
         return Response::success($venta);
     }
 

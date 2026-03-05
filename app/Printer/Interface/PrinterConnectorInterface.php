@@ -23,4 +23,6 @@ interface PrinterConnectorInterface
 
     /** Devuelve la instancia de Mike42\Escpos\Printer */
     public function getPrinter(): Printer;
+
+    public function isActiveConnection(): bool;
 }

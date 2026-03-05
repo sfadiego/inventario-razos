@@ -80,7 +80,7 @@ export const useVentasPage = () => {
       return status_venta == StatusVentaEnum.FINALIZADA ? 'redRow' : '';
     },
     created_at: ({ created_at }: IVenta) => {
-      return formatDate(created_at, 'letters', ' ');
+      return created_at ? formatDate(created_at, 'letters', ' ') : '';
     },
     actions: ({ id, status_venta }: IVenta) => (
       <>

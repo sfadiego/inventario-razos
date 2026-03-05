@@ -3,4 +3,4 @@ export enum TipoVentaEnum {
   CONTADO = 'contado',
 }
 
-export type TipoVentaType = keyof typeof TipoVentaEnum;
+export type TipoVentaType = typeof TipoVentaEnum[keyof typeof TipoVentaEnum];

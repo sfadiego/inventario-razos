@@ -9,8 +9,10 @@ import Button from '@/components/ui/button/Button';
 import { ButtonTypeEnum } from '@/components/ui/button/enums/buttonType.enum';
 import { Modal } from '@/components/ui/modal';
 import { IVenta } from '@/models/venta.interface';
+import { AdminRoutes } from '@/router/modules/admin.routes';
 import { Form, Formik } from 'formik';
 import { Save, UserPlus } from 'lucide-react';
+import { Link } from 'react-router';
 import { useFormVenta } from './useFormVenta';
 
 interface IFormVentaProps {
@@ -70,6 +72,14 @@ export const FormVenta = ({ isOpen, closeModal }: IFormVentaProps) => {
               <div className="col-span-12">
                 <SelectTipoVenta disabled={disabled} formik={formik} />
               </div>
+
+              {formik.values.tipo_compra == 'credito' && !formik.values.cliente_id && (
+                <div className="col-span-12">
+                  <Badge color="warning" variant="light">
+                    Debe seleccionar un cliente para ventas a crédito
+                  </Badge>
+                </div>
+              )}
               <div className="col-span-12">
                 <SelectStatusVenta disabled={true} formik={formik} />
               </div>
@@ -86,6 +96,9 @@ export const FormVenta = ({ isOpen, closeModal }: IFormVentaProps) => {
                   <Badge color="error" variant="light">
                     Este cliente tiene un adeudo de ${adeudo}
                   </Badge>
+                  <Link className="text-blue-500 underline" to={`${AdminRoutes.Clientes}`}>
+                    Ver
+                  </Link>
                 </div>
               )}
 

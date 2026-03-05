@@ -3,6 +3,7 @@
 namespace App\Printer\Connectors;
 
 use App\Printer\Interface\PrinterConnectorInterface;
+use Illuminate\Support\Facades\Log;
 use Mike42\Escpos\PrintConnectors\NetworkPrintConnector;
 use Mike42\Escpos\Printer;
 
@@ -15,6 +16,7 @@ class NetworkConnector implements PrinterConnectorInterface
     protected $printerName;
 
     protected $printerHost;
+    protected $socketConection;
 
     public function __construct()
     {
@@ -24,6 +26,9 @@ class NetworkConnector implements PrinterConnectorInterface
 
     public function init(): void
     {
+        if (!$this->isActiveConnection()) {
+            return;
+        }
         $this->connector = new NetworkPrintConnector($this->printerHost);
         $this->printer = new Printer($this->connector);
     }
@@ -51,10 +56,23 @@ class NetworkConnector implements PrinterConnectorInterface
     public function close(): void
     {
         $this->printer->close();
+        if ($this->socketConection) {
+            fclose($this->socketConection);
+        }
     }
 
     public function getPrinter(): Printer
     {
         return $this->printer;
+    }
+
+    public function isActiveConnection(): bool
+    {
+        $this->socketConection = @fsockopen($this->printerHost, 9100, $errno, $errstr, 1.5);
+        if (!$this->socketConection) {
+            Log::info('Impresora no conectada');
+            return false;
+        }
+        return true;
     }
 }

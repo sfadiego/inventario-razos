@@ -13,18 +13,21 @@ interface IUseClienteProps {
 }
 export const useCliente = ({ closeModal }: IUseClienteProps) => {
   const { refetch } = useServiceIndexClientes({});
+
   const { setItem, getItem } = useSelectedItemStore();
   const cliente = getItem('cliente') as ICliente;
+
   const [isCheckedDisabled, setIsCheckedDisabled] = useState(true);
+  const confiable = cliente?.id !== undefined ? Number(cliente.confiable) === 1 : true;
   const initialValues: ICliente = {
     nombre: cliente?.nombre ?? '',
-    confiable: !!cliente?.confiable,
+    confiable: confiable,
     observaciones: cliente?.observaciones ?? '',
     adeudo: cliente?.adeudo ?? 0,
   };
   useEffect(() => {
-    setIsCheckedDisabled(!!cliente?.confiable);
-  }, [cliente]);
+    setIsCheckedDisabled(confiable);
+  }, [confiable]);
 
   const validationSchema = Yup.object().shape({
     nombre: Yup.string().required('El nombre es obligatorio'),
@@ -55,5 +58,9 @@ export const useCliente = ({ closeModal }: IUseClienteProps) => {
     validationSchema,
     onSubmit,
   };
-  return { formikProps, isPending: mutator.isPending, isCheckedDisabled, setIsCheckedDisabled, newClient: cliente?.id === undefined };
+
+  const newClient = cliente?.id === undefined;
+  const isPending = mutator.isPending;
+
+  return { formikProps, isPending, isCheckedDisabled, setIsCheckedDisabled, newClient };
 };

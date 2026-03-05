@@ -54,4 +54,9 @@ class WindowsConnector implements PrinterConnectorInterface
     {
         return $this->printer;
     }
+
+    public function isActiveConnection(): bool
+    {
+        return true;
+    }
 }
