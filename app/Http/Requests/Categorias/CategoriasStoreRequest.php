@@ -26,4 +26,12 @@ class CategoriasStoreRequest extends FormRequest
             'activa' => ['boolean'],
         ];
     }
+
+    public function messages(): array
+    {
+        return [
+            'nombre.required' => 'El nombre es obligatorio.',
+            'nombre.unique' => 'El nombre ya existe en la base de datos.',
+        ];
+    }
 }

@@ -35,8 +35,13 @@ class SubcategoriaIndexLogic extends IndexLogic
         }
 
         $this->queryBuilder = $this->modelo->newQuery();
-        $this->pagination = $this->queryBuilder->where('categoria_id', $data->params['categoria'] ?? 0)
-            ->paginate($data->limit, ['*'], 'page', $data->page);
+
+        if (isset($data->search)) {
+            $this->queryBuilder = $this->runQueryWithSearch($data->search);
+        }
+
+        $this->queryBuilder = $this->queryBuilder->where('categoria_id', $data->params['categoria'] ?? 0);
+        $this->pagination = $this->queryBuilder->paginate($data->limit, ['*'], 'page', $data->page);
         $this->response = $this->pagination->getCollection();
 
         return Response::successDataTable(
