@@ -20,7 +20,7 @@ class SubcategoriasStoreRequest extends FormRequest
                 'string',
                 'max:255',
                 Rule::unique('subcategoria', 'nombre')
-                    ->where(fn($query) => $query->where('categoria_id', $this->categoria_id))
+                    ->where(fn ($query) => $query->where('categoria_id', $this->categoria_id)),
             ],
             'categoria_id' => ['required', 'exists:categorias,id'],
         ];

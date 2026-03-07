@@ -15,9 +15,10 @@ import { useCliente } from './useCliente';
 interface IModalClienteProps {
   isOpen: boolean;
   closeModal: () => void;
+  handleUpdateAdeudo?: (adeudoId: number) => void;
 }
 
-export const FormCliente = ({ isOpen, closeModal }: IModalClienteProps) => {
+export const FormCliente = ({ isOpen, closeModal, handleUpdateAdeudo }: IModalClienteProps) => {
   const { formikProps, isPending, isCheckedDisabled, setIsCheckedDisabled, newClient } = useCliente({ closeModal });
   return (
     <Modal
@@ -44,7 +45,7 @@ export const FormCliente = ({ isOpen, closeModal }: IModalClienteProps) => {
               <TextArea<ICliente> name="observaciones" formik={formik} />
             </div>
             <div className="col-span-12 mb-3 lg:col-span-12">
-              <ListaAdeudoCliente closeModal={closeModal} />
+              <ListaAdeudoCliente handleUpdateAdeudo={handleUpdateAdeudo} closeModal={closeModal} />
             </div>
             <div className="col-span-12 mt-3 flex justify-end gap-2">
               <Button className="col-span-12 mb-3 lg:col-span-6" onClick={closeModal} size="sm" variant="outline">
