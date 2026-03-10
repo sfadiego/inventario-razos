@@ -1,0 +1,21 @@
+import { useGET, usePOST } from '@/hooks/useApi';
+import { IPaginate } from '@/interfaces/IPaginate';
+import { IPaginateServiceProps } from '@/interfaces/IPaginateServiceProps';
+import { IVentaDevoluciones } from '@/models/devolucion';
+import { ApiRoutes } from '@/router/modules/admin.routes';
+
+const url = ApiRoutes.Devoluciones;
+export const useServiceIndexDevoluciones = ({ filters = [], order = 'desc', search = null, page = 1, limit = 10 }: IPaginateServiceProps) => {
+  return useGET<IPaginate<IVentaDevoluciones>>({
+    url,
+    filters: {
+      filters,
+      search,
+      page,
+      limit,
+      order,
+    },
+  });
+};
+
+export const useServiceStoreDevolucion = () => usePOST({ url });

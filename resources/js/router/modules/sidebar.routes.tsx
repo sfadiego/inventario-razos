@@ -6,6 +6,7 @@ import {
   CalendarSearch,
   CloudUpload,
   Cog,
+  Coins,
   FileWarning,
   FolderSearch,
   Home,
@@ -16,6 +17,11 @@ import {
 } from 'lucide-react';
 import { AdminRoutes } from './admin.routes';
 export const adminSidebarRoutes: INavItem[] = [
+  {
+    icon: <Coins />,
+    name: 'Devoluciones',
+    path: AdminRoutes.Devoluciones,
+  },
   {
     icon: <CalendarSearch />,
     name: 'Movimientos',
