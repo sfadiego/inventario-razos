@@ -9,7 +9,7 @@ const PrivateRoute = ({ element, route }: { element: ReactElement; route: IRoute
   const { isAuth, user } = useAxios();
   if (!isAuth) return <Navigate to={AuthRoutes.Login} />;
 
-  if (route.hasPermission != undefined && !route.hasPermission(user!)) {
+  if (route.roles != undefined && !route.roles.includes(user!.role_id)) {
     return <Navigate to={ErrorRoutes.Forbidden} />;
   }
 

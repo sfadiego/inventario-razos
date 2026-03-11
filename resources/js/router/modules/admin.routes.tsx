@@ -1,3 +1,4 @@
+import { RolesEnum } from '@/enums/RolesEnum';
 import IRoute from '@/interfaces/IRoute';
 import { lazy } from 'react';
 
@@ -61,19 +62,67 @@ export enum ApiRoutes {
 }
 
 export const adminRoutes: IRoute[] = [
-  { private: true, path: AdminRoutes.Dashboard, name: 'Dashboard', element: <DashboardPage /> },
-  { private: true, path: AdminRoutes.Venta, name: 'Ventas', element: <VentasPage /> },
-  { private: true, path: AdminRoutes.VentaProductos, name: 'Productos de venta', element: <ProductosVentaPage /> },
-  { private: true, path: AdminRoutes.Proveedores, name: 'Provedores', element: <ProveedoresPage /> },
-  { private: true, path: AdminRoutes.Productos, name: 'Productos', element: <ProductosPage /> },
-  { private: true, path: AdminRoutes.Reportes, name: 'Reportes', element: <ReportesPage /> },
-  { private: true, path: AdminRoutes.Ubicaciones, name: 'Ubicaciones', element: <UbicacionesPage /> },
-  { private: true, path: AdminRoutes.Clientes, name: 'Clientes', element: <ClientesPage /> },
-  { private: true, path: AdminRoutes.ImportarImagenes, name: 'Importar imágenes', element: <ImportImagesPage /> },
-  { private: true, path: AdminRoutes.Importar, name: 'Importar', element: <ImportProductsPage /> },
-  { private: true, path: AdminRoutes.Marcas, name: 'Marcas', element: <MarcaPage /> },
-  { private: true, path: AdminRoutes.Categorias, name: 'Categorias', element: <CategoriaPage /> },
-  { private: true, path: AdminRoutes.Subcategorias, name: 'Subcategorias', element: <SubcategoriaPage /> },
-  { private: true, path: AdminRoutes.ErrorReporting, name: 'Reporte de errores', element: <ReportingPage /> },
-  { private: true, path: AdminRoutes.Devoluciones, name: 'Devoluciones', element: <DevolucionesPage /> },
+  {
+    private: true,
+    path: AdminRoutes.Dashboard,
+    name: 'Dashboard',
+    element: <DashboardPage />,
+    roles: [RolesEnum.ADMIN, RolesEnum.SUPERADMIN, RolesEnum.USER],
+  },
+  { private: true, path: AdminRoutes.Venta, name: 'Ventas', element: <VentasPage />, roles: [RolesEnum.ADMIN, RolesEnum.SUPERADMIN, RolesEnum.USER] },
+  {
+    private: true,
+    path: AdminRoutes.VentaProductos,
+    name: 'Productos de venta',
+    element: <ProductosVentaPage />,
+    roles: [RolesEnum.ADMIN, RolesEnum.SUPERADMIN, RolesEnum.USER],
+  },
+  { private: true, path: AdminRoutes.Proveedores, name: 'Provedores', element: <ProveedoresPage />, roles: [RolesEnum.ADMIN, RolesEnum.SUPERADMIN] },
+  {
+    private: true,
+    path: AdminRoutes.Productos,
+    name: 'Productos',
+    element: <ProductosPage />,
+    roles: [RolesEnum.ADMIN, RolesEnum.SUPERADMIN, RolesEnum.USER],
+  },
+  { private: true, path: AdminRoutes.Reportes, name: 'Reportes', element: <ReportesPage />, roles: [RolesEnum.ADMIN, RolesEnum.SUPERADMIN] },
+  { private: true, path: AdminRoutes.Ubicaciones, name: 'Ubicaciones', element: <UbicacionesPage />, roles: [RolesEnum.ADMIN, RolesEnum.SUPERADMIN] },
+  {
+    private: true,
+    path: AdminRoutes.Clientes,
+    name: 'Clientes',
+    element: <ClientesPage />,
+    roles: [RolesEnum.ADMIN, RolesEnum.SUPERADMIN, RolesEnum.USER],
+  },
+  {
+    private: true,
+    path: AdminRoutes.ImportarImagenes,
+    name: 'Importar imágenes',
+    element: <ImportImagesPage />,
+    roles: [RolesEnum.ADMIN, RolesEnum.SUPERADMIN],
+  },
+  { private: true, path: AdminRoutes.Importar, name: 'Importar', element: <ImportProductsPage />, roles: [RolesEnum.ADMIN, RolesEnum.SUPERADMIN] },
+  { private: true, path: AdminRoutes.Marcas, name: 'Marcas', element: <MarcaPage />, roles: [RolesEnum.ADMIN, RolesEnum.SUPERADMIN, RolesEnum.USER] },
+  {
+    private: true,
+    path: AdminRoutes.Categorias,
+    name: 'Categorias',
+    element: <CategoriaPage />,
+    roles: [RolesEnum.ADMIN, RolesEnum.SUPERADMIN, RolesEnum.USER],
+  },
+  {
+    private: true,
+    path: AdminRoutes.Subcategorias,
+    name: 'Subcategorias',
+    element: <SubcategoriaPage />,
+    roles: [RolesEnum.ADMIN, RolesEnum.SUPERADMIN, RolesEnum.USER],
+  },
+  { private: true, path: AdminRoutes.ErrorReporting, name: 'Reporte de errores', element: <ReportingPage />, roles: [RolesEnum.SUPERADMIN] },
+  {
+    private: true,
+    path: AdminRoutes.Devoluciones,
+    name: 'Devoluciones',
+    element: <DevolucionesPage />,
+    roles: [RolesEnum.ADMIN, RolesEnum.SUPERADMIN],
+  },
 ];

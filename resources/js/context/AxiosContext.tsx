@@ -9,7 +9,6 @@ export const AxiosContext = createContext<IAuthContextType | undefined>(undefine
 export const AxiosProvider = ({ children }: IAuthProviderProps) => {
   const [authToken, setAuthToken] = useState<string | null>(localStorage.getItem('authToken'));
   const [user, setUser] = useState<IUser | null>(localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')!) : null);
-
   const logout = useCallback(() => {
     configureAxiosHeaders(null);
     configUser(null);
