@@ -34,7 +34,8 @@ class DevolucionResource extends JsonResource
                 "created_at" => $this->cliente->created_at,
                 "updated_at" => $this->cliente->updated_at
             ] : null,
-            "tieneDevolucion" => $this->devolucion !== null ? true : false
+            "tieneDevolucion" => $this->devolucion !== null ? true : false,
+            "devolucion_id" => $this->devolucion !== null ? $this->devolucion->id : null,
         ];
     }
 }

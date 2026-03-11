@@ -18,18 +18,24 @@ export const useDevolucionesPage = () => {
       },
       created_at: (item: IVentaDevoluciones) => formatDate(item.created_at, 'letters', ' '),
       tieneDevolucion: (item: IVentaDevoluciones) => (item.tieneDevolucion ? 'Sí' : 'No'),
-      actions: ({ id }: IVentaDevoluciones) => (
-        <Button
-          onClick={() => {
-            setventaId(id);
-            openModal();
-          }}
-          variant="primary"
-          size="sm"
-        >
-          <Coins />
-        </Button>
-      ),
+      actions: ({ id, devolucion_id }: IVentaDevoluciones) => {
+        // if (!devolucion_id) {
+        return (
+          <>
+            <Button
+              onClick={() => {
+                setventaId(id);
+                openModal();
+              }}
+              variant="primary"
+              size="sm"
+            >
+              <Coins />
+            </Button>
+          </>
+        );
+        // }
+      },
     };
   }, [openModal]);
 

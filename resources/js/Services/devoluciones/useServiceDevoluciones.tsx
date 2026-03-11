@@ -18,4 +18,5 @@ export const useServiceIndexDevoluciones = ({ filters = [], order = 'desc', sear
   });
 };
 
+export const useServiceShowDevolucion = (idVenta: number) => useGET<IVentaDevoluciones>({ url: `${url}/${idVenta}`, enable: !!idVenta });
 export const useServiceStoreDevolucion = () => usePOST({ url });

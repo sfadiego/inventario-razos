@@ -6,7 +6,7 @@ import { Modal } from '@/components/ui/modal';
 import { IVentaProducto } from '@/models/ventaProducto.interface';
 import { Coins } from 'lucide-react';
 import { DataTable } from 'mantine-datatable';
-import { ProductosDevolucion } from './ProductosDevolucion';
+import { ProductosDevolucion } from '../ProductosDevolucion/ProductosDevolucion';
 import { useFormDevolucion } from './useFormDevolucion';
 
 interface IFormDevolucion {
@@ -15,10 +15,22 @@ interface IFormDevolucion {
   ventaId: number;
 }
 export const FormDevolucion = ({ isOpen, onClose, ventaId }: IFormDevolucion) => {
-  const { rowExpansion, venta, dataTableProps, productosDevolucion, handleRemove, handleDevolucion, setMotivo, motivo, enableBtnPayload } =
-    useFormDevolucion({
-      ventaId,
-    });
+  const {
+    rowExpansion,
+    venta,
+    dataTableProps,
+    productosDevolucion,
+    handleRemove,
+    handleDevolucion,
+    setMotivo,
+    motivo,
+    enableBtnPayload,
+    devolucionCreada,
+    handleClose,
+  } = useFormDevolucion({
+    onClose,
+    ventaId,
+  });
 
   return (
     <Modal title="Devolución" subtitle="Crear devolución de productos" isOpen={isOpen} onClose={onClose} className="m-4 max-w-[700px]">
@@ -30,19 +42,25 @@ export const FormDevolucion = ({ isOpen, onClose, ventaId }: IFormDevolucion) =>
         </div>
         <div className="col-span-12">
           <Label> Motivo devolucion</Label>
-          <SingleTextArea id="motivo" onChange={(value) => setMotivo(value || '')} value={motivo} />
+          <SingleTextArea disabled={devolucionCreada} id="motivo" onChange={(value) => setMotivo(value || '')} value={motivo} />
         </div>
         <div className="col-span-12 overflow-auto">
-          <DataTable<IVentaProducto> {...dataTableProps} rowExpansion={rowExpansion} />
+          <DataTable<IVentaProducto> {...dataTableProps} rowExpansion={!devolucionCreada ? rowExpansion : undefined} />
         </div>
         {productosDevolucion && productosDevolucion.length > 0 && (
           <ProductosDevolucion productosDevolucion={productosDevolucion} handleRemove={handleRemove} />
         )}
         <div className="col-span-12 mt-3 flex justify-end gap-2">
-          <Button className="col-span-12 lg:col-span-6" onClick={onClose} size="sm" variant="outline">
+          <Button className="col-span-12 lg:col-span-6" onClick={handleClose} size="sm" variant="outline">
             Cerrar
           </Button>
-          <Button disabled={!enableBtnPayload} className="col-span-12 lg:col-span-6" size="md" type={ButtonTypeEnum.Button} onClick={handleDevolucion}>
+          <Button
+            disabled={!enableBtnPayload || devolucionCreada}
+            className="col-span-12 lg:col-span-6"
+            size="md"
+            type={ButtonTypeEnum.Button}
+            onClick={handleDevolucion}
+          >
             <Coins /> Generar Devolución
           </Button>
         </div>

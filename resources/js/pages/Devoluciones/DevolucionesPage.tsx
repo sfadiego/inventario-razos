@@ -1,7 +1,7 @@
 import { PageWrapper } from '@/components/layout/PageWrapper';
 import { DatatableWithFilter } from '@/components/tables/DatatableWithFilter';
 import { useServiceIndexDevoluciones } from '@/Services/devoluciones/useServiceDevoluciones';
-import { FormDevolucion } from './partials/FormDevolucion';
+import { FormDevolucion } from './partials/FormDevolucion/FormDevolucion';
 import { useDevolucionesPage } from './useDevolucionesPage';
 
 export default function DevolucionesPage() {
