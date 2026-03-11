@@ -18,8 +18,7 @@ export const useDevolucionesPage = () => {
       },
       created_at: (item: IVentaDevoluciones) => formatDate(item.created_at, 'letters', ' '),
       tieneDevolucion: (item: IVentaDevoluciones) => (item.tieneDevolucion ? 'Sí' : 'No'),
-      actions: ({ id, devolucion_id }: IVentaDevoluciones) => {
-        // if (!devolucion_id) {
+      actions: ({ id }: IVentaDevoluciones) => {
         return (
           <>
             <Button
@@ -34,7 +33,6 @@ export const useDevolucionesPage = () => {
             </Button>
           </>
         );
-        // }
       },
     };
   }, [openModal]);

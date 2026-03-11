@@ -22,11 +22,23 @@ class DevolucionesController extends Controller
         return $logic->run($data);
     }
 
-    public function show(Venta $venta): JsonResponse
+    public function showByVenta(Venta $venta): JsonResponse
     {
-        $venta = $venta->load(['devolucion', 'cliente']);
+        $venta = $venta->load(['devolucion.detalle.producto', 'cliente']);
         $venta->devolucion_id = $venta->devolucion?->id;
+
         return Response::success($venta);
+    }
+
+    public function show(Devoluciones $devolucion): JsonResponse
+    {
+        $devolucion = $devolucion->load([
+            'venta',
+            'detalle.producto' => function ($q) {
+                $q->select('id', 'nombre', 'unidad');
+            }
+        ]);
+        return Response::success($devolucion);
     }
 
     public function store(DevolucionesStoreRequest $params): JsonResponse

@@ -1,16 +1,20 @@
+import { AlertSwal } from '@/components/alertSwal/AlertSwal';
+import { AlertTypeEnum } from '@/enums/AlertTypeEnum';
 import { useDataTable } from '@/hooks/useDatatable';
 import { useOnSubmit } from '@/hooks/useOnSubmit';
 import { IDevolucionProducto, IDevolucionRequest } from '@/models/devolucion';
 import { IVentaProducto } from '@/models/ventaProducto.interface';
-import { useServiceShowDevolucion, useServiceStoreDevolucion } from '@/Services/devoluciones/useServiceDevoluciones';
+import { ApiRoutes } from '@/router/modules/admin.routes';
+import { useServiceShowDevolucionByVenta, useServiceStoreDevolucion } from '@/Services/devoluciones/useServiceDevoluciones';
 import { useServiceVentaProductoDetalle } from '@/Services/ventaProducto/useServiceVentaProducto';
+import { useQueryClient } from '@tanstack/react-query';
 import { DataTableProps } from 'mantine-datatable';
 import { useEffect, useMemo, useState } from 'react';
 import { DetailProductoDevolucion } from '../DetailProductoDevolucion/DetailProductoDevolucion';
-
 export const useFormDevolucion = ({ ventaId = 0, onClose }: { ventaId: number; onClose: () => void }) => {
-  const { isLoading, data } = useServiceShowDevolucion(ventaId);
+  const { isLoading, data } = useServiceShowDevolucionByVenta(ventaId);
   const [msgValidacion, setMsgValidacion] = useState<string>('');
+
   const [payload, setPayload] = useState<IDevolucionRequest>({
     venta_id: ventaId,
     motivo: '',
@@ -18,27 +22,35 @@ export const useFormDevolucion = ({ ventaId = 0, onClose }: { ventaId: number; o
   });
 
   useEffect(() => {
-    if (ventaId) {
-      setPayload((prev) => ({
-        ...prev,
-        venta_id: ventaId,
-        motivo: data?.devolucion?.motivo || prev.motivo,
+    if (data?.devolucion) {
+      const dev = data.devolucion;
+
+      const productosPreexistentes: IDevolucionProducto[] = (dev.detalle || []).map((d: any) => ({
+        producto_id: d.producto_id,
+        nombre: d.producto?.nombre || 'Producto',
+        unidad: d.producto?.unidad || 'pza',
+        precio_unitario: d.precio_unitario,
+        cantidad: d.cantidad,
       }));
+
+      setPayload({
+        venta_id: ventaId,
+        motivo: dev.motivo || '',
+        productos: productosPreexistentes,
+      });
+    } else {
+      setPayload((prev) => ({ ...prev, venta_id: ventaId, productos: [] }));
     }
   }, [ventaId, data]);
 
   const handleClose = () => {
+    setPayload({ venta_id: 0, motivo: '', productos: [] });
     onClose();
-    setPayload({
-      venta_id: ventaId,
-      motivo: '',
-      productos: [],
-    });
   };
 
-  const devolucionCreada = !!data?.devolucion_id;
   const productosDevolucion = payload.productos;
   const motivo = payload.motivo;
+  const devolucionCreada = !!data?.devolucion;
 
   const enableBtnPayload = useMemo(() => {
     return motivo.trim() !== '' && payload.venta_id !== 0 && productosDevolucion.length > 0;
@@ -54,12 +66,11 @@ export const useFormDevolucion = ({ ventaId = 0, onClose }: { ventaId: number; o
   };
 
   const handleAdd = (item: IDevolucionProducto) => {
-    if (validateExist(item)) return;
-
-    setPayload((prev) => ({
-      ...prev,
-      productos: [...prev.productos, item],
-    }));
+    if (validateExist(item)) {
+      setMsgValidacion('El producto ya está en la lista');
+      return;
+    }
+    setPayload((prev) => ({ ...prev, productos: [...prev.productos, item] }));
   };
 
   const handleRemove = (id: number) => {
@@ -69,18 +80,16 @@ export const useFormDevolucion = ({ ventaId = 0, onClose }: { ventaId: number; o
     }));
   };
 
-  const renderersMap = useMemo(
-    () => ({
-      'producto.nombre': ({ producto }: IVentaProducto) =>
-        producto?.nombre && producto.nombre.length > 15 ? `${producto.nombre.substring(0, 15)}...` : producto?.nombre || '',
-    }),
-    [],
-  );
-
   const { dataTableProps } = useDataTable({
     service: useServiceVentaProductoDetalle,
     payload: { serviceParamId: ventaId, filters: [] },
-    renderersMap,
+    renderersMap: useMemo(
+      () => ({
+        'producto.nombre': ({ producto }: IVentaProducto) =>
+          producto?.nombre && producto.nombre.length > 15 ? `${producto.nombre.substring(0, 15)}...` : producto?.nombre || '',
+      }),
+      [],
+    ),
   });
 
   const rowExpansion: DataTableProps<IVentaProducto>['rowExpansion'] = {
@@ -88,15 +97,27 @@ export const useFormDevolucion = ({ ventaId = 0, onClose }: { ventaId: number; o
   };
 
   const mutate = useServiceStoreDevolucion();
+  const queryClient = useQueryClient();
   const { onSubmit } = useOnSubmit<IDevolucionRequest>({
     mutateAsync: mutate.mutateAsync,
-    onSuccess: async (res) => console.log('Éxito:', res),
+    onSuccess: async () => {
+      AlertSwal({
+        title: 'Devolución creada',
+        type: AlertTypeEnum.Success,
+      });
+      queryClient.invalidateQueries({
+        queryKey: [`${ApiRoutes.Devoluciones}`],
+      });
+      handleClose();
+    },
   });
 
   const handleDevolucion = () => {
-    if (enableBtnPayload) {
-      onSubmit(payload, {});
+    if (!enableBtnPayload) {
+      setMsgValidacion('Verifica que el motivo y los productos estén presentes');
+      return;
     }
+    onSubmit(payload, {});
   };
 
   return {

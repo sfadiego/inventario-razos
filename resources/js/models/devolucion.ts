@@ -1,9 +1,13 @@
 import { ICliente } from './cliente.interface';
+import { IVenta } from './venta.interface';
 
 export interface IDevolucion {
+  id: number;
   total_reembolsado: number;
   motivo: string;
   venta_id: number;
+  venta: IVenta;
+  detalle: IDevolucionDetalle[];
 }
 
 export interface IDevolucionDetalle {
@@ -12,6 +16,11 @@ export interface IDevolucionDetalle {
   precio_unitario: number;
   devolucion_id: number;
   producto_id: number;
+  producto: {
+    id: number;
+    nombre: string;
+    unidad: string;
+  };
   created_at: string;
   updated_at: string;
 }

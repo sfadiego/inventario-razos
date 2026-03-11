@@ -1,7 +1,7 @@
 import { useGET, usePOST } from '@/hooks/useApi';
 import { IPaginate } from '@/interfaces/IPaginate';
 import { IPaginateServiceProps } from '@/interfaces/IPaginateServiceProps';
-import { IVentaDevoluciones } from '@/models/devolucion';
+import { IDevolucion, IVentaDevoluciones } from '@/models/devolucion';
 import { ApiRoutes } from '@/router/modules/admin.routes';
 
 const url = ApiRoutes.Devoluciones;
@@ -18,5 +18,7 @@ export const useServiceIndexDevoluciones = ({ filters = [], order = 'desc', sear
   });
 };
 
-export const useServiceShowDevolucion = (idVenta: number) => useGET<IVentaDevoluciones>({ url: `${url}/${idVenta}`, enable: !!idVenta });
+export const useServiceShowDevolucion = (idDevolucion: number) => useGET<IDevolucion>({ url: `${url}/${idDevolucion}`, enable: !!idDevolucion });
+export const useServiceShowDevolucionByVenta = (ventaId: number) =>
+  useGET<IVentaDevoluciones>({ url: `${url}/by-venta/${ventaId}`, enable: !!ventaId });
 export const useServiceStoreDevolucion = () => usePOST({ url });

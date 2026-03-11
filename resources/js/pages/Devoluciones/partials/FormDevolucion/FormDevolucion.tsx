@@ -33,7 +33,7 @@ export const FormDevolucion = ({ isOpen, onClose, ventaId }: IFormDevolucion) =>
   });
 
   return (
-    <Modal title="Devolución" subtitle="Crear devolución de productos" isOpen={isOpen} onClose={onClose} className="m-4 max-w-[700px]">
+    <Modal title="Devolución" subtitle="Crear devolución de productos" isOpen={isOpen} onClose={handleClose} className="m-4 max-w-[700px]">
       <div className="grid grid-cols-12 gap-3">
         <div className="col-span-12">
           <Label>
@@ -48,21 +48,23 @@ export const FormDevolucion = ({ isOpen, onClose, ventaId }: IFormDevolucion) =>
           <DataTable<IVentaProducto> {...dataTableProps} rowExpansion={!devolucionCreada ? rowExpansion : undefined} />
         </div>
         {productosDevolucion && productosDevolucion.length > 0 && (
-          <ProductosDevolucion productosDevolucion={productosDevolucion} handleRemove={handleRemove} />
+          <ProductosDevolucion disableActions={devolucionCreada} productosDevolucion={productosDevolucion} handleRemove={handleRemove} />
         )}
         <div className="col-span-12 mt-3 flex justify-end gap-2">
           <Button className="col-span-12 lg:col-span-6" onClick={handleClose} size="sm" variant="outline">
             Cerrar
           </Button>
-          <Button
-            disabled={!enableBtnPayload || devolucionCreada}
-            className="col-span-12 lg:col-span-6"
-            size="md"
-            type={ButtonTypeEnum.Button}
-            onClick={handleDevolucion}
-          >
-            <Coins /> Generar Devolución
-          </Button>
+          {!devolucionCreada && (
+            <Button
+              disabled={!enableBtnPayload || devolucionCreada}
+              className="col-span-12 lg:col-span-6"
+              size="md"
+              type={ButtonTypeEnum.Button}
+              onClick={handleDevolucion}
+            >
+              <Coins /> Generar Devolución
+            </Button>
+          )}
         </div>
       </div>
     </Modal>

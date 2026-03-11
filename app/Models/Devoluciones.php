@@ -14,4 +14,9 @@ class Devoluciones extends Model
     {
         return $this->hasMany(DetalleDevolucion::class, 'devolucion_id', 'id');
     }
+
+    public function venta()
+    {
+        return $this->hasOne(Venta::class, 'id', 'venta_id');
+    }
 }
