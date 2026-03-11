@@ -35,6 +35,11 @@ class Venta extends Model
         return $this->belongsTo(Cliente::class);
     }
 
+    public function devolucion()
+    {
+        return $this->hasOne(Devoluciones::class, 'venta_id', 'id');
+    }
+
     public function ventaProductos(): HasMany
     {
         return $this->hasMany(VentaProducto::class);

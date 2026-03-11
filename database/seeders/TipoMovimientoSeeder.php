@@ -23,6 +23,10 @@ class TipoMovimientoSeeder extends Seeder
                 'id' => 3,
                 'nombre' => TipoMovimientoEnum::fromId(TipoMovimientoEnum::REAJUSTE->value),
             ],
+            [
+                'id' => 4,
+                'nombre' => TipoMovimientoEnum::fromId(TipoMovimientoEnum::DEVOLUCION->value),
+            ],
         ];
         foreach ($data as $item) {
             TipoMovimiento::updateOrCreate(['nombre' => $item['nombre']], $item);

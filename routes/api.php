@@ -20,6 +20,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::prefix('ventas')->group(base_path('/routes/modules/ventas.php'));
     Route::prefix('reporte-movimientos')->group(base_path('/routes/modules/reporteMovimientos.php'));
     Route::prefix('tipo-movimientos')->group(base_path('/routes/modules/tipoMovimientos.php'));
+    Route::prefix('devoluciones')->group(base_path('/routes/modules/devoluciones.php'));
     Route::prefix('marcas')->group(base_path('/routes/modules/marcas.php'));
     Route::prefix('error-reporting')->group(base_path('/routes/modules/errorReporting.php'));
     Route::prefix('pdf')->group(base_path('/routes/modules/pdf.php'));

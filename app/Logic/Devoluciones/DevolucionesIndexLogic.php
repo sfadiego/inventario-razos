@@ -1,46 +1,66 @@
 <?php
 
-namespace App\Logic\Subcategoria;
+namespace App\Logic\Devoluciones;
 
 use App\Core\Data\IndexData;
 use App\Core\Logic\IndexLogic;
-use App\Http\Resources\SubcategoriaResource;
-use App\Models\Categoria;
-use App\Models\Subcategoria;
+use App\Enums\StatusVentaEnum;
+use App\Http\Resources\DevolucionResource;
+use App\Models\Venta;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Response;
 
-class SubcategoriaIndexLogic extends IndexLogic
+class DevolucionesIndexLogic extends IndexLogic
 {
-    public function __construct(Subcategoria $modelo)
+    public function __construct(Venta $modelo)
     {
         parent::__construct($modelo);
+    }
+
+    protected function getColumnSearch(): string
+    {
+        return 'folio';
     }
 
     protected function tableHeaders(): array
     {
         return [
             'id' => __('#'),
-            'nombre' => 'Nombre',
+            'created_at' => 'Fecha',
+            'nombre_venta' => 'Nombre',
+            'folio' => 'folio',
+            'cliente.nombre' => 'Cliente',
+            'tipo_compra' => 'Tipo de compra',
+            'venta_total' => 'Total',
+            'tieneDevolucion' => 'Devuelto',
             'actions' => '#',
         ];
     }
 
+    public function withRelations(): array
+    {
+        return ['cliente', 'devolucion'];
+    }
+
+    protected function withResource(): AnonymousResourceCollection
+    {
+        return DevolucionResource::collection($this->response);
+    }
+
     public function run(IndexData $data): JsonResponse
     {
-        if (empty($data->params['categoria']) || ! Categoria::find($data->params['categoria'])) {
-            return Response::error('Categoria no valida');
-        }
 
         $this->queryBuilder = $this->modelo->newQuery();
+        $this->queryBuilder->with($this->withRelations());
 
         if (isset($data->search)) {
             $this->queryBuilder = $this->runQueryWithSearch($data->search);
         }
 
-        $this->queryBuilder = $this->queryBuilder->where('categoria_id', $data->params['categoria'] ?? 0);
+        $this->queryBuilder = $this->queryBuilder->where('status_venta', StatusVentaEnum::Finalizada);
+        $this->orderQuery($data->orderParam, $data->order);
         $this->pagination = $this->queryBuilder->paginate($data->limit, ['*'], 'page', $data->page);
         $this->response = $this->pagination->getCollection();
 
@@ -53,10 +73,5 @@ class SubcategoriaIndexLogic extends IndexLogic
             ),
             $this->tableHeaders()
         );
-    }
-
-    protected function withResource(): AnonymousResourceCollection
-    {
-        return SubcategoriaResource::collection($this->response);
     }
 }

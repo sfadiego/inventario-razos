@@ -116,9 +116,9 @@ class VentaProducto extends Model
                         'path' => $item->producto->imagen->path,
                         'external' => $item->producto->imagen->external,
                     ] : null,
-                    'producto' => $item->producto->nombre,
-                    'categoria' => $item->producto->categoria->nombre,
-                    'subcategoria' => $item->producto->subcategoria->nombre,
+                    'producto' => $item?->producto?->nombre,
+                    'categoria' => $item?->producto?->categoria?->nombre,
+                    'subcategoria' => $item?->producto?->subcategoria?->nombre ?: 'No asignada',
                     'cantidad' => number_format($item->total, 2),
                 ];
             })

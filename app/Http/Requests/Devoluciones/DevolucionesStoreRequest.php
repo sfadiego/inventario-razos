@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Categorias;
+namespace App\Http\Requests\Devoluciones;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class CategoriasStoreRequest extends FormRequest
+class DevolucionesStoreRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,16 +22,12 @@ class CategoriasStoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'nombre' => ['required', 'string', 'unique:categorias,nombre', 'max:255'],
-            'activa' => ['boolean'],
-        ];
-    }
-
-    public function messages(): array
-    {
-        return [
-            'nombre.required' => 'El nombre es obligatorio.',
-            'nombre.unique' => 'El nombre ya existe en la base de datos.',
+            'venta_id' => 'required|exists:venta,id',
+            'motivo' => 'required|string',
+            'productos' => 'required|array|min:1',
+            'productos.*.producto_id' => 'required|exists:productos,id',
+            'productos.*.cantidad' => 'required|integer|min:1',
+            'productos.*.precio_unitario' => 'required|numeric|min:0',
         ];
     }
 }

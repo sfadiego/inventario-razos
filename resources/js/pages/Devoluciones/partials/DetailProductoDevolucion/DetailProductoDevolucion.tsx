@@ -1,0 +1,55 @@
+import SingleInputField from '@/components/form/input/SingleInputField';
+import Label from '@/components/form/Label';
+import Badge from '@/components/ui/badge/Badge';
+import Button from '@/components/ui/button/Button';
+import { IDevolucionProducto } from '@/models/devolucion';
+import { PlusCircle } from 'lucide-react';
+import { useDetailProductoDevolucion } from './useDetailProductoDevolucion';
+
+interface IDetailProductoDevolucion {
+  producto: any;
+  addProduct: (producto: any) => void;
+  validateExist: (producto: IDevolucionProducto) => boolean;
+}
+export const DetailProductoDevolucion = ({ producto, addProduct, validateExist }: IDetailProductoDevolucion) => {
+  const { msgValidacion, selected, handleAgregar, handleChange } = useDetailProductoDevolucion({ producto, addProduct, validateExist });
+  return (
+    <div className="grid grid-cols-12 gap-3 p-4">
+      <div className="col-span-12">
+        <Label>
+          Producto: <span className="break-words">{`${producto?.producto.nombre || ''}`}</span>
+        </Label>
+
+        {msgValidacion && (
+          <Badge color="warning" variant="light">
+            {msgValidacion}
+          </Badge>
+        )}
+      </div>
+
+      <div className="col-span-6">
+        <Label>Precio </Label>
+        <SingleInputField
+          name="precio_unitario"
+          onChange={(e) => handleChange('precio_unitario', e.target.value ? parseInt(e.target.value) : 0)}
+          value={selected.precio_unitario}
+        />
+        <SingleInputField name="ventaId" type="hidden" />
+      </div>
+      <div className="col-span-6">
+        <Label>Cantidad </Label>
+        <SingleInputField
+          onChange={(e) => handleChange('cantidad', e.target.value ? parseInt(e.target.value) : 0)}
+          value={selected.cantidad}
+          name="cantidad"
+        />
+      </div>
+      <div className="col-span-2">
+        <Label>Agregar </Label>
+        <Button onClick={handleAgregar} variant="outline">
+          <PlusCircle />
+        </Button>
+      </div>
+    </div>
+  );
+};

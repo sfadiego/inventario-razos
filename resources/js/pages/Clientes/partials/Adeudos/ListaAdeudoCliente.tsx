@@ -6,11 +6,15 @@ import { useSelectedItemStore } from '@/store/useSelectedItemStore';
 import { Link } from 'react-router';
 import { useListaAdeudosCliente } from './useListaAdeudosCliente';
 
-export const ListaAdeudoCliente = ({ closeModal }: { closeModal: () => void }) => {
+interface IListaAdeudoClienteProps {
+  closeModal: () => void;
+  handleUpdateAdeudo?: (adeudoId: number) => void;
+}
+export const ListaAdeudoCliente = ({ closeModal, handleUpdateAdeudo }: IListaAdeudoClienteProps) => {
   const { getItem } = useSelectedItemStore();
   const cliente = getItem('cliente') as ICliente;
   const clienteId = cliente.id ?? 0;
-  const { isLoading, data, handleUpdate, handleUpdateAll, isLoadingAll, pagando } = useListaAdeudosCliente({ clienteId, closeModal });
+  const { isLoading, data, handleUpdateAll, isLoadingAll } = useListaAdeudosCliente({ clienteId, closeModal });
   return (
     <div className="col-span-12 mb-3 lg:col-span-12">
       {!isLoading && data && data.length > 0 && (
@@ -33,7 +37,7 @@ export const ListaAdeudoCliente = ({ closeModal }: { closeModal: () => void }) =
                   Detalle
                 </Link>
 
-                <button disabled={pagando} className="text-blue-600 hover:underline" type="button" onClick={() => handleUpdate(adeudo.id)}>
+                <button className="text-blue-600 hover:underline" type="button" onClick={() => handleUpdateAdeudo?.(adeudo.id)}>
                   Liquidar adeudo
                 </button>
               </div>
