@@ -14,7 +14,7 @@ Route::controller(ProveedoresController::class)
             })
             ->group(function () {
                 Route::get('', 'show');
-                Route::put('', 'update');
-                Route::delete('', 'delete');
+                Route::put('', 'update')->middleware('can:admin');
+                Route::delete('', 'delete')->middleware('can:admin');
             });
     });

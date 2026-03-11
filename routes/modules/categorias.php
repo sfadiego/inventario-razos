@@ -16,7 +16,7 @@ Route::controller(CategoriasController::class)
             ->group(function () {
                 Route::get('', 'show');
                 Route::put('', 'update');
-                Route::delete('', 'delete');
+                Route::delete('', 'delete')->middleware('can:admin');
 
                 Route::controller(SubcategoriasController::class)
                     ->group(function () {

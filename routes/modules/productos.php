@@ -7,14 +7,14 @@ use Illuminate\Support\Facades\Route;
 Route::controller(ProductosController::class)
     ->group(function () {
         Route::get('', 'index');
-        Route::post('', 'store');
+        Route::post('', 'store')->middleware('can:admin');
         Route::prefix('{producto}')
             ->missing(function () {
                 return Response::error('Producto no encontrado');
             })
             ->group(function () {
                 Route::get('', 'show');
-                Route::post('', 'update');
-                Route::delete('', 'delete');
+                Route::post('', 'update')->middleware('can:admin');
+                Route::delete('', 'delete')->middleware('can:admin');
             });
     });

@@ -15,6 +15,6 @@ Route::controller(MarcaController::class)
             ->group(function () {
                 Route::get('', 'show');
                 Route::put('', 'update');
-                Route::delete('', 'delete');
+                Route::delete('', 'delete')->middleware('can:admin');
             });
     });
