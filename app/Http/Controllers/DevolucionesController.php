@@ -3,12 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Core\Data\IndexData;
+use App\Enums\TipoMovimientoEnum;
 use App\Http\Requests\Devoluciones\DevolucionesStoreRequest;
+use App\Logic\Devoluciones\DevolucionesIndexLogic;
 use App\Models\Devoluciones;
 use App\Models\Producto;
 use App\Models\ReporteMovimiento;
-use App\Enums\TipoMovimientoEnum;
-use App\Logic\Devoluciones\DevolucionesIndexLogic;
 use App\Models\Venta;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Response;
@@ -16,7 +16,6 @@ use Illuminate\Support\Facades\Response;
 // TODO: hacer pruebas
 class DevolucionesController extends Controller
 {
-
     public function index(IndexData $data, DevolucionesIndexLogic $logic): JsonResponse
     {
         return $logic->run($data);
@@ -36,8 +35,9 @@ class DevolucionesController extends Controller
             'venta',
             'detalle.producto' => function ($q) {
                 $q->select('id', 'nombre', 'unidad');
-            }
+            },
         ]);
+
         return Response::success($devolucion);
     }
 
