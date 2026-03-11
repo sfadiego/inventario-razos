@@ -7,14 +7,14 @@ use Illuminate\Support\Facades\Route;
 Route::controller(UbicacionesController::class)
     ->group(function () {
         Route::get('', 'index');
-        Route::post('', 'store');
+        Route::post('', 'store')->middleware('can:admin');
         Route::prefix('{ubicacion}')
             ->missing(function () {
                 return Response::error('Ubicacion no encontrada');
             })
             ->group(function () {
                 Route::get('', 'show');
-                Route::put('', 'update');
-                Route::delete('', 'delete');
+                Route::put('', 'update')->middleware('can:admin');
+                Route::delete('', 'delete')->middleware('can:admin');
             });
     });

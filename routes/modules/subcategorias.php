@@ -13,6 +13,6 @@ Route::controller(SubcategoriasController::class)
             })
             ->group(function () {
                 Route::put('', 'update');
-                Route::delete('', 'delete');
+                Route::delete('', 'delete')->middleware('can:admin');
             });
     });

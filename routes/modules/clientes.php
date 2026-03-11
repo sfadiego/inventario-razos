@@ -16,6 +16,6 @@ Route::controller(ClientesController::class)
                 Route::get('', 'show');
                 Route::get('adeudo', 'showAdeudo');
                 Route::put('', 'update');
-                Route::delete('', 'delete');
+                Route::delete('', 'delete')->middleware('can:admin');
             });
     });
