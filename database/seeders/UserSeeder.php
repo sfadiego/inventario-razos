@@ -22,7 +22,14 @@ class UserSeeder extends Seeder
             [
                 'name' => 'Empleado',
                 'role_id' => RoleEnum::User->value,
-                'email' => 'empleado@repamostos.com',
+                'email' => 'empleado@repamotos.com',
+                'password' => Hash::make('password'),
+                'activo' => true,
+            ],
+            [
+                'name' => 'SuperAdmin',
+                'role_id' => RoleEnum::SuperAdmin->value,
+                'email' => 'superadmin@repamotos.com',
                 'password' => Hash::make('password'),
                 'activo' => true,
             ],

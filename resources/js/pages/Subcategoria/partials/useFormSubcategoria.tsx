@@ -38,7 +38,7 @@ export const useFormSubcategoria = ({ closeModal }: { closeModal: () => void }) 
 
   const formikProps = {
     initialValues: {
-      nombre: subcategoria?.nombre ?? '',
+      nombre: subcategoria?.nombre?.toUpperCase() ?? '',
       categoria_id: subcategoria?.categoria_id ?? null,
     },
     onSubmit,

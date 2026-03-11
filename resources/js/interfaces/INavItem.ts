@@ -1,6 +1,16 @@
+import { RolesEnum } from '@/enums/RolesEnum';
+
 export interface INavItem {
   path?: string;
   name: string;
   icon: React.ReactNode;
-  subItems?: { name: string; path: string; icon?: React.ReactNode; pro?: boolean; new?: boolean }[];
+  roles?: RolesEnum[];
+  subItems?: {
+    roles: RolesEnum[];
+    name: string;
+    path: string;
+    icon?: React.ReactNode;
+    pro?: boolean;
+    new?: boolean;
+  }[];
 }

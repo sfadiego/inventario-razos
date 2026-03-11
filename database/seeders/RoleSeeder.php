@@ -12,10 +12,13 @@ class RoleSeeder extends Seeder
     {
         $data = [
             [
-                'role' => RoleEnum::Admin,
+                'role' => RoleEnum::fromId(RoleEnum::Admin->value),
             ],
             [
-                'role' => RoleEnum::User,
+                'role' => RoleEnum::fromId(RoleEnum::User->value),
+            ],
+            [
+                'role' => RoleEnum::fromId(RoleEnum::SuperAdmin->value),
             ],
         ];
         foreach ($data as $item) {
