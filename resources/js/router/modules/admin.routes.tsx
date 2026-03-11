@@ -78,7 +78,13 @@ export const adminRoutes: IRoute[] = [
     roles: [RolesEnum.ADMIN, RolesEnum.SUPERADMIN, RolesEnum.USER],
   },
   { private: true, path: AdminRoutes.Proveedores, name: 'Provedores', element: <ProveedoresPage />, roles: [RolesEnum.ADMIN, RolesEnum.SUPERADMIN] },
-  { private: true, path: AdminRoutes.Productos, name: 'Productos', element: <ProductosPage />, roles: [RolesEnum.ADMIN, RolesEnum.SUPERADMIN, RolesEnum.USER] },
+  {
+    private: true,
+    path: AdminRoutes.Productos,
+    name: 'Productos',
+    element: <ProductosPage />,
+    roles: [RolesEnum.ADMIN, RolesEnum.SUPERADMIN, RolesEnum.USER],
+  },
   { private: true, path: AdminRoutes.Reportes, name: 'Reportes', element: <ReportesPage />, roles: [RolesEnum.ADMIN, RolesEnum.SUPERADMIN] },
   { private: true, path: AdminRoutes.Ubicaciones, name: 'Ubicaciones', element: <UbicacionesPage />, roles: [RolesEnum.ADMIN, RolesEnum.SUPERADMIN] },
   {
@@ -97,7 +103,13 @@ export const adminRoutes: IRoute[] = [
   },
   { private: true, path: AdminRoutes.Importar, name: 'Importar', element: <ImportProductsPage />, roles: [RolesEnum.ADMIN, RolesEnum.SUPERADMIN] },
   { private: true, path: AdminRoutes.Marcas, name: 'Marcas', element: <MarcaPage />, roles: [RolesEnum.ADMIN, RolesEnum.SUPERADMIN, RolesEnum.USER] },
-  { private: true, path: AdminRoutes.Categorias, name: 'Categorias', element: <CategoriaPage />, roles: [RolesEnum.ADMIN, RolesEnum.SUPERADMIN, RolesEnum.USER] },
+  {
+    private: true,
+    path: AdminRoutes.Categorias,
+    name: 'Categorias',
+    element: <CategoriaPage />,
+    roles: [RolesEnum.ADMIN, RolesEnum.SUPERADMIN, RolesEnum.USER],
+  },
   {
     private: true,
     path: AdminRoutes.Subcategorias,
