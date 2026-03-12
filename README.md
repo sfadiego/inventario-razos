@@ -62,6 +62,12 @@ formatea código PHP
 ./vendor/bin/pint
 ```
 
+Formateo de proyecto (Front y back)
+
+```bash
+composer format
+```
+
 ## Comandos
 
 backup de base de datos en la ruta: `storage/app/backups/`
@@ -70,42 +76,46 @@ backup de base de datos en la ruta: `storage/app/backups/`
 php artisan db:backup
 ```
 
-Formateo de proyecto
-
-```bash
-composer format
-```
-
 # Configuracion CUps (Windows/MacOs)
 
-- listado dispositivos: 
+- listado dispositivos:
+
 ```bash
 lpinfo -v
 ```
 
 - Habilitar acceso remoto y compartir impresoras en CUPS
+
 ```bash
 sudo cupsctl --remote-any --remote-admin --share-printers
 sudo cupsctl WebInterface=yes
 ```
 
 - agregar dispositivo a cups:
-```bash 
+
+```bash
 lpadmin -p POS80_Series_POS80_Printer_USB -E -v usb://POS80_Series/POS80_Printer_USB -m raw
 lpadmin -p ${PRINTER_NAME} -E -v usb://POS80_Series/POS80_Printer_USB -m raw
 ```
 
 - estado de impresora:
+
 ```bash
 lpstat -a
 ```
 
-
 ## Errores conocidos
 
 - windows:
-error en puertos:
+  error en puertos:
+
 ```bash
 netstat -ano | findstr :3307
 taskkill /PID ${PID} /F
 ```
+
+## Usuarios
+
+- superadmin: superadmin@repamotos.com / password:password
+- admin: admin@repamotos.com / password:password
+- usuario: empleado@repamotos.com / password:password
