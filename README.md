@@ -116,6 +116,6 @@ taskkill /PID ${PID} /F
 
 ## Usuarios
 
-- superadmin: superadmin@repamotos.com / password
-- admin: admin@repamotos.com / password
-- usuario: empleado@repamotos.com
+- superadmin: superadmin@repamotos.com / password:password
+- admin: admin@repamotos.com / password:password
+- usuario: empleado@repamotos.com / password:password
