@@ -11,8 +11,9 @@ import { useQueryClient } from '@tanstack/react-query';
 import { DataTableProps } from 'mantine-datatable';
 import { useEffect, useMemo, useState } from 'react';
 import { DetailProductoDevolucion } from '../DetailProductoDevolucion/DetailProductoDevolucion';
+
 export const useFormDevolucion = ({ ventaId = 0, onClose }: { ventaId: number; onClose: () => void }) => {
-  const { isLoading, data } = useServiceShowDevolucionByVenta(ventaId);
+  const { isLoading, data, refetch } = useServiceShowDevolucionByVenta(ventaId);
   const [msgValidacion, setMsgValidacion] = useState<string>('');
 
   const [payload, setPayload] = useState<IDevolucionRequest>({
@@ -22,7 +23,15 @@ export const useFormDevolucion = ({ ventaId = 0, onClose }: { ventaId: number; o
   });
 
   useEffect(() => {
-    if (data?.devolucion) {
+    setPayload({
+      venta_id: ventaId,
+      motivo: '',
+      productos: [],
+    });
+  }, [ventaId]);
+
+  useEffect(() => {
+    if (data?.devolucion && !isLoading) {
       const dev = data.devolucion;
 
       const productosPreexistentes: IDevolucionProducto[] = (dev.detalle || []).map((d: any) => ({
@@ -38,10 +47,8 @@ export const useFormDevolucion = ({ ventaId = 0, onClose }: { ventaId: number; o
         motivo: dev.motivo || '',
         productos: productosPreexistentes,
       });
-    } else {
-      setPayload((prev) => ({ ...prev, venta_id: ventaId, productos: [] }));
     }
-  }, [ventaId, data]);
+  }, [data, isLoading, ventaId]);
 
   const handleClose = () => {
     setPayload({ venta_id: 0, motivo: '', productos: [] });
@@ -53,8 +60,8 @@ export const useFormDevolucion = ({ ventaId = 0, onClose }: { ventaId: number; o
   const devolucionCreada = !!data?.devolucion;
 
   const enableBtnPayload = useMemo(() => {
-    return motivo.trim() !== '' && payload.venta_id !== 0 && productosDevolucion.length > 0;
-  }, [motivo, payload.venta_id, productosDevolucion]);
+    return motivo.trim() !== '' && ventaId !== 0 && productosDevolucion.length > 0;
+  }, [motivo, ventaId, productosDevolucion]);
 
   const setMotivo = (nuevoMotivo: string) => {
     setMsgValidacion(nuevoMotivo === '' ? 'El motivo es requerido' : '');
@@ -108,6 +115,7 @@ export const useFormDevolucion = ({ ventaId = 0, onClose }: { ventaId: number; o
       queryClient.invalidateQueries({
         queryKey: [`${ApiRoutes.Devoluciones}`],
       });
+      refetch();
       handleClose();
     },
   });
