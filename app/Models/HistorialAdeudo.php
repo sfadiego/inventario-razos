@@ -2,10 +2,13 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class HistorialAdeudo extends Model
 {
+    use HasFactory;
+
     protected $table = 'historial_adeudo_cliente';
 
     protected $fillable = [
@@ -13,6 +16,10 @@ class HistorialAdeudo extends Model
         'total_adeudo',
         'cliente_id',
         'venta_id',
+    ];
+
+    protected $casts = [
+        'pagado' => 'boolean',
     ];
 
     public function cliente()
