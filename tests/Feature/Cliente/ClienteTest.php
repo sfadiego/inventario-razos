@@ -3,6 +3,7 @@
 namespace Tests\Feature\Cliente;
 
 use App\Models\Cliente;
+use App\Models\HistorialAdeudo;
 use Tests\TestCase;
 
 class ClienteTest extends TestCase
@@ -118,5 +119,41 @@ class ClienteTest extends TestCase
             'message' => 'Cliente eliminado',
             'data' => false,
         ]);
+    }
+
+    public function test_show_adeudo()
+    {
+        $this->loginAdmin();
+
+        $cliente = Cliente::factory()->create();
+
+        HistorialAdeudo::factory()
+            ->count(2)
+            ->create([
+                'cliente_id' => $cliente->id,
+                'pagado' => false,
+            ]);
+
+        $response = $this->getJson("/api/clientes/{$cliente->id}/adeudo");
+
+        $response->assertStatus(200)
+            ->assertJsonStructure([
+                'status',
+                'message',
+                'data' => [
+                    '*' => [
+                        'id',
+                        'total_adeudo',
+                        'venta_id',
+                        'created_at',
+                        'venta' => [
+                            'id',
+                            'folio',
+                            'nombre_venta',
+                        ],
+                    ],
+                ],
+            ])
+            ->assertJsonCount(2, 'data');
     }
 }
