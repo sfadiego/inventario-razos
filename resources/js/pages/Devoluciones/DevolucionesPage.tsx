@@ -20,7 +20,7 @@ export default function DevolucionesPage() {
       >
         {() => <></>}
       </DatatableWithFilter>
-      <FormDevolucion ventaId={ventaId} isOpen={isOpen} onClose={closeModal} />
+      {isOpen && ventaId !== 0 && <FormDevolucion ventaId={ventaId} isOpen={isOpen} onClose={closeModal} />}
     </PageWrapper>
   );
 }

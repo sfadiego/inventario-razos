@@ -8,10 +8,11 @@ import { useDetailProductoDevolucion } from './useDetailProductoDevolucion';
 
 interface IDetailProductoDevolucion {
   producto: any;
+  hasDevolucion: boolean;
   addProduct: (producto: any) => void;
   validateExist: (producto: IDevolucionProducto) => boolean;
 }
-export const DetailProductoDevolucion = ({ producto, addProduct, validateExist }: IDetailProductoDevolucion) => {
+export const DetailProductoDevolucion = ({ producto, hasDevolucion, addProduct, validateExist }: IDetailProductoDevolucion) => {
   const { msgValidacion, selected, handleAgregar, handleChange } = useDetailProductoDevolucion({ producto, addProduct, validateExist });
   return (
     <div className="grid grid-cols-12 gap-3 p-4">
@@ -30,6 +31,7 @@ export const DetailProductoDevolucion = ({ producto, addProduct, validateExist }
       <div className="col-span-6">
         <Label>Precio </Label>
         <SingleInputField
+          disabled={true}
           name="precio_unitario"
           onChange={(e) => handleChange('precio_unitario', e.target.value ? parseInt(e.target.value) : 0)}
           value={selected.precio_unitario}
@@ -39,17 +41,20 @@ export const DetailProductoDevolucion = ({ producto, addProduct, validateExist }
       <div className="col-span-6">
         <Label>Cantidad </Label>
         <SingleInputField
+          disabled={hasDevolucion}
           onChange={(e) => handleChange('cantidad', e.target.value ? parseInt(e.target.value) : 0)}
           value={selected.cantidad}
           name="cantidad"
         />
       </div>
-      <div className="col-span-2">
-        <Label>Agregar </Label>
-        <Button onClick={handleAgregar} variant="outline">
-          <PlusCircle />
-        </Button>
-      </div>
+      {!hasDevolucion && (
+        <div className="col-span-2">
+          <Label>Agregar </Label>
+          <Button onClick={handleAgregar} variant="outline">
+            <PlusCircle />
+          </Button>
+        </div>
+      )}
     </div>
   );
 };

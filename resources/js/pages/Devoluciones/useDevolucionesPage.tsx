@@ -4,7 +4,7 @@ import Button from '@/components/ui/button/Button';
 import { formatDate } from '@/helper/dates';
 import { useModal } from '@/hooks/useModal';
 import { IVentaDevoluciones } from '@/models/devolucion';
-import { Coins } from 'lucide-react';
+import { HandCoins } from 'lucide-react';
 import { useMemo, useState } from 'react';
 
 export const useDevolucionesPage = () => {
@@ -29,7 +29,7 @@ export const useDevolucionesPage = () => {
               variant="primary"
               size="sm"
             >
-              <Coins />
+              <HandCoins />
             </Button>
           </>
         );

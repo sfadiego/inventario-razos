@@ -42,9 +42,10 @@ class VentaProductoController extends Controller
 
     public function delete(VentaProducto $ventaProducto): JsonResponse
     {
-        $ventaProducto->delete();
-        $ventaTotalItems = VentaProducto::where('venta_id', $ventaProducto->venta_id)->count();
-        $venta = Venta::find($ventaProducto->venta_id);
+        $ventaId = $ventaProducto->venta_id;
+        $ventaProducto->forceDelete();
+        $ventaTotalItems = VentaProducto::where('venta_id', $ventaId)->count();
+        $venta = Venta::find($ventaId);
         if (! $ventaTotalItems) {
             $venta->update(['venta_total' => 0]);
         }

@@ -19,6 +19,7 @@ return new class extends Migration
                 $table->foreignId('venta_id')
                     ->constrained('venta')
                     ->onDelete('cascade');
+                $table->softDeletes();
                 $table->timestamps();
             });
         }

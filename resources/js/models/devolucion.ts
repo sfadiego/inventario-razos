@@ -1,3 +1,4 @@
+import { StatusDevolucionEnum } from '@/enums/StatusDevolucionEnum';
 import { ICliente } from './cliente.interface';
 import { IVenta } from './venta.interface';
 
@@ -7,6 +8,7 @@ export interface IDevolucion {
   motivo: string;
   venta_id: number;
   venta: IVenta;
+  status: StatusDevolucionEnum;
   detalle: IDevolucionDetalle[];
 }
 

@@ -8,7 +8,7 @@ class Devoluciones extends Model
 {
     protected $table = 'devoluciones';
 
-    protected $fillable = ['total_reembolsado', 'motivo', 'venta_id'];
+    protected $fillable = ['total_reembolsado', 'motivo', 'venta_id', 'status'];
 
     public function detalle()
     {
