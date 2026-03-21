@@ -117,7 +117,7 @@ export const useFormDevolucion = ({ ventaId = 0, onClose }: IUseFormDevolucionPr
     ),
   };
 
-  const devolucionId = data?.devolucion_id || 0;
+  const devolucionId = data?.devolucion?.id || 0;
   const devolucionCancelada = data?.devolucion?.status === StatusDevolucionEnum.CANCELADA;
   const storeMutation = useServiceStoreDevolucion();
   const updateMutation = useServiceUpdateDevolucion(devolucionId);

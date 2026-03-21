@@ -123,7 +123,7 @@ class DevolucionAction
             ReporteMovimiento::create([
                 'producto_id' => $producto->id,
                 'tipo_movimiento_id' => TipoMovimientoEnum::CANCELANDO_DEVOLUCION->value,
-                'motivo' => "Cancelación devolución #{$devolucion->id}. Motivo: '{$devolucion->motivo}' ",
+                'motivo' => "Cancelación devolución #{$devolucion->id}",
                 'cantidad' => $cantidad,
                 'cantidad_anterior' => $producto->stock,
                 'cantidad_actual' => $nuevoStock,

@@ -13,11 +13,10 @@ export const useDevolucionesPage = () => {
 
   const renderersMap = useMemo(() => {
     return {
-      rowClassName: ({ tieneDevolucion }: IVentaDevoluciones): rowTypes | '' => {
-        return tieneDevolucion ? 'redRow' : '';
+      rowClassName: ({ devolucion }: IVentaDevoluciones): rowTypes | '' => {
+        return devolucion?.id ? 'redRow' : '';
       },
       created_at: (item: IVentaDevoluciones) => formatDate(item.created_at, 'letters', ' '),
-      tieneDevolucion: (item: IVentaDevoluciones) => (item.tieneDevolucion ? 'Sí' : 'No'),
       actions: ({ id }: IVentaDevoluciones) => {
         return (
           <>
