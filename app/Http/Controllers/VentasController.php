@@ -43,7 +43,7 @@ class VentasController extends Controller
 
     public function show(Venta $venta): JsonResponse
     {
-        $venta->load(['cliente']);
+        $venta->load(['cliente', 'devolucion', 'devoluciones']);
 
         return Response::success($venta);
     }
