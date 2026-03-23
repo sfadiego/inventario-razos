@@ -26,7 +26,7 @@ class DevolucionesController extends Controller
         $venta = $venta->load([
             'devoluciones',
             'devolucion.detalle.producto',
-            'cliente'
+            'cliente',
         ]);
         $venta->devolucion_id = $venta->devolucion?->id;
 
@@ -71,6 +71,7 @@ class DevolucionesController extends Controller
     {
         try {
             $action->procesarCancelarDevolucion($devolucion, $params->productos);
+
             return Response::success($devolucion);
         } catch (\Throwable $th) {
             return Response::error($th->getMessage());
