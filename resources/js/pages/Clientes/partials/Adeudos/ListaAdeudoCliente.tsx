@@ -33,7 +33,7 @@ export const ListaAdeudoCliente = ({ closeModal, handleUpdateAdeudo }: IListaAde
                 {formatDate(adeudo.created_at, 'letters', '-')}
               </Badge>
               <div className="flex items-center">
-                <Link to={`/venta/${adeudo.id}/productos`} className="mr-2 ml-2 text-blue-600 hover:underline">
+                <Link to={`/venta/${adeudo.venta_id}/productos`} className="mr-2 ml-2 text-blue-600 hover:underline">
                   Detalle
                 </Link>
 

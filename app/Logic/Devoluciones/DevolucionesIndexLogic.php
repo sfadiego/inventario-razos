@@ -34,7 +34,7 @@ class DevolucionesIndexLogic extends IndexLogic
             'cliente.nombre' => 'Cliente',
             'tipo_compra' => 'Tipo de compra',
             'venta_total' => 'Total',
-            'tieneDevolucion' => 'Devuelto',
+            'devolucion.status' => 'Estatus devolución',
             'actions' => '#',
         ];
     }

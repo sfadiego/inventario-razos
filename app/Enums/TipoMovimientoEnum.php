@@ -8,6 +8,7 @@ enum TipoMovimientoEnum: int
     case SALIDA = 2;
     case REAJUSTE = 3;
     case DEVOLUCION = 4;
+    case CANCELANDO_DEVOLUCION = 5;
 
     public function label(): string
     {
@@ -15,7 +16,8 @@ enum TipoMovimientoEnum: int
             self::ENTRADA => 'Entrada',
             self::SALIDA => 'Salida',
             self::REAJUSTE => 'Reajuste',
-            self::DEVOLUCION => 'Devolución'
+            self::DEVOLUCION => 'Devolución',
+            self::CANCELANDO_DEVOLUCION => 'Cancelando devolución',
         };
     }
 
@@ -26,6 +28,7 @@ enum TipoMovimientoEnum: int
             self::SALIDA->value => self::SALIDA,
             self::REAJUSTE->value => self::REAJUSTE,
             self::DEVOLUCION->value => self::DEVOLUCION,
+            self::CANCELANDO_DEVOLUCION->value => self::CANCELANDO_DEVOLUCION,
             default => null,
         };
 

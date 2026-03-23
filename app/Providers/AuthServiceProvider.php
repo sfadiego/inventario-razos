@@ -26,7 +26,7 @@ class AuthServiceProvider extends ServiceProvider
         });
 
         Gate::define('admin', function ($user) {
-            return in_array($user->role_id, [RoleEnum::SuperAdmin, RoleEnum::Admin]);
+            return in_array($user->role_id, [RoleEnum::SuperAdmin->value, RoleEnum::Admin->value]);
         });
     }
 }

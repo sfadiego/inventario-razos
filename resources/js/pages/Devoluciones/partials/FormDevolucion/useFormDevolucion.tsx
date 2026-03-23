@@ -1,83 +1,95 @@
 import { AlertSwal } from '@/components/alertSwal/AlertSwal';
+import { AlertToast } from '@/components/alertToast/AlertToast';
 import { AlertTypeEnum } from '@/enums/AlertTypeEnum';
+import { StatusDevolucionEnum } from '@/enums/StatusDevolucionEnum';
 import { useDataTable } from '@/hooks/useDatatable';
 import { useOnSubmit } from '@/hooks/useOnSubmit';
 import { IDevolucionProducto, IDevolucionRequest } from '@/models/devolucion';
 import { IVentaProducto } from '@/models/ventaProducto.interface';
 import { ApiRoutes } from '@/router/modules/admin.routes';
-import { useServiceShowDevolucionByVenta, useServiceStoreDevolucion } from '@/Services/devoluciones/useServiceDevoluciones';
+import {
+  useServiceShowDevolucionByVenta,
+  useServiceStoreDevolucion,
+  useServiceUpdateDevolucion,
+} from '@/Services/devoluciones/useServiceDevoluciones';
 import { useServiceVentaProductoDetalle } from '@/Services/ventaProducto/useServiceVentaProducto';
 import { useQueryClient } from '@tanstack/react-query';
 import { DataTableProps } from 'mantine-datatable';
-import { useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { DetailProductoDevolucion } from '../DetailProductoDevolucion/DetailProductoDevolucion';
-export const useFormDevolucion = ({ ventaId = 0, onClose }: { ventaId: number; onClose: () => void }) => {
-  const { isLoading, data } = useServiceShowDevolucionByVenta(ventaId);
-  const [msgValidacion, setMsgValidacion] = useState<string>('');
 
-  const [payload, setPayload] = useState<IDevolucionRequest>({
-    venta_id: ventaId,
-    motivo: '',
-    productos: [],
-  });
+interface IUseFormDevolucionProps {
+  ventaId: number;
+  onClose: () => void;
+}
+
+const createInitialPayload = (ventaId: number): IDevolucionRequest => ({
+  venta_id: ventaId,
+  motivo: '',
+  productos: [],
+});
+
+export const useFormDevolucion = ({ ventaId = 0, onClose }: IUseFormDevolucionProps) => {
+  const queryClient = useQueryClient();
+  const [msgValidacion, setMsgValidacion] = useState<string>('');
+  const [payload, setPayload] = useState<IDevolucionRequest>(() => createInitialPayload(ventaId));
+
+  const { isLoading, data, refetch } = useServiceShowDevolucionByVenta(ventaId);
 
   useEffect(() => {
     if (data?.devolucion) {
       const dev = data.devolucion;
-
-      const productosPreexistentes: IDevolucionProducto[] = (dev.detalle || []).map((d: any) => ({
-        producto_id: d.producto_id,
-        nombre: d.producto?.nombre || 'Producto',
-        unidad: d.producto?.unidad || 'pza',
-        precio_unitario: d.precio_unitario,
-        cantidad: d.cantidad,
-      }));
-
       setPayload({
         venta_id: ventaId,
         motivo: dev.motivo || '',
-        productos: productosPreexistentes,
+        productos: (dev.detalle || []).map((d: any) => ({
+          producto_id: d.producto_id,
+          nombre: d.producto?.nombre || 'Producto',
+          unidad: d.producto?.unidad || 'pza',
+          precio_unitario: d.precio_unitario,
+          cantidad: d.cantidad,
+        })),
       });
     } else {
-      setPayload((prev) => ({ ...prev, venta_id: ventaId, productos: [] }));
+      setPayload(createInitialPayload(ventaId));
     }
-  }, [ventaId, data]);
+  }, [data, ventaId]);
 
-  const handleClose = () => {
-    setPayload({ venta_id: 0, motivo: '', productos: [] });
+  const handleClose = useCallback(() => {
+    setPayload(createInitialPayload(ventaId));
+    setMsgValidacion('');
     onClose();
-  };
+  }, [onClose, ventaId]);
 
-  const productosDevolucion = payload.productos;
-  const motivo = payload.motivo;
-  const devolucionCreada = !!data?.devolucion;
+  const validateExist = useCallback(
+    (productoId: number) => {
+      return payload.productos.some((p) => p.producto_id === productoId);
+    },
+    [payload.productos],
+  );
 
-  const enableBtnPayload = useMemo(() => {
-    return motivo.trim() !== '' && payload.venta_id !== 0 && productosDevolucion.length > 0;
-  }, [motivo, payload.venta_id, productosDevolucion]);
+  const handleAdd = useCallback(
+    (item: IDevolucionProducto) => {
+      if (validateExist(item.producto_id)) {
+        setMsgValidacion('El producto ya está en la lista');
+        return;
+      }
+      setMsgValidacion('');
+      setPayload((prev) => ({ ...prev, productos: [...prev.productos, item] }));
+    },
+    [validateExist],
+  );
 
-  const setMotivo = (nuevoMotivo: string) => {
-    setMsgValidacion(nuevoMotivo === '' ? 'El motivo es requerido' : '');
-    setPayload((prev) => ({ ...prev, motivo: nuevoMotivo }));
-  };
-
-  const validateExist = (producto: IDevolucionProducto) => {
-    return productosDevolucion.some((p) => p.producto_id === producto.producto_id);
-  };
-
-  const handleAdd = (item: IDevolucionProducto) => {
-    if (validateExist(item)) {
-      setMsgValidacion('El producto ya está en la lista');
-      return;
-    }
-    setPayload((prev) => ({ ...prev, productos: [...prev.productos, item] }));
-  };
-
-  const handleRemove = (id: number) => {
+  const handleRemove = useCallback((id: number) => {
     setPayload((prev) => ({
       ...prev,
       productos: prev.productos.filter((p) => p.producto_id !== id),
     }));
+  }, []);
+
+  const setMotivo = (nuevoMotivo: string) => {
+    setMsgValidacion(nuevoMotivo === '' ? 'El motivo es requerido' : '');
+    setPayload((prev) => ({ ...prev, motivo: nuevoMotivo }));
   };
 
   const { dataTableProps } = useDataTable({
@@ -85,56 +97,83 @@ export const useFormDevolucion = ({ ventaId = 0, onClose }: { ventaId: number; o
     payload: { serviceParamId: ventaId, filters: [] },
     renderersMap: useMemo(
       () => ({
-        'producto.nombre': ({ producto }: IVentaProducto) =>
-          producto?.nombre && producto.nombre.length > 15 ? `${producto.nombre.substring(0, 15)}...` : producto?.nombre || '',
+        'producto.nombre': ({ producto }: IVentaProducto) => {
+          const nombre = producto?.nombre || '';
+          return nombre.length > 15 ? `${nombre.substring(0, 15)}...` : nombre;
+        },
       }),
       [],
     ),
   });
 
   const rowExpansion: DataTableProps<IVentaProducto>['rowExpansion'] = {
-    content: ({ record }) => <DetailProductoDevolucion validateExist={validateExist} producto={record} addProduct={handleAdd} />,
+    content: ({ record }) => (
+      <DetailProductoDevolucion
+        hasDevolucion={!!data?.devolucion}
+        validateExist={() => validateExist(record.producto_id)}
+        producto={record}
+        addProduct={handleAdd}
+      />
+    ),
   };
 
-  const mutate = useServiceStoreDevolucion();
-  const queryClient = useQueryClient();
+  const devolucionId = data?.devolucion?.id || 0;
+  const devolucionCancelada = data?.devolucion?.status === StatusDevolucionEnum.CANCELADA;
+  const storeMutation = useServiceStoreDevolucion();
+  const updateMutation = useServiceUpdateDevolucion(devolucionId);
+
   const { onSubmit } = useOnSubmit<IDevolucionRequest>({
-    mutateAsync: mutate.mutateAsync,
+    mutateAsync: devolucionId ? updateMutation.mutateAsync : storeMutation.mutateAsync,
     onSuccess: async () => {
       AlertSwal({
-        title: 'Devolución creada',
+        title: `Devolución ${devolucionId ? 'actualizada' : 'creada'}`,
         type: AlertTypeEnum.Success,
       });
-      queryClient.invalidateQueries({
-        queryKey: [`${ApiRoutes.Devoluciones}`],
-      });
+      queryClient.invalidateQueries({ queryKey: [ApiRoutes.Devoluciones] });
+      refetch();
       handleClose();
+    },
+    onError(data: any) {
+      handleClose();
+      if (data?.response?.data?.message) {
+        const msg = data?.response?.data?.message || '';
+        AlertToast({
+          type: 'error',
+          message: msg,
+        });
+      } else {
+        AlertToast({
+          type: 'error',
+          message: 'Revisa el stock',
+        });
+      }
     },
   });
 
-  const handleDevolucion = () => {
-    if (!enableBtnPayload) {
+  const handleSubmit = () => {
+    const isInvalid = ventaId === 0 || payload.motivo.trim() === '' || payload.productos.length === 0;
+
+    if (isInvalid) {
       setMsgValidacion('Verifica que el motivo y los productos estén presentes');
       return;
     }
+
     onSubmit(payload, {});
   };
 
   return {
     dataTableProps,
     rowExpansion,
-    productosDevolucion,
-    handleDevolucion,
+    productosDevolucion: payload.productos,
+    handleDevolucion: handleSubmit,
     handleRemove,
     setMotivo,
     msgValidacion,
-    motivo,
-    enableBtnPayload,
-    devolucionCreada,
+    motivo: payload.motivo,
+    enableBtnPayload: ventaId !== 0 && payload.motivo.trim() !== '' && payload.productos.length > 0,
+    devolucionCreada: !!data?.devolucion,
+    devolucionCancelada,
     handleClose,
-    venta: {
-      isLoading,
-      data,
-    },
+    venta: { isLoading, data },
   };
 };

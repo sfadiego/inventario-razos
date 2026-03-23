@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\StatusDevolucionEnum;
 use App\Enums\StatusVentaEnum;
 use App\Enums\TipoCompraEnum;
 use App\Enums\TipoMovimientoEnum;
@@ -35,9 +36,15 @@ class Venta extends Model
         return $this->belongsTo(Cliente::class);
     }
 
+    public function devoluciones(): HasMany
+    {
+        return $this->hasMany(Devoluciones::class, 'venta_id', 'id');
+    }
+
     public function devolucion()
     {
-        return $this->hasOne(Devoluciones::class, 'venta_id', 'id');
+        return $this->hasOne(Devoluciones::class, 'venta_id')
+            ->where('status', '!=', StatusDevolucionEnum::CANCELADA->value);
     }
 
     public function ventaProductos(): HasMany
@@ -120,9 +127,9 @@ class Venta extends Model
 
     public function scopeVentaTotal(): float
     {
-        $total = $this->ventaProductos->sum(fn ($item) => $item->cantidad * $item->precio);
-
-        return round($total, 2);
+        return (float) $this->ventaProductos()
+            ->selectRaw('SUM(cantidad * precio) as total')
+            ->value('total') ?? 0;
     }
 
     public static function createFolio(): string

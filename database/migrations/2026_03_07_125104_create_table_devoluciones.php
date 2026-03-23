@@ -1,5 +1,6 @@
 <?php
 
+use App\Enums\StatusDevolucionEnum;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -15,6 +16,8 @@ return new class extends Migration
             $table->id();
             $table->float('total_reembolsado')->default(0);
             $table->text('motivo')->nullable();
+            $table->enum('status', [StatusDevolucionEnum::CREADA->value, StatusDevolucionEnum::CANCELADA->value])
+                ->default(StatusDevolucionEnum::CREADA->value);
             $table->foreignId('venta_id')
                 ->constrained('venta')
                 ->onDelete('cascade');

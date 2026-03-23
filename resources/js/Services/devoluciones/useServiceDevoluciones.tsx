@@ -1,4 +1,4 @@
-import { useGET, usePOST } from '@/hooks/useApi';
+import { useGET, usePOST, usePUT } from '@/hooks/useApi';
 import { IPaginate } from '@/interfaces/IPaginate';
 import { IPaginateServiceProps } from '@/interfaces/IPaginateServiceProps';
 import { IDevolucion, IVentaDevoluciones } from '@/models/devolucion';
@@ -21,4 +21,6 @@ export const useServiceIndexDevoluciones = ({ filters = [], order = 'desc', sear
 export const useServiceShowDevolucion = (idDevolucion: number) => useGET<IDevolucion>({ url: `${url}/${idDevolucion}`, enable: !!idDevolucion });
 export const useServiceShowDevolucionByVenta = (ventaId: number) =>
   useGET<IVentaDevoluciones>({ url: `${url}/by-venta/${ventaId}`, enable: !!ventaId });
+
 export const useServiceStoreDevolucion = () => usePOST({ url });
+export const useServiceUpdateDevolucion = (idDevolucion: number) => usePUT({ url: `${url}/${idDevolucion}` });

@@ -1,4 +1,5 @@
 import { AlertSwal } from '@/components/alertSwal/AlertSwal';
+import { AlertToast } from '@/components/alertToast/AlertToast';
 import { AlertTypeEnum } from '@/enums/AlertTypeEnum';
 import { StatusVentaEnum } from '@/enums/StatusVentaEnum';
 import { useDataTable } from '@/hooks/useDatatable';
@@ -36,6 +37,21 @@ export const useProductoVentaDetail = ({ closeModal }: { closeModal: () => void 
   const { onSubmit: onSubmitFinalizarVenta } = useOnSubmit<IVentaUpdateProps>({
     mutateAsync: mutatorUpdate.mutateAsync,
     onSuccess: async () => handleSuccessVenta(),
+    onError(data: any) {
+      closeModal();
+      if (data?.response?.data?.message) {
+        const msg = data?.response?.data?.message || '';
+        AlertToast({
+          type: 'error',
+          message: msg,
+        });
+      } else {
+        AlertToast({
+          type: 'error',
+          message: 'Revisa el stock',
+        });
+      }
+    },
   });
 
   const { printing, handleTicket } = usePrinter(ventaId);
