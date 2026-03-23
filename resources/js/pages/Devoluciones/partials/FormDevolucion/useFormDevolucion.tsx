@@ -1,8 +1,8 @@
 import { useQueryClient } from '@tanstack/react-query';
 import { DataTableProps } from 'mantine-datatable';
 import { useCallback, useEffect, useMemo, useState } from 'react';
-
 import { AlertSwal } from '@/components/alertSwal/AlertSwal';
+import { AlertToast } from '@/components/alertToast/AlertToast';
 import { AlertTypeEnum } from '@/enums/AlertTypeEnum';
 import { StatusDevolucionEnum } from '@/enums/StatusDevolucionEnum';
 import { useDataTable } from '@/hooks/useDatatable';
@@ -132,6 +132,21 @@ export const useFormDevolucion = ({ ventaId = 0, onClose }: IUseFormDevolucionPr
       queryClient.invalidateQueries({ queryKey: [ApiRoutes.Devoluciones] });
       refetch();
       handleClose();
+    },
+    onError(data: any) {
+      handleClose();
+      if (data?.response?.data?.message) {
+        const msg = data?.response?.data?.message || '';
+        AlertToast({
+          type: 'error',
+          message: msg,
+        });
+      } else {
+        AlertToast({
+          type: 'error',
+          message: 'Revisa el stock',
+        });
+      }
     },
   });
 
