@@ -23,7 +23,11 @@ class DevolucionesController extends Controller
 
     public function showByVenta(Venta $venta): JsonResponse
     {
-        $venta = $venta->load(['devolucion.detalle.producto', 'cliente']);
+        $venta = $venta->load([
+            'devoluciones',
+            'devolucion.detalle.producto',
+            'cliente'
+        ]);
         $venta->devolucion_id = $venta->devolucion?->id;
 
         return Response::success($venta);
@@ -40,7 +44,6 @@ class DevolucionesController extends Controller
 
         return Response::success($devolucion);
     }
-
 
     public function store(DevolucionesStoreRequest $params, DevolucionAction $action): JsonResponse
     {

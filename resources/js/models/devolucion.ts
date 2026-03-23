@@ -52,5 +52,6 @@ export interface IVentaDevoluciones {
   deleted_at: null;
   cliente_id?: number;
   cliente: ICliente;
+  devoluciones?: IDevolucion[];
   devolucion?: IDevolucion;
 }

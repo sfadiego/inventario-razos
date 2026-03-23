@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\StatusDevolucionEnum;
 use App\Enums\StatusVentaEnum;
 use App\Enums\TipoCompraEnum;
 use App\Enums\TipoMovimientoEnum;
@@ -35,9 +36,15 @@ class Venta extends Model
         return $this->belongsTo(Cliente::class);
     }
 
+    public function devoluciones(): HasMany
+    {
+        return $this->hasMany(Devoluciones::class, 'venta_id', 'id');
+    }
+
     public function devolucion()
     {
-        return $this->hasOne(Devoluciones::class, 'venta_id', 'id');
+        return $this->hasOne(Devoluciones::class, 'venta_id')
+            ->where('status', '!=', StatusDevolucionEnum::CANCELADA->value);
     }
 
     public function ventaProductos(): HasMany
@@ -127,7 +134,7 @@ class Venta extends Model
 
     public static function createFolio(): string
     {
-        return date('ymdHis').strtoupper(substr(uniqid('', true), 0, 10));
+        return date('ymdHis') . strtoupper(substr(uniqid('', true), 0, 10));
     }
 
     public function scopeSearch(Builder $query, string $search): Builder

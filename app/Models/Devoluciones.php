@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Devoluciones extends Model
 {
@@ -10,13 +12,13 @@ class Devoluciones extends Model
 
     protected $fillable = ['total_reembolsado', 'motivo', 'venta_id', 'status'];
 
-    public function detalle()
+    public function detalle(): HasMany
     {
         return $this->hasMany(DetalleDevolucion::class, 'devolucion_id', 'id');
     }
 
-    public function venta()
+    public function venta(): BelongsTo
     {
-        return $this->hasOne(Venta::class, 'id', 'venta_id');
+        return $this->belongsTo(Venta::class, 'venta_id', 'id');
     }
 }

@@ -34,7 +34,15 @@ class DevolucionResource extends JsonResource
                 'created_at' => $this->cliente->created_at,
                 'updated_at' => $this->cliente->updated_at,
             ] : null,
-            // 'devolucion_id' => $this->devolucion !== null ? $this->devolucion->id : null,
+            'devoluciones' => $this->devoluciones->isNotEmpty() ? $this->devoluciones->map(function ($devolucion) {
+                return [
+                    'id' => $devolucion->id,
+                    'total_reembolsado' => $devolucion->total_reembolsado,
+                    'motivo' => $devolucion->motivo,
+                    'venta_id' => $devolucion->venta_id,
+                    'status' => $devolucion->status,
+                ];
+            }) : null,
             'devolucion' => $this->devolucion !== null ? [
                 'id' => $this->devolucion->id,
                 'total_reembolsado' => $this->devolucion->total_reembolsado,
