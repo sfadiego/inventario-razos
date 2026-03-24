@@ -34,14 +34,24 @@ class ProductoIndexLogic extends IndexLogic
 
     public function filterProducto(Filter $filter): void
     {
-        $this->queryBuilder->orWhere('codigo', $filter->value)
-            ->orWhere('nombre', 'like', '%'.$filter->value.'%');
+        $terminos = explode(' ', $filter->value);
+        $this->queryBuilder->where(function ($query) use ($terminos, $filter) {
+            $query->orWhere('codigo', 'like', '%' . $filter->value . '%');
+
+            $query->orWhere(function ($subQuery) use ($terminos) {
+                foreach ($terminos as $termino) {
+                    if (trim($termino) !== '') {
+                        $subQuery->where('nombre', 'like', '%' . $termino . '%');
+                    }
+                }
+            });
+        });
     }
 
     protected function customFilters(): array
     {
         return [
-            'search' => fn (Filter $filter) => $this->filterProducto($filter),
+            'search' => fn(Filter $filter) => $this->filterProducto($filter),
         ];
     }
 
