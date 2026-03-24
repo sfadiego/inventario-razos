@@ -69,13 +69,18 @@ class NetworkConnector implements PrinterConnectorInterface
 
     public function isActiveConnection(): bool
     {
-        $this->socketConection = @fsockopen($this->printerHost, 9100, $errno, $errstr, 1.5);
+        $this->socketConection = fsockopen($this->printerHost, 9100, $errno, $errstr, 1.5);
         if (! $this->socketConection) {
-            Log::info('Impresora no conectada');
+            Log::info('Impresora no conectada', ['error' => $errstr]);
 
             return false;
         }
 
+        if (is_resource($this->socketConection)) {
+            fclose($this->socketConection);
+        }
+
+        $this->socketConection = null;
         return true;
     }
 }
