@@ -26,7 +26,11 @@ class ProductosUpdateRequest extends FormRequest
             'proveedor_id' => ['nullable', 'exists:proveedores,id'],
             'categoria_id' => ['nullable', 'exists:categorias,id'],
             'codigo' => ['nullable', 'string', 'max:18'],
-            'precio_compra' => ['nullable', 'numeric', 'min:1'],
+            'precio_compra' => ['nullable', 'numeric', 'min:1', function ($attribute, $value, $fail) {
+                if ($value !== null && $value <= 1) {
+                    $fail('El campo ' . $attribute . ' debe ser mayor a 1');
+                }
+            }],
             'precio_venta' => ['nullable', 'numeric', 'min:1'],
             'stock' => ['nullable', 'integer', 'min:0'],
             'cantidad_minima' => ['nullable', 'integer', 'min:1'],
