@@ -81,6 +81,7 @@ class NetworkConnector implements PrinterConnectorInterface
         }
 
         $this->socketConection = null;
+
         return true;
     }
 }

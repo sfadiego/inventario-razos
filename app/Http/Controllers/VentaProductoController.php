@@ -15,6 +15,7 @@ class VentaProductoController extends Controller
     {
         try {
             $ventaProducto = VentaProducto::createVentaProducto($request->all());
+
             return Response::success($ventaProducto);
         } catch (\Throwable $th) {
             return Response::error($th->getMessage());
