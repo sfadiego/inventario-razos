@@ -1,3 +1,4 @@
+import { ProductoUnidadEnum } from '@/enums/ProductoUnidadEnum';
 import { useOnSubmit } from '@/hooks/useOnSubmit';
 import { IVentaProducto } from '@/models/ventaProducto.interface';
 import { useServiceUpdateVentaProducto } from '@/Services/ventaProducto/useServiceVentaProducto';
@@ -21,6 +22,7 @@ export const useActualizaProductoVenta = (props: useActualizaProductoVentaProps)
     refetchVenta();
   };
 
+  const unidadMetro = record.producto?.unidad == ProductoUnidadEnum.Metro;
   const initialValues: IVentaProducto = {
     id: record.id || 0,
     cantidad: record.cantidad || 1,
@@ -30,7 +32,17 @@ export const useActualizaProductoVenta = (props: useActualizaProductoVentaProps)
   };
 
   const validationSchema = Yup.object().shape({
-    cantidad: Yup.number().required('La cantidad es obligatoria').min(1, 'La cantidad debe ser al menos 1'),
+    cantidad: Yup.number()
+      .transform((value, originalValue) => {
+        return originalValue === '' ? null : value;
+      })
+      .required('La cantidad es requerida')
+      .min(0, 'El precio no puede ser negativo')
+      .moreThan(0, 'El precio debe ser mayor que cero')
+      .test('es-entero', 'La cantidad debe ser un número entero para esta unidad', (value) => {
+        if (unidadMetro) return true;
+        return Number.isInteger(value);
+      }),
     precio: Yup.number().required('El precio es obligatorio').min(0, 'El precio no puede ser negativo'),
     producto_id: Yup.number().required('El producto es obligatorio').min(1, 'Seleccione un producto válido'),
     producto_nombre: Yup.string(),

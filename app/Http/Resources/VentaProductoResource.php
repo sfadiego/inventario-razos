@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Enums\ProductoUnidadEnum;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -24,6 +25,7 @@ class VentaProductoResource extends JsonResource
                 'nombre' => $this->producto->nombre ?? null,
                 'codigo' => $this->producto->codigo ?? null,
                 'stock' => $this->producto->stock ?? 0,
+                'unidad' => $this->producto->unidad ?? ProductoUnidadEnum::PIEZA->value,
             ] : null,
             'venta_id' => $this->venta_id,
         ];
