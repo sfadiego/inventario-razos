@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('detalle_devolucion', function (Blueprint $table) {
             $table->id();
-            $table->integer('cantidad');
-            $table->integer('precio_unitario');
+            $table->decimal('cantidad', 10, 2);
+            $table->decimal('precio_unitario', 10, 2);
             $table->foreignId('devolucion_id')
                 ->constrained('devoluciones')
                 ->onDelete('cascade');

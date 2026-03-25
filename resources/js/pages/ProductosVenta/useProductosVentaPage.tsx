@@ -9,9 +9,11 @@ import Button from '@/components/ui/button/Button';
 import { ExpansionProductoDetail } from '@/components/productos/ExpansionProductoDetail';
 import { ColumnProperties } from '@/components/tables/columnProperties';
 import { StatusVentaEnum } from '@/enums/StatusVentaEnum';
+import { useDataTable } from '@/hooks/useDatatable';
 import { IProducto } from '@/models/producto.interface';
 import { AdminRoutes } from '@/router/modules/admin.routes';
 import { useServiceIndexProductos } from '@/Services/productos/useServiceProductos';
+import { useServiceVentaProductoDetalle } from '@/Services/ventaProducto/useServiceVentaProducto';
 import { useServiceShowVenta } from '@/Services/ventas/useServiceVenta';
 import { useParams } from 'react-router';
 import { useProductoVentaModal } from './useProductoVentaModal';
@@ -68,6 +70,15 @@ export const useProductosVentaPage = () => {
     };
   }, [ventaFinalizada, productoVentaModal]);
 
+  const finished = ventaData?.status_venta == StatusVentaEnum.FINALIZADA;
+  const { dataTableProps } = useDataTable({
+    service: useServiceVentaProductoDetalle,
+    payload: {
+      serviceParamId: ventaId,
+      filters: [],
+    },
+  });
+
   return {
     isOpen: productoVentaModal.isOpen,
     openModal: productoVentaModal.show,
@@ -80,5 +91,7 @@ export const useProductosVentaPage = () => {
     venta: isLoading ? null : (ventaData ?? null),
     breadcrumb,
     columnProperties,
+    finished,
+    dataTableProps,
   };
 };

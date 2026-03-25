@@ -1,6 +1,7 @@
 import { AlertSwal } from '@/components/alertSwal/AlertSwal';
 import { AlertToast } from '@/components/alertToast/AlertToast';
 import { AlertTypeEnum } from '@/enums/AlertTypeEnum';
+import { ProductoUnidadEnum } from '@/enums/ProductoUnidadEnum';
 import { StatusDevolucionEnum } from '@/enums/StatusDevolucionEnum';
 import { useDataTable } from '@/hooks/useDatatable';
 import { useOnSubmit } from '@/hooks/useOnSubmit';
@@ -44,8 +45,8 @@ export const useFormDevolucion = ({ ventaId = 0, onClose }: IUseFormDevolucionPr
         motivo: dev.motivo || '',
         productos: (dev.detalle || []).map((d: any) => ({
           producto_id: d.producto_id,
-          nombre: d.producto?.nombre || 'Producto',
-          unidad: d.producto?.unidad || 'pza',
+          nombre: d.producto?.nombre || '???',
+          unidad: d.producto?.unidad || ProductoUnidadEnum.Pieza,
           precio_unitario: d.precio_unitario,
           cantidad: d.cantidad,
         })),

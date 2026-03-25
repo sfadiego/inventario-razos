@@ -1,4 +1,5 @@
 import { AlertToast } from '@/components/alertToast/AlertToast';
+import { ProductoUnidadEnum } from '@/enums/ProductoUnidadEnum';
 import { useOnSubmit } from '@/hooks/useOnSubmit';
 import { IVentaProductoForm } from '@/models/ventaProducto.interface';
 import { ApiRoutes } from '@/router/modules/admin.routes';
@@ -25,7 +26,6 @@ export const useAgregarProductoVenta = ({ productoId, closeModal }: IAgregarProd
 
   const [error, setError] = useState('');
 
-  // limpiar error cuando cambia producto
   useEffect(() => {
     setError('');
   }, [productoId]);
@@ -49,6 +49,7 @@ export const useAgregarProductoVenta = ({ productoId, closeModal }: IAgregarProd
   }).onSubmit;
 
   const stock = data?.stock ?? 0;
+  const unidadMetro = data?.unidad == ProductoUnidadEnum.Metro;
 
   const initialValues: IVentaProductoForm = useMemo(
     () => ({
@@ -65,9 +66,17 @@ export const useAgregarProductoVenta = ({ productoId, closeModal }: IAgregarProd
     () =>
       Yup.object().shape({
         cantidad: Yup.number()
+          .transform((value, originalValue) => {
+            return originalValue === '' ? null : value;
+          })
           .required('La cantidad es requerida')
-          .min(1, 'La cantidad debe ser al menos 1')
-          .max(20, 'La cantidad no puede ser mayor a 20'),
+          .min(0, 'El precio no puede ser negativo')
+          .moreThan(0, 'El precio debe ser mayor que cero')
+          .test('es-entero', 'La cantidad debe ser un número entero para esta unidad', (value) => {
+            if (unidadMetro) return true;
+            return Number.isInteger(value);
+          })
+          .max(stock, `La cantidad no puede ser mayor a ${stock}`),
         precio: Yup.number()
           .required('El precio es requerido')
           .min(0, 'El precio no puede ser negativo')
@@ -76,7 +85,7 @@ export const useAgregarProductoVenta = ({ productoId, closeModal }: IAgregarProd
         producto_id: Yup.number().required('No se ha precargado el producto correctamente.'),
         venta_id: Yup.number().required('No se ha precargado la venta correctamente.'),
       }),
-    [],
+    [stock, unidadMetro],
   );
 
   return {

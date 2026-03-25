@@ -13,7 +13,6 @@ interface ActualizaProductoVentaProps {
 }
 export const ActualizaProductoVenta = (props: ActualizaProductoVentaProps) => {
   const { record } = props;
-
   const { formikProps, isPending, onErrorMessage } = useActualizaProductoVenta(props);
   const nombreProducto = record.producto?.nombre || '';
   return (

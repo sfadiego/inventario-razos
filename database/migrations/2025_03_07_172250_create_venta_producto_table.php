@@ -11,7 +11,7 @@ return new class extends Migration
         if (! Schema::hasTable('venta_producto')) {
             Schema::create('venta_producto', function (Blueprint $table) {
                 $table->id();
-                $table->integer('cantidad');
+                $table->decimal('cantidad', 10, 2);
                 $table->decimal('precio', 10, 2);
                 $table->foreignId('producto_id')
                     ->constrained('productos')

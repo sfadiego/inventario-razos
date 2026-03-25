@@ -16,8 +16,8 @@ return new class extends Migration
                 $table->string('codigo', 18);
                 $table->decimal('precio_compra', 10, 2)->default(0);
                 $table->decimal('precio_venta', 10, 2)->default(0);
-                $table->integer('stock')->default(0);
-                $table->integer('cantidad_minima')->default(0);
+                $table->decimal('stock', 10, 2)->default(0.0);
+                $table->decimal('cantidad_minima', 10, 2)->default(0.0);
                 $table->text('compatibilidad')->nullable();
                 $table->foreignId('imagen_id')
                     ->nullable()

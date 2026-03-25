@@ -2,6 +2,7 @@ import SingleInputField from '@/components/form/input/SingleInputField';
 import Label from '@/components/form/Label';
 import Badge from '@/components/ui/badge/Badge';
 import Button from '@/components/ui/button/Button';
+import { ProductoUnidadEnum } from '@/enums/ProductoUnidadEnum';
 import { IDevolucionProducto } from '@/models/devolucion';
 import { PlusCircle } from 'lucide-react';
 import { useDetailProductoDevolucion } from './useDetailProductoDevolucion';
@@ -14,6 +15,7 @@ interface IDetailProductoDevolucion {
 }
 export const DetailProductoDevolucion = ({ producto, hasDevolucion, addProduct, validateExist }: IDetailProductoDevolucion) => {
   const { msgValidacion, selected, handleAgregar, handleChange } = useDetailProductoDevolucion({ producto, addProduct, validateExist });
+  const unidadMetro = producto?.producto.unidad == ProductoUnidadEnum.Metro;
   return (
     <div className="grid grid-cols-12 gap-3 p-4">
       <div className="col-span-12">
@@ -33,7 +35,7 @@ export const DetailProductoDevolucion = ({ producto, hasDevolucion, addProduct, 
         <SingleInputField
           disabled={true}
           name="precio_unitario"
-          onChange={(e) => handleChange('precio_unitario', e.target.value ? parseInt(e.target.value) : 0)}
+          onChange={(e) => handleChange('precio_unitario', e.target.value ? parseFloat(e.target.value) : 0)}
           value={selected.precio_unitario}
         />
         <SingleInputField name="ventaId" type="hidden" />
@@ -41,8 +43,9 @@ export const DetailProductoDevolucion = ({ producto, hasDevolucion, addProduct, 
       <div className="col-span-6">
         <Label>Cantidad </Label>
         <SingleInputField
+          type="number"
           disabled={hasDevolucion}
-          onChange={(e) => handleChange('cantidad', e.target.value ? parseInt(e.target.value) : 0)}
+          onChange={(e) => handleChange('cantidad', e.target.value ? (unidadMetro ? parseFloat(e.target.value) : parseInt(e.target.value)) : 0)}
           value={selected.cantidad}
           name="cantidad"
         />

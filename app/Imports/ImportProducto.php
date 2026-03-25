@@ -62,6 +62,7 @@ class ImportProducto implements ToModel, WithCalculatedFormulas, WithEvents, Wit
             'PZA' => ProductoUnidadEnum::PIEZA->value,
             'PAR' => ProductoUnidadEnum::PAR->value,
             'par' => ProductoUnidadEnum::PAR->value,
+            'metro' => ProductoUnidadEnum::METRO->value,
             default => ProductoUnidadEnum::PIEZA->value,
         };
     }
@@ -104,7 +105,11 @@ class ImportProducto implements ToModel, WithCalculatedFormulas, WithEvents, Wit
         $marca = isset($row[3]) ? trim((string) $row[3]) : Marca::SIN_DEFINIR;
         $subcategoriaId = $this->subcategoria[$row[4]] ?? null;
         $precioVenta = isset($row[5]) ? preg_replace('/[^0-9.]/', '', $row[5]) : 0;
-        $unidad = isset($row[6]) ? $this->prepareUnidad(trim((string) $row[6])) : ProductoUnidadEnum::PIEZA->value;
+
+        $unidadMetro = preg_match('/(cable)/i', $nombre, $matches) ? $matches[0] : false;
+        $unidad = isset($row[6]) ?
+            $this->prepareUnidad($unidadMetro ? ProductoUnidadEnum::METRO->value : trim((string) $row[6]))
+            : ProductoUnidadEnum::PIEZA->value;
         // default values
         $proveedor_id = Proveedor::firstOrCreate(['nombre' => Proveedor::SIN_DEFINIR])->id;
         $precio_compra = 0;
@@ -147,8 +152,8 @@ class ImportProducto implements ToModel, WithCalculatedFormulas, WithEvents, Wit
             'codigo' => $codigo,
             'precio_compra' => $precio_compra,
             'precio_venta' => $precio_venta,
-            'stock' => intval($stock),
-            'cantidad_minima' => intval($cantidad_minima),
+            'stock' => floatval($stock),
+            'cantidad_minima' => floatval($cantidad_minima),
             'compatibilidad' => $compatibilidad,
             'ubicacion_id' => $ubicacion_id,
             'marca_id' => $marca_id,

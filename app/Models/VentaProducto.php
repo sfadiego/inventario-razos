@@ -27,7 +27,7 @@ class VentaProducto extends Model
         return $this->belongsTo(Venta::class);
     }
 
-    public static function validateVentaProducto(array $data, bool $sumarCantidad = true): false|int
+    public static function validateVentaProducto(array $data, bool $sumarCantidad = true): false|float
     {
         $productoActual = Producto::find($data['producto_id']);
         $cantidadRequerida = $data['cantidad'];
@@ -68,7 +68,8 @@ class VentaProducto extends Model
             ->get()
             ->sum(fn ($item) => $item->cantidad * $item->precio);
 
-        Venta::where('id', $data['venta_id'])->update(['venta_total' => $ventaTotal]);
+        Venta::where('id', $data['venta_id'])
+            ->update(['venta_total' => $ventaTotal]);
 
         return $ventaProducto;
     }
