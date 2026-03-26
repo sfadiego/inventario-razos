@@ -50,17 +50,15 @@ class ImportProducto implements ToModel, WithCalculatedFormulas, WithEvents, Wit
     {
         $this->existingProducts = Producto::query()
             ->pluck('nombre')
-            ->map(fn ($n) => mb_strtolower(trim($n)))
+            ->map(fn($n) => mb_strtolower(trim($n)))
             ->toArray();
     }
 
     public function prepareUnidad(string $unidad)
     {
-        return match (trim($unidad)) {
+        return match (strtolower(trim($unidad))) {
             'pieza' => ProductoUnidadEnum::PIEZA->value,
-            'PIEZA' => ProductoUnidadEnum::PIEZA->value,
             'PZA' => ProductoUnidadEnum::PIEZA->value,
-            'PAR' => ProductoUnidadEnum::PAR->value,
             'par' => ProductoUnidadEnum::PAR->value,
             'metro' => ProductoUnidadEnum::METRO->value,
             default => ProductoUnidadEnum::PIEZA->value,
@@ -73,7 +71,7 @@ class ImportProducto implements ToModel, WithCalculatedFormulas, WithEvents, Wit
             Log::info('Categoria invalida', ['categoria' => $this->categoria]);
             $this->importInfo[] = [
                 'status' => 'skiped',
-                'message' => 'La categoria '.$this->categoria.' no es valida',
+                'message' => 'La categoria ' . $this->categoria . ' no es valida',
             ];
 
             return null;
@@ -106,9 +104,8 @@ class ImportProducto implements ToModel, WithCalculatedFormulas, WithEvents, Wit
         $subcategoriaId = $this->subcategoria[$row[4]] ?? null;
         $precioVenta = isset($row[5]) ? preg_replace('/[^0-9.]/', '', $row[5]) : 0;
 
-        $unidadMetro = preg_match('/(cable)/i', $nombre, $matches) ? $matches[0] : false;
         $unidad = isset($row[6]) ?
-            $this->prepareUnidad($unidadMetro ? ProductoUnidadEnum::METRO->value : trim((string) $row[6]))
+            $this->prepareUnidad(trim((string) $row[6]))
             : ProductoUnidadEnum::PIEZA->value;
         // default values
         $proveedor_id = Proveedor::firstOrCreate(['nombre' => Proveedor::SIN_DEFINIR])->id;
@@ -218,7 +215,7 @@ class ImportProducto implements ToModel, WithCalculatedFormulas, WithEvents, Wit
     private function generateUniqueFolio(string $nombre): string
     {
         $iniciales = collect(explode(' ', $nombre))
-            ->map(fn ($p) => Str::upper(Str::substr(preg_replace('/[^A-Za-z]/', '', Str::ascii($p)), 0, 1)))
+            ->map(fn($p) => Str::upper(Str::substr(preg_replace('/[^A-Za-z]/', '', Str::ascii($p)), 0, 1)))
             ->filter()
             ->implode('');
 
