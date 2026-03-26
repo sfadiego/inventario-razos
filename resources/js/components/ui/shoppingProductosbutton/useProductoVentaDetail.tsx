@@ -69,8 +69,9 @@ export const useProductoVentaDetail = ({ closeModal }: { closeModal: () => void 
       options: { timer: 2000, timerProgressBar: true },
     });
     queryClient.invalidateQueries({ queryKey: [ApiRoutes.Productos] });
+    queryClient.invalidateQueries({ queryKey: [`${ApiRoutes.Venta}/productos?venta_id=${ventaId}`] });
     handleTicket();
-  }, [closeModal, queryClient, handleTicket]);
+  }, [closeModal, queryClient, handleTicket, ventaId]);
 
   const { onSubmit: onSubmitDelete } = useOnSubmit({
     mutateAsync: mutatorDeleteProducto.mutateAsync,
