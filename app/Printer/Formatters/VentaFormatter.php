@@ -4,6 +4,7 @@ namespace App\Printer\Formatters;
 
 use App\Printer\Dto\TicketDataInterface;
 use App\Printer\Interface\TicketFormatterInterface;
+use Mike42\Escpos\EscposImage;
 use Mike42\Escpos\Printer;
 
 class VentaFormatter implements TicketFormatterInterface
@@ -14,6 +15,13 @@ class VentaFormatter implements TicketFormatterInterface
         $connector->setJustification(Printer::JUSTIFY_CENTER);
         $connector->text(env('APP_FULL_NAME', ''));
         $connector->feed(2);
+
+        $imagePath = base_path('public/images/refacciones.png');
+        if (file_exists($imagePath)) {
+            $imageLogo = EscposImage::load($imagePath, false);
+            $connector->bitImage($imageLogo);
+            $connector->feed(1);
+        }
 
         $venta_total = $payload['venta_total'];
         $venta_nombre = $payload['nombre_venta'];
