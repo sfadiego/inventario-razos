@@ -29,7 +29,7 @@ class VentaTicketData implements TicketDataInterface
         $cliente_id = $this->venta->cliente_id;
         $tipo_compra = $this->venta->tipo_compra;
         $status_venta = $this->venta->status_venta;
-        $created_at = $this->venta->created_at;
+        $created_at = $this->venta->created_at->format('Y-m-d');
 
         return [
             'venta_total' => $venta_total,
