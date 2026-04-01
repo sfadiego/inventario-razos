@@ -2,6 +2,7 @@
 
 namespace App\Printer\Data;
 
+use App\Enums\ProductoUnidadEnum;
 use App\Models\Venta;
 use App\Printer\Dto\TicketDataInterface;
 
@@ -41,6 +42,7 @@ class VentaTicketData implements TicketDataInterface
             'ventaProductos' => $this->venta->ventaProductos->map(function ($item) {
                 return [
                     'cantidad' => $item->cantidad,
+                    'unidad' => $item->producto->unidad ? $item->producto->unidad : ProductoUnidadEnum::PIEZA->value,
                     'precio' => $item->precio,
                     'descuento' => $item->descuento,
                     'producto_id' => $item->producto_id,

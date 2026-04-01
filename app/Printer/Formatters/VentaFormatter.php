@@ -4,6 +4,7 @@ namespace App\Printer\Formatters;
 
 use App\Printer\Dto\TicketDataInterface;
 use App\Printer\Interface\TicketFormatterInterface;
+use Mike42\Escpos\EscposImage;
 use Mike42\Escpos\Printer;
 
 class VentaFormatter implements TicketFormatterInterface
@@ -15,10 +16,16 @@ class VentaFormatter implements TicketFormatterInterface
         $connector->text(env('APP_FULL_NAME', ''));
         $connector->feed(2);
 
+        $imagePath = base_path('public/images/refacciones.png');
+        if (file_exists($imagePath)) {
+            $imageLogo = EscposImage::load($imagePath, false);
+            $connector->bitImage($imageLogo);
+            $connector->feed(1);
+        }
+
         $venta_total = $payload['venta_total'];
         $venta_nombre = $payload['nombre_venta'];
         $venta_folio = $payload['folio'];
-        $venta_tipo_compra = $payload['tipo_compra'];
         $venta_created_at = $payload['created_at'];
         $venta_items = $payload['ventaProductos'];
 
@@ -28,8 +35,6 @@ class VentaFormatter implements TicketFormatterInterface
         $connector->feed(1);
         $connector->text('Folio: '.$venta_folio);
         $connector->feed(1);
-        $connector->text('Tipo de compra: '.$venta_tipo_compra);
-        $connector->feed(1);
         $connector->text('Fecha: '.$venta_created_at);
         $connector->feed(2);
 
@@ -37,8 +42,7 @@ class VentaFormatter implements TicketFormatterInterface
         $connector->feed(1);
         collect($venta_items)
             ->each(function ($item) use ($connector) {
-                $connector->text('$'.$item['precio'].' x '.$item['cantidad'].'pzas - '.$item['producto_nombre']);
-                $connector->text(' - '.$item['codigo']."\n");
+                $connector->text('$'.$item['precio'].' x '.$item['cantidad'].$item['unidad'].' - '.$item['producto_nombre']);
                 $connector->feed(1);
             });
 
@@ -46,6 +50,9 @@ class VentaFormatter implements TicketFormatterInterface
         $connector->feed(2);
         $connector->setJustification(Printer::JUSTIFY_CENTER);
         $connector->text('Gracias por su compra');
+        $connector->text('Devolución o aclaración únicamente con ticket');
+        $contacto = env('WHATSSAPP_CONTACTO', '');
+        $connector->text('WhatsApp: '.$contacto);
         $connector->feed(3);
     }
 }
