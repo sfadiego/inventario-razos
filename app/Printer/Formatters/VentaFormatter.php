@@ -43,7 +43,7 @@ class VentaFormatter implements TicketFormatterInterface
         $connector->feed(1);
         collect($venta_items)
             ->each(function ($item) use ($connector) {
-                $connector->text('$' . $item['precio'] . ' x ' . $item['cantidad'] . $item['unidad'] . ' - ' . $item['producto_nombre']);
+                $connector->text('$' . $item['precio'] . ' x ' . $item['cantidad'] . ' ' . $item['unidad'] . ' - ' . $item['producto_nombre']);
                 $connector->feed(1);
             });
 
