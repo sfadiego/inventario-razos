@@ -12,6 +12,8 @@ services:
       - /var/www/html/bootstrap/cache
       - /var/www/html/vendor
       - ./scripts:/scripts:ro
+      - ./storage/app/public:/var/www/html/storage/app/public
+      - ./storage/app/private:/var/www/html/storage/app/private
     networks:
       - laravel
     depends_on:

@@ -4,10 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\Pdf\CatalogoProductosRequest;
 use App\Http\Requests\Ventas\ReporteVentaRequest;
-use App\Models\Producto;
 use App\Models\Venta;
 use App\Models\VentaProducto;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Facades\DB;
 use Picqer\Barcode\BarcodeGeneratorPNG;
 use Symfony\Component\HttpFoundation\File\Stream;
 use Symfony\Component\HttpFoundation\Response;
@@ -21,51 +21,45 @@ class PdfGeneratorController extends Controller
      */
     public function catalogoProductos(CatalogoProductosRequest $param): Response
     {
-        $productosAgrupados = [];
-        $generator = new BarcodeGeneratorPNG;
-
-        Producto::query()
+        $productos = DB::table('productos as p')
+            ->leftJoin('subcategoria as s', 'p.subcategoria_id', '=', 's.id')
+            ->leftJoin('imagen_producto as i', 'p.imagen_id', '=', 'i.id')
             ->select([
-                'id',
-                'codigo',
-                'nombre',
-                'unidad',
-                'precio_venta',
-                'stock',
-                'subcategoria_id',
-                'imagen_id',
+                'p.codigo',
+                'p.nombre',
+                'p.unidad',
+                'p.precio_venta',
+                'p.stock',
+                's.nombre as subcategoria_nombre',
+                'i.path',
+                'i.archivo',
             ])
-            ->with([
-                'imagen:id,path,archivo',
-                'subcategoria:id,nombre',
-            ])
-            ->where('categoria_id', $param->categoria_id)
-            ->orderBy('subcategoria_id')
-            ->orderBy('nombre')
-            ->chunkById(100, function ($productos) use (&$productosAgrupados) {
-                foreach ($productos as $item) {
-                    $subName = $item->subcategoria?->nombre ?? 'Sin subcategoría';
+            ->where('p.categoria_id', $param->categoria_id)
+            ->orderBy('s.nombre')
+            ->orderBy('p.nombre')
+            ->cursor();
 
-                    // Guardamos solo los datos estrictamente necesarios en formato array
-                    // Esto es mucho más ligero que un objeto Eloquent
-                    $productosAgrupados[$subName][] = [
-                        'codigo' => $item->codigo,
-                        'nombre' => $item->nombre,
-                        'unidad' => $item->unidad,
-                        'precio_venta' => $item->precio_venta,
-                        'stock' => $item->stock,
-                        'image_path' => $item->imagen
-                            ? storage_path("app/{$item->imagen->path}/{$item->imagen->archivo}")
-                            : null,
-                    ];
-                }
-            });
+        $productosAgrupados = [];
+        foreach ($productos as $item) {
+            $subName = $item->subcategoria_nombre ?? 'Sin subcategoría';
+            $productosAgrupados[$subName][] = [
+                'codigo' => $item->codigo,
+                'nombre' => $item->nombre,
+                'unidad' => $item->unidad,
+                'precio_venta' => $item->precio_venta,
+                'stock' => $item->stock,
+                'image_path' => ($item->path && $item->archivo)
+                    ? storage_path("app/private/{$item->path}/{$item->archivo}")
+                    : null,
+            ];
+        }
 
+        unset($productos);
         $pdf = Pdf::loadView('pdf.catalogo-productos', [
             'productos' => $productosAgrupados,
             'print_barcode' => $param->print_barcode,
             'print_image' => $param->print_image,
-            'generator' => $generator,
+            'generator' => new BarcodeGeneratorPNG,
         ])->setPaper('letter', 'landscape');
 
         return $pdf->download('catalogo.pdf');
