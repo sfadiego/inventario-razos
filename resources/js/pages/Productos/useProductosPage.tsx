@@ -1,14 +1,19 @@
+import { AlertSwal } from '@/components/alertSwal/AlertSwal';
 import { IFilters } from '@/components/filters/modalFilter/types';
 import { ExpansionProductoDetail } from '@/components/productos/ExpansionProductoDetail';
 import { ColumnProperties } from '@/components/tables/columnProperties';
 import { rowTypes } from '@/components/tables/rowTypes';
 import Button from '@/components/ui/button/Button';
+import { AlertTypeEnum } from '@/enums/AlertTypeEnum';
 import { useModal } from '@/hooks/useModal';
+import { useOnSubmit } from '@/hooks/useOnSubmit';
 import { IProducto } from '@/models/producto.interface';
-import { useServiceIndexProductos, useServiceShowProducto } from '@/Services/productos/useServiceProductos';
+import { ApiRoutes } from '@/router/modules/admin.routes';
+import { useServiceDeleteProducto, useServiceIndexProductos, useServiceShowProducto } from '@/Services/productos/useServiceProductos';
 import { useSelectedItemStore } from '@/store/useSelectedItemStore';
-import { Camera, Edit } from 'lucide-react';
-import { useEffect, useState } from 'react';
+import { useQueryClient } from '@tanstack/react-query';
+import { Camera, Edit, Trash2 } from 'lucide-react';
+import { useCallback, useEffect, useState } from 'react';
 
 export interface IFiltroProducto {
   nombre?: string;
@@ -45,16 +50,44 @@ export const useProductosPage = () => {
     },
   };
 
+  const queryClient = useQueryClient();
+  const mutatorDelete = useServiceDeleteProducto(productId);
+  const { onSubmit: onSubmitDelete } = useOnSubmit({
+    mutateAsync: mutatorDelete.mutateAsync,
+    onSuccess: async () => {
+      setProductId(0);
+      clearItem('producto');
+      queryClient.invalidateQueries({
+        queryKey: [`${ApiRoutes.Productos}`],
+      });
+    },
+  });
+  const handleDelete = useCallback(() => {
+    onSubmitDelete(null, {});
+  }, [onSubmitDelete]);
+
+  const confirmDelete = (prod: IProducto) => {
+    AlertSwal({
+      type: AlertTypeEnum.Confirm,
+      onConfirm: (result) => {
+        if (result.isConfirmed) {
+          setProductId(prod.id!);
+          handleDelete();
+        }
+      },
+    });
+  };
+
   const renderersMap = {
     rowClassName: ({ stock, cantidad_minima }: IProducto): rowTypes | '' => {
       return cantidad_minima >= stock ? 'redRow' : '';
     },
-    actions: ({ id }: IProducto) => (
+    actions: (prod: IProducto) => (
       <div className="flex gap-2">
         <Button
           onClick={() => {
             openModal();
-            setProductId(id!);
+            setProductId(prod.id!);
           }}
           variant="primary"
           size="sm"
@@ -64,12 +97,15 @@ export const useProductosPage = () => {
         <Button
           onClick={() => {
             openModalNewImage();
-            setProductId(id!);
+            setProductId(prod.id!);
           }}
           variant="primary"
           size="sm"
         >
           <Camera />
+        </Button>
+        <Button onClick={() => confirmDelete(prod!)} variant="error" size="sm">
+          <Trash2 />
         </Button>
       </div>
     ),
