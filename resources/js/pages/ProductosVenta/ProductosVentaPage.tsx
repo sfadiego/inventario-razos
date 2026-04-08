@@ -23,6 +23,7 @@ export default function ProductosVentaPage() {
     columnProperties,
     finished,
     dataTableProps,
+    callbackReadCode,
   } = useProductosVentaPage();
 
   return (
@@ -44,6 +45,7 @@ export default function ProductosVentaPage() {
             service={useServiceIndexProductos}
             rowExpansion={rowExpansion}
             columnProperties={columnProperties}
+            customCallbackSearch={callbackReadCode}
           >
             {(formik) => <FiltrosProductos formik={formik} />}
           </DatatableWithFilter>

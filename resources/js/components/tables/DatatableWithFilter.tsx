@@ -1,6 +1,7 @@
 import { FormikValues } from 'formik';
 import { Filter, Plus, X } from 'lucide-react';
 import { DataTable } from 'mantine-datatable';
+import { useEffect } from 'react';
 import { ModalFilter } from '../filters/modalFilter/ModalFilter';
 import { InputWithIcon } from '../form/input/InputWithIcon';
 import Button from '../ui/button/Button';
@@ -8,9 +9,16 @@ import { IDatatableWithFilterProps } from './IDatatableFilter';
 import { useDatatableFilters } from './useDatatableFilters';
 
 export const DatatableWithFilter = <Values extends FormikValues>(props: IDatatableWithFilterProps<Values>) => {
-  const { disableNewButton = false, newButtonText, inputPlaceholder = '' } = props;
+  const { disableNewButton = false, newButtonText, inputPlaceholder = '', customCallbackSearch } = props;
   const { isOpen, search, filters, dataTableProps, children, openModal, closeModal, onFilter, setSearch, onClickNew, rowExpansion, clearFilters } =
     useDatatableFilters(props);
+
+  useEffect(() => {
+    if (customCallbackSearch) {
+      customCallbackSearch({ search, data: dataTableProps.records, resetSearch: () => setSearch('') });
+    }
+  }, [search, dataTableProps.records, customCallbackSearch, setSearch]);
+
   return (
     <>
       <div className="grid grid-cols-12 gap-2 pb-5">

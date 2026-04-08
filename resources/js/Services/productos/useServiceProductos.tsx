@@ -1,4 +1,4 @@
-import { useGET, usePOST } from '@/hooks/useApi';
+import { useDELETE, useGET, usePOST } from '@/hooks/useApi';
 import { IPaginate } from '@/interfaces/IPaginate';
 import { IPaginateServiceProps } from '@/interfaces/IPaginateServiceProps';
 import { IProducto } from '@/models/producto.interface';
@@ -20,3 +20,4 @@ export const useServiceIndexProductos = ({ filters = [], search = null, page = 1
 export const useServiceShowProducto = (id?: number) => useGET<IProducto>({ url: `${url}/${id}`, enable: !!id });
 export const useServiceUpdateProducto = (id?: number, isFile = false) => usePOST<IProducto>({ url: `${url}/${id}`, isFile });
 export const useServiceStoreProducto = () => usePOST<IProducto>({ url });
+export const useServiceDeleteProducto = (id?: number) => useDELETE<IProducto>({ url: `${url}/${id}` });
