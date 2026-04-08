@@ -20,4 +20,5 @@ export interface IDatatableWithFilterProps<Values> {
   inputPlaceholder?: string;
   disableNewButton?: boolean;
   payload?: any;
+  customCallbackSearch?: (params: any) => void;
 }

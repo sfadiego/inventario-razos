@@ -79,6 +79,19 @@ export const useProductosVentaPage = () => {
     },
   });
 
+  const callbackReadCode = ({ search, data, resetSearch }: { search: string; data: IProducto | IProducto[]; resetSearch: () => void }) => {
+    if (!search) return;
+    const regex = /^([A-Z0-9]+(-[A-Z0-9]+)*)$/;
+    const records = Array.isArray(data) ? data : [data];
+    if (records.length === 1 && regex.test(search)) {
+      const selectedProduct = records[0];
+      if (selectedProduct?.id) {
+        productoVentaModal.show(selectedProduct.id);
+        resetSearch();
+      }
+    }
+  };
+
   return {
     isOpen: productoVentaModal.isOpen,
     openModal: productoVentaModal.show,
@@ -93,5 +106,6 @@ export const useProductosVentaPage = () => {
     columnProperties,
     finished,
     dataTableProps,
+    callbackReadCode,
   };
 };
