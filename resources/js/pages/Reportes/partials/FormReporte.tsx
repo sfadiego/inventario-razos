@@ -5,7 +5,7 @@ import { SelectTipoMovimiento } from '@/components/select/tipoMovimiento/SelectT
 import Button from '@/components/ui/button/Button';
 import { ButtonTypeEnum } from '@/components/ui/button/enums/buttonType.enum';
 import { Modal } from '@/components/ui/modal';
-import { TipoMovimientoEnum } from '@/enums/tipoMovimientoEnum';
+import { TipoMovimientoEnum, TipoMovimientoEnumLabels } from '@/enums/tipoMovimientoEnum';
 import { IInitialValuesReporteMovimiento } from '@/models/reporteMovimiento.interface';
 import { Form, Formik } from 'formik';
 import { Save } from 'lucide-react';
@@ -25,7 +25,14 @@ export const FormReporte = ({ isOpen, closeModal }: IFormReporteProps) => {
         {(formik) => (
           <Form className={`grid grid-cols-12 gap-3`}>
             <div className="col-span-12">
-              <SelectTipoMovimiento exclude={[`Salida`]} formik={formik} />
+              <SelectTipoMovimiento
+                exclude={[
+                  TipoMovimientoEnumLabels[TipoMovimientoEnum.Salida],
+                  TipoMovimientoEnumLabels[TipoMovimientoEnum.CancelandoDevolucion],
+                  TipoMovimientoEnumLabels[TipoMovimientoEnum.Devolucion],
+                ]}
+                formik={formik}
+              />
             </div>
             <div className="col-span-12">
               <SelectProducto formik={formik} />

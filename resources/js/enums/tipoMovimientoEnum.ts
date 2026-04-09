@@ -3,5 +3,13 @@ export enum TipoMovimientoEnum {
   Salida = 2,
   Ajuste = 3,
   Devolucion = 4,
-  ActualizandoDevolucion = 5,
+  CancelandoDevolucion = 5,
 }
+
+export const TipoMovimientoEnumLabels: Record<TipoMovimientoEnum, string> = {
+  [TipoMovimientoEnum.Entrada]: 'Entrada',
+  [TipoMovimientoEnum.Salida]: 'Salida',
+  [TipoMovimientoEnum.Ajuste]: 'Ajuste',
+  [TipoMovimientoEnum.Devolucion]: 'Devolución',
+  [TipoMovimientoEnum.CancelandoDevolucion]: 'Cancelando devolución',
+};
