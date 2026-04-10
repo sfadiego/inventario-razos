@@ -31,6 +31,10 @@ class Venta extends Model
         'status_venta',
     ];
 
+    protected $casts = [
+        'venta_total' => 'decimal:2',
+    ];
+
     public function cliente(): BelongsTo
     {
         return $this->belongsTo(Cliente::class);
@@ -134,7 +138,7 @@ class Venta extends Model
 
     public static function createFolio(): string
     {
-        return date('ymdHis').strtoupper(substr(uniqid('', true), 0, 10));
+        return date('ymdHis') . strtoupper(substr(uniqid('', true), 0, 10));
     }
 
     public function scopeSearch(Builder $query, string $search): Builder
