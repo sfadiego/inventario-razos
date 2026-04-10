@@ -120,7 +120,7 @@ class Venta extends Model
         }
 
         $this->update([
-            'venta_total' => $ventaTotal,
+            'venta_total' => number_format($ventaTotal, 2, '.', ''),
             'status_venta' => StatusVentaEnum::Finalizada->value,
             'updated_at' => now(),
         ]);
@@ -138,7 +138,7 @@ class Venta extends Model
 
     public static function createFolio(): string
     {
-        return date('ymdHis').strtoupper(substr(uniqid('', true), 0, 10));
+        return date('ymdHis') . strtoupper(substr(uniqid('', true), 0, 10));
     }
 
     public function scopeSearch(Builder $query, string $search): Builder
