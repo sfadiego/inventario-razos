@@ -161,7 +161,7 @@ class VentaTest extends TestCase
             ],
         ]);
 
-        $this->assertEquals($data['venta_total'], $venta->ventaTotal());
+        $this->assertEquals(number_format($data['venta_total'], 2, '.', ''), $venta->ventaTotal());
         $this->assertDatabaseHas('venta', [
             'id' => $venta->id,
             'status_venta' => StatusVentaEnum::Finalizada->value,

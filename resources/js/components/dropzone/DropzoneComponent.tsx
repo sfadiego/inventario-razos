@@ -1,4 +1,4 @@
-import { File, Loader, UploadIcon, X } from 'lucide-react';
+import { Loader, UploadIcon, X } from 'lucide-react';
 import Button from '../ui/button/Button';
 import { AcceptedTypes } from './DropzoneTypes';
 import { DropzoneEmpty } from './partials/DropzoneEmpty';

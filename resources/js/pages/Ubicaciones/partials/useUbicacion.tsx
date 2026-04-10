@@ -40,7 +40,7 @@ export const useUbicacion = ({ closeModal }: IuseUbicacionProps) => {
     AlertSwal({
       type: AlertTypeEnum.Success,
       title: `Exito`,
-      text: `Ubicacion guardada correctamente`,
+      text: `Ubicación guardada correctamente`,
     });
 
     queryClient.invalidateQueries({ queryKey: [ApiRoutes.Ubicaciones] });

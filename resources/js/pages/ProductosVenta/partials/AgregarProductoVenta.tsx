@@ -18,7 +18,7 @@ interface IModalAgregarProductoVentaProps {
 
 export const AgregarProductoVenta = (props: IModalAgregarProductoVentaProps) => {
   const { isOpen, closeModal, productoId = 0 } = props;
-  const { formikProps, isPending, onErrorMessage, stock } = useAgregarProductoVenta({ closeModal, productoId });
+  const { formikProps, isPending, onErrorMessage, stock, codigo } = useAgregarProductoVenta({ closeModal, productoId });
   return (
     <Modal
       title={`Agregar Producto`}
@@ -44,6 +44,11 @@ export const AgregarProductoVenta = (props: IModalAgregarProductoVentaProps) => 
                 type={InputTypeEnum.Text}
               />
             </div>
+            <div className="col-span-12">
+              <Badge variant="solid" color="success">
+                Código: {codigo}
+              </Badge>
+            </div>
             <div className="col-span-12 md:col-span-6">
               <Input<IVentaProductoForm> label={`Cantidad`} name="cantidad" formik={formik} type={InputTypeEnum.Text} />
             </div>
@@ -53,7 +58,7 @@ export const AgregarProductoVenta = (props: IModalAgregarProductoVentaProps) => 
               <Input<IVentaProductoForm> label={`Venta`} name="venta_id" formik={formik} type={InputTypeEnum.Hidden} />
             </div>
             <div className="col-span-12">
-              <Badge color="warning" variant="light">
+              <Badge color="warning" variant="solid">
                 Stock: {stock}
               </Badge>
             </div>

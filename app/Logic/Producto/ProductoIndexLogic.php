@@ -22,10 +22,10 @@ class ProductoIndexLogic extends IndexLogic
     {
         return [
             'actions' => 'Acciones',
-            'codigo' => 'Codigo',
+            'codigo' => 'Código',
             'nombre' => 'Nombre',
             'stock' => 'Stock',
-            'ubicacion.nombre' => 'Ubicacion',
+            'ubicacion.nombre' => 'Ubicación',
             'categoria.nombre' => 'Categoria',
             'marca.nombre' => 'Marca',
             'precio_venta' => 'Precio Venta',

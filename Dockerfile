@@ -34,5 +34,7 @@ WORKDIR /var/www/html
 
 RUN mkdir -p /var/www/.cache && chown -R www-data:www-data /var/www/html /var/www/.cache
 
+COPY docker/php/custom.ini /usr/local/etc/php/conf.d/custom.ini
+
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
 CMD ["php-fpm"]

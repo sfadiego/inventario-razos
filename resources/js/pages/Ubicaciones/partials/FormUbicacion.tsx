@@ -20,7 +20,7 @@ export const FormUbicacion = ({ isOpen, closeModal }: IFormUbicacionesProps) => 
         {(formik) => (
           <Form className={`grid grid-cols-12 gap-3`}>
             <div className="col-span-12 lg:col-span-12">
-              <Input<IUbicacion> label={`Ubicacion`} name="nombre" formik={formik} type={InputTypeEnum.Text} />
+              <Input<IUbicacion> label={`Ubicación`} name="nombre" formik={formik} type={InputTypeEnum.Text} />
             </div>
             <div className="col-span-12 mt-3 flex justify-end gap-2">
               <Button onClick={closeModal} size="sm" variant="outline">

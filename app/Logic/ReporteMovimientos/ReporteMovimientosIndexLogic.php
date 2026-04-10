@@ -20,7 +20,7 @@ class ReporteMovimientosIndexLogic extends IndexLogic
     public function tableHeaders(): array
     {
         return [
-            'producto.codigo' => 'Codigo',
+            'producto.codigo' => 'Código',
             'producto.nombre' => 'Producto',
             'tipo_movimiento.nombre' => 'Tipo movimiento',
             'motivo' => 'Motivo',

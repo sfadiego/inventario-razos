@@ -119,3 +119,17 @@ taskkill /PID ${PID} /F
 - superadmin: superadmin@repamotos.com / password:password
 - admin: admin@repamotos.com / password:password
 - usuario: empleado@repamotos.com / password:password
+
+# Run workflow local
+
+instalar dependencia con brew [link](https://github.com/nektos/act)
+
+```
+brew install act
+```
+
+ejecutar workflow
+
+```
+act
+```

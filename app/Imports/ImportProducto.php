@@ -166,7 +166,7 @@ class ImportProducto implements ToModel, WithCalculatedFormulas, WithEvents, Wit
         }
 
         if (strlen($codigo) > 18) {
-            Log::info('Codigo de producto muy largo', ['codigo' => $codigo]);
+            Log::info('Código de producto muy largo', ['codigo' => $codigo]);
 
             return null;
         }

@@ -10,7 +10,7 @@ export const FiltroUbicaciones = ({ formik }: IFiltrosUbicacionesProps) => {
   return (
     <>
       <div className="col-span-12 lg:col-span-12">
-        <Input<IFiltrosUbicacion> label={`Ubicacion`} name="nombre" formik={formik} type={InputTypeEnum.Text} />
+        <Input<IFiltrosUbicacion> label={`Ubicación`} name="nombre" formik={formik} type={InputTypeEnum.Text} />
       </div>
     </>
   );

@@ -35,7 +35,7 @@ export const FormProducto = ({ isOpen, closeModal }: IModalProductoProps) => {
               <SelectProductoUnidades formik={formik} />
             </div>
             <div className="col-span-12 md:col-span-6">
-              <Input<IProducto> label={`Codigo`} name="codigo" formik={formik} type={InputTypeEnum.Text} />
+              <Input<IProducto> label={`Código`} name="codigo" formik={formik} type={InputTypeEnum.Text} />
             </div>
             <div className="col-span-12 md:col-span-6">
               <Input<IProducto> disabled={disableStock} label={`Stock`} name="stock" formik={formik} type={InputTypeEnum.Number} />

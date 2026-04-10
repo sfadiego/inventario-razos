@@ -18,7 +18,7 @@ export const SelectUbicaciones = (props: ISelectUbicacionesProps) => {
   return (
     <InputSelect<IProducto>
       {...props}
-      label={`Ubicacion`}
+      label={`Ubicación`}
       name={`ubicacion_id`}
       formik={formik}
       options={options}

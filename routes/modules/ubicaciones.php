@@ -10,7 +10,7 @@ Route::controller(UbicacionesController::class)
         Route::post('', 'store')->middleware('can:admin');
         Route::prefix('{ubicacion}')
             ->missing(function () {
-                return Response::error('Ubicacion no encontrada');
+                return Response::error('Ubicación no encontrada');
             })
             ->group(function () {
                 Route::get('', 'show');

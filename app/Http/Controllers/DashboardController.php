@@ -6,7 +6,6 @@ use App\Enums\StatusVentaEnum;
 use App\Http\Requests\Dashboard\DashboardTotalRequest;
 use App\Models\Venta;
 use App\Models\VentaProducto;
-use App\Repositories\CategoryRepository;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
@@ -61,9 +60,11 @@ class DashboardController extends Controller
         return Response::success($resultados);
     }
 
-    public function menosVendidos(): JsonResponse
+    public function menosVendidos(Request $request): JsonResponse
     {
-        $ventas = VentaProducto::menosVendidos();
+        $categoriaId = $request->get('categoria_id') ?? null;
+
+        $ventas = VentaProducto::menosVendidos(categoriaId: $categoriaId);
 
         return Response::success($ventas);
     }
@@ -71,9 +72,6 @@ class DashboardController extends Controller
     public function masVendidos(Request $request): JsonResponse
     {
         $categoriaId = $request->get('categoria_id') ?? null;
-        if (! $categoriaId || ! CategoryRepository::findById($categoriaId)) {
-            return Response::error('Categoria no encontrada');
-        }
 
         $ventas = VentaProducto::masVendidos(categoriaId: $categoriaId);
 

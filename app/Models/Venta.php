@@ -31,6 +31,10 @@ class Venta extends Model
         'status_venta',
     ];
 
+    protected $casts = [
+        'venta_total' => 'decimal:2',
+    ];
+
     public function cliente(): BelongsTo
     {
         return $this->belongsTo(Cliente::class);
@@ -116,7 +120,7 @@ class Venta extends Model
         }
 
         $this->update([
-            'venta_total' => $ventaTotal,
+            'venta_total' => number_format($ventaTotal, 2, '.', ''),
             'status_venta' => StatusVentaEnum::Finalizada->value,
             'updated_at' => now(),
         ]);
@@ -128,7 +132,7 @@ class Venta extends Model
     public function scopeVentaTotal(): float
     {
         return (float) $this->ventaProductos()
-            ->selectRaw('SUM(cantidad * precio) as total')
+            ->selectRaw('ROUND(SUM(cantidad * precio), 2) as total')
             ->value('total') ?? 0;
     }
 
