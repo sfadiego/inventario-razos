@@ -46,13 +46,13 @@ class DashboardController extends Controller
             ->whereHas('ventaProductos')
             ->whereYear('created_at', now()->year)
             ->get()
-            ->groupBy(fn ($venta) => $venta->created_at->format('F'))
-            ->map(fn ($ventas) => [
+            ->groupBy(fn($venta) => $venta->created_at->format('F'))
+            ->map(fn($ventas) => [
                 'total' => $ventas->sum('venta_total'),
                 'cantidad' => $ventas->count(),
             ]);
 
-        $resultados = $months->map(fn ($mes) => [
+        $resultados = $months->map(fn($mes) => [
             'month' => $mes,
             'total' => round($ventasPorMes[$mes]['total'] ?? 0, 2),
             'cantidad' => $ventasPorMes[$mes]['cantidad'] ?? 0,
@@ -61,9 +61,11 @@ class DashboardController extends Controller
         return Response::success($resultados);
     }
 
-    public function menosVendidos(): JsonResponse
+    public function menosVendidos(Request $request): JsonResponse
     {
-        $ventas = VentaProducto::menosVendidos();
+        $categoriaId = $request->get('categoria_id') ?? null;
+
+        $ventas = VentaProducto::menosVendidos(categoriaId: $categoriaId);
 
         return Response::success($ventas);
     }
@@ -71,9 +73,6 @@ class DashboardController extends Controller
     public function masVendidos(Request $request): JsonResponse
     {
         $categoriaId = $request->get('categoria_id') ?? null;
-        if (! $categoriaId || ! CategoryRepository::findById($categoriaId)) {
-            return Response::error('Categoria no encontrada');
-        }
 
         $ventas = VentaProducto::masVendidos(categoriaId: $categoriaId);
 

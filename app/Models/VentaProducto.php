@@ -66,7 +66,7 @@ class VentaProducto extends Model
 
         $ventaTotal = self::where('venta_id', $data['venta_id'])
             ->get()
-            ->sum(fn ($item) => $item->cantidad * $item->precio);
+            ->sum(fn($item) => $item->cantidad * $item->precio);
 
         Venta::where('id', $data['venta_id'])
             ->update(['venta_total' => $ventaTotal]);
@@ -74,13 +74,18 @@ class VentaProducto extends Model
         return $ventaProducto;
     }
 
-    public static function menosVendidos(int $limit = 10): Collection
+    public static function menosVendidos(int $limit = 10, ?int $categoriaId = null): Collection
     {
         return self::selectRaw('producto_id, SUM(cantidad) as total')
             ->whereHas('venta', function ($q) {
                 $q->where('status_venta', StatusVentaEnum::Finalizada);
             })
             ->with('producto')
+            ->when($categoriaId, function ($q) use ($categoriaId) {
+                $q->whereHas('producto', function ($q) use ($categoriaId) {
+                    $q->where('categoria_id', $categoriaId);
+                });
+            })
             ->groupBy('producto_id')
             ->orderBy('total', 'asc')
             ->take($limit)
@@ -144,11 +149,11 @@ class VentaProducto extends Model
                     ->orderBy('created_at', $order_date);
             })
             ->get()
-            ->groupBy(fn ($item) => $item->producto->categoria->nombre)
+            ->groupBy(fn($item) => $item->producto->categoria->nombre)
             ->map(function ($item, $categoria) {
                 return [
                     'categoria' => $categoria,
-                    'total' => $item->sum(fn ($i) => $i->cantidad * $i->precio),
+                    'total' => $item->sum(fn($i) => $i->cantidad * $i->precio),
                 ];
             })->values();
     }
