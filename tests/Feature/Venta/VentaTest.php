@@ -152,7 +152,7 @@ class VentaTest extends TestCase
             'message' => null,
             'data' => [
                 'id' => $venta['id'],
-                'venta_total' => number_format($venta->ventaTotal(), 2, '.', ''),
+                'venta_total' => $venta->ventaTotal(),
                 'nombre_venta' => $venta['nombre_venta'],
                 'folio' => $venta['folio'],
                 'cliente_id' => $venta['cliente_id'],
@@ -161,7 +161,7 @@ class VentaTest extends TestCase
             ],
         ]);
 
-        $this->assertEquals($data['venta_total'], $venta->ventaTotal());
+        $this->assertEquals(number_format($data['venta_total'], 2, '.', ''), $venta->ventaTotal());
         $this->assertDatabaseHas('venta', [
             'id' => $venta->id,
             'status_venta' => StatusVentaEnum::Finalizada->value,
