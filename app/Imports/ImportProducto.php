@@ -50,7 +50,7 @@ class ImportProducto implements ToModel, WithCalculatedFormulas, WithEvents, Wit
     {
         $this->existingProducts = Producto::query()
             ->pluck('nombre')
-            ->map(fn($n) => mb_strtolower(trim($n)))
+            ->map(fn ($n) => mb_strtolower(trim($n)))
             ->toArray();
     }
 
@@ -71,7 +71,7 @@ class ImportProducto implements ToModel, WithCalculatedFormulas, WithEvents, Wit
             Log::info('Categoria invalida', ['categoria' => $this->categoria]);
             $this->importInfo[] = [
                 'status' => 'skiped',
-                'message' => 'La categoria ' . $this->categoria . ' no es valida',
+                'message' => 'La categoria '.$this->categoria.' no es valida',
             ];
 
             return null;
@@ -215,7 +215,7 @@ class ImportProducto implements ToModel, WithCalculatedFormulas, WithEvents, Wit
     private function generateUniqueFolio(string $nombre): string
     {
         $iniciales = collect(explode(' ', $nombre))
-            ->map(fn($p) => Str::upper(Str::substr(preg_replace('/[^A-Za-z]/', '', Str::ascii($p)), 0, 1)))
+            ->map(fn ($p) => Str::upper(Str::substr(preg_replace('/[^A-Za-z]/', '', Str::ascii($p)), 0, 1)))
             ->filter()
             ->implode('');
 
