@@ -22,10 +22,10 @@ class ProductoIndexLogic extends IndexLogic
     {
         return [
             'actions' => 'Acciones',
-            'codigo' => 'Codigo',
+            'codigo' => 'Código',
             'nombre' => 'Nombre',
             'stock' => 'Stock',
-            'ubicacion.nombre' => 'Ubicacion',
+            'ubicacion.nombre' => 'Ubicación',
             'categoria.nombre' => 'Categoria',
             'marca.nombre' => 'Marca',
             'precio_venta' => 'Precio Venta',
@@ -36,12 +36,12 @@ class ProductoIndexLogic extends IndexLogic
     {
         $terminos = explode(' ', $filter->value);
         $this->queryBuilder->where(function ($query) use ($terminos, $filter) {
-            $query->orWhere('codigo', 'like', '%'.$filter->value.'%');
+            $query->orWhere('codigo', 'like', '%' . $filter->value . '%');
 
             $query->orWhere(function ($subQuery) use ($terminos) {
                 foreach ($terminos as $termino) {
                     if (trim($termino) !== '') {
-                        $subQuery->where('nombre', 'like', '%'.$termino.'%');
+                        $subQuery->where('nombre', 'like', '%' . $termino . '%');
                     }
                 }
             });
@@ -51,7 +51,7 @@ class ProductoIndexLogic extends IndexLogic
     protected function customFilters(): array
     {
         return [
-            'search' => fn (Filter $filter) => $this->filterProducto($filter),
+            'search' => fn(Filter $filter) => $this->filterProducto($filter),
         ];
     }
 

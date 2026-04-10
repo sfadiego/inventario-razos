@@ -49,6 +49,7 @@ export const useAgregarProductoVenta = ({ productoId, closeModal }: IAgregarProd
   }).onSubmit;
 
   const stock = data?.stock ?? 0;
+  const codigo = data?.codigo ?? ' -- ';
   const unidadMetro = data?.unidad == ProductoUnidadEnum.Metro;
 
   const initialValues: IVentaProductoForm = useMemo(
@@ -93,5 +94,6 @@ export const useAgregarProductoVenta = ({ productoId, closeModal }: IAgregarProd
     isPending: mutator.isPending,
     onErrorMessage: error,
     stock,
+    codigo,
   };
 };

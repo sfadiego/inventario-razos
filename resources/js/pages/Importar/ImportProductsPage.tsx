@@ -13,7 +13,7 @@ export default function ImportProductsPage() {
           <Alert
             title="Instrucciones"
             variant="info"
-            message="El archivo debe tener extension .xlsx o .xls con las columnas: Codigo,	Cantidad,	Descripcion,	Marca,	subcategoria"
+            message="El archivo debe tener extension .xlsx o .xls con las columnas: Código,	Cantidad,	Descripcion,	Marca,	subcategoria"
             showLink={true}
             disabledButton={plantillaLoading}
             onClickEvent={handleDonwloadTemplate}
