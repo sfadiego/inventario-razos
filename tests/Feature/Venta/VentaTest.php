@@ -152,7 +152,7 @@ class VentaTest extends TestCase
             'message' => null,
             'data' => [
                 'id' => $venta['id'],
-                'venta_total' => $venta->ventaTotal(),
+                'venta_total' => number_format($venta->ventaTotal(), 2, '.', ''),
                 'nombre_venta' => $venta['nombre_venta'],
                 'folio' => $venta['folio'],
                 'cliente_id' => $venta['cliente_id'],

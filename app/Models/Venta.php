@@ -132,7 +132,7 @@ class Venta extends Model
     public function scopeVentaTotal(): float
     {
         return (float) $this->ventaProductos()
-            ->selectRaw('SUM(cantidad * precio) as total')
+            ->selectRaw('ROUND(SUM(cantidad * precio), 2) as total')
             ->value('total') ?? 0;
     }
 
