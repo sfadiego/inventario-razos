@@ -84,6 +84,7 @@ class VentaProducto extends Model
             ->when($categoriaId, function ($q) use ($categoriaId) {
                 $q->whereHas('producto', function ($q) use ($categoriaId) {
                     $q->where('categoria_id', $categoriaId);
+                    $q->whereNull('producto.deleted_at');
                 });
             })
             ->groupBy('producto_id')
@@ -109,6 +110,7 @@ class VentaProducto extends Model
             ->when($categoriaId, function ($q) use ($categoriaId) {
                 $q->whereHas('producto', function ($q) use ($categoriaId) {
                     $q->where('categoria_id', $categoriaId);
+                    $q->whereNull('producto.deleted_at');
                 });
             })
             ->groupBy('producto_id')
