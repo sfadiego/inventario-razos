@@ -164,8 +164,6 @@ class ProductoTest extends TestCase
         ]);
 
         $productoId = $response->json('data.id');
-
-
         $this->assertDatabaseHas('productos', [
             'id' => $productoId,
             'codigo' => $codigo,
