@@ -109,6 +109,75 @@ class ProductoTest extends TestCase
         ]);
     }
 
+    public function test_generate_codigo_on_store(): void
+    {
+        $this->loginAdmin();
+        $proveedor = Proveedor::factory()->create();
+        $categoria = Categoria::factory()->create();
+        $subcategoria = Subcategoria::factory()->create([
+            'nombre' => $this->faker->word,
+            'categoria_id' => $categoria->id,
+        ]);
+        $ubicacion = Ubicacion::factory()->create();
+
+        $nameProducto = $this->faker->unique()->word;
+        $codigo = Producto::createFolio($nameProducto);
+        $payload = [
+            'nombre' => $nameProducto,
+            'proveedor_id' => $proveedor->id,
+            'categoria_id' => $categoria->id,
+            'codigo' => $codigo,
+            'subcategoria_id' => $subcategoria->id,
+            'precio_compra' => $this->faker->randomFloat(2, 1, 100),
+            'precio_venta' => $this->faker->randomFloat(2, 1, 100),
+            'stock' => $this->faker->numberBetween(0, 100),
+            'cantidad_minima' => $this->faker->numberBetween(0, 10),
+            'compatibilidad' => $this->faker->word,
+            'ubicacion_id' => $ubicacion->id,
+            'activo' => $this->faker->boolean,
+            'imagen_id' => null,
+            'marca_id' => Marca::factory()->create()->id,
+            'unidad' => $this->faker->randomElement(['pieza', 'metro', 'par']),
+        ];
+
+        $response = $this->post('/api/productos', $payload);
+        $response->assertStatus(200);
+        $response->assertJson([
+            'status' => 'OK',
+            'message' => null,
+            'data' => [
+                'nombre' => $payload['nombre'],
+                'proveedor_id' => $payload['proveedor_id'],
+                'categoria_id' => $payload['categoria_id'],
+                'subcategoria_id' => $payload['subcategoria_id'],
+                'precio_compra' => $payload['precio_compra'],
+                'precio_venta' => $payload['precio_venta'],
+                'stock' => $payload['stock'],
+                'cantidad_minima' => $payload['cantidad_minima'],
+                'compatibilidad' => $payload['compatibilidad'],
+                'ubicacion_id' => $payload['ubicacion_id'],
+                'activo' => $payload['activo'],
+                'imagen_id' => $payload['imagen_id'],
+                'unidad' => $payload['unidad'],
+                'codigo' => $codigo,
+            ],
+        ]);
+
+        $productoId = $response->json('data.id');
+
+
+        $this->assertDatabaseHas('productos', [
+            'id' => $productoId,
+            'codigo' => $codigo,
+        ]);
+        $this->assertDatabaseHas('reporte_movimientos', [
+            'producto_id' => $productoId,
+            'tipo_movimiento_id' => TipoMovimientoEnum::ENTRADA->value,
+            'cantidad_anterior' => 0,
+            'cantidad_actual' => $payload['stock'],
+        ]);
+    }
+
     public function test_store_producto(): void
     {
         $this->loginAdmin();
@@ -221,7 +290,7 @@ class ProductoTest extends TestCase
         ]);
 
         Storage::disk('local')->assertExists(
-            $response->json('data.imagen.path').'/'.$response->json('data.imagen.archivo')
+            $response->json('data.imagen.path') . '/' . $response->json('data.imagen.archivo')
         );
 
         $this->assertDatabaseHas('imagen_producto', [
@@ -361,7 +430,7 @@ class ProductoTest extends TestCase
         ]);
 
         Storage::disk('local')->assertExists(
-            $response->json('data.imagen.path').'/'.$response->json('data.imagen.archivo')
+            $response->json('data.imagen.path') . '/' . $response->json('data.imagen.archivo')
         );
 
         $this->assertDatabaseHas('imagen_producto', [
