@@ -58,7 +58,6 @@ class Producto extends Model
         $prefijo = Str::substr($iniciales ?: 'PRD', 0, 10);
         $codigosExistentes = Producto::pluck('codigo')->toArray();
         do {
-            // 10 (prefijo) + 1 (-) + 6 (random) = 17 caracteres (cumple < 18)
             $random = Str::upper(Str::random(6));
             $codigo = "{$prefijo}-{$random}";
         } while (isset($codigosExistentes[$codigo]));
