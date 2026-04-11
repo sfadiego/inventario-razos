@@ -288,7 +288,7 @@ class ProductoTest extends TestCase
         ]);
 
         Storage::disk('local')->assertExists(
-            $response->json('data.imagen.path') . '/' . $response->json('data.imagen.archivo')
+            $response->json('data.imagen.path').'/'.$response->json('data.imagen.archivo')
         );
 
         $this->assertDatabaseHas('imagen_producto', [
@@ -428,7 +428,7 @@ class ProductoTest extends TestCase
         ]);
 
         Storage::disk('local')->assertExists(
-            $response->json('data.imagen.path') . '/' . $response->json('data.imagen.archivo')
+            $response->json('data.imagen.path').'/'.$response->json('data.imagen.archivo')
         );
 
         $this->assertDatabaseHas('imagen_producto', [

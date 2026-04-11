@@ -21,7 +21,7 @@ class ProductosController extends Controller
 
     public function store(ProductosStoreRequest $params): JsonResponse
     {
-        if (!$params->codigo) {
+        if (! $params->codigo) {
             $params->merge(['codigo' => Producto::createFolio($params->get('nombre'))]);
         }
 
