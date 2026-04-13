@@ -17,6 +17,11 @@ class VentaProducto extends Model
 
     protected $fillable = ['cantidad', 'precio', 'producto_id', 'venta_id'];
 
+    protected $casts = [
+        'cantidad' => 'float',
+        'precio' => 'float',
+    ];
+
     public function producto(): BelongsTo
     {
         return $this->belongsTo(Producto::class);
@@ -66,7 +71,7 @@ class VentaProducto extends Model
 
         $ventaTotal = self::where('venta_id', $data['venta_id'])
             ->get()
-            ->sum(fn ($item) => $item->cantidad * $item->precio);
+            ->sum(fn($item) => $item->cantidad * $item->precio);
 
         Venta::where('id', $data['venta_id'])
             ->update(['venta_total' => $ventaTotal]);
@@ -83,7 +88,6 @@ class VentaProducto extends Model
             ->with('producto')
             ->when($categoriaId, function ($q) use ($categoriaId) {
                 $q->whereHas('producto', function ($q) use ($categoriaId) {
-                    // $q->dd();
                     $q->where('categoria_id', $categoriaId);
                     $q->whereNull('productos.deleted_at');
                 });
@@ -152,11 +156,11 @@ class VentaProducto extends Model
                     ->orderBy('created_at', $order_date);
             })
             ->get()
-            ->groupBy(fn ($item) => $item->producto->categoria->nombre)
+            ->groupBy(fn($item) => $item->producto->categoria->nombre)
             ->map(function ($item, $categoria) {
                 return [
                     'categoria' => $categoria,
-                    'total' => $item->sum(fn ($i) => $i->cantidad * $i->precio),
+                    'total' => $item->sum(fn($i) => $i->cantidad * $i->precio),
                 ];
             })->values();
     }

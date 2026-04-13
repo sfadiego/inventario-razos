@@ -25,6 +25,12 @@ class ReporteMovimiento extends Model
         'created_at',
     ];
 
+    protected $casts = [
+        'cantidad' => 'float',
+        'cantidad_anterior' => 'float',
+        'cantidad_actual' => 'float',
+    ];
+
     public function producto(): BelongsTo
     {
         return $this->belongsTo(Producto::class);
