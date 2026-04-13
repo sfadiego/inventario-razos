@@ -22,7 +22,7 @@ class ProductosStoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'nombre' => ['required', 'unique:productos,nombre', 'string', 'max:255'],
+            'nombre' => ['required', 'unique:productos,nombre,NULL,id,deleted_at,NULL', 'string', 'max:255'],
             'proveedor_id' => ['required', 'exists:proveedores,id'],
             'categoria_id' => ['required', 'exists:categorias,id'],
             'codigo' => ['max:18'],

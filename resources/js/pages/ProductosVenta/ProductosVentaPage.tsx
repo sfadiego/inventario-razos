@@ -24,6 +24,8 @@ export default function ProductosVentaPage() {
     finished,
     dataTableProps,
     callbackReadCode,
+    automaticAdd,
+    toggleAutomaticAdd,
   } = useProductosVentaPage();
 
   return (
@@ -32,6 +34,10 @@ export default function ProductosVentaPage() {
         <div className="col-span-10">{venta && <DetalleVenta venta={venta} />}</div>
         <div className="col-span-2 flex justify-end">
           <ShoppingCartButton />
+        </div>
+        <div className="col-span-12 mt-2 flex items-center gap-2">
+          <input type="checkbox" name="enable_fast_add" id="enable_fast_add" checked={automaticAdd} onChange={toggleAutomaticAdd} />
+          <span className="text-sm font-medium text-gray-800 dark:text-gray-200">Habilitar agregar automatico</span>
         </div>
       </div>
       {!finished ? (
@@ -45,7 +51,7 @@ export default function ProductosVentaPage() {
             service={useServiceIndexProductos}
             rowExpansion={rowExpansion}
             columnProperties={columnProperties}
-            customCallbackSearch={callbackReadCode}
+            customCallbackSearch={automaticAdd ? callbackReadCode : undefined}
           >
             {(formik) => <FiltrosProductos formik={formik} />}
           </DatatableWithFilter>
