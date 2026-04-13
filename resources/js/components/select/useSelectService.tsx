@@ -17,6 +17,7 @@ interface ISelectService<T extends Record<string, any>> {
   useCache?: boolean;
   debounceWait?: number;
   concatProperty?: string;
+  selectedOption?: IOptions | null;
 }
 
 export const useSelectService = <T extends Record<string, any>>(props: ISelectService<T>) => {
@@ -31,6 +32,7 @@ export const useSelectService = <T extends Record<string, any>>(props: ISelectSe
     debounceWait = 400,
     payload = {},
     concatProperty = null,
+    selectedOption,
   } = props;
   const { setOptions, getOptions, hasOptions } = useSelectOptionsStore();
   const [internalSearch, setInternalSearch] = useState<string>('');
@@ -64,7 +66,12 @@ export const useSelectService = <T extends Record<string, any>>(props: ISelectSe
     if (processedOptions && storeKey) {
       setOptions(storeKey, processedOptions);
     }
-  }, [processedOptions, storeKey, setOptions]);
+
+    const exists = processedOptions?.some((option) => option.value === selectedOption?.value);
+    if (!exists && storeKey && selectedOption && processedOptions) {
+      setOptions(storeKey, [...processedOptions, selectedOption]);
+    }
+  }, [processedOptions, storeKey, setOptions, selectedOption]);
 
   const options: Array<IOptions> = useMemo(() => {
     if (storeKey && effectiveUseCache && hasCachedOptions) {

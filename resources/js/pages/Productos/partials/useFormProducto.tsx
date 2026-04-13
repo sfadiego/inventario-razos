@@ -80,5 +80,20 @@ export const useFormProducto = (props: IUseProductProps) => {
     validationSchema,
     onSubmit,
   };
-  return { formikProps, isPending: mutator.isPending, search, setSearch, disableStock: producto?.id ? true : false };
+
+  const selectedMarca = producto?.marca_id
+    ? {
+        value: producto?.marca_id ?? null,
+        label: producto?.marca?.nombre ?? '',
+      }
+    : null;
+
+  const selectedSubcategoria = producto?.subcategoria_id
+    ? {
+        value: producto?.subcategoria_id ?? null,
+        label: producto?.subcategoria?.nombre ?? '',
+      }
+    : null;
+
+  return { formikProps, isPending: mutator.isPending, search, setSearch, disable: producto?.id ? true : false, selectedMarca, selectedSubcategoria };
 };

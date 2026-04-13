@@ -21,24 +21,23 @@ interface IModalProductoProps {
 }
 
 export const FormProducto = ({ isOpen, closeModal }: IModalProductoProps) => {
-  const { formikProps, isPending, disableStock } = useFormProducto({ closeModal });
-
+  const { formikProps, isPending, disable, selectedMarca, selectedSubcategoria } = useFormProducto({ closeModal });
   return (
     <Modal title={`Producto`} subtitle={`Crea o actualiza un producto existente`} isOpen={isOpen} onClose={closeModal} className="m-4 max-w-[700px]">
       <Formik enableReinitialize {...formikProps}>
         {(formik) => (
           <Form className={`grid grid-cols-12 gap-3`}>
             <div className="col-span-12 md:col-span-8">
-              <Input<IProducto> label={`Producto`} name="nombre" formik={formik} type={InputTypeEnum.Text} />
+              <Input<IProducto> disabled={disable} label={`Producto`} name="nombre" formik={formik} type={InputTypeEnum.Text} />
             </div>
             <div className="col-span-12 md:col-span-4">
-              <SelectProductoUnidades formik={formik} />
+              <SelectProductoUnidades disabled={disable} formik={formik} />
             </div>
             <div className="col-span-12 md:col-span-6">
-              <Input<IProducto> label={`Código`} name="codigo" formik={formik} type={InputTypeEnum.Text} />
+              <Input<IProducto> disabled={disable} label={`Código`} name="codigo" formik={formik} type={InputTypeEnum.Text} />
             </div>
             <div className="col-span-12 md:col-span-6">
-              <Input<IProducto> disabled={disableStock} label={`Stock`} name="stock" formik={formik} type={InputTypeEnum.Number} />
+              <Input<IProducto> disabled={disable} label={`Stock`} name="stock" formik={formik} type={InputTypeEnum.Number} />
             </div>
             <div className="col-span-12 md:col-span-6">
               <Input<IProducto>
@@ -59,13 +58,13 @@ export const FormProducto = ({ isOpen, closeModal }: IModalProductoProps) => {
               <SelectProveedores formik={formik} />
             </div>
             <div className="col-span-12 md:col-span-6">
-              <SelectMarcas formik={formik} />
+              <SelectMarcas selectedOption={selectedMarca} formik={formik} />
             </div>
             <div className="col-span-12 md:col-span-6">
               <SelectCategorias formik={formik} />
             </div>
             <div className="col-span-12 md:col-span-6">
-              <SelectSubCategoria formik={formik} />
+              <SelectSubCategoria selectedOption={selectedSubcategoria} formik={formik} />
             </div>
             <div className="col-span-12 md:col-span-6">
               <SelectUbicaciones formik={formik} />

@@ -1,5 +1,5 @@
 import { Plus } from 'lucide-react';
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 
 import { BreadcrumbArrayProps } from '@/components/common/breadcrum';
 import { IFilters } from '@/components/filters/modalFilter/types';
@@ -32,6 +32,8 @@ export interface useProductosVentaPageProps {
 export const useProductosVentaPage = () => {
   const { id } = useParams();
   const ventaId = id ? Number(id) : 0;
+  const [automaticAdd, setautomaticAdd] = useState<boolean>(true);
+  const toggleAutomaticAdd = () => setautomaticAdd(!automaticAdd);
 
   const { data: ventaData, isLoading } = useServiceShowVenta(ventaId);
   const productoVentaModal = useProductoVentaModal();
@@ -85,7 +87,8 @@ export const useProductosVentaPage = () => {
     const records = Array.isArray(data) ? data : [data];
     if (records.length === 1 && regex.test(search)) {
       const selectedProduct = records[0];
-      if (selectedProduct?.id) {
+      const stock = selectedProduct.stock;
+      if (selectedProduct?.id && stock > 0) {
         productoVentaModal.show(selectedProduct.id);
         resetSearch();
       }
@@ -107,5 +110,7 @@ export const useProductosVentaPage = () => {
     finished,
     dataTableProps,
     callbackReadCode,
+    automaticAdd,
+    toggleAutomaticAdd,
   };
 };

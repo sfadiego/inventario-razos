@@ -5,14 +5,16 @@ import { useSelectService } from '../useSelectService';
 
 interface ISelectSubCategoriaProps {
   formik: FormikProps<any>;
+  selectedOption?: any | null;
 }
 export const SelectSubCategoria = (props: ISelectSubCategoriaProps) => {
-  const { formik } = props;
+  const { formik, selectedOption } = props;
   const { options, handleInputChange } = useSelectService({
     useService: useServiceIndexSubCategorias,
     filters: [],
     payload: { categoriaId: formik.values.categoria_id },
     storeKey: `subcategoria-${formik.values.subcategoria_id || 0}`,
+    selectedOption,
   });
 
   return (

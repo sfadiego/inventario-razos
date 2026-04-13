@@ -105,6 +105,8 @@ class ProductoTest extends TestCase
                 'activo',
                 'imagen_id',
                 'unidad',
+                'marca_id',
+                'marca',
             ],
         ]);
     }

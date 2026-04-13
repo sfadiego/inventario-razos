@@ -17,6 +17,11 @@ class VentaProducto extends Model
 
     protected $fillable = ['cantidad', 'precio', 'producto_id', 'venta_id'];
 
+    protected $casts = [
+        'cantidad' => 'float',
+        'precio' => 'float',
+    ];
+
     public function producto(): BelongsTo
     {
         return $this->belongsTo(Producto::class);
@@ -83,7 +88,6 @@ class VentaProducto extends Model
             ->with('producto')
             ->when($categoriaId, function ($q) use ($categoriaId) {
                 $q->whereHas('producto', function ($q) use ($categoriaId) {
-                    // $q->dd();
                     $q->where('categoria_id', $categoriaId);
                     $q->whereNull('productos.deleted_at');
                 });
