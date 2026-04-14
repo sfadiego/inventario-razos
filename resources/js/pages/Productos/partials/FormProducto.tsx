@@ -28,13 +28,13 @@ export const FormProducto = ({ isOpen, closeModal }: IModalProductoProps) => {
         {(formik) => (
           <Form className={`grid grid-cols-12 gap-3`}>
             <div className="col-span-12 md:col-span-8">
-              <Input<IProducto> disabled={disable} label={`Producto`} name="nombre" formik={formik} type={InputTypeEnum.Text} />
+              <Input<IProducto> label={`Producto`} name="nombre" formik={formik} type={InputTypeEnum.Text} />
             </div>
             <div className="col-span-12 md:col-span-4">
-              <SelectProductoUnidades disabled={disable} formik={formik} />
+              <SelectProductoUnidades formik={formik} />
             </div>
             <div className="col-span-12 md:col-span-6">
-              <Input<IProducto> disabled={disable} label={`Código`} name="codigo" formik={formik} type={InputTypeEnum.Text} />
+              <Input<IProducto> label={`Código`} name="codigo" formik={formik} type={InputTypeEnum.Text} />
             </div>
             <div className="col-span-12 md:col-span-6">
               <Input<IProducto> disabled={disable} label={`Stock`} name="stock" formik={formik} type={InputTypeEnum.Number} />
