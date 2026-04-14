@@ -73,6 +73,14 @@ export const useFormProducto = (props: IUseProductProps) => {
   const { onSubmit } = useOnSubmit<IProducto>({
     mutateAsync: producto?.id ? mutatorUpdate.mutateAsync : mutator.mutateAsync,
     onSuccess: async (data) => handleSuccess(data),
+    onError: () => {
+      closeModal?.();
+      AlertSwal({
+        title: 'Error',
+        type: AlertTypeEnum.Error,
+        text: 'Ocurrió un error al guardar el producto',
+      });
+    },
   });
 
   const formikProps = {
