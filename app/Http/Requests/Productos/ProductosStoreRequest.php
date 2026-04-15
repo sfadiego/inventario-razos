@@ -29,7 +29,7 @@ class ProductosStoreRequest extends FormRequest
             'codigo' => ['max:18'],
             'precio_compra' => ['required', 'numeric', 'min:0'],
             'precio_venta' => ['required', 'numeric', 'min:0'],
-            'stock' => ['required', 'integer', 'min:0'],
+            'stock' => ['required', 'numeric', 'min:0'],
             'cantidad_minima' => ['required', 'numeric', 'min:0'],
             'compatibilidad' => ['nullable', 'string', 'max:500'],
             'ubicacion_id' => ['required', 'exists:ubicaciones,id'],
