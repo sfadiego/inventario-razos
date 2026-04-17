@@ -36,7 +36,6 @@ class PdfGeneratorController extends Controller
             ])
             ->where('p.categoria_id', $param->categoria_id)
             ->whereNull('p.deleted_at')
-            ->orderBy('s.nombre')
             ->orderBy('p.nombre')
             ->cursor();
 
