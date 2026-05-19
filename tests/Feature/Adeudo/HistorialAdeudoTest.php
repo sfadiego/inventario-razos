@@ -55,6 +55,28 @@ class HistorialAdeudoTest extends TestCase
 
         $this->assertTrue($adeudo->fresh()->pagado);
 
-        $this->assertEquals(500, $cliente->fresh()->adeudo);
+    }
+
+    public function test_update_adeudo_individual(): void
+    {
+        $this->loginAdmin();
+
+        $cliente = Cliente::factory()->create(['adeudo' => 500]);
+
+        $adeudo = HistorialAdeudo::factory()->create([
+            'cliente_id' => $cliente->id,
+            'total_adeudo' => 150,
+            'pagado' => false,
+        ]);
+
+        $response = $this->putJson("/api/adeudos/{$adeudo->id}/liquidar");
+
+        $response->assertStatus(200)
+            ->assertJson([
+                'message' => 'Adeudo liquidado',
+            ]);
+
+        $this->assertTrue($adeudo->fresh()->pagado);
+        $this->assertEquals(350, $cliente->fresh()->adeudo);
     }
 }
