@@ -15,7 +15,7 @@ export const SelectMarcas = (props: ISelectMarcasProps) => {
   const { options, handleInputChange } = useSelectService({
     useService: useServiceIndexMarcas,
     filters: [],
-    storeKey: `marca-${formik.values.marca_id || 0}`,
+    storeKey: `marcas`,
     selectedOption,
   });
 

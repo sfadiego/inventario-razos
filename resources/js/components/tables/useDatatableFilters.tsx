@@ -13,7 +13,7 @@ export const useDatatableFilters = <Values,>(props: IDatatableWithFilterProps<Va
     return [...appliedFilters];
   }, [appliedFilters]);
 
-  const { dataTableProps, isLoading, refetch } = useDataTable({
+  const { dataTableProps, isLoading } = useDataTable({
     service,
     payload: {
       ...payload,
@@ -26,13 +26,11 @@ export const useDatatableFilters = <Values,>(props: IDatatableWithFilterProps<Va
 
   const onFilter = (filters: IFilterData<Values>) => {
     setAppliedFilters(filters.filters);
-    refetch();
   };
 
   const clearFilters = () => {
     setAppliedFilters([]);
     setSearch('');
-    refetch();
   };
 
   return {

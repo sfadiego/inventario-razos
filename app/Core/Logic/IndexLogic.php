@@ -78,7 +78,7 @@ class IndexLogic
             $this->queryBuilder = $this->runQueryFilters($data->filters);
         }
 
-        if (isset($data->search)) {
+        if (! empty($data->search)) {
             $this->queryBuilder = $this->runQueryWithSearch($data->search);
         }
 
