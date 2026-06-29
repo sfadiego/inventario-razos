@@ -40,7 +40,19 @@ fi
 
 # 4. Base de datos
 echo "Ejecutando migraciones..."
-php artisan migrate --force --seed || echo "Migraciones fallidas o ya ejecutadas"
+php artisan migrate --force || echo "Migraciones fallidas o ya ejecutadas"
+
+# Seeders solo si la BD está vacía (primera instalación)
+echo "Verificando si se necesitan seeders..."
+DB_USER_COUNT=$(mysql -h "${DB_HOST:-mysql}" -u "${DB_USERNAME:-root}" -p"${DB_PASSWORD}" "${DB_DATABASE:-inventario}" \
+  -se "SELECT COUNT(*) FROM users;" 2>/dev/null || echo "0")
+
+if [ -z "$DB_USER_COUNT" ] || [ "$DB_USER_COUNT" -eq 0 ] 2>/dev/null; then
+    echo "Base de datos vacía. Ejecutando seeders iniciales..."
+    php artisan db:seed --force || echo "Error en seeders"
+else
+    echo "Base de datos con datos existentes (${DB_USER_COUNT} usuarios). Saltando seeders."
+fi
 
 
 # 5. Limpiezas preventivas (Mejor que cachear en desarrollo)
