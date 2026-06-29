@@ -48,6 +48,11 @@ class ProductoIndexLogic extends IndexLogic
         });
     }
 
+    protected function withRelations(): array
+    {
+        return ['categoria', 'proveedor', 'ubicacion', 'marca', 'imagen'];
+    }
+
     protected function customFilters(): array
     {
         return [

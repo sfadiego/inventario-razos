@@ -13,7 +13,7 @@ export const SelectSubCategoria = (props: ISelectSubCategoriaProps) => {
     useService: useServiceIndexSubCategorias,
     filters: [],
     payload: { categoriaId: formik.values.categoria_id },
-    storeKey: `subcategoria-${formik.values.subcategoria_id || 0}`,
+    storeKey: `subcategorias-${formik.values.categoria_id || 0}`,
     selectedOption,
   });
 

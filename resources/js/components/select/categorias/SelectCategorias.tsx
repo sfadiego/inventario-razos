@@ -14,7 +14,7 @@ export const SelectCategorias = (props: ISelectCategoriasProps) => {
   const { options, handleInputChange } = useSelectService({
     useService: useServiceIndexCategorias,
     filters: [],
-    storeKey: `categoria-${formik.values.categoria_id || 0}`,
+    storeKey: `categorias`,
   });
 
   return (

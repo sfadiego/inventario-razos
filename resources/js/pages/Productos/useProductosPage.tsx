@@ -16,9 +16,9 @@ import { Camera, Edit, Trash2 } from 'lucide-react';
 import { useCallback, useEffect, useState } from 'react';
 
 export interface IFiltroProducto {
-  nombre?: string;
-  proveedor_id?: number;
-  categoria_id?: number;
+  categoria_id?: number | null;
+  proveedor_id?: number | null;
+  marca_id?: number | null;
 }
 
 export const useProductosPage = () => {
@@ -111,11 +111,9 @@ export const useProductosPage = () => {
     ),
   };
   const filters: IFilters<IFiltroProducto>[] = [
-    {
-      property: 'nombre',
-      operator: 'like',
-      initialValue: '',
-    },
+    { property: 'categoria_id', operator: '=', initialValue: null },
+    { property: 'proveedor_id', operator: '=', initialValue: null },
+    { property: 'marca_id', operator: '=', initialValue: null },
   ];
 
   return {
