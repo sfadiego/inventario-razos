@@ -19,13 +19,11 @@ class DashboardTest extends TestCase
         ]);
 
         $ventas = Venta::where('status_venta', StatusVentaEnum::Finalizada)
-            ->whereHas('ventaProductos')
+
+        ->whereHas('ventaProductos', fn ($q) => $q->withTrashed())
             ->get();
 
-        $expectedTotal = 0;
-        foreach ($ventas as $venta) {
-            $expectedTotal += $venta->ventaTotal();
-        }
+        $expectedTotal = $ventas->sum('venta_total');
 
         $response = $this->getJson('/api/dashboard/total-ventas');
         $response->assertStatus(200);
@@ -112,12 +110,12 @@ class DashboardTest extends TestCase
 
         $ventasFinalizadas = Venta::query()
             ->where('status_venta', StatusVentaEnum::Finalizada)
-            ->whereHas('ventaProductos')
+            ->whereHas('ventaProductos', fn ($q) => $q->withTrashed())
             ->whereMonth('created_at', now()->month)
             ->get();
 
         $expected = [
-            'total' => round($ventasFinalizadas->sum(fn ($venta) => $venta->ventaTotal()), 2),
+            'total' => round($ventasFinalizadas->sum('venta_total'), 2),
             'cantidad' => $ventasFinalizadas->count(),
         ];
 

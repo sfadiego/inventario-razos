@@ -16,7 +16,7 @@ class DashboardController extends Controller
     {
         $fecha = $param?->fecha;
         $ventas = Venta::where('status_venta', StatusVentaEnum::Finalizada)
-            ->whereHas('ventaProductos')
+            ->whereHas('ventaProductos', fn ($q) => $q->withTrashed())
             ->when($fecha, function ($q) use ($fecha) {
                 $q->where('created_at', '>=', $fecha);
             })->sum('venta_total');
@@ -42,7 +42,7 @@ class DashboardController extends Controller
         ]);
 
         $ventasPorMes = Venta::where('status_venta', StatusVentaEnum::Finalizada)
-            ->whereHas('ventaProductos')
+            ->whereHas('ventaProductos', fn ($q) => $q->withTrashed())
             ->whereYear('created_at', now()->year)
             ->get()
             ->groupBy(fn ($venta) => $venta->created_at->format('F'))
