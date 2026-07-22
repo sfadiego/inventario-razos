@@ -13,7 +13,6 @@ use App\Models\Venta;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Response;
 
-// TODO: hacer pruebas
 class DevolucionesController extends Controller
 {
     public function index(IndexData $data, DevolucionesIndexLogic $logic): JsonResponse

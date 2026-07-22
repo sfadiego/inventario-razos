@@ -9,7 +9,6 @@ use Illuminate\Support\Facades\Response;
 
 class AdeudosController extends Controller
 {
-    // TODO: crear test
     public function liquidarAdeudos(Cliente $cliente): JsonResponse
     {
         $adeudos = HistorialAdeudo::where(['cliente_id' => $cliente->id, 'pagado' => false])->get();
@@ -22,7 +21,6 @@ class AdeudosController extends Controller
         return Response::success($adeudos, 'Adeudos liquidado');
     }
 
-    // TODO: crear test
     public function update(HistorialAdeudo $adeudo): JsonResponse
     {
         if ($adeudo->pagado) {
